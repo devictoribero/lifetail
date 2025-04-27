@@ -10,7 +10,7 @@ import { PetLifeMomentsModule } from './PetLifeMoments.module';
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/server/graphql/schema.gql'),
       sortSchema: true,
     }),
     PetLifeMomentsModule,
