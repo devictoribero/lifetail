@@ -1,5 +1,6 @@
 import { PetLifeMoment, PetLifeMomentCategory, PetLifeMomentType } from './PetLifeMoment';
 import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
+import { fail } from 'node:assert';
 
 describe('PetLifeMoment Domain Entity', () => {
   const validId = 'valid-id';
@@ -7,23 +8,6 @@ describe('PetLifeMoment Domain Entity', () => {
   const validCreatedBy = 'user-id';
   const validDate = new Date();
   const validDescription = 'A description';
-
-  it('should throw InvalidPetLifeMomentTypeException when creating with invalid event type', () => {
-    // Arrange
-    const invalidEventType = 'InvalidType';
-
-    // Act & Assert
-    expect(() => {
-      PetLifeMoment.create(
-        validId,
-        invalidEventType,
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
-      );
-    }).toThrow(InvalidPetLifeMomentTypeException);
-  });
 
   it('should throw InvalidPetLifeMomentTypeException with correct message for invalid event type', () => {
     // Arrange
