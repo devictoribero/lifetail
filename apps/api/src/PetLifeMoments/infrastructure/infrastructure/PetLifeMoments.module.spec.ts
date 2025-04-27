@@ -12,7 +12,9 @@ describe('PetLifeMomentsModule', () => {
       }).compile();
 
       // Assert
-      const repository = moduleRef.get<PetLifeMomentInMemoryRepository>(PetLifeMomentInMemoryRepository);
+      const repository = moduleRef.get<PetLifeMomentInMemoryRepository>(
+        PetLifeMomentInMemoryRepository,
+      );
       expect(repository).toBeDefined();
       expect(repository).toBeInstanceOf(PetLifeMomentInMemoryRepository);
     });
@@ -36,7 +38,9 @@ describe('PetLifeMomentsModule', () => {
       }).compile();
 
       const useCase = moduleRef.get<RegisterPetLifeMomentUseCase>(RegisterPetLifeMomentUseCase);
-      const repository = moduleRef.get<PetLifeMomentInMemoryRepository>(PetLifeMomentInMemoryRepository);
+      const repository = moduleRef.get<PetLifeMomentInMemoryRepository>(
+        PetLifeMomentInMemoryRepository,
+      );
 
       // Create a spy on the repository's save method to verify it's called
       jest.spyOn(repository, 'save').mockResolvedValue();
@@ -48,7 +52,7 @@ describe('PetLifeMomentsModule', () => {
         petId: 'pet-id',
         createdBy: 'user-id',
         occurredOn: new Date(),
-        description: 'Test description'
+        description: 'Test description',
       });
 
       // Assert
