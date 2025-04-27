@@ -1,57 +1,107 @@
-import { RegisterPetLifeMomentUseCase } from './RegisterPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from '../../infrastructure/persistence/PetLifeMomentInMemoryRepository';
+import { PetLifeMoment, PetLifeMomentType } from '../../domain/entities/PetLifeMoment';
+import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
 import { RegisterPetLifeMomentCommand } from './RegisterPetLifeMomentCommand';
-import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
-
-jest.mock('../../infrastructure/Persistence/PetLifeMomentInMemoryRepository');
+import { RegisterPetLifeMomentUseCase } from './RegisterPetLifeMomentUseCase';
+import { randomUUID } from 'crypto';
+import { faker } from '@faker-js/faker';
 
 describe('RegisterPetLifeMomentUseCase', () => {
   let useCase: RegisterPetLifeMomentUseCase;
-  let repository: jest.Mocked<PetLifeMomentInMemoryRepository>;
+  let repository: PetLifeMomentInMemoryRepository;
+  let saveSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    repository =
-      new PetLifeMomentInMemoryRepository() as jest.Mocked<PetLifeMomentInMemoryRepository>;
+    repository = new PetLifeMomentInMemoryRepository();
     useCase = new RegisterPetLifeMomentUseCase(repository);
+    saveSpy = jest.spyOn(repository, 'save');
+  });
 
-    // Clear all mocks before each test
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should create a pet life moment and save it to the repository', async () => {
+  it('should save a new pet life moment in the repository', async () => {
     // Arrange
-    const command = new RegisterPetLifeMomentCommand(
-      'test-id',
-      'Anniversary',
-      'pet-id',
-      'user-id',
-      new Date(),
-      'Test description',
-    );
+    const id = randomUUID();
+    const eventType = 'Anniversary';
+    const petId = randomUUID();
+    const createdBy = randomUUID();
+    const occurredOn = faker.date.recent();
+    const description = faker.lorem.sentence();
 
-    // Mock the save method
-    repository.save = jest.fn().mockResolvedValue(undefined);
+    const command = new RegisterPetLifeMomentCommand(
+      id,
+      eventType,
+      petId,
+      createdBy,
+      occurredOn,
+      description,
+    );
 
     // Act
     await useCase.execute(command);
 
     // Assert
-    expect(repository.save).toHaveBeenCalledTimes(1);
-    expect(repository.save).toHaveBeenCalledWith(expect.any(PetLifeMoment));
+    expect(saveSpy).toHaveBeenCalledTimes(1);
+    const savedPetLifeMoment = saveSpy.mock.calls[0][0];
+    expect(savedPetLifeMoment).toBeInstanceOf(PetLifeMoment);
+    expect(savedPetLifeMoment.getId()).toBe(id);
+    expect(savedPetLifeMoment.getEventType()).toBe(PetLifeMomentType.Anniversary);
+    expect(savedPetLifeMoment.getPetId()).toBe(petId);
+    expect(savedPetLifeMoment.getCreatedBy()).toBe(createdBy);
+    expect(savedPetLifeMoment.getOccurredOn()).toBe(occurredOn);
+    expect(savedPetLifeMoment.getDescription()).toBe(description);
   });
 
-  it('should throw an error when an invalid event type is provided', async () => {
+  it('should pass through any exceptions thrown by the domain entity', async () => {
     // Arrange
+    const id = randomUUID();
+    const invalidEventType = 'InvalidType';
+    const petId = randomUUID();
+    const createdBy = randomUUID();
+    const occurredOn = faker.date.recent();
+    const description = faker.lorem.sentence();
+
     const command = new RegisterPetLifeMomentCommand(
-      'test-id',
-      'InvalidType',
-      'pet-id',
-      'user-id',
-      new Date(),
-      'Test description',
+      id,
+      invalidEventType,
+      petId,
+      createdBy,
+      occurredOn,
+      description,
     );
 
     // Act & Assert
-    await expect(useCase.execute(command)).rejects.toThrow();
+    await expect(useCase.execute(command)).rejects.toThrow(
+      `Unknown pet life moment type: ${invalidEventType}`,
+    );
+    expect(saveSpy).not.toHaveBeenCalled();
+  });
+
+  it('should create moments with different event types correctly', async () => {
+    // Arrange
+    const id = randomUUID();
+    const eventType = 'VeterinaryVisit';
+    const petId = randomUUID();
+    const createdBy = randomUUID();
+    const occurredOn = faker.date.recent();
+    const description = faker.lorem.sentence();
+
+    const command = new RegisterPetLifeMomentCommand(
+      id,
+      eventType,
+      petId,
+      createdBy,
+      occurredOn,
+      description,
+    );
+
+    // Act
+    await useCase.execute(command);
+
+    // Assert
+    expect(saveSpy).toHaveBeenCalledTimes(1);
+    const savedPetLifeMoment = saveSpy.mock.calls[0][0];
+    expect(savedPetLifeMoment.getEventType()).toBe(PetLifeMomentType.VeterinaryVisit);
   });
 });

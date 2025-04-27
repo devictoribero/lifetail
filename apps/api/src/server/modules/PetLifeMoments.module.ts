@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/persistence/PetLifeMomentInMemoryRepository';
+import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
 import { RegisterPetLifeMomentMutation } from '../graphql/resolvers/RegisterPetLifeMomentMutation';
 import { HealthCheckQuery } from '../graphql/resolvers/HealthCheckQuery';
 import { DateScalar } from '../graphql/scalars/DateScalar';
