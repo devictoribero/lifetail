@@ -1,13 +1,23 @@
 import { PetLifeMoment, PetLifeMomentCategory, PetLifeMomentType } from './PetLifeMoment';
 import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
 import { fail } from 'node:assert';
+import { randomUUID } from 'crypto';
+import { faker } from '@faker-js/faker';
 
 describe('PetLifeMoment Domain Entity', () => {
-  const validId = 'valid-id';
-  const validPetId = 'pet-id';
-  const validCreatedBy = 'user-id';
-  const validDate = new Date();
-  const validDescription = 'A description';
+  let id: string;
+  let petId: string;
+  let createdBy: string;
+  let occurredOn: Date;
+  let description: string;
+
+  beforeEach(() => {
+    id = randomUUID();
+    petId = randomUUID();
+    createdBy = randomUUID();
+    occurredOn = faker.date.recent();
+    description = faker.lorem.sentence();
+  });
 
   it('should throw InvalidPetLifeMomentTypeException with correct message for invalid event type', () => {
     // Arrange
@@ -15,14 +25,7 @@ describe('PetLifeMoment Domain Entity', () => {
 
     // Act & Assert
     try {
-      PetLifeMoment.create(
-        validId,
-        invalidEventType,
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
-      );
+      PetLifeMoment.create(id, invalidEventType, petId, createdBy, occurredOn, description);
       fail('Should have thrown InvalidPetLifeMomentTypeException');
     } catch (error) {
       expect(error).toBeInstanceOf(InvalidPetLifeMomentTypeException);
@@ -36,34 +39,34 @@ describe('PetLifeMoment Domain Entity', () => {
 
     // Act
     const petLifeMoment = PetLifeMoment.create(
-      validId,
+      id,
       eventType,
-      validPetId,
-      validCreatedBy,
-      validDate,
-      validDescription,
+      petId,
+      createdBy,
+      occurredOn,
+      description,
     );
 
     // Assert
     expect(petLifeMoment).toBeDefined();
-    expect(petLifeMoment.getId()).toBe(validId);
+    expect(petLifeMoment.getId()).toBe(id);
     expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Anniversary);
-    expect(petLifeMoment.getPetId()).toBe(validPetId);
-    expect(petLifeMoment.getCreatedBy()).toBe(validCreatedBy);
-    expect(petLifeMoment.getOccurredOn()).toBe(validDate);
-    expect(petLifeMoment.getDescription()).toBe(validDescription);
+    expect(petLifeMoment.getPetId()).toBe(petId);
+    expect(petLifeMoment.getCreatedBy()).toBe(createdBy);
+    expect(petLifeMoment.getOccurredOn()).toBe(occurredOn);
+    expect(petLifeMoment.getDescription()).toBe(description);
     expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
   });
 
   describe('Category integrity', () => {
     it('should create Arrival event with Celebration category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Arrival',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Arrival);
@@ -71,12 +74,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Anniversary event with Celebration category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Anniversary',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Anniversary);
@@ -84,12 +87,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Achievement event with Celebration category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Achievement',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Achievement);
@@ -97,12 +100,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Move event with Celebration category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Move',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Move);
@@ -110,12 +113,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Gift event with Celebration category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Gift',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Gift);
@@ -123,12 +126,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Walk event with Activity category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Walk',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Walk);
@@ -136,12 +139,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Exercise event with Activity category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Exercise',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Exercise);
@@ -149,12 +152,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Play event with Activity category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Play',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Play);
@@ -162,12 +165,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Training event with Activity category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Training',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Training);
@@ -175,12 +178,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Socialization event with Activity category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Socialization',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Socialization);
@@ -188,12 +191,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Excursion event with Activity category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Excursion',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Excursion);
@@ -201,12 +204,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create DietChange event with Diet category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'DietChange',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Diet);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.DietChange);
@@ -214,12 +217,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create SpecialMeal event with Diet category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'SpecialMeal',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Diet);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.SpecialMeal);
@@ -227,12 +230,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Hydration event with Diet category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Hydration',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Diet);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Hydration);
@@ -240,12 +243,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create GroomingVisit event with HygieneAndBeauty category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'GroomingVisit',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.HygieneAndBeauty);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.GroomingVisit);
@@ -253,12 +256,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create NailCut event with HygieneAndBeauty category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'NailCut',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.HygieneAndBeauty);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.NailCut);
@@ -266,12 +269,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Bath event with HygieneAndBeauty category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Bath',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.HygieneAndBeauty);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Bath);
@@ -279,12 +282,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create VeterinaryVisit event with Health category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'VeterinaryVisit',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.VeterinaryVisit);
@@ -292,12 +295,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Vaccination event with Health category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Vaccination',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Vaccination);
@@ -305,12 +308,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Medication event with Health category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Medication',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Medication);
@@ -318,12 +321,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Surgery event with Health category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Surgery',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Surgery);
@@ -331,12 +334,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Illness event with Health category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Illness',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Illness);
@@ -344,12 +347,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Discomfort event with Health category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Discomfort',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Discomfort);
@@ -357,12 +360,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Injury event with Health category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Injury',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Injury);
@@ -370,12 +373,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Goodbye event with Farewell category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Goodbye',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Farewell);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Goodbye);
@@ -383,12 +386,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
     it('should create Death event with Farewell category', () => {
       const petLifeMoment = PetLifeMoment.create(
-        validId,
+        id,
         'Death',
-        validPetId,
-        validCreatedBy,
-        validDate,
-        validDescription,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       );
       expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Farewell);
       expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Death);
