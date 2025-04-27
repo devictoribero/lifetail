@@ -1,11 +1,9 @@
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
-import { PetLifeMomentInMemoryRepository } from '../../infrastructure/Persistence/PetLifeMomentInMemoryRepository';
+import { PetLifeMomentInMemoryRepository } from '../../infrastructure/persistencia/PetLifeMomentInMemoryRepository';
 import { RegisterPetLifeMomentCommand } from './RegisterPetLifeMomentCommand';
 
 export class RegisterPetLifeMomentUseCase {
-  constructor(
-    private readonly petLifeMomentRepository: PetLifeMomentInMemoryRepository,
-  ) {}
+  constructor(private readonly petLifeMomentRepository: PetLifeMomentInMemoryRepository) {}
 
   async execute(command: RegisterPetLifeMomentCommand): Promise<void> {
     const petLifeMoment = PetLifeMoment.create(
@@ -14,7 +12,7 @@ export class RegisterPetLifeMomentUseCase {
       command.petId,
       command.createdBy,
       command.occurredOn,
-      command.description
+      command.description,
     );
 
     await this.petLifeMomentRepository.save(petLifeMoment);

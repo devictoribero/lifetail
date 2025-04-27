@@ -1,5 +1,5 @@
 import { RegisterPetLifeMomentUseCase } from './RegisterPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from '../../infrastructure/Persistence/PetLifeMomentInMemoryRepository';
+import { PetLifeMomentInMemoryRepository } from '../../infrastructure/persistencia/PetLifeMomentInMemoryRepository';
 import { RegisterPetLifeMomentCommand } from './RegisterPetLifeMomentCommand';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 
@@ -10,7 +10,8 @@ describe('RegisterPetLifeMomentUseCase', () => {
   let repository: jest.Mocked<PetLifeMomentInMemoryRepository>;
 
   beforeEach(() => {
-    repository = new PetLifeMomentInMemoryRepository() as jest.Mocked<PetLifeMomentInMemoryRepository>;
+    repository =
+      new PetLifeMomentInMemoryRepository() as jest.Mocked<PetLifeMomentInMemoryRepository>;
     useCase = new RegisterPetLifeMomentUseCase(repository);
 
     // Clear all mocks before each test
@@ -25,7 +26,7 @@ describe('RegisterPetLifeMomentUseCase', () => {
       'pet-id',
       'user-id',
       new Date(),
-      'Test description'
+      'Test description',
     );
 
     // Mock the save method
@@ -47,7 +48,7 @@ describe('RegisterPetLifeMomentUseCase', () => {
       'pet-id',
       'user-id',
       new Date(),
-      'Test description'
+      'Test description',
     );
 
     // Act & Assert
