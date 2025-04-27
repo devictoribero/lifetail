@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { PetLifeMomentsModule } from './PetLifeMoments/infrastructure/PetLifeMoments.module';
+import { AppController } from '../app.controller';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { AppService } from '../app.service';
+import { PetLifeMomentsModule } from './PetLifeMoments.module';
 
 @Module({
   imports: [

@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RegisterPetLifeMomentMutation } from './RegisterPetLifeMomentMutation';
-import { RegisterPetLifeMomentUseCase } from '../../../application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
 import { RegisterPetLifeMomentInput } from '../types/RegisterPetLifeMomentInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
+import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
 
 describe('RegisterPetLifeMomentMutation', () => {
   let resolver: RegisterPetLifeMomentMutation;

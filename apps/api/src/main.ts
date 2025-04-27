@@ -1,8 +1,3 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
-}
-bootstrap();
+// This file is used as entry point for NestJS
+// It simply reexports the actual implementation from server/main.ts
+export * from './server/main';

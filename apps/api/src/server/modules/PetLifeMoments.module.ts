@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { RegisterPetLifeMomentUseCase } from '../application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from './persistence/PetLifeMomentInMemoryRepository';
-import { RegisterPetLifeMomentMutation } from './graphql/resolvers/RegisterPetLifeMomentMutation';
-import { DateScalar } from './graphql/scalars/DateScalar';
-import { HealthCheckQuery } from './graphql/resolvers/HealthCheckQuery';
+import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
+import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/persistence/PetLifeMomentInMemoryRepository';
+import { RegisterPetLifeMomentMutation } from '../graphql/resolvers/RegisterPetLifeMomentMutation';
+import { HealthCheckQuery } from '../graphql/resolvers/HealthCheckQuery';
+import { DateScalar } from '../graphql/scalars/DateScalar';
 
 const registerPetLifeMomentUseCaseProvider = {
   provide: RegisterPetLifeMomentUseCase,

@@ -1,8 +1,8 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { RegisterPetLifeMomentResponse } from '../types/RegisterPetLifeMomentResponse';
 import { RegisterPetLifeMomentInput } from '../types/RegisterPetLifeMomentInput';
-import { RegisterPetLifeMomentUseCase } from '../../../application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
-import { RegisterPetLifeMomentCommand } from '../../../application/register-pet-life-moment/RegisterPetLifeMomentCommand';
+import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
+import { RegisterPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentCommand';
 import { randomUUID } from 'crypto';
 
 @Resolver()
