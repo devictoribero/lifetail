@@ -1,4 +1,5 @@
-import { InvalidPetLifeMomentException } from "../exceptions/InvalidPetLifeMomentException";
+import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
+
 export enum PetLifeMomentCategory {
   Celebration = 'Celebration',
   Health = 'Health',
@@ -58,7 +59,7 @@ export class PetLifeMoment {
     petId: string,
     createdBy: string,
     occurredOn: Date,
-    description: string
+    description: string,
   ) {
     this.id = id;
     this.category = this.getCategoryForEventType(eventType);
@@ -75,11 +76,11 @@ export class PetLifeMoment {
     petId: string,
     createdBy: string,
     occurredOn: Date,
-    description: string
+    description: string,
   ) {
     const eventTypeEnum = PetLifeMomentType[eventType as keyof typeof PetLifeMomentType];
     if (!eventTypeEnum) {
-      throw new InvalidPetLifeMomentException(eventType)
+      throw new InvalidPetLifeMomentTypeException(eventType);
     }
 
     return new PetLifeMoment(id, eventTypeEnum, petId, createdBy, occurredOn, description);
@@ -92,6 +93,7 @@ export class PetLifeMoment {
       case PetLifeMomentType.Gift:
       case PetLifeMomentType.Anniversary:
       case PetLifeMomentType.Achievement:
+      case PetLifeMomentType.Move:
         return PetLifeMomentCategory.Celebration;
       // Activity
       case PetLifeMomentType.Walk:
@@ -100,7 +102,6 @@ export class PetLifeMoment {
       case PetLifeMomentType.Training:
       case PetLifeMomentType.Socialization:
       case PetLifeMomentType.Excursion:
-      case PetLifeMomentType.Move:
         return PetLifeMomentCategory.Activity;
       // Diet
       case PetLifeMomentType.DietChange:
@@ -118,13 +119,15 @@ export class PetLifeMoment {
       case PetLifeMomentType.Medication:
       case PetLifeMomentType.Surgery:
       case PetLifeMomentType.Illness:
+      case PetLifeMomentType.Discomfort:
+      case PetLifeMomentType.Injury:
         return PetLifeMomentCategory.Health;
       // Farewell
       case PetLifeMomentType.Death:
       case PetLifeMomentType.Goodbye:
         return PetLifeMomentCategory.Farewell;
       default:
-        throw new Error(`Unknown event type: ${eventType}`);
+        throw new InvalidPetLifeMomentTypeException(eventType);
     }
   }
 
