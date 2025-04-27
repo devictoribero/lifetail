@@ -5,6 +5,6 @@ export class RegisterPetLifeMomentCommand {
     public readonly petId: string,
     public readonly createdBy: string,
     public readonly occurredOn: Date,
-    public readonly description: string
+    public readonly description: string,
   ) {}
 }

@@ -1,8 +1,8 @@
-import js from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import prettierConfig from 'eslint-config-prettier';
+const js = require('@eslint/js');
+const tseslint = require('typescript-eslint');
+const prettierConfig = require('eslint-config-prettier');
 
-export default [
+module.exports = [
   js.configs.recommended,
   ...tseslint.configs.recommended,
   prettierConfig,
@@ -10,7 +10,7 @@ export default [
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
-        tsconfigRootDir: import.meta.dirname,
+        tsconfigRootDir: __dirname,
         ecmaVersion: 'latest',
         sourceType: 'module',
       },
