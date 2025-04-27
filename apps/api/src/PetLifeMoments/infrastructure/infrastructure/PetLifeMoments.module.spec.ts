@@ -2,8 +2,24 @@ import { Test } from '@nestjs/testing';
 import { PetLifeMomentsModule } from './PetLifeMoments.module';
 import { RegisterPetLifeMomentUseCase } from '../../application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
 import { PetLifeMomentInMemoryRepository } from '../Persistence/PetLifeMomentInMemoryRepository';
+import { randomUUID } from 'crypto';
+import { faker } from '@faker-js/faker';
 
 describe('PetLifeMomentsModule', () => {
+  let id: string;
+  let petId: string;
+  let createdBy: string;
+  let occurredOn: Date;
+  let description: string;
+
+  beforeEach(() => {
+    id = randomUUID();
+    petId = randomUUID();
+    createdBy = randomUUID();
+    occurredOn = faker.date.recent();
+    description = faker.lorem.sentence();
+  });
+
   describe('when module is instantiated', () => {
     it('should properly resolve the repository', async () => {
       // Arrange & Act
@@ -47,12 +63,12 @@ describe('PetLifeMomentsModule', () => {
 
       // Execute the use case with a command
       await useCase.execute({
-        id: 'test-id',
+        id,
         eventType: 'Anniversary',
-        petId: 'pet-id',
-        createdBy: 'user-id',
-        occurredOn: new Date(),
-        description: 'Test description',
+        petId,
+        createdBy,
+        occurredOn,
+        description,
       });
 
       // Assert
