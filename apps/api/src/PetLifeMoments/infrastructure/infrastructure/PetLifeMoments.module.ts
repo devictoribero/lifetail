@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { RegisterPetLifeMomentUseCase } from '../../application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from '../persistencia/PetLifeMomentInMemoryRepository';
+import { PetLifeMomentInMemoryRepository } from '../persistence/PetLifeMomentInMemoryRepository';
 
 const registerPetLifeMomentUseCaseProvider = {
   provide: RegisterPetLifeMomentUseCase,

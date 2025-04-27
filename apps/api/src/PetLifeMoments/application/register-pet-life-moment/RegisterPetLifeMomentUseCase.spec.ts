@@ -1,5 +1,5 @@
 import { RegisterPetLifeMomentUseCase } from './RegisterPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from '../../infrastructure/persistencia/PetLifeMomentInMemoryRepository';
+import { PetLifeMomentInMemoryRepository } from '../../infrastructure/persistence/PetLifeMomentInMemoryRepository';
 import { RegisterPetLifeMomentCommand } from './RegisterPetLifeMomentCommand';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 

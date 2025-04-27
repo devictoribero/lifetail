@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { PetLifeMomentsModule } from './PetLifeMoments.module';
 import { RegisterPetLifeMomentUseCase } from '../../application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from '../persistencia/PetLifeMomentInMemoryRepository';
+import { PetLifeMomentInMemoryRepository } from '../persistence/PetLifeMomentInMemoryRepository';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 
