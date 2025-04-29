@@ -3,18 +3,18 @@ import { RegisterPetLifeMomentMutation } from './RegisterPetLifeMomentMutation';
 import { RegisterPetLifeMomentInput } from '../types/RegisterPetLifeMomentInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
-import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentUseCase';
 
 describe('RegisterPetLifeMomentMutation', () => {
   let resolver: RegisterPetLifeMomentMutation;
-  let useCase: RegisterPetLifeMomentUseCase;
+  let useCase: AddPetLifeMomentUseCase;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RegisterPetLifeMomentMutation,
         {
-          provide: RegisterPetLifeMomentUseCase,
+          provide: AddPetLifeMomentUseCase,
           useValue: {
             execute: jest.fn().mockResolvedValue(undefined),
           },
@@ -23,7 +23,7 @@ describe('RegisterPetLifeMomentMutation', () => {
     }).compile();
 
     resolver = module.get<RegisterPetLifeMomentMutation>(RegisterPetLifeMomentMutation);
-    useCase = module.get<RegisterPetLifeMomentUseCase>(RegisterPetLifeMomentUseCase);
+    useCase = module.get<AddPetLifeMomentUseCase>(AddPetLifeMomentUseCase);
   });
 
   it('should be defined', () => {

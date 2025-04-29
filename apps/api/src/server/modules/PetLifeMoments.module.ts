@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
-import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentUseCase';
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
 import { RegisterPetLifeMomentMutation } from '../graphql/resolvers/RegisterPetLifeMomentMutation';
 import { HealthCheckQuery } from '../graphql/resolvers/HealthCheckQuery';
 import { DateScalar } from '../graphql/scalars/DateScalar';
 
-const registerPetLifeMomentUseCaseProvider = {
-  provide: RegisterPetLifeMomentUseCase,
+const addPetLifeMomentUseCaseProvider = {
+  provide: AddPetLifeMomentUseCase,
   useFactory: (repository: PetLifeMomentInMemoryRepository) => {
-    return new RegisterPetLifeMomentUseCase(repository);
+    return new AddPetLifeMomentUseCase(repository);
   },
   inject: [PetLifeMomentInMemoryRepository],
 };
@@ -23,11 +23,11 @@ const petLifeMomentRepositoryProvider = {
   controllers: [],
   providers: [
     petLifeMomentRepositoryProvider,
-    registerPetLifeMomentUseCaseProvider,
+    addPetLifeMomentUseCaseProvider,
     RegisterPetLifeMomentMutation,
     HealthCheckQuery,
     DateScalar,
   ],
-  exports: [RegisterPetLifeMomentUseCase, PetLifeMomentInMemoryRepository],
+  exports: [AddPetLifeMomentUseCase, PetLifeMomentInMemoryRepository],
 })
 export class PetLifeMomentsModule {}

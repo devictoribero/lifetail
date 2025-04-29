@@ -1,13 +1,13 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { RegisterPetLifeMomentResponse } from '../types/RegisterPetLifeMomentResponse';
 import { RegisterPetLifeMomentInput } from '../types/RegisterPetLifeMomentInput';
-import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
-import { RegisterPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentCommand';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentCommand';
 import { randomUUID } from 'crypto';
 
 @Resolver()
 export class RegisterPetLifeMomentMutation {
-  constructor(private readonly registerPetLifeMomentUseCase: RegisterPetLifeMomentUseCase) {}
+  constructor(private readonly addPetLifeMomentUseCase: AddPetLifeMomentUseCase) {}
 
   @Mutation(() => RegisterPetLifeMomentResponse)
   async registerPetLifeMoment(
@@ -16,8 +16,8 @@ export class RegisterPetLifeMomentMutation {
     try {
       const id = randomUUID();
 
-      await this.registerPetLifeMomentUseCase.execute(
-        new RegisterPetLifeMomentCommand(
+      await this.addPetLifeMomentUseCase.execute(
+        new AddPetLifeMomentCommand(
           id,
           input.eventType,
           input.petId,

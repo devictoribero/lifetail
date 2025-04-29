@@ -3,7 +3,8 @@ import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { PetLifeMomentsModule } from './PetLifeMoments.module';
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { RegisterPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/register-pet-life-moment/RegisterPetLifeMomentUseCase';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentCommand';
 
 describe('PetLifeMomentsModule', () => {
   let id: string;
@@ -42,9 +43,9 @@ describe('PetLifeMomentsModule', () => {
       }).compile();
 
       // Assert
-      const useCase = moduleRef.get<RegisterPetLifeMomentUseCase>(RegisterPetLifeMomentUseCase);
+      const useCase = moduleRef.get<AddPetLifeMomentUseCase>(AddPetLifeMomentUseCase);
       expect(useCase).toBeDefined();
-      expect(useCase).toBeInstanceOf(RegisterPetLifeMomentUseCase);
+      expect(useCase).toBeInstanceOf(AddPetLifeMomentUseCase);
     });
 
     it('should properly inject dependencies into the use case', async () => {
@@ -53,7 +54,7 @@ describe('PetLifeMomentsModule', () => {
         imports: [PetLifeMomentsModule],
       }).compile();
 
-      const useCase = moduleRef.get<RegisterPetLifeMomentUseCase>(RegisterPetLifeMomentUseCase);
+      const useCase = moduleRef.get<AddPetLifeMomentUseCase>(AddPetLifeMomentUseCase);
       const repository = moduleRef.get<PetLifeMomentInMemoryRepository>(
         PetLifeMomentInMemoryRepository,
       );
@@ -61,15 +62,8 @@ describe('PetLifeMomentsModule', () => {
       // Create a spy on the repository's save method to verify it's called
       jest.spyOn(repository, 'save').mockResolvedValue();
 
-      // Execute the use case with a command
-      await useCase.execute({
-        id,
-        eventType: 'Anniversary',
-        petId,
-        createdBy,
-        occurredOn,
-        description,
-      });
+      const command = new AddPetLifeMomentCommand(id, 'Anniversary', petId, createdBy, occurredOn, description);
+      await useCase.execute(command);
 
       // Assert
       expect(repository.save).toHaveBeenCalled();

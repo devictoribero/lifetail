@@ -1,14 +1,14 @@
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
-import { RegisterPetLifeMomentCommand } from './RegisterPetLifeMomentCommand';
+import { AddPetLifeMomentCommand } from './AddPetLifeMomentCommand';
 
-export class RegisterPetLifeMomentUseCase {
+export class AddPetLifeMomentUseCase {
   constructor(private readonly petLifeMomentRepository: PetLifeMomentInMemoryRepository) {}
 
-  async execute(command: RegisterPetLifeMomentCommand): Promise<void> {
+  async execute(command: AddPetLifeMomentCommand): Promise<void> {
     const petLifeMoment = PetLifeMoment.create(
       command.id,
-      command.eventType,
+      command.type,
       command.petId,
       command.createdBy,
       command.occurredOn,
