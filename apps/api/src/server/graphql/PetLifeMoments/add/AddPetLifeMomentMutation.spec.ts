@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RegisterPetLifeMomentMutation } from './RegisterPetLifeMomentMutation';
-import { RegisterPetLifeMomentInput } from '../types/RegisterPetLifeMomentInput';
+import { AddPetLifeMomentMutation } from './AddPetLifeMomentMutation';
+import { AddPetLifeMomentInput } from './AddPetLifeMomentInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
-import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
 
-describe('RegisterPetLifeMomentMutation', () => {
-  let resolver: RegisterPetLifeMomentMutation;
+describe('AddPetLifeMomentMutation', () => {
+  let resolver: AddPetLifeMomentMutation;
   let useCase: AddPetLifeMomentUseCase;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        RegisterPetLifeMomentMutation,
+        AddPetLifeMomentMutation,
         {
           provide: AddPetLifeMomentUseCase,
           useValue: {
@@ -22,7 +22,7 @@ describe('RegisterPetLifeMomentMutation', () => {
       ],
     }).compile();
 
-    resolver = module.get<RegisterPetLifeMomentMutation>(RegisterPetLifeMomentMutation);
+    resolver = module.get<AddPetLifeMomentMutation>(AddPetLifeMomentMutation);
     useCase = module.get<AddPetLifeMomentUseCase>(AddPetLifeMomentUseCase);
   });
 
@@ -30,11 +30,11 @@ describe('RegisterPetLifeMomentMutation', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('registerPetLifeMoment', () => {
+  describe('addPetLifeMoment', () => {
     it('should call use case and return success response', async () => {
       // Arrange
-      const input: RegisterPetLifeMomentInput = {
-        eventType: 'Anniversary',
+      const input: AddPetLifeMomentInput = {
+        type: 'Anniversary',
         petId: randomUUID(),
         createdBy: randomUUID(),
         occurredOn: faker.date.recent(),
@@ -42,7 +42,7 @@ describe('RegisterPetLifeMomentMutation', () => {
       };
 
       // Act
-      const result = await resolver.registerPetLifeMoment(input);
+      const result = await resolver.addPetLifeMoment(input);
 
       // Assert
       expect(useCase.execute).toHaveBeenCalled();
@@ -53,8 +53,8 @@ describe('RegisterPetLifeMomentMutation', () => {
 
     it('should handle errors and return error response', async () => {
       // Arrange
-      const input: RegisterPetLifeMomentInput = {
-        eventType: 'InvalidType',
+      const input: AddPetLifeMomentInput = {
+        type: 'InvalidType',
         petId: randomUUID(),
         createdBy: randomUUID(),
         occurredOn: faker.date.recent(),
@@ -65,7 +65,7 @@ describe('RegisterPetLifeMomentMutation', () => {
       jest.spyOn(useCase, 'execute').mockRejectedValue(new Error(errorMessage));
 
       // Act
-      const result = await resolver.registerPetLifeMoment(input);
+      const result = await resolver.addPetLifeMoment(input);
 
       // Assert
       expect(result.success).toBe(false);

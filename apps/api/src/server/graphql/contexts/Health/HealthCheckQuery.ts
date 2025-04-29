@@ -1,5 +1,5 @@
 import { Query, Resolver } from '@nestjs/graphql';
-import { HealthCheckResponse } from '../types/HealthCheckResponse';
+import { HealthCheckResponse } from './HealthCheckResponse';
 
 @Resolver()
 export class HealthCheckQuery {

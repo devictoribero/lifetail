@@ -3,8 +3,8 @@ import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { PetLifeMomentsModule } from './PetLifeMoments.module';
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentUseCase';
-import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentCommand';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
 
 describe('PetLifeMomentsModule', () => {
   let id: string;

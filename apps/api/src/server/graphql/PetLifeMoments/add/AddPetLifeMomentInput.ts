@@ -3,11 +3,11 @@ import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 @InputType()
-export class RegisterPetLifeMomentInput {
+export class AddPetLifeMomentInput {
   @Field()
   @IsString()
   @IsNotEmpty()
-  eventType: string;
+  type: string;
 
   @Field()
   @IsUUID()

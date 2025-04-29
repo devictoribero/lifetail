@@ -1,14 +1,24 @@
 import { Module } from '@nestjs/common';
-import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add-pet-life-moment/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { RemovePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { RegisterPetLifeMomentMutation } from '../graphql/resolvers/RegisterPetLifeMomentMutation';
-import { HealthCheckQuery } from '../graphql/resolvers/HealthCheckQuery';
-import { DateScalar } from '../graphql/scalars/DateScalar';
+import { AddPetLifeMomentMutation } from '../graphql/PetLifeMoments/add/AddPetLifeMomentMutation';
+import { RemovePetLifeMomentMutation } from '../graphql/PetLifeMoments/remove/RemovePetLifeMomentMutation';
+import { HealthCheckQuery } from '../graphql/contexts/Health/HealthCheckQuery';
+import { DateScalar } from '../graphql/Shared/scalars/DateScalar';
 
 const addPetLifeMomentUseCaseProvider = {
   provide: AddPetLifeMomentUseCase,
   useFactory: (repository: PetLifeMomentInMemoryRepository) => {
     return new AddPetLifeMomentUseCase(repository);
+  },
+  inject: [PetLifeMomentInMemoryRepository],
+};
+
+const removePetLifeMomentUseCaseProvider = {
+  provide: RemovePetLifeMomentUseCase,
+  useFactory: (repository: PetLifeMomentInMemoryRepository) => {
+    return new RemovePetLifeMomentUseCase(repository);
   },
   inject: [PetLifeMomentInMemoryRepository],
 };
@@ -24,10 +34,16 @@ const petLifeMomentRepositoryProvider = {
   providers: [
     petLifeMomentRepositoryProvider,
     addPetLifeMomentUseCaseProvider,
-    RegisterPetLifeMomentMutation,
+    removePetLifeMomentUseCaseProvider,
+    AddPetLifeMomentMutation,
+    RemovePetLifeMomentMutation,
     HealthCheckQuery,
     DateScalar,
   ],
-  exports: [AddPetLifeMomentUseCase, PetLifeMomentInMemoryRepository],
+  exports: [
+    AddPetLifeMomentUseCase,
+    RemovePetLifeMomentUseCase,
+    PetLifeMomentInMemoryRepository
+  ],
 })
 export class PetLifeMomentsModule {}
