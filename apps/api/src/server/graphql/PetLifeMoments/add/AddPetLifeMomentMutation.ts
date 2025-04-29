@@ -3,7 +3,6 @@ import { AddPetLifeMomentResponse } from './AddPetLifeMomentResponse';
 import { AddPetLifeMomentInput } from './AddPetLifeMomentInput';
 import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
 import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
-import { randomUUID } from 'crypto';
 
 @Resolver()
 export class AddPetLifeMomentMutation {
@@ -14,11 +13,9 @@ export class AddPetLifeMomentMutation {
     @Args('input') input: AddPetLifeMomentInput,
   ): Promise<AddPetLifeMomentResponse> {
     try {
-      const id = randomUUID();
-
       await this.addPetLifeMomentUseCase.execute(
         new AddPetLifeMomentCommand(
-          id,
+          input.id,
           input.type,
           input.petId,
           input.createdBy,
@@ -28,7 +25,7 @@ export class AddPetLifeMomentMutation {
       );
 
       return {
-        id,
+        id: input.id,
         success: true,
       };
     } catch (error) {

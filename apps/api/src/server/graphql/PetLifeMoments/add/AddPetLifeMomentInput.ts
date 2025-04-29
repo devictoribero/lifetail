@@ -5,6 +5,11 @@ import { Transform } from 'class-transformer';
 @InputType()
 export class AddPetLifeMomentInput {
   @Field()
+  @IsUUID()
+  @IsNotEmpty()
+  id: string;
+
+  @Field()
   @IsString()
   @IsNotEmpty()
   type: string;

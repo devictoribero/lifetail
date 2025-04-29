@@ -4,6 +4,7 @@ import { AddPetLifeMomentInput } from './AddPetLifeMomentInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
 
 describe('AddPetLifeMomentMutation', () => {
   let resolver: AddPetLifeMomentMutation;
@@ -33,7 +34,9 @@ describe('AddPetLifeMomentMutation', () => {
   describe('addPetLifeMoment', () => {
     it('should call use case and return success response', async () => {
       // Arrange
+      const momentId = randomUUID();
       const input: AddPetLifeMomentInput = {
+        id: momentId,
         type: 'Anniversary',
         petId: randomUUID(),
         createdBy: randomUUID(),
@@ -45,15 +48,24 @@ describe('AddPetLifeMomentMutation', () => {
       const result = await resolver.addPetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalled();
+      expect(useCase.execute).toHaveBeenCalledWith(
+        expect.any(AddPetLifeMomentCommand)
+      );
+
+      // Check that the id passed to the command matches the input id
+      const commandArg = jest.mocked(useCase.execute).mock.calls[0][0];
+      expect(commandArg.id).toBe(momentId);
+
       expect(result.success).toBe(true);
-      expect(result.id).toBeDefined();
+      expect(result.id).toBe(momentId);
       expect(result.errorMessage).toBeUndefined();
     });
 
     it('should handle errors and return error response', async () => {
       // Arrange
+      const momentId = randomUUID();
       const input: AddPetLifeMomentInput = {
+        id: momentId,
         type: 'InvalidType',
         petId: randomUUID(),
         createdBy: randomUUID(),
