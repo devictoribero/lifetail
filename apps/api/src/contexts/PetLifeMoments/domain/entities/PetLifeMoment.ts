@@ -1,6 +1,6 @@
 import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
 
-export enum PetLifeMomentCategory {
+export enum PetLifeMomentTheme {
   Celebration = 'Celebration',
   Health = 'Health',
   Diet = 'Diet',
@@ -46,8 +46,8 @@ export enum PetLifeMomentType {
 
 export class PetLifeMoment {
   private id: string;
-  private category: PetLifeMomentCategory;
-  private eventType: PetLifeMomentType;
+  private theme: PetLifeMomentTheme;
+  private type: PetLifeMomentType;
   private petId: string;
   private createdBy: string;
   private occurredOn: Date;
@@ -55,15 +55,15 @@ export class PetLifeMoment {
 
   constructor(
     id: string,
-    eventType: PetLifeMomentType,
+    type: PetLifeMomentType,
     petId: string,
     createdBy: string,
     occurredOn: Date,
     description: string,
   ) {
     this.id = id;
-    this.category = this.getCategoryForEventType(eventType);
-    this.eventType = eventType;
+    this.theme = this.getMomentTheme(type);
+    this.type = type;
     this.petId = petId;
     this.createdBy = createdBy;
     this.occurredOn = occurredOn;
@@ -72,29 +72,29 @@ export class PetLifeMoment {
 
   static create(
     id: string,
-    eventType: string,
+    type: string,
     petId: string,
     createdBy: string,
     occurredOn: Date,
     description: string,
   ) {
-    const eventTypeEnum = PetLifeMomentType[eventType as keyof typeof PetLifeMomentType];
-    if (!eventTypeEnum) {
-      throw new InvalidPetLifeMomentTypeException(eventType);
+    const typeEnum = PetLifeMomentType[type as keyof typeof PetLifeMomentType];
+    if (!typeEnum) {
+      throw new InvalidPetLifeMomentTypeException(type);
     }
 
-    return new PetLifeMoment(id, eventTypeEnum, petId, createdBy, occurredOn, description);
+    return new PetLifeMoment(id, typeEnum, petId, createdBy, occurredOn, description);
   }
 
-  private getCategoryForEventType(eventType: PetLifeMomentType): PetLifeMomentCategory {
-    switch (eventType) {
+  private getMomentTheme(type: PetLifeMomentType): PetLifeMomentTheme {
+    switch (type) {
       // Celebration
       case PetLifeMomentType.Arrival:
       case PetLifeMomentType.Gift:
       case PetLifeMomentType.Anniversary:
       case PetLifeMomentType.Achievement:
       case PetLifeMomentType.Move:
-        return PetLifeMomentCategory.Celebration;
+        return PetLifeMomentTheme.Celebration;
       // Activity
       case PetLifeMomentType.Walk:
       case PetLifeMomentType.Exercise:
@@ -102,17 +102,17 @@ export class PetLifeMoment {
       case PetLifeMomentType.Training:
       case PetLifeMomentType.Socialization:
       case PetLifeMomentType.Excursion:
-        return PetLifeMomentCategory.Activity;
+        return PetLifeMomentTheme.Activity;
       // Diet
       case PetLifeMomentType.DietChange:
       case PetLifeMomentType.SpecialMeal:
       case PetLifeMomentType.Hydration:
-        return PetLifeMomentCategory.Diet;
+        return PetLifeMomentTheme.Diet;
       // Hygiene and Beauty
       case PetLifeMomentType.GroomingVisit:
       case PetLifeMomentType.Bath:
       case PetLifeMomentType.NailCut:
-        return PetLifeMomentCategory.HygieneAndBeauty;
+        return PetLifeMomentTheme.HygieneAndBeauty;
       // Health
       case PetLifeMomentType.VeterinaryVisit:
       case PetLifeMomentType.Vaccination:
@@ -121,13 +121,13 @@ export class PetLifeMoment {
       case PetLifeMomentType.Illness:
       case PetLifeMomentType.Discomfort:
       case PetLifeMomentType.Injury:
-        return PetLifeMomentCategory.Health;
+        return PetLifeMomentTheme.Health;
       // Farewell
       case PetLifeMomentType.Death:
       case PetLifeMomentType.Goodbye:
-        return PetLifeMomentCategory.Farewell;
+        return PetLifeMomentTheme.Farewell;
       default:
-        throw new InvalidPetLifeMomentTypeException(eventType);
+        throw new InvalidPetLifeMomentTypeException(type);
     }
   }
 
@@ -135,12 +135,12 @@ export class PetLifeMoment {
     return this.id;
   }
 
-  public getCategory(): PetLifeMomentCategory {
-    return this.category;
+  public getTheme(): PetLifeMomentTheme {
+    return this.theme;
   }
 
-  public getEventType(): PetLifeMomentType {
-    return this.eventType;
+  public getType(): PetLifeMomentType {
+    return this.type;
   }
 
   public getPetId(): string {

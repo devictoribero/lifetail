@@ -1,4 +1,4 @@
-import { PetLifeMoment, PetLifeMomentCategory, PetLifeMomentType } from './PetLifeMoment';
+import { PetLifeMoment, PetLifeMomentTheme, PetLifeMomentType } from './PetLifeMoment';
 import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
 import { fail } from 'node:assert';
 import { randomUUID } from 'crypto';
@@ -50,12 +50,12 @@ describe('PetLifeMoment Domain Entity', () => {
     // Assert
     expect(petLifeMoment).toBeDefined();
     expect(petLifeMoment.getId()).toBe(id);
-    expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Anniversary);
+    expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Anniversary);
     expect(petLifeMoment.getPetId()).toBe(petId);
     expect(petLifeMoment.getCreatedBy()).toBe(createdBy);
     expect(petLifeMoment.getOccurredOn()).toBe(occurredOn);
     expect(petLifeMoment.getDescription()).toBe(description);
-    expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
+    expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
   });
 
   describe('Category integrity', () => {
@@ -68,8 +68,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Arrival);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Arrival);
     });
 
     it('should create Anniversary event with Celebration category', () => {
@@ -81,8 +81,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Anniversary);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Anniversary);
     });
 
     it('should create Achievement event with Celebration category', () => {
@@ -94,8 +94,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Achievement);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Achievement);
     });
 
     it('should create Move event with Celebration category', () => {
@@ -107,8 +107,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Move);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Move);
     });
 
     it('should create Gift event with Celebration category', () => {
@@ -120,8 +120,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Celebration);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Gift);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Gift);
     });
 
     it('should create Walk event with Activity category', () => {
@@ -133,8 +133,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Walk);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Walk);
     });
 
     it('should create Exercise event with Activity category', () => {
@@ -146,8 +146,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Exercise);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Exercise);
     });
 
     it('should create Play event with Activity category', () => {
@@ -159,8 +159,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Play);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Play);
     });
 
     it('should create Training event with Activity category', () => {
@@ -172,8 +172,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Training);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Training);
     });
 
     it('should create Socialization event with Activity category', () => {
@@ -185,8 +185,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Socialization);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Socialization);
     });
 
     it('should create Excursion event with Activity category', () => {
@@ -198,8 +198,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Activity);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Excursion);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Excursion);
     });
 
     it('should create DietChange event with Diet category', () => {
@@ -211,8 +211,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Diet);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.DietChange);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Diet);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.DietChange);
     });
 
     it('should create SpecialMeal event with Diet category', () => {
@@ -224,8 +224,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Diet);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.SpecialMeal);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Diet);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.SpecialMeal);
     });
 
     it('should create Hydration event with Diet category', () => {
@@ -237,8 +237,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Diet);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Hydration);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Diet);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Hydration);
     });
 
     it('should create GroomingVisit event with HygieneAndBeauty category', () => {
@@ -250,8 +250,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.HygieneAndBeauty);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.GroomingVisit);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.HygieneAndBeauty);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.GroomingVisit);
     });
 
     it('should create NailCut event with HygieneAndBeauty category', () => {
@@ -263,8 +263,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.HygieneAndBeauty);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.NailCut);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.HygieneAndBeauty);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.NailCut);
     });
 
     it('should create Bath event with HygieneAndBeauty category', () => {
@@ -276,8 +276,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.HygieneAndBeauty);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Bath);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.HygieneAndBeauty);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Bath);
     });
 
     it('should create VeterinaryVisit event with Health category', () => {
@@ -289,8 +289,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.VeterinaryVisit);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.VeterinaryVisit);
     });
 
     it('should create Vaccination event with Health category', () => {
@@ -302,8 +302,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Vaccination);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Vaccination);
     });
 
     it('should create Medication event with Health category', () => {
@@ -315,8 +315,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Medication);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Medication);
     });
 
     it('should create Surgery event with Health category', () => {
@@ -328,8 +328,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Surgery);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Surgery);
     });
 
     it('should create Illness event with Health category', () => {
@@ -341,8 +341,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Illness);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Illness);
     });
 
     it('should create Discomfort event with Health category', () => {
@@ -354,8 +354,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Discomfort);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Discomfort);
     });
 
     it('should create Injury event with Health category', () => {
@@ -367,8 +367,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Health);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Injury);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Injury);
     });
 
     it('should create Goodbye event with Farewell category', () => {
@@ -380,8 +380,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Farewell);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Goodbye);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Farewell);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Goodbye);
     });
 
     it('should create Death event with Farewell category', () => {
@@ -393,8 +393,8 @@ describe('PetLifeMoment Domain Entity', () => {
         occurredOn,
         description,
       );
-      expect(petLifeMoment.getCategory()).toBe(PetLifeMomentCategory.Farewell);
-      expect(petLifeMoment.getEventType()).toBe(PetLifeMomentType.Death);
+      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Farewell);
+      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Death);
     });
   });
 });
