@@ -1,9 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { FindPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/findById/FindPetLifeMomentUseCase';
-import {
-  FindPetLifeMomentQuery as FindByIdQuery,
-  FindPetLifeMomentQuery,
-} from 'src/contexts/PetLifeMoments/application/findById/FindPetLifeMomentQuery';
+import { FindPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
+import { FindPetLifeMomentQuery } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentQuery';
 import { FindPetLifeMomentInput } from './FindPetLifeMomentInput';
 import { PetLifeMomentType } from './PetLifeMomentType';
 
