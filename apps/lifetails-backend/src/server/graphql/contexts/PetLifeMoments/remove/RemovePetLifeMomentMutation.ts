@@ -8,11 +8,11 @@ export class RemovePetLifeMomentMutation {
   constructor(private readonly removePetLifeMomentUseCase: RemovePetLifeMomentUseCase) {}
 
   @Mutation(() => Boolean)
-  async removePetLifeMoment(
-    @Args('input') input: RemovePetLifeMomentInput,
-  ): Promise<void> {
-    await this.removePetLifeMomentUseCase.execute(
-      new RemovePetLifeMomentCommand(input.id),
-    );
+  async removePetLifeMoment(@Args('input') input: RemovePetLifeMomentInput): Promise<void> {
+    try {
+      await this.removePetLifeMomentUseCase.execute(new RemovePetLifeMomentCommand(input.id));
+    } catch (error) {
+      throw new Error(error.message ?? 'Error removing pet life moment');
+    }
   }
 }
