@@ -6,7 +6,7 @@ import { PetLifeMomentType } from './PetLifeMomentType';
 
 @Resolver()
 export class FindPetLifeMoment {
-  constructor(private readonly findPetLifeMomentUseCase: FindPetLifeMomentUseCase) {}
+  constructor(private readonly useCase: FindPetLifeMomentUseCase) {}
 
   @Query(() => PetLifeMomentType)
   async findPetLifeMoment(
@@ -14,7 +14,7 @@ export class FindPetLifeMoment {
   ): Promise<PetLifeMomentType> {
     try {
       const query = new FindPetLifeMomentQuery(input.id);
-      const moment = await this.findPetLifeMomentUseCase.execute(query);
+      const moment = await this.useCase.execute(query);
 
       return {
         id: moment.getId(),
@@ -23,7 +23,7 @@ export class FindPetLifeMoment {
         type: moment.getType(),
         petId: moment.getPetId(),
         createdBy: moment.getCreatedBy(),
-        occurredOn: moment.getOccurredOn(),
+        occurredOn: moment.getOccurredOn().toDate(),
         description: moment.getDescription().toString(),
       };
     } catch (error) {

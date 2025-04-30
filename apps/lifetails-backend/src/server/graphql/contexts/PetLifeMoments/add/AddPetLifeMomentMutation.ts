@@ -6,14 +6,14 @@ import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application
 
 @Resolver()
 export class AddPetLifeMomentMutation {
-  constructor(private readonly addPetLifeMomentUseCase: AddPetLifeMomentUseCase) {}
+  constructor(private readonly useCase: AddPetLifeMomentUseCase) {}
 
   @Mutation(() => AddPetLifeMomentResponse)
   async addPetLifeMoment(
     @Args('input') input: AddPetLifeMomentInput,
   ): Promise<AddPetLifeMomentResponse> {
     try {
-      await this.addPetLifeMomentUseCase.execute(
+      await this.useCase.execute(
         new AddPetLifeMomentCommand(
           input.id,
           input.type,
