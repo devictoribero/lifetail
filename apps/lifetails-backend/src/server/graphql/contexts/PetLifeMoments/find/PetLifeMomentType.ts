@@ -1,11 +1,9 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import {
-  PetLifeMomentTheme,
-  PetLifeMomentType as DomainPetLifeMomentType,
-} from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMoment';
+import { PetLifeMomentTheme as DomainPetLifeMomentTheme } from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMomentTheme';
+import { PetLifeMomentType as DomainPetLifeMomentType } from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMomentType';
 
 // Register the enums for GraphQL
-registerEnumType(PetLifeMomentTheme, {
+registerEnumType(DomainPetLifeMomentTheme, {
   name: 'PetLifeMomentTheme',
 });
 
@@ -18,8 +16,8 @@ export class PetLifeMomentType {
   @Field()
   id: string;
 
-  @Field(() => PetLifeMomentTheme)
-  theme: PetLifeMomentTheme;
+  @Field(() => DomainPetLifeMomentTheme)
+  theme: DomainPetLifeMomentTheme;
 
   @Field(() => DomainPetLifeMomentType)
   type: DomainPetLifeMomentType;

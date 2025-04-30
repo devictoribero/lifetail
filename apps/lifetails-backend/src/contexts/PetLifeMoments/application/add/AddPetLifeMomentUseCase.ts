@@ -1,6 +1,8 @@
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
 import { AddPetLifeMomentCommand } from './AddPetLifeMomentCommand';
+import { PetLifeMomentType } from '../../domain/entities/PetLifeMomentType';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 export class AddPetLifeMomentUseCase {
   constructor(private readonly repository: PetLifeMomentInMemoryRepository) {}
@@ -8,11 +10,11 @@ export class AddPetLifeMomentUseCase {
   async execute(command: AddPetLifeMomentCommand): Promise<void> {
     const petLifeMoment = PetLifeMoment.create(
       command.id,
-      command.type,
+      PetLifeMomentType.fromPrimitives(command.type),
       command.petId,
       command.createdBy,
       command.occurredOn,
-      command.description,
+      new StringValueObject(command.description),
     );
 
     await this.repository.save(petLifeMoment);

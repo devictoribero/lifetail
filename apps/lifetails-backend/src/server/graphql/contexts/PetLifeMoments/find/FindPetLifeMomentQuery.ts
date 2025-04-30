@@ -8,7 +8,7 @@ import { FindPetLifeMomentInput } from './FindPetLifeMomentInput';
 import { PetLifeMomentType } from './PetLifeMomentType';
 
 @Resolver()
-export class PetLifeMomentByIdQuery {
+export class FindPetLifeMoment {
   constructor(private readonly findPetLifeMomentUseCase: FindPetLifeMomentUseCase) {}
 
   @Query(() => PetLifeMomentType)
@@ -21,12 +21,13 @@ export class PetLifeMomentByIdQuery {
 
       return {
         id: moment.getId(),
+        // @todo: remove the toString() from here and move it to the use case
         theme: moment.getTheme(),
         type: moment.getType(),
         petId: moment.getPetId(),
         createdBy: moment.getCreatedBy(),
         occurredOn: moment.getOccurredOn(),
-        description: moment.getDescription(),
+        description: moment.getDescription().toString(),
       };
     } catch (error) {
       throw new Error(error.message ?? 'Error finding pet life moment');

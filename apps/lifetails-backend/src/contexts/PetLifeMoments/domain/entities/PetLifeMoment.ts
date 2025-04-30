@@ -1,9 +1,9 @@
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { PetLifeMomentTheme } from './PetLifeMomentTheme';
 import { PetLifeMomentType } from './PetLifeMomentType';
+import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 
-export class PetLifeMoment {
-  private id: string;
+export class PetLifeMoment extends AggregateRoot {
   private type: PetLifeMomentType;
   private theme: PetLifeMomentTheme;
   private petId: string;
@@ -20,7 +20,7 @@ export class PetLifeMoment {
     occurredOn: Date,
     description: StringValueObject,
   ) {
-    this.id = id;
+    super(id);
     this.theme = theme;
     this.type = type;
     this.petId = petId;
@@ -62,10 +62,6 @@ export class PetLifeMoment {
     );
   }
 
-  public getId(): string {
-    return this.id;
-  }
-
   public getType(): PetLifeMomentType {
     return this.type;
   }
@@ -88,5 +84,17 @@ export class PetLifeMoment {
 
   public getDescription(): StringValueObject {
     return this.description;
+  }
+
+  public toPrimitives(): any {
+    return {
+      id: this.id,
+      type: this.type.toString(),
+      theme: this.theme.toString(),
+      petId: this.petId,
+      createdBy: this.createdBy,
+      occurredOn: this.occurredOn,
+      description: this.description.toString(),
+    };
   }
 }
