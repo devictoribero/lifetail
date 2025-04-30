@@ -1,8 +1,15 @@
 import { PetLifeMoment } from '../domain/entities/PetLifeMoment';
 import { PetLifeMomentRepository } from '../domain/repositories/PetLifeMomentRepository';
 
-interface InMemoryPetLifeMoment extends PetLifeMoment {
+interface InMemoryPetLifeMoment {
   isDeleted: boolean;
+  id: string;
+  type: string;
+  theme: string;
+  petId: string;
+  createdBy: string;
+  occurredOn: Date;
+  description: string;
 }
 
 export class PetLifeMomentInMemoryRepository implements PetLifeMomentRepository {
@@ -10,7 +17,7 @@ export class PetLifeMomentInMemoryRepository implements PetLifeMomentRepository 
 
   async save(moment: PetLifeMoment): Promise<void> {
     this.moments.set(moment.getId(), {
-      ...moment,
+      ...moment.toPrimitives(),
       isDeleted: false,
     } as InMemoryPetLifeMoment);
   }
@@ -24,9 +31,19 @@ export class PetLifeMomentInMemoryRepository implements PetLifeMomentRepository 
 
   async find(id: string): Promise<PetLifeMoment | null> {
     const moment = this.moments.get(id);
-    if (moment && !moment.isDeleted) {
-      return moment;
+
+    if (!moment || moment.isDeleted) {
+      return null;
     }
-    return null;
+
+    return PetLifeMoment.fromPrimitives(
+      moment.id,
+      moment.type,
+      moment.theme,
+      moment.petId,
+      moment.createdBy,
+      moment.occurredOn,
+      moment.description,
+    );
   }
 }
