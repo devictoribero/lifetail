@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
 import { RemovePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { AddPetLifeMomentMutation } from '../graphql/PetLifeMoments/add/AddPetLifeMomentMutation';
-import { RemovePetLifeMomentMutation } from '../graphql/PetLifeMoments/remove/RemovePetLifeMomentMutation';
+import { AddPetLifeMomentMutation } from '../graphql/contexts/PetLifeMoments/add/AddPetLifeMomentMutation';
+import { RemovePetLifeMomentMutation } from '../graphql/contexts/PetLifeMoments/remove/RemovePetLifeMomentMutation';
 import { HealthCheckQuery } from '../graphql/contexts/Health/HealthCheckQuery';
 import { DateScalar } from '../graphql/Shared/scalars/DateScalar';
 

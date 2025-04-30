@@ -3,7 +3,7 @@ import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMom
 import { AddPetLifeMomentCommand } from './AddPetLifeMomentCommand';
 
 export class AddPetLifeMomentUseCase {
-  constructor(private readonly petLifeMomentRepository: PetLifeMomentInMemoryRepository) {}
+  constructor(private readonly repository: PetLifeMomentInMemoryRepository) {}
 
   async execute(command: AddPetLifeMomentCommand): Promise<void> {
     const petLifeMoment = PetLifeMoment.create(
@@ -15,6 +15,6 @@ export class AddPetLifeMomentUseCase {
       command.description,
     );
 
-    await this.petLifeMomentRepository.save(petLifeMoment);
+    await this.repository.save(petLifeMoment);
   }
 }
