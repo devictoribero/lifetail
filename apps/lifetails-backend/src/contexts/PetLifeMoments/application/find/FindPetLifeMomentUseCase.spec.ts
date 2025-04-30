@@ -6,6 +6,8 @@ import { PetLifeMomentNotFoundException } from '../../domain/exceptions/PetLifeM
 import { randomUUID } from 'node:crypto';
 import { PetLifeMomentType } from '../../domain/entities/PetLifeMomentType';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { faker } from '@faker-js/faker';
 
 describe('FindPetLifeMomentUseCase', () => {
   let repository: PetLifeMomentInMemoryRepository;
@@ -22,7 +24,7 @@ describe('FindPetLifeMomentUseCase', () => {
     const type = 'VeterinaryVisit';
     const petId = randomUUID();
     const createdBy = randomUUID();
-    const occurredOn = new Date('2023-05-15T10:00:00Z');
+    const occurredOn = faker.date.recent();
     const description = 'Annual checkup, all looking good';
     // Create and save a pet life moment
     const petLifeMoment = PetLifeMoment.create(
@@ -30,7 +32,7 @@ describe('FindPetLifeMomentUseCase', () => {
       PetLifeMomentType.fromPrimitives(type),
       petId,
       createdBy,
-      occurredOn,
+      new DateValueObject(occurredOn),
       new StringValueObject(description),
     );
     await repository.save(petLifeMoment);

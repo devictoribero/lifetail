@@ -5,6 +5,8 @@ import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { randomUUID } from 'node:crypto';
 import { PetLifeMomentType } from '../../domain/entities/PetLifeMomentType';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { faker } from '@faker-js/faker';
 
 describe('RemovePetLifeMomentUseCase', () => {
   let repository: PetLifeMomentInMemoryRepository;
@@ -21,7 +23,7 @@ describe('RemovePetLifeMomentUseCase', () => {
     const type = 'VeterinaryVisit';
     const petId = randomUUID();
     const createdBy = randomUUID();
-    const occurredOn = new Date('2023-05-15T10:00:00Z');
+    const occurredOn = faker.date.recent();
     const description = 'Annual checkup, all looking good';
     // Create and save a pet life moment
     const petLifeMoment = PetLifeMoment.create(
@@ -29,7 +31,7 @@ describe('RemovePetLifeMomentUseCase', () => {
       PetLifeMomentType.fromPrimitives(type),
       petId,
       createdBy,
-      occurredOn,
+      new DateValueObject(occurredOn),
       new StringValueObject(description),
     );
     await repository.save(petLifeMoment);

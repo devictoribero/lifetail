@@ -3,6 +3,7 @@ import { AddPetLifeMomentUseCase } from './AddPetLifeMomentUseCase';
 import { AddPetLifeMomentCommand } from './AddPetLifeMomentCommand';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { randomUUID } from 'node:crypto';
+import { faker } from '@faker-js/faker';
 
 describe('AddPetLifeMomentUseCase', () => {
   let repository: PetLifeMomentInMemoryRepository;
@@ -20,7 +21,7 @@ describe('AddPetLifeMomentUseCase', () => {
     const type = 'VeterinaryVisit';
     const petId = randomUUID();
     const createdBy = randomUUID();
-    const occurredOn = new Date('2023-05-15T10:00:00Z');
+    const occurredOn = faker.date.recent();
     const description = 'Annual checkup, all looking good';
 
     const command = new AddPetLifeMomentCommand(

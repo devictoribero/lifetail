@@ -2,13 +2,14 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { PetLifeMomentTheme } from './PetLifeMomentTheme';
 import { PetLifeMomentType } from './PetLifeMomentType';
 import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 export class PetLifeMoment extends AggregateRoot {
   private type: PetLifeMomentType;
   private theme: PetLifeMomentTheme;
   private petId: string;
   private createdBy: string;
-  private occurredOn: Date;
+  private occurredOn: DateValueObject;
   private description: StringValueObject;
 
   private constructor(
@@ -17,7 +18,7 @@ export class PetLifeMoment extends AggregateRoot {
     theme: PetLifeMomentTheme,
     petId: string,
     createdBy: string,
-    occurredOn: Date,
+    occurredOn: DateValueObject,
     description: StringValueObject,
   ) {
     super(id);
@@ -35,7 +36,7 @@ export class PetLifeMoment extends AggregateRoot {
     type: PetLifeMomentType,
     petId: string,
     createdBy: string,
-    occurredOn: Date,
+    occurredOn: DateValueObject,
     description: StringValueObject,
   ) {
     return new PetLifeMoment(id, type, type.getTheme(), petId, createdBy, occurredOn, description);
@@ -57,7 +58,7 @@ export class PetLifeMoment extends AggregateRoot {
       PetLifeMomentTheme.fromPrimitives(theme),
       petId,
       createdBy,
-      occurredOn,
+      new DateValueObject(occurredOn),
       new StringValueObject(description),
     );
   }
@@ -78,7 +79,7 @@ export class PetLifeMoment extends AggregateRoot {
     return this.createdBy;
   }
 
-  public getOccurredOn(): Date {
+  public getOccurredOn(): DateValueObject {
     return this.occurredOn;
   }
 
@@ -93,7 +94,7 @@ export class PetLifeMoment extends AggregateRoot {
       theme: this.theme.toString(),
       petId: this.petId,
       createdBy: this.createdBy,
-      occurredOn: this.occurredOn,
+      occurredOn: this.occurredOn.toISOString(),
       description: this.description.toString(),
     };
   }

@@ -6,6 +6,7 @@ import { faker } from '@faker-js/faker';
 import { PetLifeMomentType } from './PetLifeMomentType';
 import { PetLifeMomentTheme } from './PetLifeMomentTheme';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 describe('PetLifeMoment Domain Entity', () => {
   let id: string;
@@ -33,7 +34,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create(invalidEventType),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
       fail('Should have thrown InvalidPetLifeMomentTypeException');
@@ -53,7 +54,7 @@ describe('PetLifeMoment Domain Entity', () => {
       PetLifeMomentType.create(eventType),
       petId,
       createdBy,
-      occurredOn,
+      new DateValueObject(occurredOn),
       new StringValueObject(description),
     );
 
@@ -68,7 +69,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Arrival'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -82,7 +83,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Anniversary'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -96,7 +97,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Achievement'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -110,7 +111,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Move'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -124,7 +125,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Gift'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -138,7 +139,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Walk'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -152,7 +153,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Exercise'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -166,7 +167,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Play'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -180,7 +181,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Training'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -194,7 +195,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Socialization'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -208,7 +209,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Excursion'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -222,7 +223,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('DietChange'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -236,7 +237,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('SpecialMeal'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -250,7 +251,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Hydration'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -264,7 +265,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('GroomingVisit'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -280,7 +281,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('NailCut'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -296,7 +297,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Bath'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -312,7 +313,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('VeterinaryVisit'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -326,7 +327,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Vaccination'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -340,7 +341,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Medication'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -354,7 +355,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Surgery'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -368,7 +369,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Illness'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -382,7 +383,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Discomfort'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -396,7 +397,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Injury'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -410,7 +411,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Goodbye'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 
@@ -424,7 +425,7 @@ describe('PetLifeMoment Domain Entity', () => {
         PetLifeMomentType.create('Death'),
         petId,
         createdBy,
-        occurredOn,
+        new DateValueObject(occurredOn),
         new StringValueObject(description),
       );
 

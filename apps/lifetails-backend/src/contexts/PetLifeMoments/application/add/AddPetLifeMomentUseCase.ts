@@ -3,6 +3,7 @@ import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMom
 import { AddPetLifeMomentCommand } from './AddPetLifeMomentCommand';
 import { PetLifeMomentType } from '../../domain/entities/PetLifeMomentType';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 export class AddPetLifeMomentUseCase {
   constructor(private readonly repository: PetLifeMomentInMemoryRepository) {}
@@ -13,7 +14,7 @@ export class AddPetLifeMomentUseCase {
       PetLifeMomentType.fromPrimitives(command.type),
       command.petId,
       command.createdBy,
-      command.occurredOn,
+      new DateValueObject(command.occurredOn),
       new StringValueObject(command.description),
     );
 
