@@ -24,16 +24,9 @@ export class AddPetLifeMomentMutation {
         ),
       );
 
-      return {
-        id: input.id,
-        success: true,
-      };
+      return { id: input.id };
     } catch (error) {
-      return {
-        id: '',
-        success: false,
-        errorMessage: error.message,
-      };
+      throw new Error(error.message ?? 'Error adding pet life moment');
     }
   }
 }

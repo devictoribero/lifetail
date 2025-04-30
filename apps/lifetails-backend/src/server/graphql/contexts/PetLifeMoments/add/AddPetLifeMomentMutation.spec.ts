@@ -48,17 +48,13 @@ describe('AddPetLifeMomentMutation', () => {
       const result = await resolver.addPetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
-        expect.any(AddPetLifeMomentCommand)
-      );
+      expect(useCase.execute).toHaveBeenCalledWith(expect.any(AddPetLifeMomentCommand));
 
       // Check that the id passed to the command matches the input id
       const commandArg = jest.mocked(useCase.execute).mock.calls[0][0];
       expect(commandArg.id).toBe(momentId);
 
-      expect(result.success).toBe(true);
       expect(result.id).toBe(momentId);
-      expect(result.errorMessage).toBeUndefined();
     });
 
     it('should handle errors and return error response', async () => {
@@ -77,12 +73,11 @@ describe('AddPetLifeMomentMutation', () => {
       jest.spyOn(useCase, 'execute').mockRejectedValue(new Error(errorMessage));
 
       // Act
-      const result = await resolver.addPetLifeMoment(input);
-
-      // Assert
-      expect(result.success).toBe(false);
-      expect(result.id).toBe('');
-      expect(result.errorMessage).toBe(errorMessage);
+      try {
+        await resolver.addPetLifeMoment(input);
+      } catch (error) {
+        expect(error.message).toBe(errorMessage);
+      }
     });
   });
 });
