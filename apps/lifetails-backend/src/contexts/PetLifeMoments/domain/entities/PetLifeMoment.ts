@@ -1,68 +1,27 @@
-import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
-
-export enum PetLifeMomentTheme {
-  Celebration = 'Celebration',
-  Health = 'Health',
-  Diet = 'Diet',
-  Activity = 'Activity',
-  HygieneAndBeauty = 'Hygiene and Beauty',
-  Farewell = 'Farewell',
-}
-
-export enum PetLifeMomentType {
-  // Celebration
-  Arrival = 'Arrival',
-  Anniversary = 'Anniversary',
-  Achievement = 'Achievement',
-  Gift = 'Gift',
-  // Activity
-  Walk = 'Walk',
-  Exercise = 'Exercise',
-  Play = 'Play',
-  Training = 'Training',
-  Socialization = 'Socialization',
-  Excursion = 'Excursion',
-  Move = 'Move',
-  // Diet
-  DietChange = 'DietChange',
-  SpecialMeal = 'SpecialMeal',
-  Hydration = 'Hydration',
-  // Hygiene and Beauty
-  GroomingVisit = 'GroomingVisit',
-  NailCut = 'NailCut',
-  Bath = 'Bath',
-  // Health
-  VeterinaryVisit = 'VeterinaryVisit',
-  Vaccination = 'Vaccination',
-  Medication = 'Medication',
-  Surgery = 'Surgery',
-  Illness = 'Illness',
-  Discomfort = 'Discomfort',
-  Injury = 'Injury',
-  // Farewell
-  Goodbye = 'Goodbye',
-  Death = 'Death',
-}
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { PetLifeMomentTheme } from './PetLifeMomentTheme';
+import { PetLifeMomentType } from './PetLifeMomentType';
 
 export class PetLifeMoment {
   private id: string;
-  private theme: PetLifeMomentTheme;
   private type: PetLifeMomentType;
+  private theme: PetLifeMomentTheme;
   private petId: string;
   private createdBy: string;
   private occurredOn: Date;
-  private description: string;
+  private description: StringValueObject;
 
-  constructor(
+  private constructor(
     id: string,
     type: PetLifeMomentType,
+    theme: PetLifeMomentTheme,
     petId: string,
     createdBy: string,
     occurredOn: Date,
-    description: string,
+    description: StringValueObject,
   ) {
     this.id = id;
-    this.theme = this.getMomentTheme(type);
+    this.theme = theme;
     this.type = type;
     this.petId = petId;
     this.createdBy = createdBy;
@@ -70,77 +29,49 @@ export class PetLifeMoment {
     this.description = description;
   }
 
+  // Use to create the entity from the domain
   static create(
     id: string,
+    type: PetLifeMomentType,
+    petId: string,
+    createdBy: string,
+    occurredOn: Date,
+    description: StringValueObject,
+  ) {
+    return new PetLifeMoment(id, type, type.getTheme(), petId, createdBy, occurredOn, description);
+  }
+
+  // Use to reconstruct the entity from the database
+  static fromPrimitives(
+    id: string,
     type: string,
+    theme: string,
     petId: string,
     createdBy: string,
     occurredOn: Date,
     description: string,
   ) {
-    const typeEnum = PetLifeMomentType[type as keyof typeof PetLifeMomentType];
-    if (!typeEnum) {
-      throw new InvalidPetLifeMomentTypeException(type);
-    }
-
-    return new PetLifeMoment(id, typeEnum, petId, createdBy, occurredOn, description);
-  }
-
-  private getMomentTheme(type: PetLifeMomentType): PetLifeMomentTheme {
-    switch (type) {
-      // Celebration
-      case PetLifeMomentType.Arrival:
-      case PetLifeMomentType.Gift:
-      case PetLifeMomentType.Anniversary:
-      case PetLifeMomentType.Achievement:
-      case PetLifeMomentType.Move:
-        return PetLifeMomentTheme.Celebration;
-      // Activity
-      case PetLifeMomentType.Walk:
-      case PetLifeMomentType.Exercise:
-      case PetLifeMomentType.Play:
-      case PetLifeMomentType.Training:
-      case PetLifeMomentType.Socialization:
-      case PetLifeMomentType.Excursion:
-        return PetLifeMomentTheme.Activity;
-      // Diet
-      case PetLifeMomentType.DietChange:
-      case PetLifeMomentType.SpecialMeal:
-      case PetLifeMomentType.Hydration:
-        return PetLifeMomentTheme.Diet;
-      // Hygiene and Beauty
-      case PetLifeMomentType.GroomingVisit:
-      case PetLifeMomentType.Bath:
-      case PetLifeMomentType.NailCut:
-        return PetLifeMomentTheme.HygieneAndBeauty;
-      // Health
-      case PetLifeMomentType.VeterinaryVisit:
-      case PetLifeMomentType.Vaccination:
-      case PetLifeMomentType.Medication:
-      case PetLifeMomentType.Surgery:
-      case PetLifeMomentType.Illness:
-      case PetLifeMomentType.Discomfort:
-      case PetLifeMomentType.Injury:
-        return PetLifeMomentTheme.Health;
-      // Farewell
-      case PetLifeMomentType.Death:
-      case PetLifeMomentType.Goodbye:
-        return PetLifeMomentTheme.Farewell;
-      default:
-        throw new InvalidPetLifeMomentTypeException(type);
-    }
+    return new PetLifeMoment(
+      id,
+      PetLifeMomentType.fromPrimitives(type),
+      PetLifeMomentTheme.fromPrimitives(theme),
+      petId,
+      createdBy,
+      occurredOn,
+      new StringValueObject(description),
+    );
   }
 
   public getId(): string {
     return this.id;
   }
 
-  public getTheme(): PetLifeMomentTheme {
-    return this.theme;
-  }
-
   public getType(): PetLifeMomentType {
     return this.type;
+  }
+
+  public getTheme(): PetLifeMomentTheme {
+    return this.theme;
   }
 
   public getPetId(): string {
@@ -155,7 +86,7 @@ export class PetLifeMoment {
     return this.occurredOn;
   }
 
-  public getDescription(): string {
+  public getDescription(): StringValueObject {
     return this.description;
   }
 }

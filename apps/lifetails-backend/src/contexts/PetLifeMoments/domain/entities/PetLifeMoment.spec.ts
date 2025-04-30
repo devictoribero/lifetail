@@ -1,8 +1,11 @@
-import { PetLifeMoment, PetLifeMomentTheme, PetLifeMomentType } from './PetLifeMoment';
+import { PetLifeMoment } from './PetLifeMoment';
 import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
 import { fail } from 'node:assert';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
+import { PetLifeMomentType } from './PetLifeMomentType';
+import { PetLifeMomentTheme } from './PetLifeMomentTheme';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 describe('PetLifeMoment Domain Entity', () => {
   let id: string;
@@ -25,7 +28,14 @@ describe('PetLifeMoment Domain Entity', () => {
 
     // Act & Assert
     try {
-      PetLifeMoment.create(id, invalidEventType, petId, createdBy, occurredOn, description);
+      PetLifeMoment.create(
+        id,
+        PetLifeMomentType.create(invalidEventType),
+        petId,
+        createdBy,
+        occurredOn,
+        new StringValueObject(description),
+      );
       fail('Should have thrown InvalidPetLifeMomentTypeException');
     } catch (error) {
       expect(error).toBeInstanceOf(InvalidPetLifeMomentTypeException);
@@ -40,361 +50,386 @@ describe('PetLifeMoment Domain Entity', () => {
     // Act
     const petLifeMoment = PetLifeMoment.create(
       id,
-      eventType,
+      PetLifeMomentType.create(eventType),
       petId,
       createdBy,
       occurredOn,
-      description,
+      new StringValueObject(description),
     );
 
     // Assert
-    expect(petLifeMoment).toBeDefined();
-    expect(petLifeMoment.getId()).toBe(id);
-    expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Anniversary);
-    expect(petLifeMoment.getPetId()).toBe(petId);
-    expect(petLifeMoment.getCreatedBy()).toBe(createdBy);
-    expect(petLifeMoment.getOccurredOn()).toBe(occurredOn);
-    expect(petLifeMoment.getDescription()).toBe(description);
-    expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
+    expect(petLifeMoment).toBeInstanceOf(PetLifeMoment);
   });
 
   describe('Category integrity', () => {
-    it('should create Arrival event with Celebration category', () => {
+    it('should create a PetLifeMoment with Celebration theme when type="Arrival"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Arrival',
+        PetLifeMomentType.create('Arrival'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Arrival);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Arrival.toString());
     });
 
-    it('should create Anniversary event with Celebration category', () => {
+    it('should create a PetLifeMoment with Celebration theme when type="Anniversary"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Anniversary',
+        PetLifeMomentType.create('Anniversary'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Anniversary);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Anniversary.toString());
     });
 
-    it('should create Achievement event with Celebration category', () => {
+    it('should create a PetLifeMoment with Celebration theme when type="Achievement"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Achievement',
+        PetLifeMomentType.create('Achievement'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Achievement);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Achievement.toString());
     });
 
-    it('should create Move event with Celebration category', () => {
+    it('should create a PetLifeMoment with Celebration theme when type="Move"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Move',
+        PetLifeMomentType.create('Move'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Move);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Move.toString());
     });
 
-    it('should create Gift event with Celebration category', () => {
+    it('should create a PetLifeMoment with Celebration theme when type="Gift"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Gift',
+        PetLifeMomentType.create('Gift'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Celebration);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Gift);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Gift.toString());
     });
 
-    it('should create Walk event with Activity category', () => {
+    it('should create a PetLifeMoment with Activity theme when type="Walk"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Walk',
+        PetLifeMomentType.create('Walk'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Walk);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Walk.toString());
     });
 
-    it('should create Exercise event with Activity category', () => {
+    it('should create a PetLifeMoment with Activity theme when type="Exercise"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Exercise',
+        PetLifeMomentType.create('Exercise'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Exercise);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Exercise.toString());
     });
 
-    it('should create Play event with Activity category', () => {
+    it('should create a PetLifeMoment with Activity theme when type="Play"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Play',
+        PetLifeMomentType.create('Play'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Play);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Play.toString());
     });
 
-    it('should create Training event with Activity category', () => {
+    it('should create a PetLifeMoment with Activity theme when type="Training"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Training',
+        PetLifeMomentType.create('Training'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Training);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Training.toString());
     });
 
-    it('should create Socialization event with Activity category', () => {
+    it('should create a PetLifeMoment with Activity theme when type="Socialization"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Socialization',
+        PetLifeMomentType.create('Socialization'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Socialization);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Socialization.toString());
     });
 
-    it('should create Excursion event with Activity category', () => {
+    it('should create a PetLifeMoment with Activity theme when type="Excursion"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Excursion',
+        PetLifeMomentType.create('Excursion'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Activity);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Excursion);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Excursion.toString());
     });
 
-    it('should create DietChange event with Diet category', () => {
+    it('should create a PetLifeMoment with Diet theme when type="DietChange"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'DietChange',
+        PetLifeMomentType.create('DietChange'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Diet);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.DietChange);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Diet.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.DietChange.toString());
     });
 
-    it('should create SpecialMeal event with Diet category', () => {
+    it('should create a PetLifeMoment with Diet theme when type="SpecialMeal"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'SpecialMeal',
+        PetLifeMomentType.create('SpecialMeal'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Diet);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.SpecialMeal);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Diet.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.SpecialMeal.toString());
     });
 
-    it('should create Hydration event with Diet category', () => {
+    it('should create a PetLifeMoment with Diet theme when type="Hydration"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Hydration',
+        PetLifeMomentType.create('Hydration'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Diet);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Hydration);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Diet.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Hydration.toString());
     });
 
-    it('should create GroomingVisit event with HygieneAndBeauty category', () => {
+    it('should create a PetLifeMoment with HygieneAndBeauty theme when type="GroomingVisit"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'GroomingVisit',
+        PetLifeMomentType.create('GroomingVisit'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.HygieneAndBeauty);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.GroomingVisit);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(
+        PetLifeMomentTheme.HygieneAndBeauty.toString(),
+      );
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.GroomingVisit.toString());
     });
 
-    it('should create NailCut event with HygieneAndBeauty category', () => {
+    it('should create a PetLifeMoment with HygieneAndBeauty theme when type="NailCut"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'NailCut',
+        PetLifeMomentType.create('NailCut'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.HygieneAndBeauty);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.NailCut);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(
+        PetLifeMomentTheme.HygieneAndBeauty.toString(),
+      );
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.NailCut.toString());
     });
 
-    it('should create Bath event with HygieneAndBeauty category', () => {
+    it('should create a PetLifeMoment with HygieneAndBeauty theme when type="Bath"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Bath',
+        PetLifeMomentType.create('Bath'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.HygieneAndBeauty);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Bath);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(
+        PetLifeMomentTheme.HygieneAndBeauty.toString(),
+      );
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Bath.toString());
     });
 
-    it('should create VeterinaryVisit event with Health category', () => {
+    it('should create a PetLifeMoment with Health theme when type="VeterinaryVisit"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'VeterinaryVisit',
+        PetLifeMomentType.create('VeterinaryVisit'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.VeterinaryVisit);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.VeterinaryVisit.toString());
     });
 
-    it('should create Vaccination event with Health category', () => {
+    it('should create a PetLifeMoment with Health theme when type="Vaccination"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Vaccination',
+        PetLifeMomentType.create('Vaccination'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Vaccination);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Vaccination.toString());
     });
 
-    it('should create Medication event with Health category', () => {
+    it('should create a PetLifeMoment with Health theme when type="Medication"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Medication',
+        PetLifeMomentType.create('Medication'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Medication);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Medication.toString());
     });
 
-    it('should create Surgery event with Health category', () => {
+    it('should create a PetLifeMoment with Health theme when type="Surgery"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Surgery',
+        PetLifeMomentType.create('Surgery'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Surgery);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Surgery.toString());
     });
 
-    it('should create Illness event with Health category', () => {
+    it('should create a PetLifeMoment with Health theme when type="Illness"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Illness',
+        PetLifeMomentType.create('Illness'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Illness);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Illness.toString());
     });
 
-    it('should create Discomfort event with Health category', () => {
+    it('should create a PetLifeMoment with Health theme when type="Discomfort"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Discomfort',
+        PetLifeMomentType.create('Discomfort'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Discomfort);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Discomfort.toString());
     });
 
-    it('should create Injury event with Health category', () => {
+    it('should create a PetLifeMoment with Health theme when type="Injury"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Injury',
+        PetLifeMomentType.create('Injury'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Health);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Injury);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Injury.toString());
     });
 
-    it('should create Goodbye event with Farewell category', () => {
+    it('should create a PetLifeMoment with Farewell theme when type="Goodbye"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Goodbye',
+        PetLifeMomentType.create('Goodbye'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Farewell);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Goodbye);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Farewell.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Goodbye.toString());
     });
 
-    it('should create Death event with Farewell category', () => {
+    it('should create a PetLifeMoment with Farewell theme when type="Death"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
-        'Death',
+        PetLifeMomentType.create('Death'),
         petId,
         createdBy,
         occurredOn,
-        description,
+        new StringValueObject(description),
       );
-      expect(petLifeMoment.getTheme()).toBe(PetLifeMomentTheme.Farewell);
-      expect(petLifeMoment.getType()).toBe(PetLifeMomentType.Death);
+
+      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Farewell.toString());
+      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Death.toString());
     });
   });
 });
