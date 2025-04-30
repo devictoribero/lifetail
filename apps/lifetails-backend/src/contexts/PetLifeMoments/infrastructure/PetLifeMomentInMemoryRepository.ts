@@ -21,4 +21,12 @@ export class PetLifeMomentInMemoryRepository implements PetLifeMomentRepository 
       moment.isDeleted = true;
     }
   }
+
+  async find(id: string): Promise<PetLifeMoment | null> {
+    const moment = this.moments.get(id);
+    if (moment && !moment.isDeleted) {
+      return moment;
+    }
+    return null;
+  }
 }
