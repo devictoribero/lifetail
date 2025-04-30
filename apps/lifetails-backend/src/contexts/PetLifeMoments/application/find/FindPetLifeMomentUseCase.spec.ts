@@ -18,6 +18,17 @@ describe('FindPetLifeMomentUseCase', () => {
     useCase = new FindPetLifeMomentUseCase(repository);
   });
 
+  it('should throw PetLifeMomentNotFoundException when pet life moment does not exist', async () => {
+    // Arrange
+    const nonExistentId = randomUUID();
+    const query = new FindPetLifeMomentQuery(nonExistentId);
+
+    // Act & Assert
+    await expect(useCase.execute(query)).rejects.toThrow(
+      new PetLifeMomentNotFoundException(nonExistentId),
+    );
+  });
+
   it('should find a pet life moment by id', async () => {
     // Arrange
     const id = randomUUID();
@@ -53,16 +64,5 @@ describe('FindPetLifeMomentUseCase', () => {
     expect(foundMoment.getCreatedBy()).toBe(createdBy);
     expect(foundMoment.getOccurredOn().toISOString()).toBe(occurredOn.toISOString());
     expect(foundMoment.getDescription().toString()).toBe(description);
-  });
-
-  it('should throw PetLifeMomentNotFoundException when pet life moment does not exist', async () => {
-    // Arrange
-    const nonExistentId = randomUUID();
-    const query = new FindPetLifeMomentQuery(nonExistentId);
-
-    // Act & Assert
-    await expect(useCase.execute(query)).rejects.toThrow(
-      new PetLifeMomentNotFoundException(nonExistentId),
-    );
   });
 });

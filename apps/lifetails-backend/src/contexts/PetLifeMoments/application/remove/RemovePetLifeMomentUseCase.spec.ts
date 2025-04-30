@@ -17,6 +17,15 @@ describe('RemovePetLifeMomentUseCase', () => {
     useCase = new RemovePetLifeMomentUseCase(repository);
   });
 
+  it('should not throw an error when removing a non-existent moment', async () => {
+    // Arrange
+    const nonExistentId = randomUUID();
+    const command = new RemovePetLifeMomentCommand(nonExistentId);
+
+    // Act & Assert
+    await expect(useCase.execute(command)).resolves.not.toThrow();
+  });
+
   it('should remove a pet life moment by id', async () => {
     // Arrange
     const id = randomUUID();
@@ -50,14 +59,5 @@ describe('RemovePetLifeMomentUseCase', () => {
     // Verify the pet life moment no longer exists
     const afterRemoval = await repository.find(id);
     expect(afterRemoval).toBeNull();
-  });
-
-  it('should not throw an error when removing a non-existent moment', async () => {
-    // Arrange
-    const nonExistentId = randomUUID();
-    const command = new RemovePetLifeMomentCommand(nonExistentId);
-
-    // Act & Assert
-    await expect(useCase.execute(command)).resolves.not.toThrow();
   });
 });

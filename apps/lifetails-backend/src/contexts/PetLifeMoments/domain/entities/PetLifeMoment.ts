@@ -87,6 +87,18 @@ export class PetLifeMoment extends AggregateRoot {
     return this.description;
   }
 
+  public updateDescription(description: StringValueObject): void {
+    this.description = description;
+  }
+
+  public reschedule(occurredOn: DateValueObject): void {
+    this.occurredOn = occurredOn;
+  }
+
+  public reassignToCat(petId: string): void {
+    this.petId = petId;
+  }
+
   public toPrimitives(): any {
     return {
       id: this.id,
