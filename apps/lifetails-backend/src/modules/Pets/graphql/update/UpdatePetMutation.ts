@@ -15,7 +15,7 @@ export class UpdatePetMutation {
         new UpdatePetCommand(
           input.id,
           input.name,
-          input.gender,
+          input?.gender?.toString(),
           input.chipId,
           input.sterilized,
           input.birthdate,

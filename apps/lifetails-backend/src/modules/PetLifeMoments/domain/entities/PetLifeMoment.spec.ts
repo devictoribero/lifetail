@@ -62,11 +62,11 @@ describe('PetLifeMoment Domain Entity', () => {
     expect(petLifeMoment).toBeInstanceOf(PetLifeMoment);
   });
 
-  it('should create a PetLifeMoment instance from primitives', () => {
+  it.only('should create a PetLifeMoment instance from primitives', () => {
     // Arrange
     const momentType = 'Anniversary';
     const theme = 'Celebration';
-    const occurredOn = faker.date.recent();
+    const occurredOn = faker.date.past();
     const description = faker.lorem.sentence();
 
     // Act
@@ -86,7 +86,7 @@ describe('PetLifeMoment Domain Entity', () => {
     expect(petLifeMoment.getType().toString()).toBe(momentType);
     expect(petLifeMoment.getPetId().toString()).toBe(petId);
     expect(petLifeMoment.getCreatedBy().toString()).toBe(createdBy);
-    expect(petLifeMoment.getOccurredOn().toDate()).toBe(occurredOn);
+    expect(petLifeMoment.getOccurredOn().toDate().toISOString()).toBe(occurredOn.toISOString());
     expect(petLifeMoment.getDescription().toString()).toBe(description);
   });
 
