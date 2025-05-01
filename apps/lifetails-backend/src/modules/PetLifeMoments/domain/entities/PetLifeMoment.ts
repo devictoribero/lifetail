@@ -20,8 +20,10 @@ export class PetLifeMoment extends AggregateRoot {
     createdBy: string,
     occurredOn: DateValueObject,
     description: StringValueObject,
+    createdAt: Date,
+    updatedAt: Date | null,
   ) {
-    super(id);
+    super(id, createdAt, updatedAt);
     this.theme = theme;
     this.type = type;
     this.petId = petId;
@@ -38,8 +40,20 @@ export class PetLifeMoment extends AggregateRoot {
     createdBy: string,
     occurredOn: DateValueObject,
     description: StringValueObject,
+    createdAt: Date = new Date(),
+    updatedAt: Date | null = null,
   ) {
-    return new PetLifeMoment(id, type, type.getTheme(), petId, createdBy, occurredOn, description);
+    return new PetLifeMoment(
+      id,
+      type,
+      type.getTheme(),
+      petId,
+      createdBy,
+      occurredOn,
+      description,
+      createdAt,
+      updatedAt,
+    );
   }
 
   // Use to reconstruct the entity from the database
@@ -51,6 +65,8 @@ export class PetLifeMoment extends AggregateRoot {
     createdBy: string,
     occurredOn: Date,
     description: string,
+    createdAt: Date = new Date(),
+    updatedAt: Date | null = null,
   ) {
     return new PetLifeMoment(
       id,
@@ -60,6 +76,8 @@ export class PetLifeMoment extends AggregateRoot {
       createdBy,
       new DateValueObject(occurredOn),
       new StringValueObject(description),
+      createdAt,
+      updatedAt,
     );
   }
 
@@ -89,14 +107,17 @@ export class PetLifeMoment extends AggregateRoot {
 
   public updateDescription(description: StringValueObject): void {
     this.description = description;
+    this.updatedAt = new Date();
   }
 
   public reschedule(occurredOn: DateValueObject): void {
     this.occurredOn = occurredOn;
+    this.updatedAt = new Date();
   }
 
   public reassignToCat(petId: string): void {
     this.petId = petId;
+    this.updatedAt = new Date();
   }
 
   public toPrimitives(): any {
@@ -108,6 +129,8 @@ export class PetLifeMoment extends AggregateRoot {
       createdBy: this.createdBy,
       occurredOn: this.occurredOn.toDate(),
       description: this.description.toString(),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     };
   }
 }
