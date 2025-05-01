@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddPetInput {
+  birthdate: Date!
+  chipId: String!
+  gender: PetGender!
+  id: String!
+  name: String!
+  sterilized: Boolean!
+}
+
 input AddPetLifeMomentInput {
   createdBy: String!
   description: String!
@@ -15,8 +24,16 @@ type AddPetLifeMomentResponse {
   id: String!
 }
 
+type AddPetResponse {
+  id: String!
+}
+
 """Date custom scalar type"""
 scalar Date
+
+input FindPetInput {
+  id: String!
+}
 
 input FindPetLifeMomentInput {
   id: String!
@@ -28,9 +45,27 @@ type HealthCheckResponse {
 }
 
 type Mutation {
+  addPet(input: AddPetInput!): AddPetResponse!
   addPetLifeMoment(input: AddPetLifeMomentInput!): AddPetLifeMomentResponse!
+  removePet(input: RemovePetInput!): Boolean!
   removePetLifeMoment(input: RemovePetLifeMomentInput!): Boolean!
+  updatePet(input: UpdatePetInput!): UpdatePetResponse!
   updatePetLifeMoment(input: UpdatePetLifeMomentInput!): UpdatePetLifeMomentResponse!
+}
+
+type Pet {
+  birthdate: Date!
+  chipId: String!
+  gender: PetGender!
+  id: String!
+  name: String!
+  sterilized: Boolean!
+}
+
+enum PetGender {
+  Female
+  Male
+  all
 }
 
 type PetLifeMoment {
@@ -85,12 +120,27 @@ enum PetLifeMomentType {
 }
 
 type Query {
+  findPet(input: FindPetInput!): Pet!
   findPetLifeMoment(input: FindPetLifeMomentInput!): PetLifeMoment!
   healthCheck: HealthCheckResponse!
+  searchAllPets: [Pet!]!
+}
+
+input RemovePetInput {
+  id: String!
 }
 
 input RemovePetLifeMomentInput {
   id: String!
+}
+
+input UpdatePetInput {
+  birthdate: Date
+  chipId: String
+  gender: PetGender
+  id: String!
+  name: String
+  sterilized: Boolean
 }
 
 input UpdatePetLifeMomentInput {
@@ -101,5 +151,9 @@ input UpdatePetLifeMomentInput {
 }
 
 type UpdatePetLifeMomentResponse {
+  id: String!
+}
+
+type UpdatePetResponse {
   id: String!
 }

@@ -5,6 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppService } from './app.service';
 import { PetLifeMomentsModule } from 'src/contexts/PetLifeMoments/PetLifeMoments.module';
+import { PetsModule } from 'src/contexts/Pets/Pets.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -19,6 +20,7 @@ import { ConfigModule } from '@nestjs/config';
       sortSchema: true,
     }),
     PetLifeMomentsModule,
+    PetsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
