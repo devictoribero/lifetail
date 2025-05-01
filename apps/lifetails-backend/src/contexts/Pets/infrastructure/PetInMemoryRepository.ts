@@ -44,4 +44,25 @@ export class PetInMemoryRepository implements PetRepository {
       pet.birthdate,
     );
   }
+
+  async findAll(): Promise<Pet[]> {
+    const pets: Pet[] = [];
+
+    for (const pet of this.pets.values()) {
+      if (!pet.isDeleted) {
+        pets.push(
+          Pet.fromPrimitives(
+            pet.id,
+            pet.name,
+            pet.gender,
+            pet.chipId,
+            pet.sterilized,
+            pet.birthdate,
+          ),
+        );
+      }
+    }
+
+    return pets;
+  }
 }
