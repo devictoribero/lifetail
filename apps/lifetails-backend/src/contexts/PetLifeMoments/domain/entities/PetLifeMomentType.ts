@@ -30,6 +30,7 @@ export class PetLifeMomentType extends StringValueObject {
       case 'Gift':
       case 'Move':
         return PetLifeMomentTheme.Celebration;
+      // @todo: Add memories theme
       case 'Walk':
       case 'Exercise':
       case 'Play':
