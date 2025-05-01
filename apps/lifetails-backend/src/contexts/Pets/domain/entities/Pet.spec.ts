@@ -153,11 +153,12 @@ describe('Pet', () => {
   });
 
   describe('mutation methods', () => {
-    it('should update the updatedAt timestamp when renaming', () => {
+    it('can be renamed', () => {
       // Arrange
+      const initialName = faker.animal.cat();
       const pet = Pet.create(
         randomUUID(),
-        new StringValueObject(faker.animal.cat()),
+        new StringValueObject(initialName),
         Math.random() > 0.5 ? PetGender.Male : PetGender.Female,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(faker.datatype.boolean()),
@@ -171,9 +172,10 @@ describe('Pet', () => {
       // Assert
       expect(pet.getUpdatedAt()).not.toBeNull();
       expect(pet.getUpdatedAt() instanceof DateValueObject).toBe(true);
+      expect(pet.getName().toString()).not.toBe(initialName);
     });
 
-    it('should update the updatedAt timestamp when changing gender', () => {
+    it('can change gender', () => {
       // Arrange
       const initialGender = Math.random() > 0.5 ? PetGender.Male : PetGender.Female;
       const newGender = initialGender === PetGender.Male ? PetGender.Female : PetGender.Male;
@@ -197,7 +199,7 @@ describe('Pet', () => {
       expect(pet.getGender()).toBe(newGender);
     });
 
-    it('should update the updatedAt timestamp when changing sterilization status', () => {
+    it('can be sterilized', () => {
       // Arrange
       const pet = Pet.create(
         randomUUID(),
