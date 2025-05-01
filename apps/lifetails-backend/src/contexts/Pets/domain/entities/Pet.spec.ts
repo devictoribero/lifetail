@@ -16,10 +16,9 @@ describe('Pet', () => {
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
       const sterilized = new BooleanValueObject(faker.datatype.boolean());
       const birthdate = new DateValueObject(faker.date.past());
-      const createdAt = new DateValueObject(faker.date.past());
 
       // Act
-      const pet = Pet.create(id, name, gender, chipId, sterilized, birthdate, createdAt);
+      const pet = Pet.create(id, name, gender, chipId, sterilized, birthdate);
 
       // Assert
       expect(pet).toBeDefined();
@@ -29,7 +28,7 @@ describe('Pet', () => {
       expect(pet.getChipId()).toBe(chipId);
       expect(pet.isSterilized()).toBe(sterilized);
       expect(pet.getBirthdate()).toBe(birthdate);
-      expect(pet.getCreatedAt()).toBe(createdAt);
+      expect(pet.getCreatedAt()).toBeDefined();
     });
 
     it('can create a Pet instance without specifying the createAt', () => {

@@ -15,7 +15,8 @@ export class PetLifeMoment extends AggregateRoot {
   private occurredOn: DateValueObject;
   private description: StringValueObject;
 
-  private constructor(
+  // Use for testing purposes only. It should not be used in the domain.
+  constructor(
     id: string,
     type: PetLifeMomentType,
     theme: PetLifeMomentTheme,
@@ -24,18 +25,18 @@ export class PetLifeMoment extends AggregateRoot {
     occurredOn: DateValueObject,
     description: StringValueObject,
     createdAt: DateValueObject,
-    updatedAt: DateValueObject | null,
+    updatedAt: DateValueObject | null = null,
   ) {
     super();
     this.id = id;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
     this.theme = theme;
     this.type = type;
     this.petId = petId;
     this.createdBy = createdBy;
     this.occurredOn = occurredOn;
     this.description = description;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 
   // Use to create the entity from the domain
@@ -46,9 +47,8 @@ export class PetLifeMoment extends AggregateRoot {
     createdBy: string,
     occurredOn: DateValueObject,
     description: StringValueObject,
-    createdAt: DateValueObject = new DateValueObject(new Date()),
-    updatedAt: DateValueObject | null = null,
   ) {
+    const now = new DateValueObject(new Date());
     return new PetLifeMoment(
       id,
       type,
@@ -57,8 +57,7 @@ export class PetLifeMoment extends AggregateRoot {
       createdBy,
       occurredOn,
       description,
-      createdAt,
-      updatedAt,
+      now,
     );
   }
 

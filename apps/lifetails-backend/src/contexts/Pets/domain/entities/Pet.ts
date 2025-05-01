@@ -13,7 +13,8 @@ export class Pet extends AggregateRoot {
   private sterilized: BooleanValueObject;
   private birthdate: DateValueObject;
 
-  private constructor(
+  // Use for testing purposes only. It should not be used in the domain.
+  constructor(
     id: string,
     name: StringValueObject,
     gender: PetGender,
@@ -40,10 +41,9 @@ export class Pet extends AggregateRoot {
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
     birthdate: DateValueObject,
-    // createAt is a parameter for testing purposes
-    createdAt: DateValueObject = new DateValueObject(new Date()),
   ) {
-    return new Pet(id, name, gender, chipId, sterilized, birthdate, createdAt);
+    const now = new DateValueObject(new Date());
+    return new Pet(id, name, gender, chipId, sterilized, birthdate, now);
   }
 
   // Use to reconstruct the entity from the database
