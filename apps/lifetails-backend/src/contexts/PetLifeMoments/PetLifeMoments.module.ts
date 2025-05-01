@@ -4,12 +4,12 @@ import { RemovePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/applicat
 import { UpdatePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
 import { FindPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { AddPetLifeMomentMutation } from '../graphql/contexts/PetLifeMoments/add/AddPetLifeMomentMutation';
-import { RemovePetLifeMomentMutation } from '../graphql/contexts/PetLifeMoments/remove/RemovePetLifeMomentMutation';
-import { UpdatePetLifeMomentMutation } from '../graphql/contexts/PetLifeMoments/update/UpdatePetLifeMomentMutation';
-import { FindPetLifeMoment } from '../graphql/contexts/PetLifeMoments/find/FindPetLifeMomentQuery';
-import { HealthCheckQuery } from '../graphql/contexts/Health/HealthCheckQuery';
-import { DateScalar } from '../graphql/Shared/scalars/DateScalar';
+import { AddPetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/add/AddPetLifeMomentMutation';
+import { RemovePetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/remove/RemovePetLifeMomentMutation';
+import { UpdatePetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/update/UpdatePetLifeMomentMutation';
+import { FindPetLifeMoment } from '../../contexts/PetLifeMoments/graphql/find/FindPetLifeMomentQuery';
+import { HealthCheckQuery } from 'src/server/Health/HealthCheckQuery';
+import { DateScalar } from 'src/server/graphql/Shared/scalars/DateScalar';
 
 const addPetLifeMomentUseCaseProvider = {
   provide: AddPetLifeMomentUseCase,
