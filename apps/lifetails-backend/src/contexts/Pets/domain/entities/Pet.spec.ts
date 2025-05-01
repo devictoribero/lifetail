@@ -16,7 +16,7 @@ describe('Pet', () => {
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
       const sterilized = new BooleanValueObject(faker.datatype.boolean());
       const birthdate = new DateValueObject(faker.date.past());
-      const createdAt = faker.date.recent();
+      const createdAt = new DateValueObject(faker.date.recent());
       const updatedAt = null;
 
       // Act
@@ -49,8 +49,8 @@ describe('Pet', () => {
       const after = new Date();
 
       // Assert
-      expect(pet.getCreatedAt().getTime()).toBeGreaterThanOrEqual(before.getTime());
-      expect(pet.getCreatedAt().getTime()).toBeLessThanOrEqual(after.getTime());
+      expect(pet.getCreatedAt().toDate().getTime()).toBeGreaterThanOrEqual(before.getTime());
+      expect(pet.getCreatedAt().toDate().getTime()).toBeLessThanOrEqual(after.getTime());
       expect(pet.getUpdatedAt()).toBeNull();
     });
   });
@@ -87,7 +87,7 @@ describe('Pet', () => {
       expect(pet.getChipId().toString()).toBe(chipId);
       expect(pet.isSterilized().getValue()).toBe(sterilized);
       expect(pet.getBirthdate().toDate()).toEqual(birthdate);
-      expect(pet.getCreatedAt()).toEqual(createdAt);
+      expect(pet.getCreatedAt().toDate()).toEqual(createdAt);
       expect(pet.getUpdatedAt()).toBeNull();
     });
 
@@ -106,8 +106,8 @@ describe('Pet', () => {
       const after = new Date();
 
       // Assert
-      expect(pet.getCreatedAt().getTime()).toBeGreaterThanOrEqual(before.getTime());
-      expect(pet.getCreatedAt().getTime()).toBeLessThanOrEqual(after.getTime());
+      expect(pet.getCreatedAt().toDate().getTime()).toBeGreaterThanOrEqual(before.getTime());
+      expect(pet.getCreatedAt().toDate().getTime()).toBeLessThanOrEqual(after.getTime());
       expect(pet.getUpdatedAt()).toBeNull();
     });
   });
@@ -146,8 +146,8 @@ describe('Pet', () => {
         chipId,
         sterilized,
         birthdate: new DateValueObject(birthdate).toISOString(),
-        createdAt,
-        updatedAt,
+        createdAt: createdAt,
+        updatedAt: null,
       });
     });
   });
@@ -170,7 +170,7 @@ describe('Pet', () => {
 
       // Assert
       expect(pet.getUpdatedAt()).not.toBeNull();
-      expect(pet.getUpdatedAt() instanceof Date).toBe(true);
+      expect(pet.getUpdatedAt() instanceof DateValueObject).toBe(true);
     });
 
     it('should update the updatedAt timestamp when changing gender', () => {
@@ -193,7 +193,7 @@ describe('Pet', () => {
 
       // Assert
       expect(pet.getUpdatedAt()).not.toBeNull();
-      expect(pet.getUpdatedAt() instanceof Date).toBe(true);
+      expect(pet.getUpdatedAt() instanceof DateValueObject).toBe(true);
       expect(pet.getGender()).toBe(newGender);
     });
 
@@ -214,7 +214,7 @@ describe('Pet', () => {
 
       // Assert
       expect(pet.getUpdatedAt()).not.toBeNull();
-      expect(pet.getUpdatedAt() instanceof Date).toBe(true);
+      expect(pet.getUpdatedAt() instanceof DateValueObject).toBe(true);
       expect(pet.isSterilized().getValue()).toBe(true);
     });
   });

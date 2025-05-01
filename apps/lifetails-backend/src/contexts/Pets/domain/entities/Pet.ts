@@ -18,8 +18,8 @@ export class Pet extends AggregateRoot {
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
     birthdate: DateValueObject,
-    createdAt: Date,
-    updatedAt: Date | null,
+    createdAt: DateValueObject,
+    updatedAt: DateValueObject | null,
   ) {
     super(id, createdAt, updatedAt);
     this.name = name;
@@ -37,8 +37,8 @@ export class Pet extends AggregateRoot {
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
     birthdate: DateValueObject,
-    createdAt: Date = new Date(),
-    updatedAt: Date | null = null,
+    createdAt: DateValueObject = new DateValueObject(new Date()),
+    updatedAt: DateValueObject | null = null,
   ) {
     return new Pet(id, name, gender, chipId, sterilized, birthdate, createdAt, updatedAt);
   }
@@ -61,8 +61,8 @@ export class Pet extends AggregateRoot {
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(birthdate),
-      createdAt,
-      updatedAt,
+      new DateValueObject(createdAt),
+      updatedAt ? new DateValueObject(updatedAt) : null,
     );
   }
 
@@ -94,38 +94,38 @@ export class Pet extends AggregateRoot {
       chipId: this.chipId.toString(),
       sterilized: this.sterilized.getValue(),
       birthdate: this.birthdate.toISOString(),
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+      createdAt: this.createdAt.toDate(),
+      updatedAt: this.updatedAt?.toDate() || null,
     };
   }
 
   public renameTo(name: StringValueObject): void {
     this.name = name;
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public changeGenderTo(gender: PetGender): void {
     this.gender = gender;
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public sterilize(): void {
     this.sterilized = new BooleanValueObject(true);
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public unsterilize(): void {
     this.sterilized = new BooleanValueObject(false);
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public changeChipIdTo(chipId: StringValueObject): void {
     this.chipId = chipId;
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public changeBirthdateTo(birthdate: DateValueObject): void {
     this.birthdate = birthdate;
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 }

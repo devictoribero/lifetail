@@ -1,9 +1,11 @@
+import { DateValueObject } from './DateValueObject';
+
 export abstract class AggregateRoot {
   protected id: string;
-  protected createdAt: Date;
-  protected updatedAt: Date | null;
+  protected createdAt: DateValueObject;
+  protected updatedAt: DateValueObject | null;
 
-  constructor(id: string, createdAt: Date, updatedAt: Date | null) {
+  constructor(id: string, createdAt: DateValueObject, updatedAt: DateValueObject | null) {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
@@ -15,11 +17,11 @@ export abstract class AggregateRoot {
     return this.id;
   }
 
-  public getCreatedAt(): Date {
+  public getCreatedAt(): DateValueObject {
     return this.createdAt;
   }
 
-  public getUpdatedAt(): Date | null {
+  public getUpdatedAt(): DateValueObject | null {
     return this.updatedAt;
   }
 }

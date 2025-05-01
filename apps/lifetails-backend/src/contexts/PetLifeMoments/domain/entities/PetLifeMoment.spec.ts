@@ -81,7 +81,7 @@ describe('PetLifeMoment Domain Entity', () => {
   it('should create a valid PetLifeMoment', () => {
     // Arrange
     const momentType = getRandomMomentType();
-    const createdAt = faker.date.recent();
+    const createdAt = new DateValueObject(faker.date.recent());
     const updatedAt = null;
 
     // Act
@@ -120,8 +120,10 @@ describe('PetLifeMoment Domain Entity', () => {
 
     // Assert
     expect(petLifeMoment).toBeInstanceOf(PetLifeMoment);
-    expect(petLifeMoment.getCreatedAt().getTime()).toBeGreaterThanOrEqual(before.getTime());
-    expect(petLifeMoment.getCreatedAt().getTime()).toBeLessThanOrEqual(after.getTime());
+    expect(petLifeMoment.getCreatedAt().toDate().getTime()).toBeGreaterThanOrEqual(
+      before.getTime(),
+    );
+    expect(petLifeMoment.getCreatedAt().toDate().getTime()).toBeLessThanOrEqual(after.getTime());
     expect(petLifeMoment.getUpdatedAt()).toBeNull();
   });
 
@@ -155,7 +157,7 @@ describe('PetLifeMoment Domain Entity', () => {
     expect(petLifeMoment.getCreatedBy().toString()).toBe(createdBy);
     expect(petLifeMoment.getOccurredOn().toDate().toISOString()).toBe(occurredOn.toISOString());
     expect(petLifeMoment.getDescription().toString()).toBe(description);
-    expect(petLifeMoment.getCreatedAt()).toEqual(createdAt);
+    expect(petLifeMoment.getCreatedAt().toDate()).toEqual(createdAt);
     expect(petLifeMoment.getUpdatedAt()).toBeNull();
   });
 
@@ -181,8 +183,10 @@ describe('PetLifeMoment Domain Entity', () => {
 
     // Assert
     expect(petLifeMoment).toBeInstanceOf(PetLifeMoment);
-    expect(petLifeMoment.getCreatedAt().getTime()).toBeGreaterThanOrEqual(before.getTime());
-    expect(petLifeMoment.getCreatedAt().getTime()).toBeLessThanOrEqual(after.getTime());
+    expect(petLifeMoment.getCreatedAt().toDate().getTime()).toBeGreaterThanOrEqual(
+      before.getTime(),
+    );
+    expect(petLifeMoment.getCreatedAt().toDate().getTime()).toBeLessThanOrEqual(after.getTime());
     expect(petLifeMoment.getUpdatedAt()).toBeNull();
   });
 
@@ -192,7 +196,7 @@ describe('PetLifeMoment Domain Entity', () => {
     const theme = PetLifeMomentType.create(momentType).getTheme().toString();
     const occurredOn = faker.date.recent();
     const description = faker.lorem.sentence();
-    const createdAt = faker.date.recent();
+    const createdAt = new DateValueObject(faker.date.recent());
     const updatedAt = null;
 
     // Act
@@ -216,8 +220,8 @@ describe('PetLifeMoment Domain Entity', () => {
       createdBy,
       occurredOn,
       description,
-      createdAt,
-      updatedAt,
+      createdAt: createdAt.toDate(),
+      updatedAt: null,
     });
   });
 
@@ -241,7 +245,7 @@ describe('PetLifeMoment Domain Entity', () => {
 
       // Assert
       expect(petLifeMoment.getUpdatedAt()).not.toBeNull();
-      expect(petLifeMoment.getUpdatedAt() instanceof Date).toBe(true);
+      expect(petLifeMoment.getUpdatedAt() instanceof DateValueObject).toBe(true);
       expect(petLifeMoment.getDescription().toString()).toBe(newDescription);
     });
 
@@ -264,7 +268,7 @@ describe('PetLifeMoment Domain Entity', () => {
 
       // Assert
       expect(petLifeMoment.getUpdatedAt()).not.toBeNull();
-      expect(petLifeMoment.getUpdatedAt() instanceof Date).toBe(true);
+      expect(petLifeMoment.getUpdatedAt() instanceof DateValueObject).toBe(true);
       expect(petLifeMoment.getOccurredOn().toDate().toISOString()).toBe(newDate.toISOString());
     });
 
@@ -287,7 +291,7 @@ describe('PetLifeMoment Domain Entity', () => {
 
       // Assert
       expect(petLifeMoment.getUpdatedAt()).not.toBeNull();
-      expect(petLifeMoment.getUpdatedAt() instanceof Date).toBe(true);
+      expect(petLifeMoment.getUpdatedAt() instanceof DateValueObject).toBe(true);
       expect(petLifeMoment.getPetId().toString()).toBe(newPetId);
     });
   });

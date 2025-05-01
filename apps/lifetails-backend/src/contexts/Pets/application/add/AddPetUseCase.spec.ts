@@ -2,6 +2,7 @@ import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepositor
 import { AddPetUseCase } from './AddPetUseCase';
 import { AddPetCommand } from './AddPetCommand';
 import { Pet } from '../../domain/entities/Pet';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { randomUUID } from 'node:crypto';
 import { faker } from '@faker-js/faker';
 
@@ -41,6 +42,8 @@ describe('AddPetUseCase', () => {
     expect(savedPet.getChipId().toString()).toBe(chipId);
     expect(savedPet.isSterilized().getValue()).toBe(sterilized);
     expect(savedPet.getBirthdate().toDate().getTime()).toBe(birthdate.getTime());
+    expect(savedPet.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(savedPet.getUpdatedAt()).toBeNull();
   });
 
   it('should create pets with different generated values in each test run', async () => {
@@ -64,5 +67,7 @@ describe('AddPetUseCase', () => {
     expect(saveSpy).toHaveBeenCalledTimes(1);
     const savedPet = saveSpy.mock.calls[0][0] as Pet;
     expect(savedPet).toBeInstanceOf(Pet);
+    expect(savedPet.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(savedPet.getUpdatedAt()).toBeNull();
   });
 });

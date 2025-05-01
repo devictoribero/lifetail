@@ -20,8 +20,8 @@ export class PetLifeMoment extends AggregateRoot {
     createdBy: string,
     occurredOn: DateValueObject,
     description: StringValueObject,
-    createdAt: Date,
-    updatedAt: Date | null,
+    createdAt: DateValueObject,
+    updatedAt: DateValueObject | null,
   ) {
     super(id, createdAt, updatedAt);
     this.theme = theme;
@@ -40,8 +40,8 @@ export class PetLifeMoment extends AggregateRoot {
     createdBy: string,
     occurredOn: DateValueObject,
     description: StringValueObject,
-    createdAt: Date = new Date(),
-    updatedAt: Date | null = null,
+    createdAt: DateValueObject = new DateValueObject(new Date()),
+    updatedAt: DateValueObject | null = null,
   ) {
     return new PetLifeMoment(
       id,
@@ -76,8 +76,8 @@ export class PetLifeMoment extends AggregateRoot {
       createdBy,
       new DateValueObject(occurredOn),
       new StringValueObject(description),
-      createdAt,
-      updatedAt,
+      new DateValueObject(createdAt),
+      updatedAt ? new DateValueObject(updatedAt) : null,
     );
   }
 
@@ -107,17 +107,17 @@ export class PetLifeMoment extends AggregateRoot {
 
   public updateDescription(description: StringValueObject): void {
     this.description = description;
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public reschedule(occurredOn: DateValueObject): void {
     this.occurredOn = occurredOn;
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public reassignToCat(petId: string): void {
     this.petId = petId;
-    this.updatedAt = new Date();
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public toPrimitives(): any {
@@ -129,8 +129,8 @@ export class PetLifeMoment extends AggregateRoot {
       createdBy: this.createdBy,
       occurredOn: this.occurredOn.toDate(),
       description: this.description.toString(),
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
+      createdAt: this.createdAt.toDate(),
+      updatedAt: this.updatedAt?.toDate() || null,
     };
   }
 }
