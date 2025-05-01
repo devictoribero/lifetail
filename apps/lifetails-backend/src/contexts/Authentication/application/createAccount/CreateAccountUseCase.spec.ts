@@ -1,10 +1,10 @@
-import { Account } from '../domain/entities/Account';
-import { AccountRepository } from '../domain/repositories/AccountRepository';
-import { PasswordHasher } from '../domain/services/PasswordHasher';
-import { EmailAlreadyInUseException } from '../domain/exceptions/EmailAlreadyInUseException';
-import { CreateAccountCommand, CreateAccountUseCase } from './CreateAccountUseCase';
+import { Account } from '../../domain/entities/Account';
+import { AccountRepository } from '../../domain/repositories/AccountRepository';
+import { PasswordHasher } from '../../domain/services/PasswordHasher';
+import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { faker } from '@faker-js/faker';
+import { CreateAccountCommand, CreateAccountUseCase } from './CreateAccountUseCase';
 
 describe('CreateAccountUseCase', () => {
   let useCase: CreateAccountUseCase;

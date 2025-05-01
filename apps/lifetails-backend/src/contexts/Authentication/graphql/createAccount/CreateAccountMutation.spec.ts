@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateAccountMutation } from './CreateAccountMutation';
-import { CreateAccountUseCase } from '../../application/CreateAccountUseCase';
+import { CreateAccountUseCase } from '../../application/createAccount/CreateAccountUseCase';
 import { CreateAccountInput } from './CreateAccountInput';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { faker } from '@faker-js/faker';

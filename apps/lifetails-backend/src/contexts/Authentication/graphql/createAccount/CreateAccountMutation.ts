@@ -1,7 +1,10 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CreateAccountResponse } from './CreateAccountResponse';
 import { CreateAccountInput } from './CreateAccountInput';
-import { CreateAccountUseCase, CreateAccountCommand } from '../../application/CreateAccountUseCase';
+import {
+  CreateAccountUseCase,
+  CreateAccountCommand,
+} from '../../application/createAccount/CreateAccountUseCase';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 
 @Resolver()

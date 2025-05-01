@@ -1,8 +1,8 @@
-import { Account } from '../domain/entities/Account';
-import { EmailValueObject } from '../../Shared/domain/EmailValueObject';
-import { AccountRepository } from '../domain/repositories/AccountRepository';
-import { PasswordHasher } from '../domain/services/PasswordHasher';
-import { EmailAlreadyInUseException } from '../domain/exceptions/EmailAlreadyInUseException';
+import { Account } from '../../domain/entities/Account';
+import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
+import { AccountRepository } from '../../domain/repositories/AccountRepository';
+import { PasswordHasher } from '../../domain/services/PasswordHasher';
+import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 
 export class CreateAccountCommand {
   constructor(
