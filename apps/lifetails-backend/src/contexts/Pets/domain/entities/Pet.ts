@@ -5,6 +5,9 @@ import { PetGender } from './PetGender';
 import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 
 export class Pet extends AggregateRoot {
+  private id: string;
+  private createdAt: DateValueObject;
+  private updatedAt: DateValueObject | null;
   private name: StringValueObject;
   private gender: PetGender;
   private chipId: StringValueObject;
@@ -21,7 +24,10 @@ export class Pet extends AggregateRoot {
     createdAt: DateValueObject,
     updatedAt: DateValueObject | null,
   ) {
-    super(id, createdAt, updatedAt);
+    super();
+    this.id = id;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
     this.name = name;
     this.gender = gender;
     this.chipId = chipId;
@@ -64,6 +70,18 @@ export class Pet extends AggregateRoot {
       new DateValueObject(createdAt),
       updatedAt ? new DateValueObject(updatedAt) : null,
     );
+  }
+
+  public getId(): string {
+    return this.id;
+  }
+
+  public getCreatedAt(): DateValueObject {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): DateValueObject | null {
+    return this.updatedAt;
   }
 
   public getName(): StringValueObject {

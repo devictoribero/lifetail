@@ -5,6 +5,9 @@ import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 export class PetLifeMoment extends AggregateRoot {
+  private id: string;
+  private createdAt: DateValueObject;
+  private updatedAt: DateValueObject | null;
   private type: PetLifeMomentType;
   private theme: PetLifeMomentTheme;
   private petId: string;
@@ -23,7 +26,10 @@ export class PetLifeMoment extends AggregateRoot {
     createdAt: DateValueObject,
     updatedAt: DateValueObject | null,
   ) {
-    super(id, createdAt, updatedAt);
+    super();
+    this.id = id;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
     this.theme = theme;
     this.type = type;
     this.petId = petId;
@@ -79,6 +85,18 @@ export class PetLifeMoment extends AggregateRoot {
       new DateValueObject(createdAt),
       updatedAt ? new DateValueObject(updatedAt) : null,
     );
+  }
+
+  public getId(): string {
+    return this.id;
+  }
+
+  public getCreatedAt(): DateValueObject {
+    return this.createdAt;
+  }
+
+  public getUpdatedAt(): DateValueObject | null {
+    return this.updatedAt;
   }
 
   public getType(): PetLifeMomentType {
