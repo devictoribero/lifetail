@@ -7,7 +7,7 @@ import { faker } from '@faker-js/faker';
 import { PetGender } from '../../domain/entities/PetGender';
 
 describe('AddPetMutation', () => {
-  let resolver: AddPetMutation;
+  let mutation: AddPetMutation;
   let useCase: AddPetUseCase;
 
   beforeEach(async () => {
@@ -23,12 +23,12 @@ describe('AddPetMutation', () => {
       ],
     }).compile();
 
-    resolver = module.get<AddPetMutation>(AddPetMutation);
+    mutation = module.get<AddPetMutation>(AddPetMutation);
     useCase = module.get<AddPetUseCase>(AddPetUseCase);
   });
 
   it('should be defined', () => {
-    expect(resolver).toBeDefined();
+    expect(mutation).toBeDefined();
   });
 
   describe('addPet', () => {
@@ -44,7 +44,7 @@ describe('AddPetMutation', () => {
       };
 
       // Act
-      const result = await resolver.addPet(input);
+      const result = await mutation.addPet(input);
 
       // Assert
       expect(useCase.execute).toHaveBeenCalledWith(
@@ -75,7 +75,7 @@ describe('AddPetMutation', () => {
       jest.spyOn(useCase, 'execute').mockRejectedValue(error);
 
       // Act & Assert
-      await expect(resolver.addPet(input)).rejects.toThrow('Invalid input');
+      await expect(mutation.addPet(input)).rejects.toThrow('Invalid input');
     });
 
     it('should handle errors with no message', async () => {
@@ -92,7 +92,7 @@ describe('AddPetMutation', () => {
       jest.spyOn(useCase, 'execute').mockRejectedValue({});
 
       // Act & Assert
-      await expect(resolver.addPet(input)).rejects.toThrow('Error adding pet');
+      await expect(mutation.addPet(input)).rejects.toThrow('Error adding pet');
     });
   });
 });

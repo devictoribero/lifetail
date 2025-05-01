@@ -3,6 +3,8 @@ import { AccountInMemoryRepository } from './infrastructure/AccountInMemoryRepos
 import { PasswordHasher } from './domain/services/PasswordHasher';
 import { CreateAccountUseCase } from './application/createAccount/CreateAccountUseCase';
 import { CreateAccountMutation } from './graphql/createAccount/CreateAccountMutation';
+import { AuthenticateAccountUseCase } from './application/authenticateAccount/AuthenticateAccountUseCase';
+import { AuthenticateAccountMutation } from './graphql/authenticateAccount/AuthenticateAccountMutation';
 
 @Module({
   imports: [],
@@ -20,8 +22,16 @@ import { CreateAccountMutation } from './graphql/createAccount/CreateAccountMuta
       },
       inject: ['AccountRepository', PasswordHasher],
     },
+    {
+      provide: AuthenticateAccountUseCase,
+      useFactory: (repository: AccountInMemoryRepository, hasher: PasswordHasher) => {
+        return new AuthenticateAccountUseCase(repository, hasher);
+      },
+      inject: ['AccountRepository', PasswordHasher],
+    },
     CreateAccountMutation,
+    AuthenticateAccountMutation,
   ],
-  exports: ['AccountRepository', PasswordHasher, CreateAccountUseCase],
+  exports: ['AccountRepository', PasswordHasher, CreateAccountUseCase, AuthenticateAccountUseCase],
 })
 export class AuthenticationModule {}

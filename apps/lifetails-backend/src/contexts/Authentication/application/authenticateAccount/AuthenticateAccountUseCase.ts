@@ -1,0 +1,27 @@
+import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
+import { AccountRepository } from '../../domain/repositories/AccountRepository';
+import { PasswordHasher } from '../../domain/services/PasswordHasher';
+import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
+
+export class AuthenticateAccountUseCase {
+  constructor(
+    private readonly repository: AccountRepository,
+    private readonly hasher: PasswordHasher,
+  ) {}
+
+  async execute(command: AuthenticateAccountCommand): Promise<string> {
+    const account = await this.repository.findByEmail(command.email);
+
+    if (!account) {
+      throw new InvalidCredentialsException();
+    }
+
+    const isPasswordValid = await this.hasher.compare(command.password, account.getPassword());
+
+    if (!isPasswordValid) {
+      throw new InvalidCredentialsException();
+    }
+
+    return account.getId().toString();
+  }
+}
