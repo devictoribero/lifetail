@@ -5,12 +5,12 @@ import { UpdatePetUseCase } from 'src/contexts/Pets/application/update/UpdatePet
 import { FindPetUseCase } from 'src/contexts/Pets/application/find/FindPetUseCase';
 import { SearchAllPetsUseCase } from 'src/contexts/Pets/application/searchAll/SearchAllPetsUseCase';
 import { PetInMemoryRepository } from 'src/contexts/Pets/infrastructure/PetInMemoryRepository';
-import { HealthCheckQuery } from 'src/contexts/Shared/HealthCheckQuery';
 import { AddPetMutation } from 'src/contexts/Pets/graphql/add/AddPetMutation';
 import { RemovePetMutation } from 'src/contexts/Pets/graphql/remove/RemovePetMutation';
 import { UpdatePetMutation } from 'src/contexts/Pets/graphql/update/UpdatePetMutation';
 import { FindPetQuery } from './graphql/find/FindPetQuery';
 import { SearchAllPetsQuery } from './graphql/searchAll/SearchAllPetsQuery';
+import { GraphqlModule } from 'src/contexts/Shared/Graphql.module';
 
 const addPetUseCaseProvider = {
   provide: AddPetUseCase,
@@ -58,7 +58,7 @@ const petRepositoryProvider = {
 };
 
 @Module({
-  imports: [],
+  imports: [GraphqlModule],
   controllers: [],
   providers: [
     petRepositoryProvider,
@@ -72,7 +72,6 @@ const petRepositoryProvider = {
     UpdatePetMutation,
     FindPetQuery,
     SearchAllPetsQuery,
-    HealthCheckQuery,
   ],
   exports: [
     AddPetUseCase,

@@ -4,12 +4,11 @@ import { RemovePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/applicat
 import { UpdatePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
 import { FindPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { HealthCheckQuery } from 'src/contexts/Shared/HealthCheckQuery';
-import { DateScalar } from 'src/contexts/Shared/graphql/DateScalar';
 import { AddPetLifeMomentMutation } from 'src/contexts/PetLifeMoments/graphql/add/AddPetLifeMomentMutation';
 import { RemovePetLifeMomentMutation } from 'src/contexts/PetLifeMoments/graphql/remove/RemovePetLifeMomentMutation';
 import { UpdatePetLifeMomentMutation } from 'src/contexts/PetLifeMoments/graphql/update/UpdatePetLifeMomentMutation';
 import { FindPetLifeMoment } from './graphql/find/FindPetLifeMomentQuery';
+import { GraphqlModule } from 'src/contexts/Shared/Graphql.module';
 
 const addPetLifeMomentUseCaseProvider = {
   provide: AddPetLifeMomentUseCase,
@@ -49,7 +48,7 @@ const petLifeMomentRepositoryProvider = {
 };
 
 @Module({
-  imports: [],
+  imports: [GraphqlModule],
   controllers: [],
   providers: [
     petLifeMomentRepositoryProvider,
@@ -61,8 +60,6 @@ const petLifeMomentRepositoryProvider = {
     RemovePetLifeMomentMutation,
     UpdatePetLifeMomentMutation,
     FindPetLifeMoment,
-    HealthCheckQuery,
-    DateScalar,
   ],
   exports: [
     AddPetLifeMomentUseCase,
