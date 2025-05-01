@@ -12,7 +12,7 @@ registerEnumType(DomainPetLifeMomentType, {
 });
 
 @ObjectType()
-export class PetLifeMomentType {
+export class PetLifeMoment {
   @Field()
   id: string;
 

@@ -1,0 +1,104 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddPetLifeMomentInput {
+  createdBy: String!
+  description: String!
+  id: String!
+  occurredOn: Date!
+  petId: String!
+  type: String!
+}
+
+type AddPetLifeMomentResponse {
+  id: String!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+input FindPetLifeMomentInput {
+  id: String!
+}
+
+type HealthCheckResponse {
+  status: String!
+  timestamp: Date!
+}
+
+type Mutation {
+  addPetLifeMoment(input: AddPetLifeMomentInput!): AddPetLifeMomentResponse!
+  removePetLifeMoment(input: RemovePetLifeMomentInput!): Boolean!
+  updatePetLifeMoment(input: UpdatePetLifeMomentInput!): UpdatePetLifeMomentResponse!
+}
+
+type PetLifeMoment {
+  createdBy: String!
+  description: String!
+  id: String!
+  occurredOn: Date!
+  petId: String!
+  theme: PetLifeMomentTheme!
+  type: PetLifeMomentType!
+}
+
+enum PetLifeMomentTheme {
+  Activity
+  Celebration
+  Diet
+  Farewell
+  Health
+  HygieneAndBeauty
+  types
+}
+
+enum PetLifeMomentType {
+  Achievement
+  Anniversary
+  Arrival
+  Bath
+  Death
+  DietChange
+  Discomfort
+  Excursion
+  Exercise
+  Gift
+  Goodbye
+  GroomingVisit
+  Hydration
+  Illness
+  Injury
+  Medication
+  Move
+  NailCut
+  Play
+  Socialization
+  SpecialMeal
+  Surgery
+  Training
+  Vaccination
+  VeterinaryVisit
+  Walk
+  types
+}
+
+type Query {
+  findPetLifeMoment(input: FindPetLifeMomentInput!): PetLifeMoment!
+  healthCheck: HealthCheckResponse!
+}
+
+input RemovePetLifeMomentInput {
+  id: String!
+}
+
+input UpdatePetLifeMomentInput {
+  description: String
+  id: String!
+  occurredOn: Date
+  petId: String
+}
+
+type UpdatePetLifeMomentResponse {
+  id: String!
+}

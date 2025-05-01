@@ -8,8 +8,8 @@ import { AddPetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/
 import { RemovePetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/remove/RemovePetLifeMomentMutation';
 import { UpdatePetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/update/UpdatePetLifeMomentMutation';
 import { FindPetLifeMoment } from '../../contexts/PetLifeMoments/graphql/find/FindPetLifeMomentQuery';
-import { HealthCheckQuery } from 'src/server/Health/HealthCheckQuery';
-import { DateScalar } from 'src/server/graphql/Shared/scalars/DateScalar';
+import { HealthCheckQuery } from 'src/contexts/Shared/HealthCheckQuery';
+import { DateScalar } from 'src/contexts/Shared/graphql/DateScalar';
 
 const addPetLifeMomentUseCaseProvider = {
   provide: AddPetLifeMomentUseCase,

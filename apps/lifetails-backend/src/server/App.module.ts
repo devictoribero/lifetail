@@ -15,7 +15,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/server/graphql/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/server/schema.gql'),
       sortSchema: true,
     }),
     PetLifeMomentsModule,
