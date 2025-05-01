@@ -1,4 +1,3 @@
-import { ValueObject } from 'src/contexts/Shared/domain/ValueObject';
 import { InvalidPetLifeThemeException } from '../exceptions/InvalidPetLifeThemeException';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
@@ -16,14 +15,16 @@ export class PetLifeMomentTheme extends StringValueObject {
   }
 
   public static readonly Celebration = new PetLifeMomentTheme('Celebration');
-  public static readonly Health = new PetLifeMomentTheme('Health');
-  public static readonly Diet = new PetLifeMomentTheme('Diet');
+  public static readonly Memories = new PetLifeMomentTheme('Memories');
   public static readonly Activity = new PetLifeMomentTheme('Activity');
+  public static readonly Diet = new PetLifeMomentTheme('Diet');
   public static readonly HygieneAndBeauty = new PetLifeMomentTheme('Hygiene and Beauty');
+  public static readonly Health = new PetLifeMomentTheme('Health');
   public static readonly Farewell = new PetLifeMomentTheme('Farewell');
 
   public static readonly types = [
     PetLifeMomentTheme.Celebration,
+    PetLifeMomentTheme.Memories,
     PetLifeMomentTheme.Health,
     PetLifeMomentTheme.Diet,
     PetLifeMomentTheme.Activity,
