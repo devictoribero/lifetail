@@ -40,11 +40,11 @@ export class PetLifeMomentType extends StringValueObject {
       case 'DietChange':
       case 'SpecialMeal':
       case 'Hydration':
-        return PetLifeMomentTheme.Diet;
+        return PetLifeMomentTheme.DeliciousMoments;
       case 'GroomingVisit':
       case 'NailCut':
       case 'Bath':
-        return PetLifeMomentTheme.HygieneAndBeauty;
+        return PetLifeMomentTheme.GroomingAndCare;
       case 'VeterinaryVisit':
       case 'Vaccination':
       case 'Medication':
@@ -52,7 +52,7 @@ export class PetLifeMomentType extends StringValueObject {
       case 'Illness':
       case 'Discomfort':
       case 'Injury':
-        return PetLifeMomentTheme.Health;
+        return PetLifeMomentTheme.Wellness;
       case 'Goodbye':
       case 'Death':
         return PetLifeMomentTheme.Farewell;

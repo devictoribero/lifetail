@@ -305,8 +305,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Arrival.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Celebration');
+      expect(petLifeMoment.getType().toString()).toBe('Arrival');
     });
 
     it('should have theme="Celebration" when type="Anniversary"', () => {
@@ -319,8 +319,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Anniversary.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Celebration');
+      expect(petLifeMoment.getType().toString()).toBe('Anniversary');
     });
 
     it('should have theme="Celebration" when type="Achievement"', () => {
@@ -333,8 +333,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Achievement.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Celebration');
+      expect(petLifeMoment.getType().toString()).toBe('Achievement');
     });
 
     it('should have theme="Celebration" when type="Move"', () => {
@@ -347,8 +347,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Move.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Celebration');
+      expect(petLifeMoment.getType().toString()).toBe('Move');
     });
 
     it('should have theme="Celebration" when type="Gift"', () => {
@@ -361,8 +361,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Celebration.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Gift.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Celebration');
+      expect(petLifeMoment.getType().toString()).toBe('Gift');
     });
 
     it('should have theme="Activity" when type="Walk"', () => {
@@ -375,8 +375,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Walk.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Activity');
+      expect(petLifeMoment.getType().toString()).toBe('Walk');
     });
 
     it('should have theme="Activity" when type="Exercise"', () => {
@@ -389,8 +389,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Exercise.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Activity');
+      expect(petLifeMoment.getType().toString()).toBe('Exercise');
     });
 
     it('should have theme="Activity" when type="Play"', () => {
@@ -403,8 +403,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Play.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Activity');
+      expect(petLifeMoment.getType().toString()).toBe('Play');
     });
 
     it('should have theme="Activity" when type="Training"', () => {
@@ -417,8 +417,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Training.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Activity');
+      expect(petLifeMoment.getType().toString()).toBe('Training');
     });
 
     it('should have theme="Activity" when type="Socialization"', () => {
@@ -431,8 +431,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Socialization.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Activity');
+      expect(petLifeMoment.getType().toString()).toBe('Socialization');
     });
 
     it('should have theme="Activity" when type="Excursion"', () => {
@@ -445,11 +445,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Activity.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Excursion.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Activity');
+      expect(petLifeMoment.getType().toString()).toBe('Excursion');
     });
 
-    it('should have theme="Diet" when type="DietChange"', () => {
+    it('should have theme="DeliciousMoments" when type="DietChange"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('DietChange'),
@@ -459,11 +459,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Diet.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.DietChange.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('DeliciousMoments');
+      expect(petLifeMoment.getType().toString()).toBe('DietChange');
     });
 
-    it('should have theme="Diet" when type="SpecialMeal"', () => {
+    it('should have theme="DeliciousMoments" when type="SpecialMeal"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('SpecialMeal'),
@@ -473,11 +473,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Diet.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.SpecialMeal.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('DeliciousMoments');
+      expect(petLifeMoment.getType().toString()).toBe('SpecialMeal');
     });
 
-    it('should have theme="Diet" when type="Hydration"', () => {
+    it('should have theme="DeliciousMoments" when type="Hydration"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Hydration'),
@@ -487,11 +487,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Diet.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Hydration.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('DeliciousMoments');
+      expect(petLifeMoment.getType().toString()).toBe('Hydration');
     });
 
-    it('should have theme="HygieneAndBeauty" when type="GroomingVisit"', () => {
+    it('should have theme="GroomingAndCare" when type="GroomingVisit"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('GroomingVisit'),
@@ -501,13 +501,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(
-        PetLifeMomentTheme.HygieneAndBeauty.toString(),
-      );
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.GroomingVisit.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('GroomingAndCare');
+      expect(petLifeMoment.getType().toString()).toBe('GroomingVisit');
     });
 
-    it('should have theme="HygieneAndBeauty" when type="NailCut"', () => {
+    it('should have theme="GroomingAndCare" when type="NailCut"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('NailCut'),
@@ -517,13 +515,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(
-        PetLifeMomentTheme.HygieneAndBeauty.toString(),
-      );
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.NailCut.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('GroomingAndCare');
+      expect(petLifeMoment.getType().toString()).toBe('NailCut');
     });
 
-    it('should have theme="HygieneAndBeauty" when type="Bath"', () => {
+    it('should have theme="GroomingAndCare" when type="Bath"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Bath'),
@@ -533,13 +529,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(
-        PetLifeMomentTheme.HygieneAndBeauty.toString(),
-      );
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Bath.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('GroomingAndCare');
+      expect(petLifeMoment.getType().toString()).toBe('Bath');
     });
 
-    it('should have theme="Health" when type="VeterinaryVisit"', () => {
+    it('should have theme="Wellness" when type="VeterinaryVisit"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('VeterinaryVisit'),
@@ -549,11 +543,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.VeterinaryVisit.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Wellness');
+      expect(petLifeMoment.getType().toString()).toBe('VeterinaryVisit');
     });
 
-    it('should have theme="Health" when type="Vaccination"', () => {
+    it('should have theme="Wellness" when type="Vaccination"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Vaccination'),
@@ -563,11 +557,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Vaccination.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Wellness');
+      expect(petLifeMoment.getType().toString()).toBe('Vaccination');
     });
 
-    it('should have theme="Health" when type="Medication"', () => {
+    it('should have theme="Wellness" when type="Medication"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Medication'),
@@ -577,11 +571,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Medication.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Wellness');
+      expect(petLifeMoment.getType().toString()).toBe('Medication');
     });
 
-    it('should have theme="Health" when type="Surgery"', () => {
+    it('should have theme="Wellness" when type="Surgery"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Surgery'),
@@ -591,11 +585,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Surgery.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Wellness');
+      expect(petLifeMoment.getType().toString()).toBe('Surgery');
     });
 
-    it('should have theme="Health" when type="Illness"', () => {
+    it('should have theme="Wellness" when type="Illness"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Illness'),
@@ -605,11 +599,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Illness.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Wellness');
+      expect(petLifeMoment.getType().toString()).toBe('Illness');
     });
 
-    it('should have theme="Health" when type="Discomfort"', () => {
+    it('should have theme="Wellness" when type="Discomfort"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Discomfort'),
@@ -619,11 +613,11 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Discomfort.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Wellness');
+      expect(petLifeMoment.getType().toString()).toBe('Discomfort');
     });
 
-    it('should have theme="Health" when type="Injury"', () => {
+    it('should have theme="Wellness" when type="Injury"', () => {
       const petLifeMoment = PetLifeMoment.create(
         id,
         PetLifeMomentType.create('Injury'),
@@ -633,8 +627,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Health.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Injury.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Wellness');
+      expect(petLifeMoment.getType().toString()).toBe('Injury');
     });
 
     it('should have theme="Farewell" when type="Goodbye"', () => {
@@ -647,8 +641,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Farewell.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Goodbye.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Farewell');
+      expect(petLifeMoment.getType().toString()).toBe('Goodbye');
     });
 
     it('should have theme="Farewell" when type="Death"', () => {
@@ -661,8 +655,8 @@ describe('PetLifeMoment Domain Entity', () => {
         new StringValueObject(description),
       );
 
-      expect(petLifeMoment.getTheme().toString()).toBe(PetLifeMomentTheme.Farewell.toString());
-      expect(petLifeMoment.getType().toString()).toBe(PetLifeMomentType.Death.toString());
+      expect(petLifeMoment.getTheme().toString()).toBe('Farewell');
+      expect(petLifeMoment.getType().toString()).toBe('Death');
     });
   });
 });

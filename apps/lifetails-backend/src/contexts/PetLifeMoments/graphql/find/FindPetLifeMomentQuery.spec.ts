@@ -45,7 +45,7 @@ describe('FindPetLifeMoment', () => {
       const mockPetLifeMoment = createMockPetLifeMoment(
         id,
         'VeterinaryVisit',
-        'Health',
+        'Wellness',
         randomUUID(),
         randomUUID(),
         mockDate,

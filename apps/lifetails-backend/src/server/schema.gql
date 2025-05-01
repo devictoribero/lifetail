@@ -46,10 +46,11 @@ type PetLifeMoment {
 enum PetLifeMomentTheme {
   Activity
   Celebration
-  Diet
+  DeliciousMoments
   Farewell
-  Health
-  HygieneAndBeauty
+  GroomingAndCare
+  Memories
+  Wellness
   types
 }
 

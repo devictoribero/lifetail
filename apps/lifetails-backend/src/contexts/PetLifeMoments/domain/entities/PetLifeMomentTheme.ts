@@ -33,17 +33,17 @@ export class PetLifeMomentTheme extends StringValueObject {
    * Track the meals that shape a pet's journey, from healthy eating habits to
    * special treats that show care and affection.
    */
-  public static readonly Diet = new PetLifeMomentTheme('Diet');
+  public static readonly DeliciousMoments = new PetLifeMomentTheme('DeliciousMoments');
   /*
    * Document the moments of pampering and care that make a pet look and feel their
    * best, from grooming visits to daily maintenance.
    */
-  public static readonly HygieneAndBeauty = new PetLifeMomentTheme('Hygiene and Beauty');
+  public static readonly GroomingAndCare = new PetLifeMomentTheme('GroomingAndCare');
   /*
    * Keep track of all health-related moments, from veterinary visits to illness
    * and recovery, marking the important moments in a pet’s well-being journey.
    */
-  public static readonly Health = new PetLifeMomentTheme('Health');
+  public static readonly Wellness = new PetLifeMomentTheme('Wellness');
   /*
    * Saying goodbye is one of the hardest moments in a pet’s journey, but their
    * memory continues to live on in the heart.
@@ -53,10 +53,10 @@ export class PetLifeMomentTheme extends StringValueObject {
   public static readonly types = [
     PetLifeMomentTheme.Celebration,
     PetLifeMomentTheme.Memories,
-    PetLifeMomentTheme.Health,
-    PetLifeMomentTheme.Diet,
+    PetLifeMomentTheme.DeliciousMoments,
     PetLifeMomentTheme.Activity,
-    PetLifeMomentTheme.HygieneAndBeauty,
+    PetLifeMomentTheme.GroomingAndCare,
+    PetLifeMomentTheme.Wellness,
     PetLifeMomentTheme.Farewell,
   ];
 }

@@ -59,7 +59,7 @@ describe('FindPetLifeMomentUseCase', () => {
     expect(foundMoment).toBeInstanceOf(PetLifeMoment);
     expect(foundMoment.getId()).toBe(id);
     expect(foundMoment.getType().toString()).toBe(type);
-    expect(foundMoment.getTheme().toString()).toBe('Health');
+    expect(foundMoment.getTheme().toString()).toBe('Wellness');
     expect(foundMoment.getPetId()).toBe(petId);
     expect(foundMoment.getCreatedBy()).toBe(createdBy);
     expect(foundMoment.getOccurredOn().toISOString()).toBe(occurredOn.toISOString());
