@@ -26,7 +26,7 @@ describe('RemovePetLifeMomentUseCase', () => {
     await expect(useCase.execute(command)).rejects.toThrow(PetLifeMomentNotFoundException);
   });
 
-  it('should remove a pet life moment by id', async () => {
+  it('should remove a pet life moment', async () => {
     // Arrange
     const id = randomUUID();
     const type = 'VeterinaryVisit';

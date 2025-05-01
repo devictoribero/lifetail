@@ -23,7 +23,7 @@ describe('SearchAllPetsUseCase', () => {
     expect(result).toEqual([]);
   });
 
-  it('should find all non-deleted pets', async () => {
+  it('should search all pets', async () => {
     // Create pets
     const pet1 = Pet.create(
       'pet-1',

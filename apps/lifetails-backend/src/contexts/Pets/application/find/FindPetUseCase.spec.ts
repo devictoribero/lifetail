@@ -28,7 +28,7 @@ describe('FindPetUseCase', () => {
     await expect(useCase.execute(query)).rejects.toThrow(new PetNotFoundException(nonExistentId));
   });
 
-  it.only('should find a pet by id', async () => {
+  it('should find a pet', async () => {
     // Arrange
     const id = randomUUID();
     const name = faker.animal.cat();

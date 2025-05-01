@@ -29,7 +29,7 @@ describe('FindPetLifeMomentUseCase', () => {
     );
   });
 
-  it('should find a pet life moment by id', async () => {
+  it('should find a pet life moment', async () => {
     // Arrange
     const id = randomUUID();
     const type = 'VeterinaryVisit';

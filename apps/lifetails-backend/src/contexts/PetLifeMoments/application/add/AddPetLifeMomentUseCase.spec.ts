@@ -14,7 +14,7 @@ describe('AddPetLifeMomentUseCase', () => {
     useCase = new AddPetLifeMomentUseCase(repository);
   });
 
-  it('should create and save a pet life moment', async () => {
+  it('should add a pet life moment', async () => {
     // Arrange
     const saveSpy = jest.spyOn(repository, 'save');
     const id = randomUUID();

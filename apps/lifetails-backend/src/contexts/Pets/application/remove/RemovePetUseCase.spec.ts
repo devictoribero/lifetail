@@ -27,7 +27,7 @@ describe('RemovePetUseCase', () => {
     await expect(useCase.execute(command)).rejects.toThrow(PetNotFoundException);
   });
 
-  it('should remove a pet by id', async () => {
+  it('should remove a pet', async () => {
     // Arrange
     const id = randomUUID();
     const name = faker.animal.cat();

@@ -18,9 +18,9 @@ export class CreateAccountUseCase {
   ) {}
 
   async execute(command: CreateAccountCommand): Promise<void> {
-    const existing = await this.repository.findByEmail(command.email);
+    const existingAccount = await this.repository.findByEmail(command.email);
 
-    if (existing) {
+    if (existingAccount) {
       throw new EmailAlreadyInUseException();
     }
 

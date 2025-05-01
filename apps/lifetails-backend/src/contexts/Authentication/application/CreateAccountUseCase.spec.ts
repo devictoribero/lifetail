@@ -40,7 +40,7 @@ describe('CreateAccountUseCase', () => {
     expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
   });
 
-  it('should create a new account when email is not in use', async () => {
+  it('should create a new account', async () => {
     // Arrange
     const email = faker.internet.email();
     const password = faker.internet.password();
