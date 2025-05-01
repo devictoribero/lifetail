@@ -6,6 +6,6 @@ export class StringValueObject extends ValueObject<string> {
   }
 
   public equals(other: StringValueObject): boolean {
-    return this.value === other.value;
+    return this.value.toString() === other.value.toString();
   }
 }

@@ -9,6 +9,7 @@ interface InMemoryPet {
   chipId: string;
   sterilized: boolean;
   birthdate: Date;
+  createdAt: Date;
 }
 
 export class PetInMemoryRepository implements PetRepository {
@@ -42,6 +43,7 @@ export class PetInMemoryRepository implements PetRepository {
       pet.chipId,
       pet.sterilized,
       pet.birthdate,
+      pet.createdAt,
     );
   }
 
@@ -58,6 +60,7 @@ export class PetInMemoryRepository implements PetRepository {
             pet.chipId,
             pet.sterilized,
             pet.birthdate,
+            pet.createdAt,
           ),
         );
       }

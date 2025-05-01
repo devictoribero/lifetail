@@ -17,8 +17,9 @@ const createMockPet = (
   chipId: string,
   sterilized: boolean,
   birthdate: Date,
+  createdAt: Date,
 ): Pet => {
-  return Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthdate);
+  return Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthdate, createdAt);
 };
 
 describe('FindPetQuery', () => {
@@ -57,6 +58,7 @@ describe('FindPetQuery', () => {
       const mockChipId = faker.string.alphanumeric(10);
       const mockSterilized = faker.datatype.boolean();
       const mockBirthdate = faker.date.past();
+      const mockCreatedAt = faker.date.past();
 
       const mockPet = createMockPet(
         id,
@@ -65,6 +67,7 @@ describe('FindPetQuery', () => {
         mockChipId,
         mockSterilized,
         mockBirthdate,
+        mockCreatedAt,
       );
 
       jest.spyOn(useCase, 'execute').mockResolvedValue(mockPet);

@@ -12,8 +12,9 @@ const createMockPet = (
   chipId: string,
   sterilized: boolean,
   birthdate: Date,
+  createdAt: Date,
 ): Pet => {
-  return Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthdate);
+  return Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthdate, createdAt);
 };
 
 describe('SearchAllPetsQuery', () => {
@@ -52,6 +53,7 @@ describe('SearchAllPetsQuery', () => {
           faker.string.alphanumeric(10),
           faker.datatype.boolean(),
           faker.date.past(),
+          faker.date.past(),
         ),
         createMockPet(
           randomUUID(),
@@ -59,6 +61,7 @@ describe('SearchAllPetsQuery', () => {
           'Female',
           faker.string.alphanumeric(10),
           faker.datatype.boolean(),
+          faker.date.past(),
           faker.date.past(),
         ),
       ];

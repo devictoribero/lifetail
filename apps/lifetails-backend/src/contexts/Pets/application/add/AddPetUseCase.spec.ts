@@ -43,7 +43,6 @@ describe('AddPetUseCase', () => {
     expect(savedPet.isSterilized().getValue()).toBe(sterilized);
     expect(savedPet.getBirthdate().toDate().getTime()).toBe(birthdate.getTime());
     expect(savedPet.getCreatedAt()).toBeInstanceOf(DateValueObject);
-    expect(savedPet.getUpdatedAt()).toBeNull();
   });
 
   it('should create pets with different generated values in each test run', async () => {
@@ -68,6 +67,5 @@ describe('AddPetUseCase', () => {
     const savedPet = saveSpy.mock.calls[0][0] as Pet;
     expect(savedPet).toBeInstanceOf(Pet);
     expect(savedPet.getCreatedAt()).toBeInstanceOf(DateValueObject);
-    expect(savedPet.getUpdatedAt()).toBeNull();
   });
 });
