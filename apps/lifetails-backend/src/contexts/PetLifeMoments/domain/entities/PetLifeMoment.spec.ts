@@ -46,12 +46,12 @@ describe('PetLifeMoment Domain Entity', () => {
 
   it('should create a valid PetLifeMoment', () => {
     // Arrange
-    const eventType = 'Anniversary';
+    const momentType = 'Anniversary';
 
     // Act
     const petLifeMoment = PetLifeMoment.create(
       id,
-      PetLifeMomentType.create(eventType),
+      PetLifeMomentType.create(momentType),
       petId,
       createdBy,
       new DateValueObject(occurredOn),
@@ -60,6 +60,63 @@ describe('PetLifeMoment Domain Entity', () => {
 
     // Assert
     expect(petLifeMoment).toBeInstanceOf(PetLifeMoment);
+  });
+
+  it('should create a PetLifeMoment instance from primitives', () => {
+    // Arrange
+    const momentType = 'Anniversary';
+    const theme = 'Celebration';
+    const occurredOn = faker.date.recent();
+    const description = faker.lorem.sentence();
+
+    // Act
+    const petLifeMoment = PetLifeMoment.fromPrimitives(
+      id,
+      momentType,
+      theme,
+      petId,
+      createdBy,
+      occurredOn,
+      description,
+    );
+
+    // Assert
+    expect(petLifeMoment).toBeInstanceOf(PetLifeMoment);
+    expect(petLifeMoment.getId()).toBe(id);
+    expect(petLifeMoment.getType().toString()).toBe(momentType);
+    expect(petLifeMoment.getPetId().toString()).toBe(petId);
+    expect(petLifeMoment.getCreatedBy().toString()).toBe(createdBy);
+    expect(petLifeMoment.getOccurredOn().toDate()).toBe(occurredOn);
+    expect(petLifeMoment.getDescription().toString()).toBe(description);
+  });
+
+  it('should convert PetLifeMoment to primitives', () => {
+    // Arrange
+    const momentType = 'Anniversary';
+    const theme = 'Celebration';
+    const occurredOn = faker.date.recent();
+    const description = faker.lorem.sentence();
+
+    // Act
+    const petLifeMoment = PetLifeMoment.create(
+      id,
+      PetLifeMomentType.create(momentType),
+      petId,
+      createdBy,
+      new DateValueObject(occurredOn),
+      new StringValueObject(description),
+    );
+
+    // Assert
+    expect(petLifeMoment.toPrimitives()).toEqual({
+      id,
+      type: momentType,
+      theme,
+      petId,
+      createdBy,
+      occurredOn,
+      description,
+    });
   });
 
   describe('Category integrity', () => {

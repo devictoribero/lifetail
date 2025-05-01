@@ -106,7 +106,7 @@ export class PetLifeMoment extends AggregateRoot {
       theme: this.theme.toString(),
       petId: this.petId,
       createdBy: this.createdBy,
-      occurredOn: this.occurredOn.toISOString(),
+      occurredOn: this.occurredOn.toDate(),
       description: this.description.toString(),
     };
   }
