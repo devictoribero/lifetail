@@ -4,7 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { AppService } from './app.service';
-import { PetLifeMomentsModule } from 'src/modules/PetLifeMoments/PetLifeMoments.module';
+import { PetLifeMomentsModule } from 'src/contexts/PetLifeMoments/PetLifeMoments.module';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
