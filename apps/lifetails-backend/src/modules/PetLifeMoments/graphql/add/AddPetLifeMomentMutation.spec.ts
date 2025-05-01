@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AddPetLifeMomentMutation } from './AddPetLifeMomentMutation';
-import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
 import { AddPetLifeMomentInput } from './AddPetLifeMomentInput';
 import { randomUUID } from 'crypto';
 

@@ -5,8 +5,8 @@ import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { PetLifeMomentType } from './PetLifeMomentType';
 import { PetLifeMomentTheme } from './PetLifeMomentTheme';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 
 describe('PetLifeMoment Domain Entity', () => {
   let id: string;

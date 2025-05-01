@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
-import { RemovePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
-import { UpdatePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
-import { FindPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
-import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { AddPetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/add/AddPetLifeMomentMutation';
-import { RemovePetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/remove/RemovePetLifeMomentMutation';
-import { UpdatePetLifeMomentMutation } from '../../contexts/PetLifeMoments/graphql/update/UpdatePetLifeMomentMutation';
-import { FindPetLifeMoment } from '../../contexts/PetLifeMoments/graphql/find/FindPetLifeMomentQuery';
-import { HealthCheckQuery } from 'src/contexts/Shared/HealthCheckQuery';
-import { DateScalar } from 'src/contexts/Shared/graphql/DateScalar';
+import { AddPetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { RemovePetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
+import { UpdatePetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
+import { FindPetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
+import { PetLifeMomentInMemoryRepository } from 'src/modules/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
+import { HealthCheckQuery } from 'src/modules/Shared/HealthCheckQuery';
+import { DateScalar } from 'src/modules/Shared/graphql/DateScalar';
+import { AddPetLifeMomentMutation } from 'src/modules/PetLifeMoments/graphql/add/AddPetLifeMomentMutation';
+import { RemovePetLifeMomentMutation } from 'src/modules/PetLifeMoments/graphql/remove/RemovePetLifeMomentMutation';
+import { UpdatePetLifeMomentMutation } from 'src/modules/PetLifeMoments/graphql/update/UpdatePetLifeMomentMutation';
+import { FindPetLifeMoment } from './graphql/find/FindPetLifeMomentQuery';
 
 const addPetLifeMomentUseCaseProvider = {
   provide: AddPetLifeMomentUseCase,

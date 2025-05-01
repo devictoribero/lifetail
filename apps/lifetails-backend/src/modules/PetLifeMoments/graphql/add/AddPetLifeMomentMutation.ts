@@ -1,8 +1,8 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AddPetLifeMomentResponse } from './AddPetLifeMomentResponse';
 import { AddPetLifeMomentInput } from './AddPetLifeMomentInput';
-import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
-import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
+import { AddPetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/modules/PetLifeMoments/application/add/AddPetLifeMomentCommand';
 
 @Resolver()
 export class AddPetLifeMomentMutation {

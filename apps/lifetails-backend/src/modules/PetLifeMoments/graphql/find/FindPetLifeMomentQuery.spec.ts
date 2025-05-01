@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FindPetLifeMoment } from './FindPetLifeMomentQuery';
-import { FindPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
+import { FindPetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
 import { FindPetLifeMomentInput } from './FindPetLifeMomentInput';
 import { randomUUID } from 'crypto';
-import { PetLifeMoment } from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMoment';
-import { PetLifeMomentType } from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMomentType';
-import { PetLifeMomentTheme } from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMomentTheme';
-import { PetLifeMomentNotFoundException } from 'src/contexts/PetLifeMoments/domain/exceptions/PetLifeMomentNotFoundException';
+import { PetLifeMoment } from 'src/modules/PetLifeMoments/domain/entities/PetLifeMoment';
+import { PetLifeMomentType } from 'src/modules/PetLifeMoments/domain/entities/PetLifeMomentType';
+import { PetLifeMomentTheme } from 'src/modules/PetLifeMoments/domain/entities/PetLifeMomentTheme';
+import { PetLifeMomentNotFoundException } from 'src/modules/PetLifeMoments/domain/exceptions/PetLifeMomentNotFoundException';
 import { faker } from '@faker-js/faker';
 
 describe('FindPetLifeMoment', () => {

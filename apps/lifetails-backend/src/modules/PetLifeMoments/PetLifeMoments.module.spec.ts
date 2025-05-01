@@ -1,18 +1,18 @@
 import { Test } from '@nestjs/testing';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
-import { PetLifeMomentsModule } from 'src/contexts/PetLifeMoments/PetLifeMoments.module';
-import { PetLifeMomentInMemoryRepository } from 'src/contexts/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
-import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
-import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
-import { UpdatePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
-import { UpdatePetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/update/UpdatePetLifeMomentCommand';
-import { FindPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
-import { FindPetLifeMomentQuery } from 'src/contexts/PetLifeMoments/application/find/FindPetLifeMomentQuery';
-import { PetLifeMoment } from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMoment';
-import { PetLifeMomentType } from 'src/contexts/PetLifeMoments/domain/entities/PetLifeMomentType';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { PetLifeMomentsModule } from 'src/modules/PetLifeMoments/PetLifeMoments.module';
+import { PetLifeMomentInMemoryRepository } from 'src/modules/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
+import { AddPetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/modules/PetLifeMoments/application/add/AddPetLifeMomentCommand';
+import { UpdatePetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
+import { UpdatePetLifeMomentCommand } from 'src/modules/PetLifeMoments/application/update/UpdatePetLifeMomentCommand';
+import { FindPetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
+import { FindPetLifeMomentQuery } from 'src/modules/PetLifeMoments/application/find/FindPetLifeMomentQuery';
+import { PetLifeMoment } from 'src/modules/PetLifeMoments/domain/entities/PetLifeMoment';
+import { PetLifeMomentType } from 'src/modules/PetLifeMoments/domain/entities/PetLifeMomentType';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 
 describe('PetLifeMomentsModule', () => {
   let id: string;

@@ -1,4 +1,4 @@
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
 import { InvalidPetGenderException } from '../exceptions/InvalidPetGenderException';
 
 export class PetGender extends StringValueObject {

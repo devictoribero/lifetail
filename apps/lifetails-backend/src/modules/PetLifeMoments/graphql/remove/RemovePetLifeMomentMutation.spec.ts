@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RemovePetLifeMomentMutation } from './RemovePetLifeMomentMutation';
 import { randomUUID } from 'crypto';
-import { RemovePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
+import { RemovePetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
 import { RemovePetLifeMomentInput } from './RemovePetLifeMomentInput';
 describe('RemovePetLifeMomentMutation', () => {
   let resolver: RemovePetLifeMomentMutation;

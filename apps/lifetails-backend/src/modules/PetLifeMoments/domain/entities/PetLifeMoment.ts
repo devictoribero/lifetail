@@ -1,8 +1,8 @@
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
 import { PetLifeMomentTheme } from './PetLifeMomentTheme';
 import { PetLifeMomentType } from './PetLifeMomentType';
-import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { AggregateRoot } from 'src/modules/Shared/domain/AggregateRoot';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 
 export class PetLifeMoment extends AggregateRoot {
   private type: PetLifeMomentType;

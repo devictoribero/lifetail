@@ -1,8 +1,8 @@
 import { PetLifeMomentRepository } from '../../domain/repositories/PetLifeMomentRepository';
 import { UpdatePetLifeMomentCommand } from './UpdatePetLifeMomentCommand';
 import { PetLifeMomentNotFoundException } from '../../domain/exceptions/PetLifeMomentNotFoundException';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 
 export class UpdatePetLifeMomentUseCase {
   constructor(private readonly repository: PetLifeMomentRepository) {}

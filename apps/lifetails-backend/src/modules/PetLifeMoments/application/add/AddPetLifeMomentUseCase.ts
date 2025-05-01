@@ -2,8 +2,8 @@ import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
 import { AddPetLifeMomentCommand } from './AddPetLifeMomentCommand';
 import { PetLifeMomentType } from '../../domain/entities/PetLifeMomentType';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 
 export class AddPetLifeMomentUseCase {
   constructor(private readonly repository: PetLifeMomentInMemoryRepository) {}

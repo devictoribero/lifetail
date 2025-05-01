@@ -4,8 +4,8 @@ import { RemovePetLifeMomentCommand } from './RemovePetLifeMomentCommand';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { randomUUID } from 'node:crypto';
 import { PetLifeMomentType } from '../../domain/entities/PetLifeMomentType';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { PetLifeMomentNotFoundException } from '../../domain/exceptions/PetLifeMomentNotFoundException';
 

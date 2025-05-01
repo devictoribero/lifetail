@@ -1,6 +1,6 @@
-import { ValueObject } from 'src/contexts/Shared/domain/ValueObject';
+import { ValueObject } from 'src/modules/Shared/domain/ValueObject';
 import { InvalidPetLifeThemeException } from '../exceptions/InvalidPetLifeThemeException';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
 
 export class PetLifeMomentTheme extends StringValueObject {
   private constructor(value: string) {

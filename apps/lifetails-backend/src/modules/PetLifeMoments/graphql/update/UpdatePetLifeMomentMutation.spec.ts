@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UpdatePetLifeMomentMutation } from './UpdatePetLifeMomentMutation';
 import { randomUUID } from 'crypto';
-import { UpdatePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
+import { UpdatePetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
 import { UpdatePetLifeMomentInput } from './UpdatePetLifeMomentInput';
 import { faker } from '@faker-js/faker';
 

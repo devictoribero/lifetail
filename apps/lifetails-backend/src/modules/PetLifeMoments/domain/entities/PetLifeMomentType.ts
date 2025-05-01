@@ -1,4 +1,4 @@
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
 import { PetLifeMomentTheme } from './PetLifeMomentTheme';
 import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
 

@@ -1,8 +1,8 @@
-import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
+import { BooleanValueObject } from 'src/modules/Shared/domain/BooleanValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 import { PetGender } from './PetGender';
+import { AggregateRoot } from 'src/modules/Shared/domain/AggregateRoot';
 
 export class Pet extends AggregateRoot {
   private name: StringValueObject;

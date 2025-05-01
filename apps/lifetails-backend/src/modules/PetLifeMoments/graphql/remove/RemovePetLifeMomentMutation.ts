@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { RemovePetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
-import { RemovePetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/remove/RemovePetLifeMomentCommand';
+import { RemovePetLifeMomentUseCase } from 'src/modules/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
+import { RemovePetLifeMomentCommand } from 'src/modules/PetLifeMoments/application/remove/RemovePetLifeMomentCommand';
 import { RemovePetLifeMomentInput } from './RemovePetLifeMomentInput';
 
 @Resolver()

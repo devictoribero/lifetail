@@ -2,9 +2,9 @@ import { Pet } from '../../domain/entities/Pet';
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 import { AddPetCommand } from './AddPetCommand';
 import { PetGender } from '../../domain/entities/PetGender';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/modules/Shared/domain/StringValueObject';
+import { BooleanValueObject } from 'src/modules/Shared/domain/BooleanValueObject';
+import { DateValueObject } from 'src/modules/Shared/domain/DateValueObject';
 
 export class AddPetUseCase {
   constructor(private readonly repository: PetInMemoryRepository) {}
