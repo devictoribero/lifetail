@@ -8,7 +8,7 @@ interface InMemoryPet {
   gender: string;
   chipId: string;
   sterilized: boolean;
-  birthdate: Date;
+  birthDate: Date;
   createdAt: Date;
 }
 
@@ -42,7 +42,7 @@ export class PetInMemoryRepository implements PetRepository {
       pet.gender,
       pet.chipId,
       pet.sterilized,
-      pet.birthdate,
+      pet.birthDate,
       pet.createdAt,
     );
   }
@@ -59,7 +59,7 @@ export class PetInMemoryRepository implements PetRepository {
             pet.gender,
             pet.chipId,
             pet.sterilized,
-            pet.birthdate,
+            pet.birthDate,
             pet.createdAt,
           ),
         );

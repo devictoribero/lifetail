@@ -18,7 +18,7 @@ export class UpdatePetMutation {
           input?.gender?.toString(),
           input.chipId,
           input.sterilized,
-          input.birthdate,
+          input.birthDate,
         ),
       );
 

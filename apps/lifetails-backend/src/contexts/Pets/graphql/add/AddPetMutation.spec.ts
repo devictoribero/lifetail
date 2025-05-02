@@ -40,7 +40,7 @@ describe('AddPetMutation', () => {
         gender: PetGender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
-        birthdate: faker.date.past(),
+        birthDate: faker.date.past(),
       };
 
       // Act
@@ -54,7 +54,7 @@ describe('AddPetMutation', () => {
           gender: input.gender.toString(),
           chipId: input.chipId,
           sterilized: input.sterilized,
-          birthdate: input.birthdate,
+          birthDate: input.birthDate,
         }),
       );
       expect(result).toEqual({ id: input.id });
@@ -68,7 +68,7 @@ describe('AddPetMutation', () => {
         gender: PetGender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
-        birthdate: faker.date.past(),
+        birthDate: faker.date.past(),
       };
 
       const error = new Error('Invalid input');
@@ -86,7 +86,7 @@ describe('AddPetMutation', () => {
         gender: PetGender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
-        birthdate: faker.date.past(),
+        birthDate: faker.date.past(),
       };
 
       jest.spyOn(useCase, 'execute').mockRejectedValue({});

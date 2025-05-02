@@ -20,7 +20,7 @@ export class FindPetQuery {
         gender: pet.getGender(),
         chipId: pet.getChipId().toString(),
         sterilized: pet.isSterilized().getValue(),
-        birthdate: pet.getBirthdate().toDate(),
+        birthDate: pet.getBirthdate().toDate(),
       };
     } catch (error) {
       throw new Error(error.message ?? 'Error finding pet');

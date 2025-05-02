@@ -19,5 +19,5 @@ export class UpdatePetInput {
   sterilized?: boolean;
 
   @Field({ nullable: true })
-  birthdate?: Date;
+  birthDate?: Date;
 }

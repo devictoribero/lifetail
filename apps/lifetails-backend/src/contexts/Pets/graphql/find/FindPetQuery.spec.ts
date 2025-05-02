@@ -16,10 +16,10 @@ const createMockPet = (
   gender: string,
   chipId: string,
   sterilized: boolean,
-  birthdate: Date,
+  birthDate: Date,
   createdAt: Date,
 ): Pet => {
-  return Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthdate, createdAt);
+  return Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthDate, createdAt);
 };
 
 describe('FindPetQuery', () => {
@@ -84,7 +84,7 @@ describe('FindPetQuery', () => {
         gender: mockPet.getGender(),
         chipId: mockPet.getChipId().toString(),
         sterilized: mockPet.isSterilized().getValue(),
-        birthdate: mockPet.getBirthdate().toDate(),
+        birthDate: mockPet.getBirthdate().toDate(),
       });
     });
 

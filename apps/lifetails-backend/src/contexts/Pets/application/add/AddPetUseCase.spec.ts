@@ -23,9 +23,9 @@ describe('AddPetUseCase', () => {
     const gender = Math.random() > 0.5 ? 'Male' : 'Female';
     const chipId = faker.string.alphanumeric(9);
     const sterilized = faker.datatype.boolean();
-    const birthdate = faker.date.past();
+    const birthDate = faker.date.past();
 
-    const command = new AddPetCommand(id, name, gender, chipId, sterilized, birthdate);
+    const command = new AddPetCommand(id, name, gender, chipId, sterilized, birthDate);
 
     // Act
     await useCase.execute(command);
@@ -41,7 +41,7 @@ describe('AddPetUseCase', () => {
     expect(savedPet.getGender().toString()).toBe(gender);
     expect(savedPet.getChipId().toString()).toBe(chipId);
     expect(savedPet.isSterilized().getValue()).toBe(sterilized);
-    expect(savedPet.getBirthdate().toDate().getTime()).toBe(birthdate.getTime());
+    expect(savedPet.getBirthdate().toDate().getTime()).toBe(birthDate.getTime());
     expect(savedPet.getCreatedAt()).toBeInstanceOf(DateValueObject);
   });
 });

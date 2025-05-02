@@ -36,7 +36,7 @@ describe('FindPetUseCase', () => {
     const chipId = faker.string.numeric(9);
     // const sterilized = faker.datatype.boolean();
     const sterilized = true;
-    const birthdate = faker.date.past();
+    const birthDate = faker.date.past();
 
     // Create and save a pet
     const pet = Pet.create(
@@ -45,7 +45,7 @@ describe('FindPetUseCase', () => {
       PetGender.fromPrimitives(gender),
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
-      new DateValueObject(birthdate),
+      new DateValueObject(birthDate),
     );
 
     await repository.save(pet);
@@ -65,6 +65,6 @@ describe('FindPetUseCase', () => {
     expect(foundPet.getGender().toString()).toBe(gender);
     expect(foundPet.getChipId().toString()).toBe(chipId);
     expect(foundPet.isSterilized().getValue()).toBe(sterilized);
-    expect(foundPet.getBirthdate().toDate().getTime()).toBe(birthdate.getTime());
+    expect(foundPet.getBirthdate().toDate().getTime()).toBe(birthDate.getTime());
   });
 });

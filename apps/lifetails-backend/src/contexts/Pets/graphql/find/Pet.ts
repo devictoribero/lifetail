@@ -24,5 +24,5 @@ export class Pet {
   sterilized: boolean;
 
   @Field()
-  birthdate: Date;
+  birthDate: Date;
 }

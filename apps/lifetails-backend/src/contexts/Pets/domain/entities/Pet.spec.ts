@@ -15,10 +15,10 @@ describe('Pet', () => {
       const gender = Math.random() > 0.5 ? PetGender.Male : PetGender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
       const sterilized = new BooleanValueObject(faker.datatype.boolean());
-      const birthdate = new DateValueObject(faker.date.past());
+      const birthDate = new DateValueObject(faker.date.past());
 
       // Act
-      const pet = Pet.create(id, name, gender, chipId, sterilized, birthdate);
+      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate);
 
       // Assert
       expect(pet).toBeDefined();
@@ -27,7 +27,7 @@ describe('Pet', () => {
       expect(pet.getGender()).toBe(gender);
       expect(pet.getChipId()).toBe(chipId);
       expect(pet.isSterilized()).toBe(sterilized);
-      expect(pet.getBirthdate()).toBe(birthdate);
+      expect(pet.getBirthdate()).toBe(birthDate);
       expect(pet.getCreatedAt()).toBeDefined();
     });
 
@@ -38,10 +38,10 @@ describe('Pet', () => {
       const gender = Math.random() > 0.5 ? PetGender.Male : PetGender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
       const sterilized = new BooleanValueObject(faker.datatype.boolean());
-      const birthdate = new DateValueObject(faker.date.past());
+      const birthDate = new DateValueObject(faker.date.past());
 
       // Act
-      const pet = Pet.create(id, name, gender, chipId, sterilized, birthdate);
+      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate);
 
       // Assert
       expect(pet.getCreatedAt().toDate()).not.toBeNull();
@@ -56,11 +56,11 @@ describe('Pet', () => {
       const gender = Math.random() > 0.5 ? 'Male' : 'Female';
       const chipId = faker.string.alphanumeric(9);
       const sterilized = faker.datatype.boolean();
-      const birthdate = faker.date.past();
+      const birthDate = faker.date.past();
       const createdAt = faker.date.recent();
 
       // Act
-      const pet = Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthdate, createdAt);
+      const pet = Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthDate, createdAt);
 
       // Assert
       expect(pet).toBeDefined();
@@ -69,7 +69,7 @@ describe('Pet', () => {
       expect(pet.getGender().toString()).toBe(gender);
       expect(pet.getChipId().toString()).toBe(chipId);
       expect(pet.isSterilized().getValue()).toBe(sterilized);
-      expect(pet.getBirthdate().toDate()).toEqual(birthdate);
+      expect(pet.getBirthdate().toDate()).toEqual(birthDate);
       expect(pet.getCreatedAt().toDate()).toEqual(createdAt);
     });
   });
@@ -82,9 +82,9 @@ describe('Pet', () => {
       const gender = Math.random() > 0.5 ? 'Male' : 'Female';
       const chipId = faker.string.alphanumeric(9);
       const sterilized = faker.datatype.boolean();
-      const birthdate = faker.date.past();
+      const birthDate = faker.date.past();
       const createdAt = faker.date.recent();
-      const pet = Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthdate, createdAt);
+      const pet = Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthDate, createdAt);
 
       // Act
       const primitives = pet.toPrimitives();
@@ -96,7 +96,7 @@ describe('Pet', () => {
         gender,
         chipId,
         sterilized,
-        birthdate: birthdate.toISOString(),
+        birthDate: birthDate.toISOString(),
         createdAt: createdAt.toISOString(),
       });
     });

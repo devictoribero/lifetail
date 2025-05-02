@@ -16,7 +16,7 @@ export class AddPetUseCase {
       PetGender.fromPrimitives(command.gender),
       new StringValueObject(command.chipId),
       new BooleanValueObject(command.sterilized),
-      new DateValueObject(command.birthdate),
+      new DateValueObject(command.birthDate),
     );
 
     await this.repository.save(pet);
