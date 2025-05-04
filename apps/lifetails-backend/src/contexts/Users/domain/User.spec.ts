@@ -50,6 +50,7 @@ describe('User', () => {
       name: name.toString(),
       nickname: nickname.toString(),
       gender: gender.toString(),
+      birthDate: birthDate.toISOString(),
       createdAt: createdAt,
     });
   });
