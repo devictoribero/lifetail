@@ -3,13 +3,14 @@ import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 export class User extends AggregateRoot {
   private readonly id: UUID;
   private readonly accountId: UUID;
   private readonly name: StringValueObject;
-
   private readonly nickname: StringValueObject;
+  private readonly birthDate: DateValueObject;
   private readonly gender: Gender;
   private readonly createdAt: Date;
 
@@ -20,6 +21,7 @@ export class User extends AggregateRoot {
     name: StringValueObject,
     nickname: StringValueObject,
     gender: Gender,
+    birthDate: DateValueObject,
     createdAt: Date,
   ) {
     super();
@@ -28,18 +30,20 @@ export class User extends AggregateRoot {
     this.name = name;
     this.nickname = nickname;
     this.gender = gender;
+    this.birthDate = birthDate;
     this.createdAt = createdAt;
   }
 
   static create(
+    id: UUID,
     accountId: UUID,
     name: StringValueObject,
     nickname: StringValueObject,
     gender: Gender,
+    birthDate: DateValueObject,
   ): User {
-    const id = UUID.create();
     const createdAt = new Date();
-    return new User(id, accountId, name, nickname, gender, createdAt);
+    return new User(id, accountId, name, nickname, gender, birthDate, createdAt);
   }
 
   getId(): UUID {
@@ -58,8 +62,12 @@ export class User extends AggregateRoot {
     return this.nickname;
   }
 
-  getGender(): StringValueObject {
+  getGender(): Gender {
     return this.gender;
+  }
+
+  getBirthDate(): DateValueObject {
+    return this.birthDate;
   }
 
   getCreatedAt(): Date {
@@ -73,6 +81,7 @@ export class User extends AggregateRoot {
       name: this.getName().toString(),
       nickname: this.getNickname().toString(),
       gender: this.getGender().toString(),
+      birthDate: this.getBirthDate().toISOString(),
       createdAt: this.getCreatedAt(),
     };
   }
