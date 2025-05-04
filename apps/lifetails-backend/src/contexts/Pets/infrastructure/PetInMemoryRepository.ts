@@ -10,6 +10,7 @@ interface InMemoryPet {
   sterilized: boolean;
   birthDate: Date;
   createdAt: Date;
+  memorialDate?: Date;
 }
 
 export class PetInMemoryRepository implements PetRepository {
@@ -44,6 +45,7 @@ export class PetInMemoryRepository implements PetRepository {
       pet.sterilized,
       pet.birthDate,
       pet.createdAt,
+      pet.memorialDate,
     );
   }
 
@@ -61,6 +63,7 @@ export class PetInMemoryRepository implements PetRepository {
             pet.sterilized,
             pet.birthDate,
             pet.createdAt,
+            pet.memorialDate,
           ),
         );
       }

@@ -18,6 +18,7 @@ export class SearchAllPetsQuery {
         chipId: pet.getChipId().toString(),
         sterilized: pet.isSterilized().getValue(),
         birthDate: pet.getBirthdate().toDate(),
+        memorialDate: pet.getMemorialDate()?.toDate(),
       }));
     } catch (error) {
       throw new Error(error.message ?? 'Error searching all pets');
