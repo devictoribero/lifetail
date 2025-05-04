@@ -4,7 +4,7 @@ import { AddPetUseCase } from '../../application/add/AddPetUseCase';
 import { AddPetInput } from './AddPetInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 
 describe('AddPetMutation', () => {
   let mutation: AddPetMutation;
@@ -37,7 +37,7 @@ describe('AddPetMutation', () => {
       const input: AddPetInput = {
         id: randomUUID(),
         name: faker.animal.dog(),
-        gender: PetGender.Male,
+        gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
         birthDate: faker.date.past(),
@@ -65,7 +65,7 @@ describe('AddPetMutation', () => {
       const input: AddPetInput = {
         id: randomUUID(),
         name: faker.animal.dog(),
-        gender: PetGender.Male,
+        gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
         birthDate: faker.date.past(),
@@ -83,7 +83,7 @@ describe('AddPetMutation', () => {
       const input: AddPetInput = {
         id: randomUUID(),
         name: faker.animal.dog(),
-        gender: PetGender.Male,
+        gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
         birthDate: faker.date.past(),

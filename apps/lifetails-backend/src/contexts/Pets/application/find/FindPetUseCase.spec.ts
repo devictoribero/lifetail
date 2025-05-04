@@ -4,7 +4,7 @@ import { FindPetQuery } from './FindPetQuery';
 import { Pet } from '../../domain/entities/Pet';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { randomUUID } from 'node:crypto';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
@@ -42,7 +42,7 @@ describe('FindPetUseCase', () => {
     const pet = Pet.create(
       id,
       new StringValueObject(name),
-      PetGender.fromPrimitives(gender),
+      Gender.fromPrimitives(gender),
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(birthDate),

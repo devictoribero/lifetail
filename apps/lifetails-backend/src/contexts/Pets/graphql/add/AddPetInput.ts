@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { PetGender as DomainPetGender } from '../../domain/entities/PetGender';
+import { Gender as DomainPetGender } from '../../../Shared/domain/Gender';
 
 @InputType()
 export class AddPetInput {

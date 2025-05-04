@@ -1,9 +1,9 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { PetGender as DomainPetGender } from '../../domain/entities/PetGender';
+import { Gender as DomainPetGender } from '../../../Shared/domain/Gender';
 
 // Register the enums for GraphQL
 registerEnumType(DomainPetGender, {
-  name: 'PetGender',
+  name: 'Gender',
 });
 
 @ObjectType()

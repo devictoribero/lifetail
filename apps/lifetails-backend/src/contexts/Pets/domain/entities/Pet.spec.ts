@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { Pet } from './Pet';
-import { PetGender } from './PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
@@ -12,7 +12,7 @@ describe('Pet', () => {
       // Arrange
       const id = randomUUID();
       const name = new StringValueObject(faker.animal.cat());
-      const gender = Math.random() > 0.5 ? PetGender.Male : PetGender.Female;
+      const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
       const sterilized = new BooleanValueObject(faker.datatype.boolean());
       const birthDate = new DateValueObject(faker.date.past());
@@ -36,7 +36,7 @@ describe('Pet', () => {
       // Arrange
       const id = randomUUID();
       const name = new StringValueObject(faker.animal.cat());
-      const gender = Math.random() > 0.5 ? PetGender.Male : PetGender.Female;
+      const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
       const sterilized = new BooleanValueObject(faker.datatype.boolean());
       const birthDate = new DateValueObject(faker.date.past());
@@ -54,7 +54,7 @@ describe('Pet', () => {
       // Arrange
       const id = randomUUID();
       const name = new StringValueObject(faker.animal.cat());
-      const gender = Math.random() > 0.5 ? PetGender.Male : PetGender.Female;
+      const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
       const sterilized = new BooleanValueObject(faker.datatype.boolean());
       const birthDate = new DateValueObject(faker.date.past());
@@ -195,7 +195,7 @@ describe('Pet', () => {
       const pet = Pet.create(
         randomUUID(),
         initialName,
-        Math.random() > 0.5 ? PetGender.Male : PetGender.Female,
+        Math.random() > 0.5 ? Gender.Male : Gender.Female,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(faker.datatype.boolean()),
         new DateValueObject(faker.date.past()),
@@ -210,8 +210,8 @@ describe('Pet', () => {
 
     it('can change gender', () => {
       // Arrange
-      const initialGender = Math.random() > 0.5 ? PetGender.Male : PetGender.Female;
-      const newGender = initialGender === PetGender.Male ? PetGender.Female : PetGender.Male;
+      const initialGender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
+      const newGender = initialGender === Gender.Male ? Gender.Female : Gender.Male;
 
       const pet = Pet.create(
         randomUUID(),
@@ -234,7 +234,7 @@ describe('Pet', () => {
       const pet = Pet.create(
         randomUUID(),
         new StringValueObject(faker.animal.cat()),
-        Math.random() > 0.5 ? PetGender.Male : PetGender.Female,
+        Math.random() > 0.5 ? Gender.Male : Gender.Female,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(false),
         new DateValueObject(faker.date.past()),
@@ -252,7 +252,7 @@ describe('Pet', () => {
       const pet = Pet.create(
         randomUUID(),
         new StringValueObject(faker.animal.cat()),
-        Math.random() > 0.5 ? PetGender.Male : PetGender.Female,
+        Math.random() > 0.5 ? Gender.Male : Gender.Female,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(faker.datatype.boolean()),
         new DateValueObject(faker.date.past()),

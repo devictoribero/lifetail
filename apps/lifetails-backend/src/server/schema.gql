@@ -5,7 +5,7 @@
 input AddPetInput {
   birthDate: Date!
   chipId: String!
-  gender: PetGender!
+  gender: Gender!
   id: String!
   name: String!
   sterilized: Boolean!
@@ -28,7 +28,9 @@ type AddPetResponse {
   id: String!
 }
 
-"""Date custom scalar type"""
+"""
+Date custom scalar type
+"""
 scalar Date
 
 input FindPetInput {
@@ -56,13 +58,13 @@ type Mutation {
 type Pet {
   birthDate: Date!
   chipId: String!
-  gender: PetGender!
+  gender: Gender!
   id: String!
   name: String!
   sterilized: Boolean!
 }
 
-enum PetGender {
+enum Gender {
   Female
   Male
   all
@@ -137,7 +139,7 @@ input RemovePetLifeMomentInput {
 input UpdatePetInput {
   birthDate: Date
   chipId: String
-  gender: PetGender
+  gender: Gender
   id: String!
   name: String
   sterilized: Boolean

@@ -2,7 +2,7 @@ import { PetRepository } from '../../domain/repositories/PetRepository';
 import { UpdatePetCommand } from './UpdatePetCommand';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
@@ -21,7 +21,7 @@ export class UpdatePetUseCase {
     }
 
     if (this.hasValue(command.gender)) {
-      pet.changeGenderTo(PetGender.fromPrimitives(command.gender));
+      pet.changeGenderTo(Gender.fromPrimitives(command.gender));
     }
 
     if (this.hasValue(command.chipId)) {

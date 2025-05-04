@@ -4,7 +4,7 @@ import { UpdatePetUseCase } from '../../application/update/UpdatePetUseCase';
 import { UpdatePetInput } from './UpdatePetInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 describe('UpdatePetMutation', () => {
   let resolver: UpdatePetMutation;
   let useCase: UpdatePetUseCase;
@@ -36,7 +36,7 @@ describe('UpdatePetMutation', () => {
       const input: UpdatePetInput = {
         id: randomUUID(),
         name: faker.animal.dog(),
-        gender: PetGender.Male,
+        gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
         birthDate: faker.date.past(),

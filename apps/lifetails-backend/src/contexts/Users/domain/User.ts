@@ -1,0 +1,79 @@
+import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
+import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { Gender } from 'src/contexts/Shared/domain/Gender';
+
+export class User extends AggregateRoot {
+  private readonly id: UUID;
+  private readonly accountId: UUID;
+  private readonly name: StringValueObject;
+
+  private readonly nickname: StringValueObject;
+  private readonly gender: Gender;
+  private readonly createdAt: Date;
+
+  // Use for testing purposes only. It should not be used in the domain.
+  constructor(
+    id: UUID,
+    accountId: UUID,
+    name: StringValueObject,
+    nickname: StringValueObject,
+    gender: Gender,
+    createdAt: Date,
+  ) {
+    super();
+    this.id = id;
+    this.accountId = accountId;
+    this.name = name;
+    this.nickname = nickname;
+    this.gender = gender;
+    this.createdAt = createdAt;
+  }
+
+  static create(
+    accountId: UUID,
+    name: StringValueObject,
+    nickname: StringValueObject,
+    gender: Gender,
+  ): User {
+    const id = UUID.create();
+    const createdAt = new Date();
+    return new User(id, accountId, name, nickname, gender, createdAt);
+  }
+
+  getId(): UUID {
+    return this.id;
+  }
+
+  getAccountId(): UUID {
+    return this.accountId;
+  }
+
+  getName(): StringValueObject {
+    return this.name;
+  }
+
+  getNickname(): StringValueObject {
+    return this.nickname;
+  }
+
+  getGender(): StringValueObject {
+    return this.gender;
+  }
+
+  getCreatedAt(): Date {
+    return this.createdAt;
+  }
+
+  toPrimitives(): any {
+    return {
+      id: this.getId().toString(),
+      accountId: this.getAccountId().toString(),
+      name: this.getName().toString(),
+      nickname: this.getNickname().toString(),
+      gender: this.getGender().toString(),
+      createdAt: this.getCreatedAt(),
+    };
+  }
+}

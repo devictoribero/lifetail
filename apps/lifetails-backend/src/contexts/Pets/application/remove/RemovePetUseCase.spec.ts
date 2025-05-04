@@ -3,7 +3,7 @@ import { RemovePetUseCase } from './RemovePetUseCase';
 import { RemovePetCommand } from './RemovePetCommand';
 import { Pet } from '../../domain/entities/Pet';
 import { randomUUID } from 'node:crypto';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
@@ -39,7 +39,7 @@ describe('RemovePetUseCase', () => {
     const pet = Pet.create(
       id,
       new StringValueObject(name),
-      PetGender.fromPrimitives(gender),
+      Gender.fromPrimitives(gender),
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(birthDate),

@@ -5,7 +5,7 @@ import { UpdatePetCommand } from './UpdatePetCommand';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { faker } from '@faker-js/faker';
 import { randomUUID } from 'node:crypto';
@@ -25,7 +25,7 @@ describe('UpdatePetUseCase', () => {
     originalPet = Pet.create(
       petId,
       new StringValueObject(faker.animal.cat()),
-      PetGender.fromPrimitives('Male'),
+      Gender.fromPrimitives('Male'),
       new StringValueObject(faker.string.numeric(9)),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),

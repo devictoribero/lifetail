@@ -1,14 +1,14 @@
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { PetGender } from './PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 
 export class Pet extends AggregateRoot {
   private id: string;
   private createdAt: DateValueObject;
   private name: StringValueObject;
-  private gender: PetGender;
+  private gender: Gender;
   private chipId: StringValueObject;
   private sterilized: BooleanValueObject;
   private birthDate: DateValueObject;
@@ -18,7 +18,7 @@ export class Pet extends AggregateRoot {
   constructor(
     id: string,
     name: StringValueObject,
-    gender: PetGender,
+    gender: Gender,
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
     birthDate: DateValueObject,
@@ -40,7 +40,7 @@ export class Pet extends AggregateRoot {
   static create(
     id: string,
     name: StringValueObject,
-    gender: PetGender,
+    gender: Gender,
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
     birthDate: DateValueObject,
@@ -64,7 +64,7 @@ export class Pet extends AggregateRoot {
     return new Pet(
       id,
       new StringValueObject(name),
-      PetGender.fromPrimitives(gender),
+      Gender.fromPrimitives(gender),
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(birthDate),
@@ -85,7 +85,7 @@ export class Pet extends AggregateRoot {
     return this.name;
   }
 
-  public getGender(): PetGender {
+  public getGender(): Gender {
     return this.gender;
   }
 
@@ -122,7 +122,7 @@ export class Pet extends AggregateRoot {
     this.name = name;
   }
 
-  public changeGenderTo(gender: PetGender): void {
+  public changeGenderTo(gender: Gender): void {
     this.gender = gender;
   }
 

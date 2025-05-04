@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Pet } from '../../domain/entities/Pet';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 

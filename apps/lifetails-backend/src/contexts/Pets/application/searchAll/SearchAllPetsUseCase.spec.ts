@@ -4,7 +4,7 @@ import { SearchAllPetsUseCase } from './SearchAllPetsUseCase';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { PetGender } from '../../domain/entities/PetGender';
+import { Gender } from '../../../Shared/domain/Gender';
 import { faker } from '@faker-js/faker';
 import { randomUUID } from 'node:crypto';
 
@@ -28,7 +28,7 @@ describe('SearchAllPetsUseCase', () => {
     const pet1 = Pet.create(
       'pet-1',
       new StringValueObject(faker.animal.cat()),
-      PetGender.fromPrimitives('Male'),
+      Gender.fromPrimitives('Male'),
       new StringValueObject('123456'),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),
@@ -39,7 +39,7 @@ describe('SearchAllPetsUseCase', () => {
     const pet2 = Pet.create(
       secondPetId,
       new StringValueObject(secondPetName),
-      PetGender.fromPrimitives('Female'),
+      Gender.fromPrimitives('Female'),
       new StringValueObject('789012'),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),
