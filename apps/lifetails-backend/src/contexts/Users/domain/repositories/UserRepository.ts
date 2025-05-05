@@ -1,4 +1,4 @@
-import { User } from './User';
+import { User } from '../entities/User';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 export interface UserRepository {

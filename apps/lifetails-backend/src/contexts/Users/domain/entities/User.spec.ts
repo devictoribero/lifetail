@@ -1,8 +1,8 @@
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { User } from './User';
 import { faker } from '@faker-js/faker';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { User } from './User';
 
 describe('User', () => {
   let id: UUID;
@@ -11,7 +11,7 @@ describe('User', () => {
   let nickname: StringValueObject;
   let gender: StringValueObject;
   let birthDate: DateValueObject;
-  let createdAt: Date;
+  let createdAt: DateValueObject;
 
   beforeEach(() => {
     jest.useFakeTimers();
@@ -21,7 +21,7 @@ describe('User', () => {
     nickname = new StringValueObject(faker.person.firstName());
     gender = new StringValueObject('Male');
     birthDate = new DateValueObject(faker.date.birthdate());
-    createdAt = new Date();
+    createdAt = new DateValueObject(new Date());
   });
 
   afterEach(() => {
@@ -51,7 +51,7 @@ describe('User', () => {
       nickname: nickname.toString(),
       gender: gender.toString(),
       birthDate: birthDate.toISOString(),
-      createdAt: createdAt,
+      createdAt: createdAt.toISOString(),
     });
   });
 });

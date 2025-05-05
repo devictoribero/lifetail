@@ -1,15 +1,17 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { SearchAllPetsUseCase } from '../../application/searchAll/SearchAllPetsUseCase';
+import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Pet } from '../find/Pet';
+import { SearchAllPetsUseCase } from '../../application/searchAll/SearchAllPetsUseCase';
+import { SearchAllPetsQuery as SearchAllPetsQueryDomain } from '../../application/searchAll/SearchAllPetsQuery';
 
 @Resolver()
 export class SearchAllPetsQuery {
   constructor(private readonly useCase: SearchAllPetsUseCase) {}
 
   @Query(() => [Pet])
-  async searchAllPets(): Promise<Pet[]> {
+  async searchAllPets(@Args('userId') userId: string): Promise<Pet[]> {
     try {
-      const pets = await this.useCase.execute();
+      const query = new SearchAllPetsQueryDomain(userId);
+      const pets = await this.useCase.execute(query);
 
       return pets.map((pet) => ({
         id: pet.getId(),

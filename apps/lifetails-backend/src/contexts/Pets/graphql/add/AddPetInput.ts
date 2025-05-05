@@ -20,4 +20,7 @@ export class AddPetInput {
 
   @Field()
   birthDate: Date;
+
+  @Field()
+  userId: string;
 }

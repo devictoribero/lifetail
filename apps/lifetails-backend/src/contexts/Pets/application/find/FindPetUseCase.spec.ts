@@ -13,10 +13,12 @@ import { faker } from '@faker-js/faker';
 describe('FindPetUseCase', () => {
   let repository: PetInMemoryRepository;
   let useCase: FindPetUseCase;
+  let userId: string;
 
   beforeEach(() => {
     repository = new PetInMemoryRepository();
     useCase = new FindPetUseCase(repository);
+    userId = randomUUID();
   });
 
   it('should throw PetNotFoundException when pet does not exist', async () => {
@@ -46,6 +48,7 @@ describe('FindPetUseCase', () => {
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(birthDate),
+      userId,
     );
 
     await repository.save(pet);

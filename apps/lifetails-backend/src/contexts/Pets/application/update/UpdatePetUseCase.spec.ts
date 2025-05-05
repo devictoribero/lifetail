@@ -14,6 +14,7 @@ describe('UpdatePetUseCase', () => {
   let repository: PetInMemoryRepository;
   let useCase: UpdatePetUseCase;
   let petId: string;
+  let userId: string;
   let originalPet: Pet;
 
   beforeEach(async () => {
@@ -29,6 +30,7 @@ describe('UpdatePetUseCase', () => {
       new StringValueObject(faker.string.numeric(9)),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),
+      userId,
     );
 
     await repository.save(originalPet);

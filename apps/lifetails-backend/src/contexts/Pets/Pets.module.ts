@@ -3,14 +3,14 @@ import { AddPetUseCase } from 'src/contexts/Pets/application/add/AddPetUseCase';
 import { RemovePetUseCase } from 'src/contexts/Pets/application/remove/RemovePetUseCase';
 import { UpdatePetUseCase } from 'src/contexts/Pets/application/update/UpdatePetUseCase';
 import { FindPetUseCase } from 'src/contexts/Pets/application/find/FindPetUseCase';
-import { SearchAllPetsUseCase } from 'src/contexts/Pets/application/searchAll/SearchAllPetsUseCase';
 import { PetInMemoryRepository } from 'src/contexts/Pets/infrastructure/PetInMemoryRepository';
 import { AddPetMutation } from 'src/contexts/Pets/graphql/add/AddPetMutation';
 import { RemovePetMutation } from 'src/contexts/Pets/graphql/remove/RemovePetMutation';
 import { UpdatePetMutation } from 'src/contexts/Pets/graphql/update/UpdatePetMutation';
 import { FindPetQuery } from './graphql/find/FindPetQuery';
-import { SearchAllPetsQuery } from './graphql/searchAll/SearchAllPetsQuery';
+import { SearchAllPetsQuery as SearchAllPetsGraphQLQuery } from './graphql/searchAll/SearchAllPetsQuery';
 import { GraphqlModule } from 'src/contexts/Shared/Graphql.module';
+import { SearchAllPetsUseCase } from './application/searchAll/SearchAllPetsUseCase';
 
 const addPetUseCaseProvider = {
   provide: AddPetUseCase,
@@ -71,7 +71,7 @@ const petRepositoryProvider = {
     RemovePetMutation,
     UpdatePetMutation,
     FindPetQuery,
-    SearchAllPetsQuery,
+    SearchAllPetsGraphQLQuery,
   ],
   exports: [
     AddPetUseCase,

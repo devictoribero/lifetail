@@ -12,7 +12,7 @@ export class User extends AggregateRoot {
   private readonly nickname: StringValueObject;
   private readonly birthDate: DateValueObject;
   private readonly gender: Gender;
-  private readonly createdAt: Date;
+  private readonly createdAt: DateValueObject;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
@@ -22,7 +22,7 @@ export class User extends AggregateRoot {
     nickname: StringValueObject,
     gender: Gender,
     birthDate: DateValueObject,
-    createdAt: Date,
+    createdAt: DateValueObject,
   ) {
     super();
     this.id = id;
@@ -42,7 +42,7 @@ export class User extends AggregateRoot {
     gender: Gender,
     birthDate: DateValueObject,
   ): User {
-    const createdAt = new Date();
+    const createdAt = new DateValueObject(new Date());
     return new User(id, accountId, name, nickname, gender, birthDate, createdAt);
   }
 
@@ -70,7 +70,7 @@ export class User extends AggregateRoot {
     return this.birthDate;
   }
 
-  getCreatedAt(): Date {
+  getCreatedAt(): DateValueObject {
     return this.createdAt;
   }
 

@@ -9,6 +9,7 @@ input AddPetInput {
   id: String!
   name: String!
   sterilized: Boolean!
+  userId: String!
 }
 
 input AddPetLifeMomentInput {
@@ -28,9 +29,25 @@ type AddPetResponse {
   id: String!
 }
 
-"""
-Date custom scalar type
-"""
+input AuthenticateAccountInput {
+  email: String!
+  password: String!
+}
+
+type AuthenticateAccountResponse {
+  accountId: String!
+}
+
+input CreateAccountInput {
+  email: String!
+  password: String!
+}
+
+type CreateAccountResponse {
+  email: String!
+}
+
+"""Date custom scalar type"""
 scalar Date
 
 input FindPetInput {
@@ -41,6 +58,12 @@ input FindPetLifeMomentInput {
   id: String!
 }
 
+enum Gender {
+  Female
+  Male
+  all
+}
+
 type HealthCheckResponse {
   status: String!
   timestamp: Date!
@@ -49,6 +72,8 @@ type HealthCheckResponse {
 type Mutation {
   addPet(input: AddPetInput!): AddPetResponse!
   addPetLifeMoment(input: AddPetLifeMomentInput!): AddPetLifeMomentResponse!
+  authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
+  createAccount(input: CreateAccountInput!): CreateAccountResponse!
   removePet(input: RemovePetInput!): Boolean!
   removePetLifeMoment(input: RemovePetLifeMomentInput!): Boolean!
   updatePet(input: UpdatePetInput!): UpdatePetResponse!
@@ -60,14 +85,9 @@ type Pet {
   chipId: String!
   gender: Gender!
   id: String!
+  memorialDate: Date
   name: String!
   sterilized: Boolean!
-}
-
-enum Gender {
-  Female
-  Male
-  all
 }
 
 type PetLifeMoment {
@@ -125,7 +145,7 @@ type Query {
   findPet(input: FindPetInput!): Pet!
   findPetLifeMoment(input: FindPetLifeMomentInput!): PetLifeMoment!
   healthCheck: HealthCheckResponse!
-  searchAllPets: [Pet!]!
+  searchAllPets(userId: String!): [Pet!]!
 }
 
 input RemovePetInput {

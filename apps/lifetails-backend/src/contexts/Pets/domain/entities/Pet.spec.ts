@@ -7,10 +7,17 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 
 describe('Pet', () => {
+  let id: string;
+  let userId: string;
+
+  beforeEach(() => {
+    id = faker.string.uuid();
+    userId = faker.string.uuid();
+  });
+
   describe('create', () => {
     it('should create a Pet instance', () => {
       // Arrange
-      const id = randomUUID();
       const name = new StringValueObject(faker.animal.cat());
       const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
@@ -18,7 +25,7 @@ describe('Pet', () => {
       const birthDate = new DateValueObject(faker.date.past());
 
       // Act
-      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate);
+      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate, userId);
 
       // Assert
       expect(pet).toBeDefined();
@@ -34,7 +41,6 @@ describe('Pet', () => {
 
     it('should create a Pet instance with memorial date', () => {
       // Arrange
-      const id = randomUUID();
       const name = new StringValueObject(faker.animal.cat());
       const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
@@ -43,7 +49,7 @@ describe('Pet', () => {
       const memorialDate = new DateValueObject(faker.date.recent());
 
       // Act
-      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate, memorialDate);
+      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate, userId, memorialDate);
 
       // Assert
       expect(pet).toBeDefined();
@@ -52,7 +58,6 @@ describe('Pet', () => {
 
     it('can create a Pet instance without specifying the createAt', () => {
       // Arrange
-      const id = randomUUID();
       const name = new StringValueObject(faker.animal.cat());
       const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
       const chipId = new StringValueObject(faker.string.alphanumeric(9));
@@ -60,7 +65,7 @@ describe('Pet', () => {
       const birthDate = new DateValueObject(faker.date.past());
 
       // Act
-      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate);
+      const pet = Pet.create(id, name, gender, chipId, sterilized, birthDate, userId);
 
       // Assert
       expect(pet.getCreatedAt().toDate()).not.toBeNull();
@@ -70,7 +75,6 @@ describe('Pet', () => {
   describe('fromPrimitives', () => {
     it('should create a Pet instance from primitives', () => {
       // Arrange
-      const id = randomUUID();
       const name = faker.animal.cat();
       const gender = Math.random() > 0.5 ? 'Male' : 'Female';
       const chipId = faker.string.alphanumeric(9);
@@ -79,7 +83,16 @@ describe('Pet', () => {
       const createdAt = faker.date.recent();
 
       // Act
-      const pet = Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthDate, createdAt);
+      const pet = Pet.fromPrimitives(
+        id,
+        name,
+        gender,
+        chipId,
+        sterilized,
+        birthDate,
+        createdAt,
+        userId,
+      );
 
       // Assert
       expect(pet).toBeDefined();
@@ -95,7 +108,6 @@ describe('Pet', () => {
 
     it('should create a Pet instance from primitives with memorial date', () => {
       // Arrange
-      const id = randomUUID();
       const name = faker.animal.cat();
       const gender = Math.random() > 0.5 ? 'Male' : 'Female';
       const chipId = faker.string.alphanumeric(9);
@@ -113,6 +125,7 @@ describe('Pet', () => {
         sterilized,
         birthDate,
         createdAt,
+        userId,
         memorialDate,
       );
 
@@ -125,14 +138,22 @@ describe('Pet', () => {
   describe('toPrimitives', () => {
     it('should convert Pet instance to primitives', () => {
       // Arrange
-      const id = randomUUID();
       const name = faker.animal.cat();
       const gender = Math.random() > 0.5 ? 'Male' : 'Female';
       const chipId = faker.string.alphanumeric(9);
       const sterilized = faker.datatype.boolean();
       const birthDate = faker.date.past();
       const createdAt = faker.date.recent();
-      const pet = Pet.fromPrimitives(id, name, gender, chipId, sterilized, birthDate, createdAt);
+      const pet = Pet.fromPrimitives(
+        id,
+        name,
+        gender,
+        chipId,
+        sterilized,
+        birthDate,
+        createdAt,
+        userId,
+      );
 
       // Act
       const primitives = pet.toPrimitives();
@@ -147,12 +168,12 @@ describe('Pet', () => {
         birthDate: birthDate.toISOString(),
         createdAt: createdAt.toISOString(),
         memorialDate: undefined,
+        userId,
       });
     });
 
     it('should convert Pet instance with memorial date to primitives', () => {
       // Arrange
-      const id = randomUUID();
       const name = faker.animal.cat();
       const gender = Math.random() > 0.5 ? 'Male' : 'Female';
       const chipId = faker.string.alphanumeric(9);
@@ -168,6 +189,7 @@ describe('Pet', () => {
         sterilized,
         birthDate,
         createdAt,
+        userId,
         memorialDate,
       );
 
@@ -183,6 +205,7 @@ describe('Pet', () => {
         sterilized,
         birthDate: birthDate.toISOString(),
         createdAt: createdAt.toISOString(),
+        userId,
         memorialDate: memorialDate.toISOString(),
       });
     });
@@ -193,12 +216,13 @@ describe('Pet', () => {
       // Arrange
       const initialName = new StringValueObject(faker.animal.cat());
       const pet = Pet.create(
-        randomUUID(),
+        id,
         initialName,
         Math.random() > 0.5 ? Gender.Male : Gender.Female,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(faker.datatype.boolean()),
         new DateValueObject(faker.date.past()),
+        userId,
       );
 
       // Act
@@ -214,12 +238,13 @@ describe('Pet', () => {
       const newGender = initialGender === Gender.Male ? Gender.Female : Gender.Male;
 
       const pet = Pet.create(
-        randomUUID(),
+        id,
         new StringValueObject(faker.animal.cat()),
         initialGender,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(faker.datatype.boolean()),
         new DateValueObject(faker.date.past()),
+        userId,
       );
 
       // Act
@@ -232,12 +257,13 @@ describe('Pet', () => {
     it('can be sterilized', () => {
       // Arrange
       const pet = Pet.create(
-        randomUUID(),
+        id,
         new StringValueObject(faker.animal.cat()),
         Math.random() > 0.5 ? Gender.Male : Gender.Female,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(false),
         new DateValueObject(faker.date.past()),
+        userId,
       );
 
       // Act
@@ -250,12 +276,13 @@ describe('Pet', () => {
     it('can set memorial date', () => {
       // Arrange
       const pet = Pet.create(
-        randomUUID(),
+        id,
         new StringValueObject(faker.animal.cat()),
         Math.random() > 0.5 ? Gender.Male : Gender.Female,
         new StringValueObject(faker.string.alphanumeric(9)),
         new BooleanValueObject(faker.datatype.boolean()),
         new DateValueObject(faker.date.past()),
+        userId,
       );
       const memorialDate = new DateValueObject(faker.date.recent());
 

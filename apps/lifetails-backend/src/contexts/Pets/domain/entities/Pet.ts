@@ -15,6 +15,7 @@ export class Pet extends AggregateRoot {
   // This is the date used to celebrate the pet's birthday.
   private birthDate: DateValueObject;
   private memorialDate: DateValueObject | null;
+  private userId: string | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
@@ -25,6 +26,7 @@ export class Pet extends AggregateRoot {
     sterilized: BooleanValueObject,
     birthDate: DateValueObject,
     createdAt: DateValueObject,
+    userId: string | null = null,
     memorialDate?: DateValueObject,
   ) {
     super();
@@ -35,6 +37,7 @@ export class Pet extends AggregateRoot {
     this.chipId = chipId;
     this.sterilized = sterilized;
     this.birthDate = birthDate;
+    this.userId = userId;
     this.memorialDate = memorialDate ?? null;
   }
 
@@ -46,10 +49,11 @@ export class Pet extends AggregateRoot {
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
     birthDate: DateValueObject,
+    userId: string,
     memorialDate?: DateValueObject,
   ) {
     const now = new DateValueObject(new Date());
-    return new Pet(id, name, gender, chipId, sterilized, birthDate, now, memorialDate);
+    return new Pet(id, name, gender, chipId, sterilized, birthDate, now, userId, memorialDate);
   }
 
   // Use to reconstruct the entity from the database
@@ -61,6 +65,7 @@ export class Pet extends AggregateRoot {
     sterilized: boolean,
     birthDate: Date,
     createdAt: Date,
+    userId: string,
     memorialDate?: Date,
   ) {
     return new Pet(
@@ -71,6 +76,7 @@ export class Pet extends AggregateRoot {
       new BooleanValueObject(sterilized),
       new DateValueObject(birthDate),
       new DateValueObject(createdAt),
+      userId,
       memorialDate ? new DateValueObject(memorialDate) : undefined,
     );
   }
@@ -103,6 +109,10 @@ export class Pet extends AggregateRoot {
     return this.birthDate;
   }
 
+  public getUserId(): string | null {
+    return this.userId;
+  }
+
   public getMemorialDate(): DateValueObject | undefined {
     return this.memorialDate;
   }
@@ -116,6 +126,7 @@ export class Pet extends AggregateRoot {
       sterilized: this.sterilized.getValue(),
       birthDate: this.birthDate.toISOString(),
       createdAt: this.createdAt.toISOString(),
+      userId: this.userId,
       memorialDate: this.memorialDate?.toISOString(),
     };
   }
@@ -142,6 +153,10 @@ export class Pet extends AggregateRoot {
 
   public changeBirthdateTo(birthDate: DateValueObject): void {
     this.birthDate = birthDate;
+  }
+
+  public assignToUser(userId: string): void {
+    this.userId = userId;
   }
 
   public die(memorialDate: DateValueObject): void {

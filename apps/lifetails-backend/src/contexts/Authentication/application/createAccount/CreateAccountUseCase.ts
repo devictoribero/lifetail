@@ -17,7 +17,7 @@ export class CreateAccountUseCase {
     private readonly hasher: PasswordHasher,
   ) {}
 
-  async execute(command: CreateAccountCommand): Promise<void> {
+  async execute(command: CreateAccountCommand): Promise<Account> {
     const existingAccount = await this.repository.findByEmail(command.email);
 
     if (existingAccount) {
@@ -28,5 +28,6 @@ export class CreateAccountUseCase {
     const account = Account.create(new EmailValueObject(command.email), passwordHashed);
 
     await this.repository.save(account);
+    return account;
   }
 }

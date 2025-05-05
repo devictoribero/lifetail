@@ -41,6 +41,7 @@ describe('AddPetMutation', () => {
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
         birthDate: faker.date.past(),
+        userId: faker.string.uuid(),
       };
 
       // Act
@@ -69,6 +70,7 @@ describe('AddPetMutation', () => {
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
         birthDate: faker.date.past(),
+        userId: faker.string.uuid(),
       };
 
       const error = new Error('Invalid input');
@@ -87,6 +89,7 @@ describe('AddPetMutation', () => {
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
         birthDate: faker.date.past(),
+        userId: faker.string.uuid(),
       };
 
       jest.spyOn(useCase, 'execute').mockRejectedValue({});

@@ -1,63 +1,86 @@
-import { Pet } from '../../domain/entities/Pet';
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 import { SearchAllPetsUseCase } from './SearchAllPetsUseCase';
+import { SearchAllPetsQuery } from './SearchAllPetsQuery';
+import { Pet } from '../../domain/entities/Pet';
+import { randomUUID } from 'node:crypto';
+import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { Gender } from '../../../Shared/domain/Gender';
 import { faker } from '@faker-js/faker';
-import { randomUUID } from 'node:crypto';
 
 describe('SearchAllPetsUseCase', () => {
   let repository: PetInMemoryRepository;
   let useCase: SearchAllPetsUseCase;
+  let userId: string;
+  let anotherUserId: string;
 
   beforeEach(() => {
     repository = new PetInMemoryRepository();
     useCase = new SearchAllPetsUseCase(repository);
+    userId = randomUUID();
+    anotherUserId = randomUUID();
   });
 
-  it('should return an empty array when there are no pets', async () => {
-    const result = await useCase.execute();
+  it('should return empty array when user has no pets', async () => {
+    // Arrange
+    const query = new SearchAllPetsQuery(userId);
+    const findByUserSpy = jest.spyOn(repository, 'findByUser');
 
-    expect(result).toEqual([]);
+    // Act
+    const pets = await useCase.execute(query);
+
+    // Assert
+    expect(findByUserSpy).toHaveBeenCalledTimes(1);
+    expect(findByUserSpy).toHaveBeenCalledWith(userId);
+    expect(pets).toEqual([]);
   });
 
-  it('should search all pets', async () => {
-    // Create pets
-    const pet1 = Pet.create(
-      'pet-1',
-      new StringValueObject(faker.animal.cat()),
-      Gender.fromPrimitives('Male'),
-      new StringValueObject('123456'),
-      new BooleanValueObject(faker.datatype.boolean()),
-      new DateValueObject(faker.date.past()),
+  it("should return user's pets only when userId is provided", async () => {
+    // Arrange
+    // Create 2 pets for the target user
+    const userPet1 = createPet(userId);
+    const userPet2 = createPet(userId);
+
+    // Create 1 pet for another user
+    const anotherUserPet = createPet(anotherUserId);
+
+    // Save all the pets
+    await repository.save(userPet1);
+    await repository.save(userPet2);
+    await repository.save(anotherUserPet);
+
+    const findByUserSpy = jest.spyOn(repository, 'findByUser');
+    const query = new SearchAllPetsQuery(userId);
+
+    // Act
+    const pets = await useCase.execute(query);
+
+    // Assert
+    expect(findByUserSpy).toHaveBeenCalledTimes(1);
+    expect(findByUserSpy).toHaveBeenCalledWith(userId);
+    expect(pets).toHaveLength(2);
+    expect(pets[0].getUserId()).toBe(userId);
+    expect(pets[1].getUserId()).toBe(userId);
+  });
+
+  // Helper function to create a pet for a specific user
+  function createPet(ownerId?: string): Pet {
+    const id = randomUUID();
+    const name = faker.animal.cat();
+    const gender = faker.helpers.arrayElement(['Male', 'Female']);
+    const chipId = faker.string.numeric(9);
+    const sterilized = faker.datatype.boolean();
+    const birthDate = faker.date.past();
+
+    return Pet.create(
+      id,
+      new StringValueObject(name),
+      Gender.fromPrimitives(gender),
+      new StringValueObject(chipId),
+      new BooleanValueObject(sterilized),
+      new DateValueObject(birthDate),
+      ownerId,
     );
-
-    const secondPetId = randomUUID();
-    const secondPetName = faker.animal.cat();
-    const pet2 = Pet.create(
-      secondPetId,
-      new StringValueObject(secondPetName),
-      Gender.fromPrimitives('Female'),
-      new StringValueObject('789012'),
-      new BooleanValueObject(faker.datatype.boolean()),
-      new DateValueObject(faker.date.past()),
-    );
-
-    // Save pets
-    await repository.save(pet1);
-    await repository.save(pet2);
-
-    // Delete one pet
-    await repository.remove('pet-1');
-
-    // Search all
-    const result = await useCase.execute();
-
-    // Should find only the non-deleted pet
-    expect(result).toHaveLength(1);
-    expect(result[0].getId()).toBe(secondPetId);
-    expect(result[0].getName().toString()).toBe(secondPetName);
-  });
+  }
 });

@@ -2,18 +2,19 @@ import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
 import { UUID } from '../../../Shared/domain/UUID';
 import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 export class Account extends AggregateRoot {
   private readonly id: UUID;
   private readonly email: EmailValueObject;
   private readonly password: PasswordHashValueObject;
-  private readonly createdAt: Date;
+  private readonly createdAt: DateValueObject;
 
   private constructor(
     id: UUID,
     email: EmailValueObject,
     password: PasswordHashValueObject,
-    createdAt: Date,
+    createdAt: DateValueObject,
   ) {
     super();
     this.id = id;
@@ -24,7 +25,7 @@ export class Account extends AggregateRoot {
 
   static create(email: EmailValueObject, password: PasswordHashValueObject): Account {
     const id = UUID.create();
-    const createdAt = new Date();
+    const createdAt = new DateValueObject(new Date());
 
     const account = new Account(id, email, password, createdAt);
 
@@ -52,7 +53,7 @@ export class Account extends AggregateRoot {
     return this.password;
   }
 
-  getCreatedAt(): Date {
+  getCreatedAt(): DateValueObject {
     return this.createdAt;
   }
 }

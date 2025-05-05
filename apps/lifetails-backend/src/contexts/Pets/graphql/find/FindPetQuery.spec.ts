@@ -5,10 +5,6 @@ import { FindPetInput } from './FindPetInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Pet } from '../../domain/entities/Pet';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { Gender } from '../../../Shared/domain/Gender';
-import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 const createMockPet = (
   id: string,
@@ -18,6 +14,7 @@ const createMockPet = (
   sterilized: boolean,
   birthDate: Date,
   createdAt: Date,
+  userId: string,
   memorialDate?: Date,
 ): Pet => {
   return Pet.fromPrimitives(
@@ -28,6 +25,7 @@ const createMockPet = (
     sterilized,
     birthDate,
     createdAt,
+    userId,
     memorialDate,
   );
 };
@@ -60,7 +58,7 @@ describe('FindPetQuery', () => {
   describe('findPet', () => {
     it('should return a pet when found', async () => {
       // Arrange
-      const id = randomUUID();
+      const id = faker.string.uuid();
       const input: FindPetInput = { id };
 
       const mockName = faker.animal.dog();
@@ -69,7 +67,7 @@ describe('FindPetQuery', () => {
       const mockSterilized = faker.datatype.boolean();
       const mockBirthdate = faker.date.past();
       const mockCreatedAt = faker.date.past();
-
+      const mockUserId = faker.string.uuid();
       const mockPet = createMockPet(
         id,
         mockName,
@@ -78,6 +76,7 @@ describe('FindPetQuery', () => {
         mockSterilized,
         mockBirthdate,
         mockCreatedAt,
+        mockUserId,
       );
 
       jest.spyOn(useCase, 'execute').mockResolvedValue(mockPet);

@@ -1,4 +1,4 @@
-import { User } from '../domain/User';
+import { User } from '../domain/entities/User';
 import { UserInMemoryRepository } from './UserInMemoryRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';

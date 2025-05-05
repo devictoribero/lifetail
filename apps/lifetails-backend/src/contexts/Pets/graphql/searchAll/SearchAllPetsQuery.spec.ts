@@ -13,6 +13,7 @@ const createMockPet = (
   sterilized: boolean,
   birthDate: Date,
   createdAt: Date,
+  userId: string,
   memorialDate?: Date,
 ): Pet => {
   return Pet.fromPrimitives(
@@ -23,6 +24,7 @@ const createMockPet = (
     sterilized,
     birthDate,
     createdAt,
+    userId,
     memorialDate,
   );
 };
@@ -30,6 +32,7 @@ const createMockPet = (
 describe('SearchAllPetsQuery', () => {
   let resolver: SearchAllPetsQuery;
   let useCase: SearchAllPetsUseCase;
+  let userId: string;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -64,6 +67,7 @@ describe('SearchAllPetsQuery', () => {
           faker.datatype.boolean(),
           faker.date.past(),
           faker.date.past(),
+          userId,
         ),
         createMockPet(
           randomUUID(),
@@ -73,13 +77,14 @@ describe('SearchAllPetsQuery', () => {
           faker.datatype.boolean(),
           faker.date.past(),
           faker.date.past(),
+          userId,
         ),
       ];
 
       jest.spyOn(useCase, 'execute').mockResolvedValue(mockPets);
 
       // Act
-      const result = await resolver.searchAllPets();
+      const result = await resolver.searchAllPets(userId);
 
       // Assert
       expect(useCase.execute).toHaveBeenCalled();
@@ -112,7 +117,7 @@ describe('SearchAllPetsQuery', () => {
       jest.spyOn(useCase, 'execute').mockResolvedValue([]);
 
       // Act
-      const result = await resolver.searchAllPets();
+      const result = await resolver.searchAllPets(userId);
 
       // Assert
       expect(useCase.execute).toHaveBeenCalled();
@@ -125,7 +130,7 @@ describe('SearchAllPetsQuery', () => {
       jest.spyOn(useCase, 'execute').mockRejectedValue(error);
 
       // Act & Assert
-      await expect(resolver.searchAllPets()).rejects.toThrow('Database error');
+      await expect(resolver.searchAllPets(userId)).rejects.toThrow('Database error');
     });
 
     it('should handle errors with no message', async () => {
@@ -133,7 +138,7 @@ describe('SearchAllPetsQuery', () => {
       jest.spyOn(useCase, 'execute').mockRejectedValue({});
 
       // Act & Assert
-      await expect(resolver.searchAllPets()).rejects.toThrow('Error searching all pets');
+      await expect(resolver.searchAllPets(userId)).rejects.toThrow('Error searching all pets');
     });
   });
 });

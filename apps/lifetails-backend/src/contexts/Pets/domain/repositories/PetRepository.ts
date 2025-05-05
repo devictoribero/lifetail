@@ -5,4 +5,5 @@ export interface PetRepository {
   remove(id: string): Promise<void>;
   find(id: string): Promise<Pet | null>;
   findAll(): Promise<Pet[]>;
+  findByUser(userId: string): Promise<Pet[]>;
 }

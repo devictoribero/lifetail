@@ -11,6 +11,7 @@ interface InMemoryPet {
   birthDate: Date;
   createdAt: Date;
   memorialDate?: Date;
+  userId?: string;
 }
 
 export class PetInMemoryRepository implements PetRepository {
@@ -45,6 +46,7 @@ export class PetInMemoryRepository implements PetRepository {
       pet.sterilized,
       pet.birthDate,
       pet.createdAt,
+      pet.userId,
       pet.memorialDate,
     );
   }
@@ -63,6 +65,31 @@ export class PetInMemoryRepository implements PetRepository {
             pet.sterilized,
             pet.birthDate,
             pet.createdAt,
+            pet.userId,
+            pet.memorialDate,
+          ),
+        );
+      }
+    }
+
+    return pets;
+  }
+
+  async findByUser(userId: string): Promise<Pet[]> {
+    const pets: Pet[] = [];
+
+    for (const pet of this.pets.values()) {
+      if (!pet.isDeleted && pet.userId === userId) {
+        pets.push(
+          Pet.fromPrimitives(
+            pet.id,
+            pet.name,
+            pet.gender,
+            pet.chipId,
+            pet.sterilized,
+            pet.birthDate,
+            pet.createdAt,
+            pet.userId,
             pet.memorialDate,
           ),
         );

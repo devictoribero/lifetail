@@ -1,15 +1,15 @@
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
-import { User } from '../../domain/User';
-import { UserRepository } from '../../domain/UserRepository';
+import { User } from '../../domain/entities/User';
+import { UserRepository } from '../../domain/repositories/UserRepository';
 import { CreateUserCommand } from './CreateUserCommand';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 export class CreateUserUseCase {
   constructor(private readonly repository: UserRepository) {}
 
-  async run(command: CreateUserCommand): Promise<void> {
+  async execute(command: CreateUserCommand): Promise<void> {
     const user = User.create(
       new UUID(command.id),
       new UUID(command.accountId),

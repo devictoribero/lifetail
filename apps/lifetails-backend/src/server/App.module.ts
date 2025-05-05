@@ -6,6 +6,8 @@ import { join } from 'path';
 import { AppService } from './app.service';
 import { PetLifeMomentsModule } from 'src/contexts/PetLifeMoments/PetLifeMoments.module';
 import { PetsModule } from 'src/contexts/Pets/Pets.module';
+import { UsersModule } from 'src/contexts/Users/Users.module';
+import { AuthenticationModule } from 'src/contexts/Authentication/Authentication.module';
 import { GraphqlModule } from 'src/contexts/Shared/Graphql.module';
 import { HealthCheckQuery } from 'src/contexts/Shared/HealthCheckQuery';
 import { ConfigModule } from '@nestjs/config';
@@ -24,6 +26,8 @@ import { ConfigModule } from '@nestjs/config';
     GraphqlModule,
     PetLifeMomentsModule,
     PetsModule,
+    UsersModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [AppService, HealthCheckQuery],

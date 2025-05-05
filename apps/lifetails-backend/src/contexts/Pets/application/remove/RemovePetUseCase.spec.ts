@@ -35,6 +35,7 @@ describe('RemovePetUseCase', () => {
     const chipId = faker.string.numeric(9);
     const sterilized = faker.datatype.boolean();
     const birthDate = faker.date.past();
+    const userId = faker.string.uuid();
     // Create and save a pet
     const pet = Pet.create(
       id,
@@ -43,6 +44,7 @@ describe('RemovePetUseCase', () => {
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(birthDate),
+      userId,
     );
     await repository.save(pet);
     // Verify the pet exists before removal

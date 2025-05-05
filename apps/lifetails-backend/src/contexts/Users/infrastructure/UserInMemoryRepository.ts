@@ -1,5 +1,5 @@
-import { User } from '../domain/User';
-import { UserRepository } from '../domain/UserRepository';
+import { User } from '../domain/entities/User';
+import { UserRepository } from '../domain/repositories/UserRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 export class UserInMemoryRepository implements UserRepository {

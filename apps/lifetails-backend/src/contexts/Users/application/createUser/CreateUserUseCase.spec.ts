@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from './CreateUserUseCase';
-import { UserRepository } from '../../domain/UserRepository';
-import { User } from '../../domain/User';
+import { UserRepository } from '../../domain/repositories/UserRepository';
+import { User } from '../../domain/entities/User';
 import { faker } from '@faker-js/faker';
 import { CreateUserCommand } from './CreateUserCommand';
 
@@ -28,7 +28,7 @@ describe('CreateUserUseCase', () => {
     const command = new CreateUserCommand(id, accountId, name, nickname, gender, birthDate);
 
     // Act
-    await useCase.run(command);
+    await useCase.execute(command);
 
     // Assert
     expect(repository.save).toHaveBeenCalledTimes(1);

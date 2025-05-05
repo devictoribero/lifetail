@@ -19,6 +19,7 @@ export class AddPetMutation {
           input.chipId,
           input.sterilized,
           input.birthDate,
+          input.userId,
         ),
       );
 

@@ -17,6 +17,7 @@ export class AddPetUseCase {
       new StringValueObject(command.chipId),
       new BooleanValueObject(command.sterilized),
       new DateValueObject(command.birthDate),
+      command.userId,
     );
 
     await this.repository.save(pet);
