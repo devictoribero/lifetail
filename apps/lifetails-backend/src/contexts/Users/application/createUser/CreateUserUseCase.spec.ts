@@ -1,6 +1,6 @@
 import { CreateUserUseCase } from './CreateUserUseCase';
-import { UserRepository } from '../domain/UserRepository';
-import { User } from '../domain/User';
+import { UserRepository } from '../../domain/UserRepository';
+import { User } from '../../domain/User';
 import { faker } from '@faker-js/faker';
 import { CreateUserCommand } from './CreateUserCommand';
 
