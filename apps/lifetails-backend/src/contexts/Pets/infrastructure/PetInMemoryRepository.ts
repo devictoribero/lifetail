@@ -51,36 +51,12 @@ export class PetInMemoryRepository implements PetRepository {
     );
   }
 
-  async findAll(): Promise<Pet[]> {
-    const pets: Pet[] = [];
-
-    for (const pet of this.pets.values()) {
-      if (!pet.isDeleted) {
-        pets.push(
-          Pet.fromPrimitives(
-            pet.id,
-            pet.name,
-            pet.gender,
-            pet.chipId,
-            pet.sterilized,
-            pet.birthDate,
-            pet.createdAt,
-            pet.userId,
-            pet.memorialDate,
-          ),
-        );
-      }
-    }
-
-    return pets;
-  }
-
   async findByUser(userId: string): Promise<Pet[]> {
-    const pets: Pet[] = [];
+    const filteredPets: Pet[] = [];
 
     for (const pet of this.pets.values()) {
       if (!pet.isDeleted && pet.userId === userId) {
-        pets.push(
+        filteredPets.push(
           Pet.fromPrimitives(
             pet.id,
             pet.name,
@@ -96,6 +72,6 @@ export class PetInMemoryRepository implements PetRepository {
       }
     }
 
-    return pets;
+    return filteredPets;
   }
 }

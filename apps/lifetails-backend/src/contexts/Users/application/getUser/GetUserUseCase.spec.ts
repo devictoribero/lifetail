@@ -2,7 +2,7 @@ import { GetUserUseCase } from './GetUserUseCase';
 import { UserRepository } from '../../domain/repositories/UserRepository';
 import { User } from '../../domain/entities/User';
 import { faker } from '@faker-js/faker';
-import { GetUserCommand } from './GetUserCommand';
+import { GetUserQuery } from './GetUserQuery';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
@@ -41,7 +41,7 @@ describe('GetUserUseCase', () => {
 
   it('should get a user by account ID', async () => {
     // Arrange
-    const command = new GetUserCommand(accountId);
+    const command = new GetUserQuery(accountId);
 
     // Act
     const result = await useCase.execute(command);
@@ -56,7 +56,7 @@ describe('GetUserUseCase', () => {
     // Arrange
     const notFoundAccountId = faker.string.uuid();
     (repository.getByAccountId as jest.Mock).mockResolvedValue(null);
-    const command = new GetUserCommand(notFoundAccountId);
+    const command = new GetUserQuery(notFoundAccountId);
 
     // Act & Assert
     await expect(useCase.execute(command)).rejects.toThrow(UserNotFoundException);
