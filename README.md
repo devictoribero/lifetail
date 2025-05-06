@@ -6,6 +6,7 @@ Capture every moment, milestone, and memory of your pet's journey.
 
 - Review all the entities (and tests)
 - Review all the use cases (and tests)
+- Add domain events
 - Create PetOwnership entity, etc.
 - Create lifetails namespace on Postman and create graphql queries/mutations
   - Test that all graphql queries/mutations work as expected
