@@ -41,7 +41,7 @@ describe('CreateUserUseCase', () => {
       nickname,
       gender,
       birthDate: birthDate.toISOString(),
-      createdAt: expect.any(Date),
+      createdAt: expect.any(String),
     });
   });
 });
