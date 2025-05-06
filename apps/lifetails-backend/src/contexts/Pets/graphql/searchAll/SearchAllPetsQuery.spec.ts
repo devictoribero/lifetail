@@ -13,7 +13,7 @@ const createMockPet = (
   gender: string,
   chipId: string,
   sterilized: boolean,
-  birthDate: Date,
+  anniversaryDate: Date,
   createdAt: Date,
   userId: string,
 ): Pet => {
@@ -24,7 +24,7 @@ const createMockPet = (
     gender,
     chipId,
     sterilized,
-    birthDate,
+    anniversaryDate,
     createdAt,
     userId,
   );
@@ -100,7 +100,7 @@ describe('SearchAllPetsQuery', () => {
         gender: mockPets[0].getGender(),
         chipId: mockPets[0].getChipId().toString(),
         sterilized: mockPets[0].isSterilized().getValue(),
-        birthDate: mockPets[0].getBirthdate().toDate(),
+        anniversaryDate: mockPets[0].getAnniversaryDate().toDate(),
       });
 
       expect(result[1]).toEqual({
@@ -109,7 +109,7 @@ describe('SearchAllPetsQuery', () => {
         gender: mockPets[1].getGender(),
         chipId: mockPets[1].getChipId().toString(),
         sterilized: mockPets[1].isSterilized().getValue(),
-        birthDate: mockPets[1].getBirthdate().toDate(),
+        anniversaryDate: mockPets[1].getAnniversaryDate().toDate(),
       });
     });
 

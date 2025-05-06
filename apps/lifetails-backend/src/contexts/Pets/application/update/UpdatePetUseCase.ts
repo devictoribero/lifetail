@@ -36,8 +36,8 @@ export class UpdatePetUseCase {
       }
     }
 
-    if (this.hasValue(command.birthDate)) {
-      pet.changeBirthdateTo(new DateValueObject(command.birthDate));
+    if (this.hasValue(command.anniversaryDate)) {
+      pet.changeBirthdateTo(new DateValueObject(command.anniversaryDate));
     }
 
     await this.repository.save(pet);

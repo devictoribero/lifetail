@@ -42,7 +42,7 @@ describe('AddPetMutation', () => {
         gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
-        birthDate: faker.date.past(),
+        anniversaryDate: faker.date.past(),
         userId: faker.string.uuid(),
       };
 
@@ -58,7 +58,7 @@ describe('AddPetMutation', () => {
           gender: input.gender.toString(),
           chipId: input.chipId,
           sterilized: input.sterilized,
-          birthDate: input.birthDate,
+          anniversaryDate: input.anniversaryDate,
         }),
       );
       expect(result).toEqual({ id: input.id });
@@ -73,7 +73,7 @@ describe('AddPetMutation', () => {
         gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
-        birthDate: faker.date.past(),
+        anniversaryDate: faker.date.past(),
         userId: faker.string.uuid(),
       };
 
@@ -93,7 +93,7 @@ describe('AddPetMutation', () => {
         gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
-        birthDate: faker.date.past(),
+        anniversaryDate: faker.date.past(),
         userId: faker.string.uuid(),
       };
 

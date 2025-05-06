@@ -22,10 +22,10 @@ describe('Pet', () => {
     const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
     const chipId = new StringValueObject(faker.string.alphanumeric(9));
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
-    const birthDate = new DateValueObject(faker.date.past());
+    const anniversaryDate = new DateValueObject(faker.date.past());
 
     // Act
-    const pet = Pet.create(id, species, name, gender, chipId, sterilized, birthDate, userId);
+    const pet = Pet.create(id, species, name, gender, chipId, sterilized, anniversaryDate, userId);
 
     // Assert
     expect(pet).toBeDefined();
@@ -34,7 +34,7 @@ describe('Pet', () => {
     expect(pet.getGender()).toBe(gender);
     expect(pet.getChipId()).toBe(chipId);
     expect(pet.isSterilized()).toBe(sterilized);
-    expect(pet.getBirthdate()).toBe(birthDate);
+    expect(pet.getAnniversaryDate()).toBe(anniversaryDate);
     expect(pet.getCreatedAt()).toBeDefined();
   });
 
@@ -45,7 +45,7 @@ describe('Pet', () => {
     const gender = Math.random() > 0.5 ? 'Male' : 'Female';
     const chipId = faker.string.alphanumeric(9);
     const sterilized = faker.datatype.boolean();
-    const birthDate = faker.date.past();
+    const anniversaryDate = faker.date.past();
     const createdAt = faker.date.recent();
 
     // Act
@@ -56,7 +56,7 @@ describe('Pet', () => {
       gender,
       chipId,
       sterilized,
-      birthDate,
+      anniversaryDate,
       createdAt,
       userId,
     );
@@ -68,7 +68,7 @@ describe('Pet', () => {
     expect(pet.getGender().toString()).toBe(gender);
     expect(pet.getChipId().toString()).toBe(chipId);
     expect(pet.isSterilized().getValue()).toBe(sterilized);
-    expect(pet.getBirthdate().toDate()).toEqual(birthDate);
+    expect(pet.getAnniversaryDate().toDate()).toEqual(anniversaryDate);
     expect(pet.getCreatedAt().toDate()).toEqual(createdAt);
   });
 
@@ -79,7 +79,7 @@ describe('Pet', () => {
     const gender = Math.random() > 0.5 ? 'Male' : 'Female';
     const chipId = faker.string.alphanumeric(9);
     const sterilized = faker.datatype.boolean();
-    const birthDate = faker.date.past();
+    const anniversaryDate = faker.date.past();
     const createdAt = faker.date.recent();
     const pet = Pet.fromPrimitives(
       id,
@@ -88,7 +88,7 @@ describe('Pet', () => {
       gender,
       chipId,
       sterilized,
-      birthDate,
+      anniversaryDate,
       createdAt,
       userId,
     );
@@ -104,7 +104,7 @@ describe('Pet', () => {
       gender,
       chipId,
       sterilized,
-      birthDate: birthDate.toISOString(),
+      anniversaryDate: anniversaryDate.toISOString(),
       createdAt: createdAt.toISOString(),
       userId,
     });

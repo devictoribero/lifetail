@@ -39,7 +39,7 @@ describe('FindPetUseCase', () => {
     const chipId = faker.string.numeric(9);
     // const sterilized = faker.datatype.boolean();
     const sterilized = true;
-    const birthDate = faker.date.past();
+    const anniversaryDate = faker.date.past();
 
     // Create and save a pet
     const pet = Pet.create(
@@ -49,7 +49,7 @@ describe('FindPetUseCase', () => {
       Gender.fromPrimitives(gender),
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
-      new DateValueObject(birthDate),
+      new DateValueObject(anniversaryDate),
       userId,
     );
 
@@ -70,6 +70,6 @@ describe('FindPetUseCase', () => {
     expect(foundPet.getGender().toString()).toBe(gender);
     expect(foundPet.getChipId().toString()).toBe(chipId);
     expect(foundPet.isSterilized().getValue()).toBe(sterilized);
-    expect(foundPet.getBirthdate().toDate().getTime()).toBe(birthDate.getTime());
+    expect(foundPet.getAnniversaryDate().toDate().getTime()).toBe(anniversaryDate.getTime());
   });
 });

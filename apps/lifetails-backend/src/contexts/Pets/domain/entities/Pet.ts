@@ -15,7 +15,7 @@ export class Pet extends AggregateRoot {
   private sterilized: BooleanValueObject;
   // Represents the date of birth or arrival date.
   // This is the date used to celebrate the pet's birthday.
-  private birthDate: DateValueObject;
+  private anniversaryDate: DateValueObject;
   private userId: string | null;
 
   // Use for testing purposes only. It should not be used in the domain.
@@ -26,7 +26,7 @@ export class Pet extends AggregateRoot {
     gender: Gender,
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
-    birthDate: DateValueObject,
+    anniversaryDate: DateValueObject,
     createdAt: DateValueObject,
     userId: string | null = null,
   ) {
@@ -38,7 +38,7 @@ export class Pet extends AggregateRoot {
     this.gender = gender;
     this.chipId = chipId;
     this.sterilized = sterilized;
-    this.birthDate = birthDate;
+    this.anniversaryDate = anniversaryDate;
     this.userId = userId;
   }
 
@@ -50,11 +50,11 @@ export class Pet extends AggregateRoot {
     gender: Gender,
     chipId: StringValueObject,
     sterilized: BooleanValueObject,
-    birthDate: DateValueObject,
+    anniversaryDate: DateValueObject,
     userId: string,
   ) {
     const now = new DateValueObject(new Date());
-    return new Pet(id, species, name, gender, chipId, sterilized, birthDate, now, userId);
+    return new Pet(id, species, name, gender, chipId, sterilized, anniversaryDate, now, userId);
   }
 
   // Use to reconstruct the entity from the database
@@ -65,7 +65,7 @@ export class Pet extends AggregateRoot {
     gender: string,
     chipId: string,
     sterilized: boolean,
-    birthDate: Date,
+    anniversaryDate: Date,
     createdAt: Date,
     userId: string,
   ) {
@@ -76,7 +76,7 @@ export class Pet extends AggregateRoot {
       Gender.fromPrimitives(gender),
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
-      new DateValueObject(birthDate),
+      new DateValueObject(anniversaryDate),
       new DateValueObject(createdAt),
       userId,
     );
@@ -110,8 +110,8 @@ export class Pet extends AggregateRoot {
     return this.sterilized;
   }
 
-  public getBirthdate(): DateValueObject {
-    return this.birthDate;
+  public getAnniversaryDate(): DateValueObject {
+    return this.anniversaryDate;
   }
 
   public getUserId(): string | null {
@@ -126,7 +126,7 @@ export class Pet extends AggregateRoot {
       gender: this.gender.toString(),
       chipId: this.chipId.toString(),
       sterilized: this.sterilized.getValue(),
-      birthDate: this.birthDate.toISOString(),
+      anniversaryDate: this.anniversaryDate.toISOString(),
       createdAt: this.createdAt.toISOString(),
       userId: this.userId,
     };
@@ -152,7 +152,7 @@ export class Pet extends AggregateRoot {
     this.chipId = chipId;
   }
 
-  public changeBirthdateTo(birthDate: DateValueObject): void {
-    this.birthDate = birthDate;
+  public changeBirthdateTo(anniversaryDate: DateValueObject): void {
+    this.anniversaryDate = anniversaryDate;
   }
 }

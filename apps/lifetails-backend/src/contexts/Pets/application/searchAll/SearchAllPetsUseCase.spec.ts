@@ -72,7 +72,7 @@ describe('SearchAllPetsUseCase', () => {
     const gender = faker.helpers.arrayElement(['Male', 'Female']);
     const chipId = faker.string.numeric(9);
     const sterilized = faker.datatype.boolean();
-    const birthDate = faker.date.past();
+    const anniversaryDate = faker.date.past();
 
     return Pet.create(
       id,
@@ -81,7 +81,7 @@ describe('SearchAllPetsUseCase', () => {
       Gender.fromPrimitives(gender),
       new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
-      new DateValueObject(birthDate),
+      new DateValueObject(anniversaryDate),
       ownerId,
     );
   }

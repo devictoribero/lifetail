@@ -13,7 +13,7 @@ const createMockPet = (
   gender: string,
   chipId: string,
   sterilized: boolean,
-  birthDate: Date,
+  anniversaryDate: Date,
   createdAt: Date,
   userId: string,
 ): Pet => {
@@ -24,7 +24,7 @@ const createMockPet = (
     gender,
     chipId,
     sterilized,
-    birthDate,
+    anniversaryDate,
     createdAt,
     userId,
   );
@@ -94,7 +94,7 @@ describe('FindPetQuery', () => {
         gender: mockPet.getGender(),
         chipId: mockPet.getChipId().toString(),
         sterilized: mockPet.isSterilized().getValue(),
-        birthDate: mockPet.getBirthdate().toDate(),
+        anniversaryDate: mockPet.getAnniversaryDate().toDate(),
       });
     });
 

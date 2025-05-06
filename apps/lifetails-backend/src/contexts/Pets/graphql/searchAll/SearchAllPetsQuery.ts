@@ -19,7 +19,7 @@ export class SearchAllPetsQuery {
         gender: pet.getGender(),
         chipId: pet.getChipId().toString(),
         sterilized: pet.isSterilized().getValue(),
-        birthDate: pet.getBirthdate().toDate(),
+        anniversaryDate: pet.getAnniversaryDate().toDate(),
       }));
     } catch (error) {
       throw new Error(error.message ?? 'Error searching all pets');

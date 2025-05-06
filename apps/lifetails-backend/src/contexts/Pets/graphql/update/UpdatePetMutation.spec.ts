@@ -39,7 +39,7 @@ describe('UpdatePetMutation', () => {
         gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
         sterilized: faker.datatype.boolean(),
-        birthDate: faker.date.past(),
+        anniversaryDate: faker.date.past(),
       };
 
       // Act
@@ -53,7 +53,7 @@ describe('UpdatePetMutation', () => {
           gender: input.gender.toString(),
           chipId: input.chipId,
           sterilized: input.sterilized,
-          birthDate: input.birthDate,
+          anniversaryDate: input.anniversaryDate,
         }),
       );
       expect(result).toEqual({ id: input.id });
@@ -77,7 +77,7 @@ describe('UpdatePetMutation', () => {
           gender: undefined,
           chipId: undefined,
           sterilized: undefined,
-          birthDate: undefined,
+          anniversaryDate: undefined,
         }),
       );
       expect(result).toEqual({ id: input.id });

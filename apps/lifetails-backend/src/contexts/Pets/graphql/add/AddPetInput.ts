@@ -26,8 +26,8 @@ export class AddPetInput {
   @Field()
   sterilized: boolean;
 
-  @Field()
-  birthDate: Date;
+  @Field(() => Date)
+  anniversaryDate: Date;
 
   @Field()
   userId: string;

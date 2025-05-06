@@ -68,7 +68,7 @@ describe('UpdatePetUseCase', () => {
     expect(updatedPet?.getGender().toString()).toBe(newGender);
     expect(updatedPet?.getChipId().toString()).toBe(newChipId);
     expect(updatedPet?.isSterilized().getValue()).toBe(newSterilized);
-    expect(updatedPet?.getBirthdate().toISOString()).toBe(
+    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
       new DateValueObject(newBirthdate).toISOString(),
     );
   });
@@ -85,7 +85,9 @@ describe('UpdatePetUseCase', () => {
     expect(updatedPet?.getGender().toString()).toBe(originalPet.getGender().toString()); // Unchanged
     expect(updatedPet?.getChipId().toString()).toBe(originalPet.getChipId().toString()); // Unchanged
     expect(updatedPet?.isSterilized().getValue()).toBe(originalPet.isSterilized().getValue()); // Unchanged
-    expect(updatedPet?.getBirthdate().toISOString()).toBe(originalPet.getBirthdate().toISOString()); // Unchanged
+    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
+      originalPet.getAnniversaryDate().toISOString(),
+    ); // Unchanged
   });
 
   it('should update only sterilized status when only that is provided', async () => {
@@ -100,7 +102,9 @@ describe('UpdatePetUseCase', () => {
     expect(updatedPet?.getGender().toString()).toBe(originalPet.getGender().toString()); // Unchanged
     expect(updatedPet?.getChipId().toString()).toBe(originalPet.getChipId().toString()); // Unchanged
     expect(updatedPet?.isSterilized().getValue()).not.toBe(originalPet.isSterilized().getValue()); // Changed
-    expect(updatedPet?.getBirthdate().toISOString()).toBe(originalPet.getBirthdate().toISOString()); // Unchanged
+    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
+      originalPet.getAnniversaryDate().toISOString(),
+    ); // Unchanged
   });
 
   it('should update multiple fields when multiple are provided', async () => {
@@ -124,7 +128,7 @@ describe('UpdatePetUseCase', () => {
     expect(updatedPet?.getGender().toString()).toBe(newGender); // Changed
     expect(updatedPet?.getChipId().toString()).toBe(originalPet.getChipId().toString()); // Unchanged
     expect(updatedPet?.isSterilized().getValue()).toBe(originalPet.isSterilized().getValue()); // Unchanged
-    expect(updatedPet?.getBirthdate().toISOString()).toBe(
+    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
       new DateValueObject(newBirthdate).toISOString(),
     ); // Changed
   });
