@@ -6,12 +6,17 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { Species } from '../../domain/entities/PetSpecies';
+import { MaxNumberOfPetsReachedException } from '../../domain/exceptions/MaxNumberOfPetsReachedException';
+
+const MAX_NUMBER_OF_PETS = 1;
 
 export class AddPetUseCase {
   constructor(private readonly repository: PetInMemoryRepository) {}
 
   async execute(command: AddPetCommand): Promise<void> {
-    const pet = Pet.create(
+    await this.ensureUserCanAddPet(command.userId);
+
+    const newPet = Pet.create(
       command.id,
       Species.fromPrimitives(command.species),
       new StringValueObject(command.name),
@@ -22,6 +27,14 @@ export class AddPetUseCase {
       command.userId,
     );
 
-    await this.repository.save(pet);
+    await this.repository.save(newPet);
+  }
+
+  private async ensureUserCanAddPet(userId: string): Promise<void> {
+    const pets = await this.repository.findByUser(userId);
+
+    if (pets.length >= MAX_NUMBER_OF_PETS) {
+      throw new MaxNumberOfPetsReachedException();
+    }
   }
 }
