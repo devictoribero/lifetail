@@ -17,6 +17,8 @@ import { UpdatePetUseCase } from 'src/contexts/Pets/application/update/UpdatePet
 import { UpdatePetCommand } from 'src/contexts/Pets/application/update/UpdatePetCommand';
 import { FindPetUseCase } from 'src/contexts/Pets/application/find/FindPetUseCase';
 import { FindPetQuery } from 'src/contexts/Pets/application/find/FindPetQuery';
+import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
 
 const logDomainEvent = (eventName: string, data?: any) => {
   console.log(`[Domain Event] ${eventName}`, data);
@@ -42,11 +44,11 @@ async function bootstrap() {
 
     // Create user for account
     const accountId = account.getId().toString();
-    const userUuid = faker.string.uuid();
+    const victorUuid = faker.string.uuid();
     const createUserUseCase = app.get(CreateUserUseCase);
     await createUserUseCase.execute(
       new CreateUserCommand(
-        userUuid,
+        victorUuid,
         accountId,
         'Victor',
         'devictoribero',
@@ -72,7 +74,7 @@ async function bootstrap() {
         nekoChipId,
         true,
         new Date('2020-01-01'),
-        userUuid,
+        victorUuid,
       ),
     );
     const findPetUseCase = app.get(FindPetUseCase);
@@ -81,7 +83,7 @@ async function bootstrap() {
 
     // Search all pets
     const searchAllPetsUseCase = app.get(SearchAllPetsUseCase);
-    const queryGetUserPets = new SearchAllPetsQuery(userUuid);
+    const queryGetUserPets = new SearchAllPetsQuery(victorUuid);
     await searchAllPetsUseCase.execute(queryGetUserPets);
 
     // Create pet (Tofu)
@@ -95,7 +97,7 @@ async function bootstrap() {
         tofuChipId,
         true,
         new Date('2020-10-01'),
-        userUuid,
+        victorUuid,
       ),
     );
     const tofu = await findPetUseCase.execute(new FindPetQuery(tofuUuid));
@@ -103,7 +105,7 @@ async function bootstrap() {
 
     // Search all pets
     const allPets = await searchAllPetsUseCase.execute(queryGetUserPets);
-    console.log('ALL PETS');
+    console.log('All pets of victor');
     console.log(allPets);
 
     // Remove pet
@@ -127,9 +129,26 @@ async function bootstrap() {
       ),
     );
     logDomainEvent('Pet updated', { id: nekoUuid });
-    const allPetsAfterUpdate = await searchAllPetsUseCase.execute(new SearchAllPetsQuery(userUuid));
+    const allPetsAfterUpdate = await searchAllPetsUseCase.execute(
+      new SearchAllPetsQuery(victorUuid),
+    );
     console.log('All pets after update --- ');
     console.log(allPetsAfterUpdate);
+
+    // Add pet life moment for neko
+    const firstNekoLifeMomentUuid = faker.string.uuid();
+    const addPetLifeMomentUseCase = app.get(AddPetLifeMomentUseCase);
+    await addPetLifeMomentUseCase.execute(
+      new AddPetLifeMomentCommand(
+        firstNekoLifeMomentUuid,
+        'Arrival',
+        nekoUuid,
+        victorUuid,
+        new Date('2024-12-13'),
+        'Nekito llega a casa!',
+      ),
+    );
+    logDomainEvent('Pet life moment added', { id: firstNekoLifeMomentUuid });
   });
 }
 
