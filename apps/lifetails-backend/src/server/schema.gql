@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 input AddPetInput {
-  birthDate: Date!
+  anniversaryDate: Date!
   chipId: String!
   gender: Gender!
   id: String!
@@ -82,7 +82,7 @@ type Mutation {
 }
 
 type Pet {
-  birthDate: Date!
+  anniversaryDate: Date!
   chipId: String!
   gender: Gender!
   id: String!
@@ -163,7 +163,7 @@ input RemovePetLifeMomentInput {
 }
 
 input UpdatePetInput {
-  birthDate: Date
+  anniversaryDate: Date
   chipId: String
   gender: Gender
   id: String!
