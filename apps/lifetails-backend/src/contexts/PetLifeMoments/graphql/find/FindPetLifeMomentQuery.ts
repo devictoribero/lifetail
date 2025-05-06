@@ -16,7 +16,6 @@ export class FindPetLifeMoment {
 
       return {
         id: moment.getId(),
-        // @todo: remove the toString() from here and move it to the use case
         theme: moment.getTheme(),
         type: moment.getType(),
         petId: moment.getPetId(),
