@@ -19,6 +19,7 @@ import { FindPetUseCase } from 'src/contexts/Pets/application/find/FindPetUseCas
 import { FindPetQuery } from 'src/contexts/Pets/application/find/FindPetQuery';
 import { AddPetLifeMomentUseCase } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
 import { AddPetLifeMomentCommand } from 'src/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
+import { Species } from 'src/contexts/Pets/domain/entities/PetSpecies';
 
 const logDomainEvent = (eventName: string, data?: any) => {
   console.log(`[Domain Event] ${eventName}`, data);
@@ -69,6 +70,7 @@ async function bootstrap() {
     await createPetUseCase.execute(
       new AddPetCommand(
         nekoUuid,
+        Species.Cat.toString(),
         'Neko',
         'Male',
         nekoChipId,
@@ -92,6 +94,7 @@ async function bootstrap() {
     await createPetUseCase.execute(
       new AddPetCommand(
         tofuUuid,
+        Species.Cat.toString(),
         'Tofu',
         'Male',
         tofuChipId,

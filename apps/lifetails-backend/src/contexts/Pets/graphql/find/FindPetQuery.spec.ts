@@ -5,9 +5,10 @@ import { FindPetInput } from './FindPetInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Pet } from '../../domain/entities/Pet';
-
+import { Species } from '../../domain/entities/PetSpecies';
 const createMockPet = (
   id: string,
+  species: string,
   name: string,
   gender: string,
   chipId: string,
@@ -15,10 +16,10 @@ const createMockPet = (
   birthDate: Date,
   createdAt: Date,
   userId: string,
-  memorialDate?: Date,
 ): Pet => {
   return Pet.fromPrimitives(
     id,
+    species,
     name,
     gender,
     chipId,
@@ -26,7 +27,6 @@ const createMockPet = (
     birthDate,
     createdAt,
     userId,
-    memorialDate,
   );
 };
 
@@ -70,6 +70,7 @@ describe('FindPetQuery', () => {
       const mockUserId = faker.string.uuid();
       const mockPet = createMockPet(
         id,
+        Species.Cat.toString(),
         mockName,
         mockGender,
         mockChipId,
@@ -94,7 +95,6 @@ describe('FindPetQuery', () => {
         chipId: mockPet.getChipId().toString(),
         sterilized: mockPet.isSterilized().getValue(),
         birthDate: mockPet.getBirthdate().toDate(),
-        memorialDate: mockPet.getMemorialDate()?.toDate(),
       });
     });
 

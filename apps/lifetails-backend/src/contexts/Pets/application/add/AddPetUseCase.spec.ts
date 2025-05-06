@@ -5,6 +5,7 @@ import { Pet } from '../../domain/entities/Pet';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { randomUUID } from 'node:crypto';
 import { faker } from '@faker-js/faker';
+import { Species } from '../../domain/entities/PetSpecies';
 
 describe('AddPetUseCase', () => {
   let repository: PetInMemoryRepository;
@@ -26,7 +27,16 @@ describe('AddPetUseCase', () => {
     const birthDate = faker.date.past();
     const userId = faker.string.uuid();
 
-    const command = new AddPetCommand(id, name, gender, chipId, sterilized, birthDate, userId);
+    const command = new AddPetCommand(
+      id,
+      Species.Cat.toString(),
+      name,
+      gender,
+      chipId,
+      sterilized,
+      birthDate,
+      userId,
+    );
 
     // Act
     await useCase.execute(command);

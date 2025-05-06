@@ -9,7 +9,7 @@ import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObjec
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
-
+import { Species } from '../../domain/entities/PetSpecies';
 describe('RemovePetUseCase', () => {
   let repository: PetInMemoryRepository;
   let useCase: RemovePetUseCase;
@@ -39,6 +39,7 @@ describe('RemovePetUseCase', () => {
     // Create and save a pet
     const pet = Pet.create(
       id,
+      Species.Cat,
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
       new StringValueObject(chipId),

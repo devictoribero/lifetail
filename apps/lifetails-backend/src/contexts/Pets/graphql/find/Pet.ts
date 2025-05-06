@@ -25,7 +25,4 @@ export class Pet {
 
   @Field()
   birthDate: Date;
-
-  @Field({ nullable: true })
-  memorialDate?: Date;
 }

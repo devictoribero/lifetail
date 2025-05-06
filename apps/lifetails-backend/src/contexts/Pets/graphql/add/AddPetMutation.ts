@@ -14,6 +14,7 @@ export class AddPetMutation {
       await this.useCase.execute(
         new AddPetCommand(
           input.id,
+          input.species.toString(),
           input.name,
           input.gender.toString(),
           input.chipId,

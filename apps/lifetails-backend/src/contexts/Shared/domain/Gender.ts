@@ -1,5 +1,5 @@
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { InvalidPetGenderException } from '../../Pets/domain/exceptions/InvalidPetGenderException';
+import { InvalidGenderException } from '../exceptions/InvalidGenderException';
 
 export class Gender extends StringValueObject {
   private constructor(value: string) {
@@ -17,7 +17,7 @@ export class Gender extends StringValueObject {
     const gender = Gender.all.find((gender) => gender.equals(petGender));
 
     if (!gender) {
-      throw new InvalidPetGenderException(value);
+      throw new InvalidGenderException(value);
     }
 
     return gender;

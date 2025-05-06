@@ -5,6 +5,7 @@ import { AddPetInput } from './AddPetInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Gender } from '../../../Shared/domain/Gender';
+import { Species } from '../../domain/entities/PetSpecies';
 
 describe('AddPetMutation', () => {
   let mutation: AddPetMutation;
@@ -36,6 +37,7 @@ describe('AddPetMutation', () => {
       // Arrange
       const input: AddPetInput = {
         id: randomUUID(),
+        species: Species.Cat,
         name: faker.animal.dog(),
         gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
@@ -51,6 +53,7 @@ describe('AddPetMutation', () => {
       expect(useCase.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
+          species: input.species.toString(),
           name: input.name,
           gender: input.gender.toString(),
           chipId: input.chipId,
@@ -65,6 +68,7 @@ describe('AddPetMutation', () => {
       // Arrange
       const input: AddPetInput = {
         id: randomUUID(),
+        species: Species.Cat,
         name: faker.animal.dog(),
         gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),
@@ -84,6 +88,7 @@ describe('AddPetMutation', () => {
       // Arrange
       const input: AddPetInput = {
         id: randomUUID(),
+        species: Species.Cat,
         name: faker.animal.dog(),
         gender: Gender.Male,
         chipId: faker.string.alphanumeric(10),

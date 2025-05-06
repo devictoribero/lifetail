@@ -4,9 +4,11 @@ import { SearchAllPetsUseCase } from '../../application/searchAll/SearchAllPetsU
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Pet } from '../../domain/entities/Pet';
+import { Species } from '../../domain/entities/PetSpecies';
 
 const createMockPet = (
   id: string,
+  species: string,
   name: string,
   gender: string,
   chipId: string,
@@ -14,10 +16,10 @@ const createMockPet = (
   birthDate: Date,
   createdAt: Date,
   userId: string,
-  memorialDate?: Date,
 ): Pet => {
   return Pet.fromPrimitives(
     id,
+    species,
     name,
     gender,
     chipId,
@@ -25,7 +27,6 @@ const createMockPet = (
     birthDate,
     createdAt,
     userId,
-    memorialDate,
   );
 };
 
@@ -61,6 +62,7 @@ describe('SearchAllPetsQuery', () => {
       const mockPets = [
         createMockPet(
           randomUUID(),
+          Species.Dog.toString(),
           faker.animal.dog(),
           'Male',
           faker.string.alphanumeric(10),
@@ -71,6 +73,7 @@ describe('SearchAllPetsQuery', () => {
         ),
         createMockPet(
           randomUUID(),
+          Species.Cat.toString(),
           faker.animal.cat(),
           'Female',
           faker.string.alphanumeric(10),
@@ -98,7 +101,6 @@ describe('SearchAllPetsQuery', () => {
         chipId: mockPets[0].getChipId().toString(),
         sterilized: mockPets[0].isSterilized().getValue(),
         birthDate: mockPets[0].getBirthdate().toDate(),
-        memorialDate: mockPets[0].getMemorialDate()?.toDate(),
       });
 
       expect(result[1]).toEqual({
@@ -108,7 +110,6 @@ describe('SearchAllPetsQuery', () => {
         chipId: mockPets[1].getChipId().toString(),
         sterilized: mockPets[1].isSterilized().getValue(),
         birthDate: mockPets[1].getBirthdate().toDate(),
-        memorialDate: mockPets[1].getMemorialDate()?.toDate(),
       });
     });
 

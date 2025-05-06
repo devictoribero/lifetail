@@ -8,6 +8,7 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
+import { Species } from '../../domain/entities/PetSpecies';
 
 describe('SearchAllPetsUseCase', () => {
   let repository: PetInMemoryRepository;
@@ -75,6 +76,7 @@ describe('SearchAllPetsUseCase', () => {
 
     return Pet.create(
       id,
+      Species.Cat,
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
       new StringValueObject(chipId),

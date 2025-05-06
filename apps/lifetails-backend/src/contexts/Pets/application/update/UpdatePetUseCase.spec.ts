@@ -9,6 +9,7 @@ import { Gender } from '../../../Shared/domain/Gender';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { faker } from '@faker-js/faker';
 import { randomUUID } from 'node:crypto';
+import { Species } from '../../domain/entities/PetSpecies';
 
 describe('UpdatePetUseCase', () => {
   let repository: PetInMemoryRepository;
@@ -25,6 +26,7 @@ describe('UpdatePetUseCase', () => {
     petId = randomUUID();
     originalPet = Pet.create(
       petId,
+      Species.Cat,
       new StringValueObject(faker.animal.cat()),
       Gender.fromPrimitives('Male'),
       new StringValueObject(faker.string.numeric(9)),

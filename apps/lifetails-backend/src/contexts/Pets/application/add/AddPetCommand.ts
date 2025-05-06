@@ -1,6 +1,7 @@
 export class AddPetCommand {
   constructor(
     public readonly id: string,
+    public readonly species: string,
     public readonly name: string,
     public readonly gender: string,
     public readonly chipId: string,

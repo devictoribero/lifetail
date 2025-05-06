@@ -4,13 +4,13 @@ import { PetRepository } from '../domain/repositories/PetRepository';
 interface InMemoryPet {
   isDeleted: boolean;
   id: string;
+  species: string;
   name: string;
   gender: string;
   chipId: string;
   sterilized: boolean;
   birthDate: Date;
   createdAt: Date;
-  memorialDate?: Date;
   userId?: string;
 }
 
@@ -40,6 +40,7 @@ export class PetInMemoryRepository implements PetRepository {
 
     return Pet.fromPrimitives(
       pet.id,
+      pet.species,
       pet.name,
       pet.gender,
       pet.chipId,
@@ -47,7 +48,6 @@ export class PetInMemoryRepository implements PetRepository {
       pet.birthDate,
       pet.createdAt,
       pet.userId,
-      pet.memorialDate,
     );
   }
 
@@ -59,6 +59,7 @@ export class PetInMemoryRepository implements PetRepository {
         filteredPets.push(
           Pet.fromPrimitives(
             pet.id,
+            pet.species,
             pet.name,
             pet.gender,
             pet.chipId,
@@ -66,7 +67,6 @@ export class PetInMemoryRepository implements PetRepository {
             pet.birthDate,
             pet.createdAt,
             pet.userId,
-            pet.memorialDate,
           ),
         );
       }

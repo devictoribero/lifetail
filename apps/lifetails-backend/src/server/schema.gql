@@ -8,6 +8,7 @@ input AddPetInput {
   gender: Gender!
   id: String!
   name: String!
+  species: PetSpecies!
   sterilized: Boolean!
   userId: String!
 }
@@ -85,7 +86,6 @@ type Pet {
   chipId: String!
   gender: Gender!
   id: String!
-  memorialDate: Date
   name: String!
   sterilized: Boolean!
 }
@@ -139,6 +139,12 @@ enum PetLifeMomentType {
   VeterinaryVisit
   Walk
   types
+}
+
+enum PetSpecies {
+  All
+  Cat
+  Dog
 }
 
 type Query {
