@@ -82,7 +82,7 @@ export class User extends AggregateRoot {
       nickname: this.getNickname().toString(),
       gender: this.getGender().toString(),
       birthDate: this.getBirthDate().toISOString(),
-      createdAt: this.getCreatedAt(),
+      createdAt: this.getCreatedAt().toISOString(),
     };
   }
 }

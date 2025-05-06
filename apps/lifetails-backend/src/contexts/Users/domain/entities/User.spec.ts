@@ -21,7 +21,7 @@ describe('User', () => {
     nickname = new StringValueObject(faker.person.firstName());
     gender = new StringValueObject('Male');
     birthDate = new DateValueObject(faker.date.birthdate());
-    createdAt = new DateValueObject(new Date());
+    createdAt = new DateValueObject(faker.date.past());
   });
 
   afterEach(() => {
