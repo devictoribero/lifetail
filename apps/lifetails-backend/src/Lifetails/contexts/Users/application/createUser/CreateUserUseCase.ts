@@ -5,14 +5,22 @@ import { User } from '../../domain/entities/User';
 import { UserRepository } from '../../domain/repositories/UserRepository';
 import { CreateUserCommand } from './CreateUserCommand';
 import { DateValueObject } from 'src/Lifetails/contexts/Shared/domain/DateValueObject';
+import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
+import { GetUserService } from '../../domain/services/GetUserService';
 
 export class CreateUserUseCase {
-  constructor(private readonly repository: UserRepository) {}
+  constructor(
+    private readonly getUserService: GetUserService,
+    private readonly repository: UserRepository,
+  ) {}
 
   async execute(command: CreateUserCommand): Promise<void> {
+    const accountId = new UUID(command.accountId);
+    await this.ensureUserDoesNotExist(accountId);
+
     const user = User.create(
       new UUID(command.id),
-      new UUID(command.accountId),
+      accountId,
       new StringValueObject(command.name),
       new StringValueObject(command.nickname),
       Gender.fromPrimitives(command.gender),
@@ -20,5 +28,13 @@ export class CreateUserUseCase {
     );
 
     await this.repository.save(user);
+  }
+
+  private async ensureUserDoesNotExist(accountId: UUID): Promise<void> {
+    const existingUser = await this.getUserService.execute(accountId);
+
+    if (existingUser) {
+      throw new UserAlreadyExistsException(accountId.toString());
+    }
   }
 }
