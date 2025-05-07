@@ -1,64 +1,62 @@
 import { GetUserUseCase } from './GetUserUseCase';
-import { UserRepository } from '../../domain/repositories/UserRepository';
-import { User } from '../../domain/entities/User';
-import { faker } from '@faker-js/faker';
+import { GetUserService } from '../../domain/services/GetUserService';
 import { GetUserQuery } from './GetUserQuery';
+import { User } from '../../domain/entities/User';
 import { UUID } from 'src/Lifetails/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/Lifetails/contexts/Shared/domain/StringValueObject';
 import { Gender } from 'src/Lifetails/contexts/Shared/domain/Gender';
 import { DateValueObject } from 'src/Lifetails/contexts/Shared/domain/DateValueObject';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
+import { randomUUID } from 'node:crypto';
 
 describe('GetUserUseCase', () => {
-  let repository: UserRepository;
   let useCase: GetUserUseCase;
-  let mockUser: User;
-  const accountId = faker.string.uuid();
+  let getUserService: jest.Mocked<GetUserService>;
 
   beforeEach(() => {
-    const id = faker.string.uuid();
-    const name = faker.person.fullName();
-    const nickname = faker.person.firstName();
-    const gender = Gender.fromPrimitives('Male');
-    const birthDate = new DateValueObject(faker.date.birthdate());
+    getUserService = {
+      execute: jest.fn(),
+    } as unknown as jest.Mocked<GetUserService>;
 
-    mockUser = User.create(
-      new UUID(id),
+    useCase = new GetUserUseCase(getUserService);
+  });
+
+  it('should get a user when it exists', async () => {
+    // Arrange
+    const accountId = randomUUID();
+    const userId = randomUUID();
+
+    const mockUser = new User(
+      new UUID(userId),
       new UUID(accountId),
-      new StringValueObject(name),
-      new StringValueObject(nickname),
-      gender,
-      birthDate,
+      new StringValueObject('John Doe'),
+      new StringValueObject('john'),
+      Gender.fromPrimitives('Male'),
+      new DateValueObject(new Date('1990-01-01')),
+      new DateValueObject(new Date()),
     );
 
-    repository = {
-      save: jest.fn(),
-      getByAccountId: jest.fn().mockResolvedValue(mockUser),
-    };
+    getUserService.execute.mockResolvedValue(mockUser);
 
-    useCase = new GetUserUseCase(repository);
-  });
-
-  it('should get a user by account ID', async () => {
-    // Arrange
-    const command = new GetUserQuery(accountId);
+    const query = new GetUserQuery(accountId);
 
     // Act
-    const result = await useCase.execute(command);
+    const result = await useCase.execute(query);
 
     // Assert
-    expect(repository.getByAccountId).toHaveBeenCalledTimes(1);
-    expect(repository.getByAccountId).toHaveBeenCalledWith(expect.any(UUID));
-    expect(result).toEqual(mockUser);
+    expect(getUserService.execute).toHaveBeenCalledWith(new UUID(accountId));
+    expect(result).toBe(mockUser);
   });
 
-  it('should throw UserNotFoundException when user is not found', async () => {
+  it('should throw UserNotFoundException when user does not exist', async () => {
     // Arrange
-    const notFoundAccountId = faker.string.uuid();
-    (repository.getByAccountId as jest.Mock).mockResolvedValue(null);
-    const command = new GetUserQuery(notFoundAccountId);
+    const accountId = randomUUID();
+    getUserService.execute.mockResolvedValue(null);
+
+    const query = new GetUserQuery(accountId);
 
     // Act & Assert
-    await expect(useCase.execute(command)).rejects.toThrow(UserNotFoundException);
+    await expect(useCase.execute(query)).rejects.toThrow(new UserNotFoundException(accountId));
+    expect(getUserService.execute).toHaveBeenCalledWith(new UUID(accountId));
   });
 });

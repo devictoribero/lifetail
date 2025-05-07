@@ -7,9 +7,16 @@ export class FindPetLifeMomentUseCase {
   constructor(private readonly repository: PetLifeMomentRepository) {}
 
   async execute(query: FindPetLifeMomentQuery): Promise<PetLifeMoment> {
-    const petLifeMoment = await this.repository.find(query.id);
+    const lifeMoment = await this.getPetLifeMoment(query.id);
+
+    return lifeMoment;
+  }
+
+  private async getPetLifeMoment(id: string): Promise<PetLifeMoment> {
+    const petLifeMoment = await this.repository.find(id);
+
     if (!petLifeMoment) {
-      throw new PetLifeMomentNotFoundException(query.id);
+      throw new PetLifeMomentNotFoundException(id);
     }
 
     return petLifeMoment;

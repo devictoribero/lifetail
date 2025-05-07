@@ -3,18 +3,23 @@ import { UserRepository } from '../../domain/repositories/UserRepository';
 import { User } from '../../domain/entities/User';
 import { faker } from '@faker-js/faker';
 import { CreateUserCommand } from './CreateUserCommand';
-
+import { GetUserService } from '../../domain/services/GetUserService';
 describe('CreateUserUseCase', () => {
+  let getUserService: jest.Mocked<GetUserService>;
   let repository: UserRepository;
   let useCase: CreateUserUseCase;
 
   beforeEach(() => {
+    getUserService = {
+      execute: jest.fn(),
+    } as unknown as jest.Mocked<GetUserService>;
+
     repository = {
       save: jest.fn(),
       getByAccountId: jest.fn(),
     };
 
-    useCase = new CreateUserUseCase(repository);
+    useCase = new CreateUserUseCase(getUserService, repository);
   });
 
   it('should create a user', async () => {

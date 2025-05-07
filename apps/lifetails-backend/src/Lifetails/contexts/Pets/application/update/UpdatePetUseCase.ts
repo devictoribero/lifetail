@@ -3,18 +3,14 @@ import { UpdatePetCommand } from './UpdatePetCommand';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { StringValueObject } from 'src/Lifetails/contexts/Shared/domain/StringValueObject';
 import { Gender } from '../../../Shared/domain/Gender';
-import { BooleanValueObject } from 'src/Lifetails/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/Lifetails/contexts/Shared/domain/DateValueObject';
+import { Pet } from '../../domain/entities/Pet';
 
 export class UpdatePetUseCase {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(command: UpdatePetCommand): Promise<void> {
-    const pet = await this.repository.find(command.id);
-
-    if (!pet) {
-      throw new PetNotFoundException(command.id);
-    }
+    const pet = await this.getPet(command.id);
 
     if (this.hasValue(command.name)) {
       pet.renameTo(new StringValueObject(command.name));
@@ -41,6 +37,15 @@ export class UpdatePetUseCase {
     }
 
     await this.repository.save(pet);
+  }
+
+  private async getPet(petId: string): Promise<Pet> {
+    const pet = await this.repository.find(petId);
+    if (!pet) {
+      throw new PetNotFoundException(petId);
+    }
+
+    return pet;
   }
 
   private hasValue(value: any): boolean {
