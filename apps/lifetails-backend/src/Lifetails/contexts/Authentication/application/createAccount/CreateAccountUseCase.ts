@@ -3,13 +3,7 @@ import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
 import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
-
-export class CreateAccountCommand {
-  constructor(
-    public readonly email: string,
-    public readonly password: string,
-  ) {}
-}
+import { CreateAccountCommand } from './CreateAccountCommand';
 
 export class CreateAccountUseCase {
   constructor(

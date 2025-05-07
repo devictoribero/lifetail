@@ -6,11 +6,14 @@ export class RemovePetUseCase {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(command: RemovePetCommand): Promise<void> {
-    const pet = await this.repository.find(command.id);
-    if (!pet) {
-      throw new PetNotFoundException(command.id);
-    }
-
+    await this.ensurePetExists(command.id);
     await this.repository.remove(command.id);
+  }
+
+  private async ensurePetExists(id: string): Promise<void> {
+    const pet = await this.repository.find(id);
+    if (!pet) {
+      throw new PetNotFoundException(id);
+    }
   }
 }
