@@ -20,7 +20,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/server/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/Lifetails/server/schema.gql'),
       sortSchema: true,
     }),
     GraphqlModule,
