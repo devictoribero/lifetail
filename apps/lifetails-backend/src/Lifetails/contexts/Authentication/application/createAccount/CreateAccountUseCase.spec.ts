@@ -4,7 +4,8 @@ import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { PasswordHashValueObject } from 'src/Lifetails/contexts/Shared/domain/PasswordHashValueObject';
 import { faker } from '@faker-js/faker';
-import { CreateAccountCommand, CreateAccountUseCase } from './CreateAccountUseCase';
+import { CreateAccountUseCase } from './CreateAccountUseCase';
+import { CreateAccountCommand } from './CreateAccountCommand';
 
 describe('CreateAccountUseCase', () => {
   let useCase: CreateAccountUseCase;

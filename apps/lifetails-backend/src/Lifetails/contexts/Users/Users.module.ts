@@ -3,21 +3,30 @@ import { CreateUserUseCase } from './application/createUser/CreateUserUseCase';
 import { GetUserUseCase } from './application/getUser/GetUserUseCase';
 import { UserInMemoryRepository } from './infrastructure/UserInMemoryRepository';
 import { GraphqlModule } from 'src/Lifetails/contexts/Shared/Graphql.module';
+import { GetUserService } from './domain/services/GetUserService';
 
-const createUserUseCaseProvider = {
-  provide: CreateUserUseCase,
+const getUserServiceProvider = {
+  provide: GetUserService,
   useFactory: (repository: UserInMemoryRepository) => {
-    return new CreateUserUseCase(repository);
+    return new GetUserService(repository);
   },
   inject: [UserInMemoryRepository],
 };
 
+const createUserUseCaseProvider = {
+  provide: CreateUserUseCase,
+  useFactory: (repository: UserInMemoryRepository, getUserService: GetUserService) => {
+    return new CreateUserUseCase(getUserService, repository);
+  },
+  inject: [UserInMemoryRepository, GetUserService],
+};
+
 const getUserUseCaseProvider = {
   provide: GetUserUseCase,
-  useFactory: (repository: UserInMemoryRepository) => {
-    return new GetUserUseCase(repository);
+  useFactory: (service: GetUserService) => {
+    return new GetUserUseCase(service);
   },
-  inject: [UserInMemoryRepository],
+  inject: [GetUserService],
 };
 
 const userRepositoryProvider = {
@@ -28,7 +37,12 @@ const userRepositoryProvider = {
 @Module({
   imports: [GraphqlModule],
   controllers: [],
-  providers: [userRepositoryProvider, createUserUseCaseProvider, getUserUseCaseProvider],
+  providers: [
+    userRepositoryProvider,
+    getUserServiceProvider,
+    createUserUseCaseProvider,
+    getUserUseCaseProvider,
+  ],
   exports: [CreateUserUseCase, GetUserUseCase, UserInMemoryRepository],
 })
 export class UsersModule {}

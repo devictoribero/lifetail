@@ -11,13 +11,15 @@ export class CreateAccountUseCase {
     private readonly hasher: PasswordHasher,
   ) {}
 
-  async execute(command: CreateAccountCommand): Promise<void> {
+  async execute(command: CreateAccountCommand): Promise<Account> {
     await this.ensureEmailIsUnique(command.email);
 
     const passwordHashed = await this.hasher.hash(command.password);
     const account = Account.create(new EmailValueObject(command.email), passwordHashed);
 
     await this.repository.save(account);
+
+    return account;
   }
 
   private async ensureEmailIsUnique(email: string): Promise<void> {
