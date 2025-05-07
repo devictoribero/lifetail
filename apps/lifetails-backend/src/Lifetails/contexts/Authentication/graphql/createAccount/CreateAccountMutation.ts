@@ -14,7 +14,8 @@ export class CreateAccountMutation {
   @Mutation(() => CreateAccountResponse)
   async createAccount(@Args('input') input: CreateAccountInput): Promise<CreateAccountResponse> {
     try {
-      await this.useCase.execute(new CreateAccountCommand(input.email, input.password));
+      const command = new CreateAccountCommand(input.email, input.password);
+      await this.useCase.execute(command);
 
       return { email: input.email };
     } catch (error) {
