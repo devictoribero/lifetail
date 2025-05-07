@@ -1,0 +1,151 @@
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './App.module';
+import { ConfigService } from '@nestjs/config';
+import { CreateAccountUseCase } from 'src/Lifetails/contexts/Authentication/application/createAccount/CreateAccountUseCase';
+import { CreateUserUseCase } from 'src/Lifetails/contexts/Users/application/createUser/CreateUserUseCase';
+import { CreateUserCommand } from 'src/Lifetails/contexts/Users/application/createUser/CreateUserCommand';
+import { GetUserQuery } from 'src/Lifetails/contexts/Users/application/getUser/GetUserQuery';
+import { GetUserUseCase } from 'src/Lifetails/contexts/Users/application/getUser/GetUserUseCase';
+import { faker } from '@faker-js/faker';
+import { AddPetUseCase } from 'src/Lifetails/contexts/Pets/application/add/AddPetUseCase';
+import { AddPetCommand } from 'src/Lifetails/contexts/Pets/application/add/AddPetCommand';
+import { SearchAllPetsUseCase } from 'src/Lifetails/contexts/Pets/application/searchAll/SearchAllPetsUseCase';
+import { SearchAllPetsQuery } from 'src/Lifetails/contexts/Pets/application/searchAll/SearchAllPetsQuery';
+import { RemovePetCommand } from 'src/Lifetails/contexts/Pets/application/remove/RemovePetCommand';
+import { RemovePetUseCase } from 'src/Lifetails/contexts/Pets/application/remove/RemovePetUseCase';
+import { UpdatePetUseCase } from 'src/Lifetails/contexts/Pets/application/update/UpdatePetUseCase';
+import { UpdatePetCommand } from 'src/Lifetails/contexts/Pets/application/update/UpdatePetCommand';
+import { FindPetUseCase } from 'src/Lifetails/contexts/Pets/application/find/FindPetUseCase';
+import { FindPetQuery } from 'src/Lifetails/contexts/Pets/application/find/FindPetQuery';
+import { AddPetLifeMomentUseCase } from 'src/Lifetails/contexts/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommand } from 'src/Lifetails/contexts/PetLifeMoments/application/add/AddPetLifeMomentCommand';
+import { Species } from 'src/Lifetails/contexts/Pets/domain/entities/PetSpecies';
+
+const logDomainEvent = (eventName: string, data?: any) => {
+  console.log(`[Domain Event] ${eventName}`, data);
+};
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.enableCors();
+
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('PORT', 3000);
+
+  await app.listen(port).then(async () => {
+    console.info(`LifeTail API is running on port ${port}`);
+
+    // Create account
+    const createAccountUseCase = app.get(CreateAccountUseCase);
+    const account = await createAccountUseCase.execute({
+      email: 'victor@test.com',
+      password: 'test',
+    });
+    logDomainEvent('Account created', account);
+
+    // Create user for account
+    const accountId = account.getId().toString();
+    const victorUuid = faker.string.uuid();
+    const createUserUseCase = app.get(CreateUserUseCase);
+    await createUserUseCase.execute(
+      new CreateUserCommand(
+        victorUuid,
+        accountId,
+        'Victor',
+        'devictoribero',
+        'Male',
+        new Date('1990-01-01'),
+      ),
+    );
+    // Get user
+    const getUserUseCase = app.get(GetUserUseCase);
+    const userFound = await getUserUseCase.execute(new GetUserQuery(accountId));
+    logDomainEvent('User created', userFound);
+
+    // Add pet (Neko)
+    const nekoUuid = faker.string.uuid();
+    const nekoChipId = `chip-id-${faker.string.alphanumeric(9)}`;
+    const addPetUseCase = app.get(AddPetUseCase);
+    const addNekoCommand = new AddPetCommand(
+      nekoUuid,
+      Species.Cat.toString(),
+      'Neko',
+      'Male',
+      nekoChipId,
+      true,
+      new Date('2020-01-01'),
+      victorUuid,
+    );
+    await addPetUseCase.execute(addNekoCommand);
+    const findPetUseCase = app.get(FindPetUseCase);
+    const neko = await findPetUseCase.execute(new FindPetQuery(nekoUuid));
+    logDomainEvent('Pet added', neko);
+
+    // Search all pets
+    const searchAllPetsUseCase = app.get(SearchAllPetsUseCase);
+    const queryGetUserPets = new SearchAllPetsQuery(victorUuid);
+    await searchAllPetsUseCase.execute(queryGetUserPets);
+
+    // Remove pet
+    const removePetUseCase = app.get(RemovePetUseCase);
+    await removePetUseCase.execute(new RemovePetCommand(nekoUuid));
+    logDomainEvent('Pet removed', neko);
+
+    // Add pet (Tofu)
+    const tofuUuid = faker.string.uuid();
+    const tofuChipId = `chip-id-${faker.string.alphanumeric(9)}`;
+    const addTofuCommand = new AddPetCommand(
+      tofuUuid,
+      Species.Cat.toString(),
+      'Tofu',
+      'Male',
+      tofuChipId,
+      true,
+      new Date('2020-10-01'),
+      victorUuid,
+    );
+    await addPetUseCase.execute(addTofuCommand);
+    const tofu = await findPetUseCase.execute(new FindPetQuery(tofuUuid));
+    logDomainEvent('Pet added', tofu);
+
+    // Search all pets
+    const allPets = await searchAllPetsUseCase.execute(queryGetUserPets);
+    console.log('All pets of victor');
+    console.log(allPets);
+
+    const updatePetUseCase = app.get(UpdatePetUseCase);
+    await updatePetUseCase.execute(
+      new UpdatePetCommand(
+        tofuUuid,
+        'Tofu',
+        'Female',
+        `chip-id-${faker.string.alphanumeric(9)}`,
+        true,
+        new Date('2020-01-01'),
+      ),
+    );
+    logDomainEvent('Pet updated', { id: tofuUuid });
+
+    const allPetsAfterUpdate = await searchAllPetsUseCase.execute(
+      new SearchAllPetsQuery(victorUuid),
+    );
+    console.log('All pets after update --- ');
+    console.log(allPetsAfterUpdate);
+
+    // Add pet life moment for neko
+    const firstLifeMomentUuid = faker.string.uuid();
+    const addPetLifeMomentUseCase = app.get(AddPetLifeMomentUseCase);
+    const addFirstLifeMomentCommand = new AddPetLifeMomentCommand(
+      firstLifeMomentUuid,
+      'Arrival',
+      nekoUuid,
+      victorUuid,
+      new Date('2024-12-13'),
+      'Nekito llega a casa!',
+    );
+    await addPetLifeMomentUseCase.execute(addFirstLifeMomentCommand);
+    logDomainEvent('Pet life moment added', { id: firstLifeMomentUuid });
+  });
+}
+
+bootstrap();

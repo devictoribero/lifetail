@@ -1,0 +1,187 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddPetInput {
+  anniversaryDate: Date!
+  chipId: String!
+  gender: Gender!
+  id: String!
+  name: String!
+  species: PetSpecies!
+  sterilized: Boolean!
+  userId: String!
+}
+
+input AddPetLifeMomentInput {
+  createdBy: String!
+  description: String!
+  id: String!
+  occurredOn: Date!
+  petId: String!
+  type: String!
+}
+
+type AddPetLifeMomentResponse {
+  id: String!
+}
+
+type AddPetResponse {
+  id: String!
+}
+
+input AuthenticateAccountInput {
+  email: String!
+  password: String!
+}
+
+type AuthenticateAccountResponse {
+  accountId: String!
+}
+
+input CreateAccountInput {
+  email: String!
+  password: String!
+}
+
+type CreateAccountResponse {
+  email: String!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+input FindPetInput {
+  id: String!
+}
+
+input FindPetLifeMomentInput {
+  id: String!
+}
+
+enum Gender {
+  Female
+  Male
+  all
+}
+
+type HealthCheckResponse {
+  status: String!
+  timestamp: Date!
+}
+
+type Mutation {
+  addPet(input: AddPetInput!): AddPetResponse!
+  addPetLifeMoment(input: AddPetLifeMomentInput!): AddPetLifeMomentResponse!
+  authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
+  createAccount(input: CreateAccountInput!): CreateAccountResponse!
+  removePet(input: RemovePetInput!): Boolean!
+  removePetLifeMoment(input: RemovePetLifeMomentInput!): Boolean!
+  updatePet(input: UpdatePetInput!): UpdatePetResponse!
+  updatePetLifeMoment(input: UpdatePetLifeMomentInput!): UpdatePetLifeMomentResponse!
+}
+
+type Pet {
+  anniversaryDate: Date!
+  chipId: String!
+  gender: Gender!
+  id: String!
+  name: String!
+  sterilized: Boolean!
+}
+
+type PetLifeMoment {
+  createdBy: String!
+  description: String!
+  id: String!
+  occurredOn: Date!
+  petId: String!
+  theme: PetLifeMomentTheme!
+  type: PetLifeMomentType!
+}
+
+enum PetLifeMomentTheme {
+  Activity
+  Celebration
+  DeliciousMoments
+  Farewell
+  GroomingAndCare
+  Memories
+  Wellness
+  types
+}
+
+enum PetLifeMomentType {
+  Achievement
+  Anniversary
+  Arrival
+  Bath
+  Death
+  DietChange
+  Discomfort
+  Excursion
+  Exercise
+  Gift
+  Goodbye
+  GroomingVisit
+  Hydration
+  Illness
+  Injury
+  Medication
+  Move
+  NailCut
+  Play
+  Socialization
+  SpecialMeal
+  Surgery
+  Training
+  Vaccination
+  VeterinaryVisit
+  Walk
+  types
+}
+
+enum PetSpecies {
+  All
+  Cat
+  Dog
+}
+
+type Query {
+  findPet(input: FindPetInput!): Pet!
+  findPetLifeMoment(input: FindPetLifeMomentInput!): PetLifeMoment!
+  healthCheck: HealthCheckResponse!
+  searchAllPets(userId: String!): [Pet!]!
+}
+
+input RemovePetInput {
+  id: String!
+}
+
+input RemovePetLifeMomentInput {
+  id: String!
+}
+
+input UpdatePetInput {
+  anniversaryDate: Date
+  chipId: String
+  gender: Gender
+  id: String!
+  name: String
+  sterilized: Boolean
+}
+
+input UpdatePetLifeMomentInput {
+  description: String
+  id: String!
+  occurredOn: Date
+  petId: String
+}
+
+type UpdatePetLifeMomentResponse {
+  id: String!
+}
+
+type UpdatePetResponse {
+  id: String!
+}
