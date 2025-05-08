@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { AuthenticateAccountUseCase } from './AuthenticateAccountUseCase';
+import { AuthenticateAccountCommandHandler } from './AuthenticateAccountCommandHandler';
 import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { Account } from '../../domain/entities/Account';
@@ -10,7 +10,7 @@ import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCred
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
 
 describe('AuthenticateAccountUseCase', () => {
-  let useCase: AuthenticateAccountUseCase;
+  let commandHandler: AuthenticateAccountCommandHandler;
   let repository: jest.Mocked<AccountRepository>;
   let hasher: jest.Mocked<PasswordHasher>;
   let account: Account;
@@ -26,7 +26,7 @@ describe('AuthenticateAccountUseCase', () => {
       hash: jest.fn(),
       compare: jest.fn(),
     } as jest.Mocked<PasswordHasher>;
-    useCase = new AuthenticateAccountUseCase(repository, hasher);
+    commandHandler = new AuthenticateAccountCommandHandler(repository, hasher);
 
     // Create a mock account
     accountId = faker.string.uuid();
@@ -49,7 +49,7 @@ describe('AuthenticateAccountUseCase', () => {
     repository.findByEmail.mockResolvedValue(null);
 
     // Act & Assert
-    await expect(useCase.execute(command)).rejects.toThrow(InvalidCredentialsException);
+    await expect(commandHandler.execute(command)).rejects.toThrow(InvalidCredentialsException);
     expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
   });
 
@@ -63,7 +63,7 @@ describe('AuthenticateAccountUseCase', () => {
     hasher.compare.mockResolvedValue(false);
 
     // Act & Assert
-    await expect(useCase.execute(command)).rejects.toThrow(InvalidCredentialsException);
+    await expect(commandHandler.execute(command)).rejects.toThrow(InvalidCredentialsException);
     expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
     expect(hasher.compare).toHaveBeenCalledWith(command.password, account.getPassword());
   });
@@ -78,7 +78,7 @@ describe('AuthenticateAccountUseCase', () => {
     hasher.compare.mockResolvedValue(true);
 
     // Act
-    const result = await useCase.execute(command);
+    const result = await commandHandler.execute(command);
 
     // Assert
     expect(result).toBe(accountId);

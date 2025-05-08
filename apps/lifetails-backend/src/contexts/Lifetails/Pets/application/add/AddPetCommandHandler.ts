@@ -10,7 +10,7 @@ import { MaxNumberOfPetsReachedException } from '../../domain/exceptions/MaxNumb
 
 const MAX_NUMBER_OF_PETS = 1;
 
-export class AddPetUseCase {
+export class AddPetCommandHandler {
   constructor(private readonly repository: PetInMemoryRepository) {}
 
   async execute(command: AddPetCommand): Promise<void> {

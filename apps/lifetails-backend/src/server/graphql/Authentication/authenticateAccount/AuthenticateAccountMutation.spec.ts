@@ -1,32 +1,34 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
 import { AuthenticateAccountMutation } from './AuthenticateAccountMutation';
-import { AuthenticateAccountUseCase } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountUseCase';
+import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { AuthenticateAccountInput } from './AuthenticateAccountInput';
 import { InvalidCredentialsException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/InvalidCredentialsException';
 
 describe('AuthenticateAccountMutation', () => {
   let mutation: AuthenticateAccountMutation;
-  let useCase: AuthenticateAccountUseCase;
+  let commandHandler: AuthenticateAccountCommandHandler;
 
   beforeEach(async () => {
     // Create mock use case with Jest
-    useCase = {
+    commandHandler = {
       execute: jest.fn(),
-    } as unknown as AuthenticateAccountUseCase;
+    } as unknown as AuthenticateAccountCommandHandler;
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthenticateAccountMutation,
         {
-          provide: AuthenticateAccountUseCase,
-          useValue: useCase,
+          provide: AuthenticateAccountCommandHandler,
+          useValue: commandHandler,
         },
       ],
     }).compile();
 
     mutation = module.get<AuthenticateAccountMutation>(AuthenticateAccountMutation);
-    useCase = module.get<AuthenticateAccountUseCase>(AuthenticateAccountUseCase);
+    commandHandler = module.get<AuthenticateAccountCommandHandler>(
+      AuthenticateAccountCommandHandler,
+    );
   });
 
   it('should return accountId when authentication is successful', async () => {
@@ -37,14 +39,14 @@ describe('AuthenticateAccountMutation', () => {
     };
     const accountId = faker.string.uuid();
 
-    jest.spyOn(useCase, 'execute').mockResolvedValue(accountId);
+    jest.spyOn(commandHandler, 'execute').mockResolvedValue(accountId);
 
     // Act
     const result = await mutation.authenticateAccount(input);
 
     // Assert
     expect(result).toEqual({ accountId });
-    expect(useCase.execute).toHaveBeenCalledWith({
+    expect(commandHandler.execute).toHaveBeenCalledWith({
       email: input.email,
       password: input.password,
     });
@@ -57,11 +59,11 @@ describe('AuthenticateAccountMutation', () => {
       password: faker.internet.password(),
     };
 
-    jest.spyOn(useCase, 'execute').mockRejectedValue(new InvalidCredentialsException());
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue(new InvalidCredentialsException());
 
     // Act & Assert
     await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
-    expect(useCase.execute).toHaveBeenCalledWith({
+    expect(commandHandler.execute).toHaveBeenCalledWith({
       email: input.email,
       password: input.password,
     });
@@ -75,11 +77,11 @@ describe('AuthenticateAccountMutation', () => {
     };
     const errorMessage = 'Unexpected error';
 
-    jest.spyOn(useCase, 'execute').mockRejectedValue(new Error(errorMessage));
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue(new Error(errorMessage));
 
     // Act & Assert
     await expect(mutation.authenticateAccount(input)).rejects.toThrow(errorMessage);
-    expect(useCase.execute).toHaveBeenCalledWith({
+    expect(commandHandler.execute).toHaveBeenCalledWith({
       email: input.email,
       password: input.password,
     });

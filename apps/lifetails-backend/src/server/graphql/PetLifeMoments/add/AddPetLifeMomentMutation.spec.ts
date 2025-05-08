@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AddPetLifeMomentMutation } from './AddPetLifeMomentMutation';
-import { AddPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommandHandler';
 import { AddPetLifeMomentInput } from './AddPetLifeMomentInput';
 import { randomUUID } from 'crypto';
 
 describe('AddPetLifeMomentMutation', () => {
   let resolver: AddPetLifeMomentMutation;
-  let useCase: AddPetLifeMomentUseCase;
+  let commandHandler: AddPetLifeMomentCommandHandler;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AddPetLifeMomentMutation,
         {
-          provide: AddPetLifeMomentUseCase,
+          provide: AddPetLifeMomentCommandHandler,
           useValue: {
             execute: jest.fn().mockResolvedValue(undefined),
           },
@@ -22,7 +22,7 @@ describe('AddPetLifeMomentMutation', () => {
     }).compile();
 
     resolver = module.get<AddPetLifeMomentMutation>(AddPetLifeMomentMutation);
-    useCase = module.get<AddPetLifeMomentUseCase>(AddPetLifeMomentUseCase);
+    commandHandler = module.get<AddPetLifeMomentCommandHandler>(AddPetLifeMomentCommandHandler);
   });
 
   it('should be defined', () => {
@@ -45,7 +45,7 @@ describe('AddPetLifeMomentMutation', () => {
       const result = await resolver.addPetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
+      expect(commandHandler.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
           type: input.type,
@@ -70,7 +70,7 @@ describe('AddPetLifeMomentMutation', () => {
       };
 
       const error = new Error('Invalid moment type');
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.addPetLifeMoment(input)).rejects.toThrow('Invalid moment type');
@@ -87,7 +87,7 @@ describe('AddPetLifeMomentMutation', () => {
         description: 'Test description',
       };
 
-      jest.spyOn(useCase, 'execute').mockRejectedValue({});
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue({});
 
       // Act & Assert
       await expect(resolver.addPetLifeMoment(input)).rejects.toThrow(

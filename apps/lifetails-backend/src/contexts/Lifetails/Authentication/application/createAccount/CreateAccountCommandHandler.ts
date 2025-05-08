@@ -5,7 +5,7 @@ import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { CreateAccountCommand } from './CreateAccountCommand';
 
-export class CreateAccountUseCase {
+export class CreateAccountCommandHandler {
   constructor(
     private readonly repository: AccountRepository,
     private readonly hasher: PasswordHasher,

@@ -5,7 +5,7 @@ import { PetLifeMomentType } from '../../domain/entities/PetLifeMomentType';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 
-export class AddPetLifeMomentUseCase {
+export class AddPetLifeMomentCommandHandler {
   constructor(private readonly repository: PetLifeMomentInMemoryRepository) {}
 
   async execute(command: AddPetLifeMomentCommand): Promise<void> {

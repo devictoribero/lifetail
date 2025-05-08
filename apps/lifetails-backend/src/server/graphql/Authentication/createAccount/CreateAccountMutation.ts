@@ -1,19 +1,19 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CreateAccountResponse } from './CreateAccountResponse';
 import { CreateAccountInput } from './CreateAccountInput';
-import { CreateAccountUseCase } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountUseCase';
+import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
 import { EmailAlreadyInUseException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/EmailAlreadyInUseException';
 import { CreateAccountCommand } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommand';
 
 @Resolver()
 export class CreateAccountMutation {
-  constructor(private readonly useCase: CreateAccountUseCase) {}
+  constructor(private readonly commandHandler: CreateAccountCommandHandler) {}
 
   @Mutation(() => CreateAccountResponse)
   async createAccount(@Args('input') input: CreateAccountInput): Promise<CreateAccountResponse> {
     try {
       const command = new CreateAccountCommand(input.email, input.password);
-      const account = await this.useCase.execute(command);
+      const account = await this.commandHandler.execute(command);
 
       return { id: account.getId().toString() };
     } catch (error) {

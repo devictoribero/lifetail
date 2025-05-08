@@ -1,13 +1,13 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthenticateAccountResponse } from './AuthenticateAccountResponse';
 import { AuthenticateAccountInput } from './AuthenticateAccountInput';
-import { AuthenticateAccountUseCase } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountUseCase';
 import { InvalidCredentialsException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/InvalidCredentialsException';
 import { AuthenticateAccountCommand } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
+import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 
 @Resolver()
 export class AuthenticateAccountMutation {
-  constructor(private readonly useCase: AuthenticateAccountUseCase) {}
+  constructor(private readonly commandHandler: AuthenticateAccountCommandHandler) {}
 
   @Mutation(() => AuthenticateAccountResponse)
   async authenticateAccount(
@@ -15,7 +15,7 @@ export class AuthenticateAccountMutation {
   ): Promise<AuthenticateAccountResponse> {
     try {
       const command = new AuthenticateAccountCommand(input.email, input.password);
-      const accountId = await this.useCase.execute(command);
+      const accountId = await this.commandHandler.execute(command);
 
       return { accountId };
     } catch (error) {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 // Application imports
-import { AddPetUseCase } from 'src/contexts/Lifetails/Pets/application/add/AddPetUseCase';
+import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
 import { RemovePetUseCase } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetUseCase';
 import { UpdatePetUseCase } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetUseCase';
 import { FindPetUseCase } from 'src/contexts/Lifetails/Pets/application/find/FindPetUseCase';
@@ -13,12 +13,12 @@ const petRepositoryProvider = {
   useClass: PetInMemoryRepository,
 };
 
-const addPetUseCaseProvider = {
-  provide: AddPetUseCase,
+const addPetCommandHandlerProvider = {
+  provide: AddPetCommandHandler,
   useFactory: (repository: PetInMemoryRepository) => {
-    return new AddPetUseCase(repository);
+    return new AddPetCommandHandler(repository);
   },
-  inject: [PetInMemoryRepository],
+  inject: ['PetRepository'],
 };
 
 const removePetUseCaseProvider = {
@@ -58,14 +58,14 @@ const searchAllPetsUseCaseProvider = {
   controllers: [],
   providers: [
     petRepositoryProvider,
-    addPetUseCaseProvider,
+    addPetCommandHandlerProvider,
     removePetUseCaseProvider,
     updatePetUseCaseProvider,
     findPetUseCaseProvider,
     searchAllPetsUseCaseProvider,
   ],
   exports: [
-    AddPetUseCase,
+    AddPetCommandHandler,
     RemovePetUseCase,
     UpdatePetUseCase,
     FindPetUseCase,

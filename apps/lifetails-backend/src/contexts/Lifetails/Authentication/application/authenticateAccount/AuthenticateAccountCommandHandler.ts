@@ -4,7 +4,7 @@ import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
 
-export class AuthenticateAccountUseCase {
+export class AuthenticateAccountCommandHandler {
   constructor(
     private readonly repository: AccountRepository,
     private readonly hasher: PasswordHasher,

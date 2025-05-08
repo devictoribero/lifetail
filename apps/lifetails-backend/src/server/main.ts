@@ -5,8 +5,7 @@ import { CreateUserCommand } from 'src/contexts/Lifetails/Users/application/crea
 import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQuery';
 import { GetUserUseCase } from 'src/contexts/Lifetails/Users/application/getUser/GetUserUseCase';
 import { faker } from '@faker-js/faker';
-import { AddPetUseCase } from 'src/contexts/Lifetails/Pets/application/add/AddPetUseCase';
-import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
+import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
 import { SearchAllPetsUseCase } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsUseCase';
 import { SearchAllPetsQuery } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQuery';
 import { RemovePetCommand } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommand';
@@ -18,8 +17,9 @@ import { FindPetQuery } from 'src/contexts/Lifetails/Pets/application/find/FindP
 import { AddPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
 import { AddPetLifeMomentCommand } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommand';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
-import { CreateAccountUseCase } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountUseCase';
+import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
 import { CreateUserUseCase } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserUseCase';
+import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
 
 const logDomainEvent = (eventName: string, data?: any) => {
   console.log(`[Domain Event] ${eventName}`, data);
@@ -36,8 +36,8 @@ async function bootstrap() {
     console.info(`LifeTail API is running on port ${port}`);
 
     // Create account
-    const createAccountUseCase = app.get(CreateAccountUseCase);
-    const account = await createAccountUseCase.execute({
+    const createAccountCommandHandler = app.get(CreateAccountCommandHandler);
+    const account = await createAccountCommandHandler.execute({
       email: 'victor@test.com',
       password: 'test',
     });
@@ -65,7 +65,7 @@ async function bootstrap() {
     // Add pet (Neko)
     const nekoUuid = faker.string.uuid();
     const nekoChipId = `chip-id-${faker.string.alphanumeric(9)}`;
-    const addPetUseCase = app.get(AddPetUseCase);
+    const addPetCommandHandler = app.get(AddPetCommandHandler);
     const addNekoCommand = new AddPetCommand(
       nekoUuid,
       Species.Cat.toString(),
@@ -76,7 +76,7 @@ async function bootstrap() {
       new Date('2020-01-01'),
       victorUuid,
     );
-    await addPetUseCase.execute(addNekoCommand);
+    await addPetCommandHandler.execute(addNekoCommand);
     const findPetUseCase = app.get(FindPetUseCase);
     const neko = await findPetUseCase.execute(new FindPetQuery(nekoUuid));
     logDomainEvent('Pet added', neko);
@@ -104,7 +104,7 @@ async function bootstrap() {
       new Date('2020-10-01'),
       victorUuid,
     );
-    await addPetUseCase.execute(addTofuCommand);
+    await addPetCommandHandler.execute(addTofuCommand);
     const tofu = await findPetUseCase.execute(new FindPetQuery(tofuUuid));
     logDomainEvent('Pet added', tofu);
 

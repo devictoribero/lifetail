@@ -1,13 +1,13 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { AddPetResponse } from './AddPetResponse';
 import { AddPetInput } from './AddPetInput';
-import { AddPetUseCase } from 'src/contexts/Lifetails/Pets/application/add/AddPetUseCase';
+import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
 import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
 import { MaxNumberOfPetsReachedException } from 'src/contexts/Lifetails/Pets/domain/exceptions/MaxNumberOfPetsReachedException';
 
 @Resolver()
 export class AddPetMutation {
-  constructor(private readonly useCase: AddPetUseCase) {}
+  constructor(private readonly commandHandler: AddPetCommandHandler) {}
 
   @Mutation(() => AddPetResponse)
   async addPet(@Args('input') input: AddPetInput): Promise<AddPetResponse> {
@@ -22,14 +22,14 @@ export class AddPetMutation {
         input.anniversaryDate,
         input.userId,
       );
-      await this.useCase.execute(command);
+      await this.commandHandler.execute(command);
 
       return { id: input.id };
     } catch (error) {
       if (error instanceof MaxNumberOfPetsReachedException) {
-        throw new Error('Max number of pets reached');
+        throw new Error('Maximum number of pets reached for this user');
       }
-      throw new Error(error.message ?? 'Error adding pet');
+      throw error;
     }
   }
 }

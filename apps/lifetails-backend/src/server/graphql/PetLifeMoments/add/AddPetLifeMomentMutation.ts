@@ -1,12 +1,12 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AddPetLifeMomentResponse } from './AddPetLifeMomentResponse';
 import { AddPetLifeMomentInput } from './AddPetLifeMomentInput';
-import { AddPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommandHandler';
 import { AddPetLifeMomentCommand } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommand';
 
 @Resolver()
 export class AddPetLifeMomentMutation {
-  constructor(private readonly useCase: AddPetLifeMomentUseCase) {}
+  constructor(private readonly useCase: AddPetLifeMomentCommandHandler) {}
 
   @Mutation(() => AddPetLifeMomentResponse)
   async addPetLifeMoment(

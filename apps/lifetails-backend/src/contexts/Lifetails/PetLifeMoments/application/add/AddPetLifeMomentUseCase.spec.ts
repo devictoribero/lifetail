@@ -1,5 +1,5 @@
 import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
-import { AddPetLifeMomentUseCase } from './AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommandHandler } from './AddPetLifeMomentCommandHandler';
 import { AddPetLifeMomentCommand } from './AddPetLifeMomentCommand';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { randomUUID } from 'node:crypto';
@@ -7,11 +7,11 @@ import { faker } from '@faker-js/faker';
 
 describe('AddPetLifeMomentUseCase', () => {
   let repository: PetLifeMomentInMemoryRepository;
-  let useCase: AddPetLifeMomentUseCase;
+  let commandHandler: AddPetLifeMomentCommandHandler;
 
   beforeEach(() => {
     repository = new PetLifeMomentInMemoryRepository();
-    useCase = new AddPetLifeMomentUseCase(repository);
+    commandHandler = new AddPetLifeMomentCommandHandler(repository);
   });
 
   it('should add a pet life moment', async () => {
@@ -34,7 +34,7 @@ describe('AddPetLifeMomentUseCase', () => {
     );
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);

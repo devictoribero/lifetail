@@ -4,11 +4,11 @@ import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { faker } from '@faker-js/faker';
-import { CreateAccountUseCase } from './CreateAccountUseCase';
+import { CreateAccountCommandHandler } from './CreateAccountCommandHandler';
 import { CreateAccountCommand } from './CreateAccountCommand';
 
-describe('CreateAccountUseCase', () => {
-  let useCase: CreateAccountUseCase;
+describe('CreateAccountCommandHandler', () => {
+  let commandHandler: CreateAccountCommandHandler;
   let repository: jest.Mocked<AccountRepository>;
   let hasher: jest.Mocked<PasswordHasher>;
 
@@ -23,7 +23,7 @@ describe('CreateAccountUseCase', () => {
       compare: jest.fn(),
     } as jest.Mocked<PasswordHasher>;
 
-    useCase = new CreateAccountUseCase(repository, hasher);
+    commandHandler = new CreateAccountCommandHandler(repository, hasher);
   });
 
   it('should throw EmailAlreadyInUseException when email is already in use', async () => {
@@ -37,7 +37,7 @@ describe('CreateAccountUseCase', () => {
 
     // Act & Assert
 
-    await expect(useCase.execute(command)).rejects.toThrow(EmailAlreadyInUseException);
+    await expect(commandHandler.execute(command)).rejects.toThrow(EmailAlreadyInUseException);
     expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
   });
 
@@ -52,7 +52,7 @@ describe('CreateAccountUseCase', () => {
     hasher.hash.mockResolvedValue(hashedPassword);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
