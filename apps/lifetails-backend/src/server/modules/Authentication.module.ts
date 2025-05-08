@@ -20,7 +20,7 @@ const createAccountCommandHandlerProvider = {
   inject: ['AccountRepository', PasswordHasher],
 };
 
-const authenticateAccountUseCaseProvider = {
+const authenticateAccountCommandHandlerProvider = {
   provide: AuthenticateAccountCommandHandler,
   useFactory: (repository: AccountInMemoryRepository, hasher: PasswordHasher) => {
     return new AuthenticateAccountCommandHandler(repository, hasher);
@@ -35,7 +35,7 @@ const authenticateAccountUseCaseProvider = {
     accountRepositoryProvider,
     PasswordHasher,
     createAccountCommandHandlerProvider,
-    authenticateAccountUseCaseProvider,
+    authenticateAccountCommandHandlerProvider,
   ],
   exports: [
     'AccountRepository',

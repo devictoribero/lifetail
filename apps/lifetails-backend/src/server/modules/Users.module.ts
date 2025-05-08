@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 // Domain imports
 import { GetUserService } from 'src/contexts/Lifetails/Users/domain/services/GetUserService';
-import { UserRepository } from 'src/contexts/Lifetails/Users/domain/repositories/UserRepository';
+import {
+  UserRepository,
+  UserRepositorySymbol,
+} from 'src/contexts/Lifetails/Users/domain/repositories/UserRepository';
 // Application imports
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
@@ -9,7 +12,7 @@ import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/applicati
 import { UserInMemoryRepository } from 'src/contexts/Lifetails/Users/infrastructure/UserInMemoryRepository';
 
 const userRepositoryProvider = {
-  provide: 'UserRepository',
+  provide: UserRepositorySymbol,
   useClass: UserInMemoryRepository,
 };
 
@@ -18,7 +21,7 @@ const getUserServiceProvider = {
   useFactory: (repository: UserRepository) => {
     return new GetUserService(repository);
   },
-  inject: ['UserRepository'],
+  inject: [UserRepositorySymbol],
 };
 
 const createUserCommandHandlerProvider = {
@@ -26,7 +29,7 @@ const createUserCommandHandlerProvider = {
   useFactory: (repository: UserRepository, getUserService: GetUserService) => {
     return new CreateUserCommandHandler(getUserService, repository);
   },
-  inject: ['UserRepository', GetUserService],
+  inject: [UserRepositorySymbol, GetUserService],
 };
 
 const GetUserQueryHandlerProvider = {
@@ -45,7 +48,13 @@ const GetUserQueryHandlerProvider = {
     getUserServiceProvider,
     createUserCommandHandlerProvider,
     GetUserQueryHandlerProvider,
+    UserInMemoryRepository,
   ],
-  exports: ['UserRepository', CreateUserCommandHandler, GetUserQueryHandler],
+  exports: [
+    UserRepositorySymbol,
+    CreateUserCommandHandler,
+    GetUserQueryHandler,
+    UserInMemoryRepository,
+  ],
 })
 export class UsersModule {}

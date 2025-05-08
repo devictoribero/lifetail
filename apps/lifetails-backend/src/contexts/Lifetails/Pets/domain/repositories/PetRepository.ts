@@ -1,5 +1,7 @@
 import { Pet } from '../entities/Pet';
 
+export const PetRepositorySymbol = Symbol('PetRepository');
+
 export interface PetRepository {
   save(pet: Pet): Promise<void>;
   remove(id: string): Promise<void>;
