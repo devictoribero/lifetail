@@ -1,0 +1,7 @@
+import { User } from '../entities/User';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+
+export interface UserRepository {
+  save(user: User): Promise<void>;
+  getByAccountId(accountId: UUID): Promise<User | null>;
+}
