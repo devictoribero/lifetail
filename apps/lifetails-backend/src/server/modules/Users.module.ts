@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 // Domain imports
 import { GetUserService } from 'src/contexts/Lifetails/Users/domain/services/GetUserService';
+import { UserRepository } from 'src/contexts/Lifetails/Users/domain/repositories/UserRepository';
 // Application imports
 import { GetUserUseCase } from 'src/contexts/Lifetails/Users/application/getUser/GetUserUseCase';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
@@ -8,24 +9,24 @@ import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/applicati
 import { UserInMemoryRepository } from 'src/contexts/Lifetails/Users/infrastructure/UserInMemoryRepository';
 
 const userRepositoryProvider = {
-  provide: UserInMemoryRepository,
+  provide: 'UserRepository',
   useClass: UserInMemoryRepository,
 };
 
 const getUserServiceProvider = {
   provide: GetUserService,
-  useFactory: (repository: UserInMemoryRepository) => {
+  useFactory: (repository: UserRepository) => {
     return new GetUserService(repository);
   },
-  inject: [UserInMemoryRepository],
+  inject: ['UserRepository'],
 };
 
 const createUserCommandHandlerProvider = {
   provide: CreateUserCommandHandler,
-  useFactory: (repository: UserInMemoryRepository, getUserService: GetUserService) => {
+  useFactory: (repository: UserRepository, getUserService: GetUserService) => {
     return new CreateUserCommandHandler(getUserService, repository);
   },
-  inject: [UserInMemoryRepository, GetUserService],
+  inject: ['UserRepository', GetUserService],
 };
 
 const getUserUseCaseProvider = {
@@ -45,6 +46,6 @@ const getUserUseCaseProvider = {
     createUserCommandHandlerProvider,
     getUserUseCaseProvider,
   ],
-  exports: [CreateUserCommandHandler, GetUserUseCase, UserInMemoryRepository],
+  exports: ['UserRepository', CreateUserCommandHandler, GetUserUseCase],
 })
 export class UsersModule {}
