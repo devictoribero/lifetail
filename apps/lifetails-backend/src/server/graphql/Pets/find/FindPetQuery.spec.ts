@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FindPetQuery } from './FindPetQuery';
-import { FindPetUseCase } from 'src/contexts/Lifetails/Pets/application/find/FindPetUseCase';
+import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
 import { FindPetInput } from './FindPetInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
@@ -32,14 +32,14 @@ const createMockPet = (
 
 describe('FindPetQuery', () => {
   let resolver: FindPetQuery;
-  let useCase: FindPetUseCase;
+  let queryHandler: FindPetQueryHandler;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         FindPetQuery,
         {
-          provide: FindPetUseCase,
+          provide: FindPetQueryHandler,
           useValue: {
             execute: jest.fn(),
           },
@@ -48,7 +48,7 @@ describe('FindPetQuery', () => {
     }).compile();
 
     resolver = module.get<FindPetQuery>(FindPetQuery);
-    useCase = module.get<FindPetUseCase>(FindPetUseCase);
+    queryHandler = module.get<FindPetQueryHandler>(FindPetQueryHandler);
   });
 
   it('should be defined', () => {
@@ -80,13 +80,13 @@ describe('FindPetQuery', () => {
         mockUserId,
       );
 
-      jest.spyOn(useCase, 'execute').mockResolvedValue(mockPet);
+      jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPet);
 
       // Act
       const result = await resolver.findPet(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
+      expect(queryHandler.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
 
       expect(result).toEqual({
         id: mockPet.getId(),
@@ -104,7 +104,7 @@ describe('FindPetQuery', () => {
       const input: FindPetInput = { id };
 
       const error = new Error(`Pet with id ${id} not found`);
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.findPet(input)).rejects.toThrow(
@@ -117,7 +117,7 @@ describe('FindPetQuery', () => {
       const id = randomUUID();
       const input: FindPetInput = { id };
 
-      jest.spyOn(useCase, 'execute').mockRejectedValue({});
+      jest.spyOn(queryHandler, 'execute').mockRejectedValue({});
 
       // Act & Assert
       await expect(resolver.findPet(input)).rejects.toThrow('Error finding pet');

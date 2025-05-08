@@ -1,18 +1,18 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { FindPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
+import { FindPetLifeMomentQueryHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentQueryHandler';
 import { FindPetLifeMomentQuery } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentQuery';
 import { FindPetLifeMomentInput } from './FindPetLifeMomentInput';
 import { PetLifeMoment } from './PetLifeMoment';
 
 @Resolver()
 export class FindPetLifeMoment {
-  constructor(private readonly useCase: FindPetLifeMomentUseCase) {}
+  constructor(private readonly queryHandler: FindPetLifeMomentQueryHandler) {}
 
   @Query(() => PetLifeMoment)
   async findPetLifeMoment(@Args('input') input: FindPetLifeMomentInput): Promise<PetLifeMoment> {
     try {
       const query = new FindPetLifeMomentQuery(input.id);
-      const moment = await this.useCase.execute(query);
+      const moment = await this.queryHandler.execute(query);
 
       return {
         id: moment.getId(),

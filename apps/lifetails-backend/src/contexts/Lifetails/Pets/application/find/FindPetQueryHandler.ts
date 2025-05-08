@@ -3,7 +3,7 @@ import { PetRepository } from '../../domain/repositories/PetRepository';
 import { FindPetQuery } from './FindPetQuery';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 
-export class FindPetUseCase {
+export class FindPetQueryHandler {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(query: FindPetQuery): Promise<Pet> {

@@ -1,5 +1,5 @@
 import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
-import { FindPetLifeMomentUseCase } from './FindPetLifeMomentUseCase';
+import { FindPetLifeMomentQueryHandler } from './FindPetLifeMomentQueryHandler';
 import { FindPetLifeMomentQuery } from './FindPetLifeMomentQuery';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { PetLifeMomentNotFoundException } from '../../domain/exceptions/PetLifeMomentNotFoundException';
@@ -9,13 +9,13 @@ import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringVa
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 
-describe('FindPetLifeMomentUseCase', () => {
+describe('FindPetLifeMomentQueryHandler', () => {
   let repository: PetLifeMomentInMemoryRepository;
-  let useCase: FindPetLifeMomentUseCase;
+  let queryHandler: FindPetLifeMomentQueryHandler;
 
   beforeEach(() => {
     repository = new PetLifeMomentInMemoryRepository();
-    useCase = new FindPetLifeMomentUseCase(repository);
+    queryHandler = new FindPetLifeMomentQueryHandler(repository);
   });
 
   it('should throw PetLifeMomentNotFoundException when pet life moment does not exist', async () => {
@@ -24,7 +24,7 @@ describe('FindPetLifeMomentUseCase', () => {
     const query = new FindPetLifeMomentQuery(nonExistentId);
 
     // Act & Assert
-    await expect(useCase.execute(query)).rejects.toThrow(
+    await expect(queryHandler.execute(query)).rejects.toThrow(
       new PetLifeMomentNotFoundException(nonExistentId),
     );
   });
@@ -51,7 +51,7 @@ describe('FindPetLifeMomentUseCase', () => {
     const query = new FindPetLifeMomentQuery(id);
 
     // Act
-    const foundMoment = await useCase.execute(query);
+    const foundMoment = await queryHandler.execute(query);
 
     // Assert
     expect(findSpy).toHaveBeenCalledTimes(1);

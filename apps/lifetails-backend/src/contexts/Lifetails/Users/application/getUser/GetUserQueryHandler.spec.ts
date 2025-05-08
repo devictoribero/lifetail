@@ -1,4 +1,4 @@
-import { GetUserUseCase } from './GetUserUseCase';
+import { GetUserQueryHandler } from './GetUserQueryHandler';
 import { GetUserService } from '../../domain/services/GetUserService';
 import { GetUserQuery } from './GetUserQuery';
 import { User } from '../../domain/entities/User';
@@ -9,8 +9,8 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { randomUUID } from 'node:crypto';
 
-describe('GetUserUseCase', () => {
-  let useCase: GetUserUseCase;
+describe('GetUserQueryHandler', () => {
+  let queryHandler: GetUserQueryHandler;
   let getUserService: jest.Mocked<GetUserService>;
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('GetUserUseCase', () => {
       execute: jest.fn(),
     } as unknown as jest.Mocked<GetUserService>;
 
-    useCase = new GetUserUseCase(getUserService);
+    queryHandler = new GetUserQueryHandler(getUserService);
   });
 
   it('should get a user when it exists', async () => {
@@ -41,7 +41,7 @@ describe('GetUserUseCase', () => {
     const query = new GetUserQuery(accountId);
 
     // Act
-    const result = await useCase.execute(query);
+    const result = await queryHandler.execute(query);
 
     // Assert
     expect(getUserService.execute).toHaveBeenCalledWith(new UUID(accountId));
@@ -56,7 +56,7 @@ describe('GetUserUseCase', () => {
     const query = new GetUserQuery(accountId);
 
     // Act & Assert
-    await expect(useCase.execute(query)).rejects.toThrow(new UserNotFoundException(accountId));
+    await expect(queryHandler.execute(query)).rejects.toThrow(new UserNotFoundException(accountId));
     expect(getUserService.execute).toHaveBeenCalledWith(new UUID(accountId));
   });
 });

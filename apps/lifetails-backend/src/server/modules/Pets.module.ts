@@ -3,8 +3,8 @@ import { Module } from '@nestjs/common';
 import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
 import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
 import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
-import { FindPetUseCase } from 'src/contexts/Lifetails/Pets/application/find/FindPetUseCase';
-import { SearchAllPetsUseCase } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsUseCase';
+import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
+import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
 // Infrastructure imports
 import { PetInMemoryRepository } from 'src/contexts/Lifetails/Pets/infrastructure/PetInMemoryRepository';
 // Domain imports
@@ -40,17 +40,17 @@ const updatePetUseCaseProvider = {
 };
 
 const findPetUseCaseProvider = {
-  provide: FindPetUseCase,
+  provide: FindPetQueryHandler,
   useFactory: (repository: PetInMemoryRepository) => {
-    return new FindPetUseCase(repository);
+    return new FindPetQueryHandler(repository);
   },
   inject: ['PetRepository'],
 };
 
-const searchAllPetsUseCaseProvider = {
-  provide: SearchAllPetsUseCase,
+const searchAllPetsQueryHandlerProvider = {
+  provide: SearchAllPetsQueryHandler,
   useFactory: (repository: PetInMemoryRepository) => {
-    return new SearchAllPetsUseCase(repository);
+    return new SearchAllPetsQueryHandler(repository);
   },
   inject: ['PetRepository'],
 };
@@ -64,15 +64,15 @@ const searchAllPetsUseCaseProvider = {
     removePetUseCaseProvider,
     updatePetUseCaseProvider,
     findPetUseCaseProvider,
-    searchAllPetsUseCaseProvider,
+    searchAllPetsQueryHandlerProvider,
   ],
   exports: [
     'PetRepository',
     AddPetCommandHandler,
     RemovePetCommandHandler,
     UpdatePetCommandHandler,
-    FindPetUseCase,
-    SearchAllPetsUseCase,
+    FindPetQueryHandler,
+    SearchAllPetsQueryHandler,
   ],
 })
 export class PetsModule {}

@@ -4,7 +4,7 @@ import { GetUserQuery } from './GetUserQuery';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { GetUserService } from '../../domain/services/GetUserService';
 
-export class GetUserUseCase {
+export class GetUserQueryHandler {
   constructor(private readonly getUserService: GetUserService) {}
 
   async execute(query: GetUserQuery): Promise<User> {

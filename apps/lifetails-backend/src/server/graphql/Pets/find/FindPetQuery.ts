@@ -1,12 +1,12 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { FindPetUseCase } from 'src/contexts/Lifetails/Pets/application/find/FindPetUseCase';
+import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
 import { FindPetQuery as FindPetUseCaseQuery } from 'src/contexts/Lifetails/Pets/application/find/FindPetQuery';
 import { FindPetInput } from './FindPetInput';
 import { Pet } from './Pet';
 
 @Resolver()
 export class FindPetQuery {
-  constructor(private readonly useCase: FindPetUseCase) {}
+  constructor(private readonly useCase: FindPetQueryHandler) {}
 
   @Query(() => Pet)
   async findPet(@Args('input') input: FindPetInput): Promise<Pet> {

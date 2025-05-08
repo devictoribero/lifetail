@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FindPetLifeMoment } from './FindPetLifeMomentQuery';
-import { FindPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
+import { FindPetLifeMomentQueryHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentQueryHandler';
 import { FindPetLifeMomentInput } from './FindPetLifeMomentInput';
 import { randomUUID } from 'crypto';
 import { PetLifeMoment } from 'src/contexts/Lifetails/PetLifeMoments/domain/entities/PetLifeMoment';
@@ -11,14 +11,14 @@ import { faker } from '@faker-js/faker';
 
 describe('FindPetLifeMoment', () => {
   let resolver: FindPetLifeMoment;
-  let useCase: FindPetLifeMomentUseCase;
+  let queryHandler: FindPetLifeMomentQueryHandler;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         FindPetLifeMoment,
         {
-          provide: FindPetLifeMomentUseCase,
+          provide: FindPetLifeMomentQueryHandler,
           useValue: {
             execute: jest.fn(),
           },
@@ -27,7 +27,7 @@ describe('FindPetLifeMoment', () => {
     }).compile();
 
     resolver = module.get<FindPetLifeMoment>(FindPetLifeMoment);
-    useCase = module.get<FindPetLifeMomentUseCase>(FindPetLifeMomentUseCase);
+    queryHandler = module.get<FindPetLifeMomentQueryHandler>(FindPetLifeMomentQueryHandler);
   });
 
   it('should be defined', () => {
@@ -52,13 +52,13 @@ describe('FindPetLifeMoment', () => {
         mockDescription,
       );
 
-      jest.spyOn(useCase, 'execute').mockResolvedValue(mockPetLifeMoment);
+      jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPetLifeMoment);
 
       // Act
       const result = await resolver.findPetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
+      expect(queryHandler.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
 
       expect(result).toEqual({
         id: mockPetLifeMoment.getId(),
@@ -77,7 +77,7 @@ describe('FindPetLifeMoment', () => {
       const input: FindPetLifeMomentInput = { id };
 
       const error = new PetLifeMomentNotFoundException(id);
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.findPetLifeMoment(input)).rejects.toThrow(

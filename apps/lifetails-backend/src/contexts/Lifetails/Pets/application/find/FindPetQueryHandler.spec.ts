@@ -1,5 +1,5 @@
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
-import { FindPetUseCase } from './FindPetUseCase';
+import { FindPetQueryHandler } from './FindPetQueryHandler';
 import { FindPetQuery } from './FindPetQuery';
 import { Pet } from '../../domain/entities/Pet';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
@@ -11,14 +11,14 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { faker } from '@faker-js/faker';
 import { Species } from '../../domain/entities/PetSpecies';
 
-describe('FindPetUseCase', () => {
+describe('FindPetQueryHandler', () => {
   let repository: PetInMemoryRepository;
-  let useCase: FindPetUseCase;
+  let queryHandler: FindPetQueryHandler;
   let userId: string;
 
   beforeEach(() => {
     repository = new PetInMemoryRepository();
-    useCase = new FindPetUseCase(repository);
+    queryHandler = new FindPetQueryHandler(repository);
     userId = randomUUID();
   });
 
@@ -28,7 +28,9 @@ describe('FindPetUseCase', () => {
     const query = new FindPetQuery(nonExistentId);
 
     // Act & Assert
-    await expect(useCase.execute(query)).rejects.toThrow(new PetNotFoundException(nonExistentId));
+    await expect(queryHandler.execute(query)).rejects.toThrow(
+      new PetNotFoundException(nonExistentId),
+    );
   });
 
   it('should find a pet', async () => {
@@ -59,7 +61,7 @@ describe('FindPetUseCase', () => {
     const query = new FindPetQuery(id);
 
     // Act
-    const foundPet = await useCase.execute(query);
+    const foundPet = await queryHandler.execute(query);
 
     // Assert
     expect(findSpy).toHaveBeenCalledTimes(1);

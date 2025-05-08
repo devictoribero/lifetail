@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SearchAllPetsQuery } from './SearchAllPetsQuery';
-import { SearchAllPetsUseCase } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsUseCase';
+import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Pet } from 'src/contexts/Lifetails/Pets/domain/entities/Pet';
@@ -32,7 +32,7 @@ const createMockPet = (
 
 describe('SearchAllPetsQuery', () => {
   let resolver: SearchAllPetsQuery;
-  let useCase: SearchAllPetsUseCase;
+  let queryHandler: SearchAllPetsQueryHandler;
   let userId: string;
 
   beforeEach(async () => {
@@ -40,7 +40,7 @@ describe('SearchAllPetsQuery', () => {
       providers: [
         SearchAllPetsQuery,
         {
-          provide: SearchAllPetsUseCase,
+          provide: SearchAllPetsQueryHandler,
           useValue: {
             execute: jest.fn(),
           },
@@ -49,7 +49,7 @@ describe('SearchAllPetsQuery', () => {
     }).compile();
 
     resolver = module.get<SearchAllPetsQuery>(SearchAllPetsQuery);
-    useCase = module.get<SearchAllPetsUseCase>(SearchAllPetsUseCase);
+    queryHandler = module.get<SearchAllPetsQueryHandler>(SearchAllPetsQueryHandler);
   });
 
   it('should be defined', () => {
@@ -84,13 +84,13 @@ describe('SearchAllPetsQuery', () => {
         ),
       ];
 
-      jest.spyOn(useCase, 'execute').mockResolvedValue(mockPets);
+      jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPets);
 
       // Act
       const result = await resolver.searchAllPets(userId);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalled();
+      expect(queryHandler.execute).toHaveBeenCalled();
       expect(result).toHaveLength(2);
 
       // Check that the response format is correct
@@ -115,20 +115,20 @@ describe('SearchAllPetsQuery', () => {
 
     it('should return empty array when no pets found', async () => {
       // Arrange
-      jest.spyOn(useCase, 'execute').mockResolvedValue([]);
+      jest.spyOn(queryHandler, 'execute').mockResolvedValue([]);
 
       // Act
       const result = await resolver.searchAllPets(userId);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalled();
+      expect(queryHandler.execute).toHaveBeenCalled();
       expect(result).toEqual([]);
     });
 
     it('should propagate errors', async () => {
       // Arrange
       const error = new Error('Database error');
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.searchAllPets(userId)).rejects.toThrow('Database error');
@@ -136,7 +136,7 @@ describe('SearchAllPetsQuery', () => {
 
     it('should handle errors with no message', async () => {
       // Arrange
-      jest.spyOn(useCase, 'execute').mockRejectedValue({});
+      jest.spyOn(queryHandler, 'execute').mockRejectedValue({});
 
       // Act & Assert
       await expect(resolver.searchAllPets(userId)).rejects.toThrow('Error searching all pets');

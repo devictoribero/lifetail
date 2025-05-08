@@ -5,7 +5,7 @@ import { PetLifeMomentRepository } from 'src/contexts/Lifetails/PetLifeMoments/d
 import { AddPetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommandHandler';
 import { RemovePetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/remove/RemovePetLifeMomentCommandHandler';
 import { UpdatePetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/update/UpdatePetLifeMomentCommandHandler';
-import { FindPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
+import { FindPetLifeMomentQueryHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentQueryHandler';
 // Infrastructure imports
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/Lifetails/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
 
@@ -38,10 +38,10 @@ const updatePetLifeMomentUseCaseProvider = {
   inject: ['PetLifeMomentRepository'],
 };
 
-const findPetLifeMomentUseCaseProvider = {
-  provide: FindPetLifeMomentUseCase,
+const FindPetLifeMomentQueryHandlerProvider = {
+  provide: FindPetLifeMomentQueryHandler,
   useFactory: (repository: PetLifeMomentRepository) => {
-    return new FindPetLifeMomentUseCase(repository);
+    return new FindPetLifeMomentQueryHandler(repository);
   },
   inject: ['PetLifeMomentRepository'],
 };
@@ -54,14 +54,14 @@ const findPetLifeMomentUseCaseProvider = {
     addPetLifeMomentUseCaseProvider,
     removePetLifeMomentUseCaseProvider,
     updatePetLifeMomentUseCaseProvider,
-    findPetLifeMomentUseCaseProvider,
+    FindPetLifeMomentQueryHandlerProvider,
   ],
   exports: [
     'PetLifeMomentRepository',
     AddPetLifeMomentCommandHandler,
     RemovePetLifeMomentCommandHandler,
     UpdatePetLifeMomentCommandHandler,
-    FindPetLifeMomentUseCase,
+    FindPetLifeMomentQueryHandler,
   ],
 })
 export class PetLifeMomentsModule {}

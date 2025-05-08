@@ -3,16 +3,15 @@ import { ConfigService } from '@nestjs/config';
 import { AppModule } from './modules/App.module';
 import { CreateUserCommand } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommand';
 import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQuery';
-import { GetUserUseCase } from 'src/contexts/Lifetails/Users/application/getUser/GetUserUseCase';
+
 import { faker } from '@faker-js/faker';
 import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
-import { SearchAllPetsUseCase } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsUseCase';
 import { SearchAllPetsQuery } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQuery';
 import { RemovePetCommand } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommand';
 import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
 import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
 import { UpdatePetCommand } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommand';
-import { FindPetUseCase } from 'src/contexts/Lifetails/Pets/application/find/FindPetUseCase';
+import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
 import { FindPetQuery } from 'src/contexts/Lifetails/Pets/application/find/FindPetQuery';
 import { AddPetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommandHandler';
 import { AddPetLifeMomentCommand } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommand';
@@ -20,6 +19,8 @@ import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies'
 import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
+import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
+import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
 
 const logDomainEvent = (eventName: string, data?: any) => {
   console.log(`[Domain Event] ${eventName}`, data);
@@ -58,8 +59,8 @@ async function bootstrap() {
       ),
     );
     // Get user
-    const getUserUseCase = app.get(GetUserUseCase);
-    const userFound = await getUserUseCase.execute(new GetUserQuery(accountId));
+    const getUserQueryHandler = app.get(GetUserQueryHandler);
+    const userFound = await getUserQueryHandler.execute(new GetUserQuery(accountId));
     logDomainEvent('User created', userFound);
 
     // Add pet (Neko)
@@ -77,18 +78,18 @@ async function bootstrap() {
       victorUuid,
     );
     await addPetCommandHandler.execute(addNekoCommand);
-    const findPetUseCase = app.get(FindPetUseCase);
-    const neko = await findPetUseCase.execute(new FindPetQuery(nekoUuid));
+    const findPetQueryHandler = app.get(FindPetQueryHandler);
+    const neko = await findPetQueryHandler.execute(new FindPetQuery(nekoUuid));
     logDomainEvent('Pet added', neko);
 
     // Search all pets
-    const searchAllPetsUseCase = app.get(SearchAllPetsUseCase);
+    const searchAllPetsQueryHandler = app.get(SearchAllPetsQueryHandler);
     const queryGetUserPets = new SearchAllPetsQuery(victorUuid);
-    await searchAllPetsUseCase.execute(queryGetUserPets);
+    await searchAllPetsQueryHandler.execute(queryGetUserPets);
 
     // Remove pet
-    const removePetUseCase = app.get(RemovePetCommandHandler);
-    await removePetUseCase.execute(new RemovePetCommand(nekoUuid));
+    const removePetCommandHandler = app.get(RemovePetCommandHandler);
+    await removePetCommandHandler.execute(new RemovePetCommand(nekoUuid));
     logDomainEvent('Pet removed', neko);
 
     // Add pet (Tofu)
@@ -105,16 +106,16 @@ async function bootstrap() {
       victorUuid,
     );
     await addPetCommandHandler.execute(addTofuCommand);
-    const tofu = await findPetUseCase.execute(new FindPetQuery(tofuUuid));
+    const tofu = await findPetQueryHandler.execute(new FindPetQuery(tofuUuid));
     logDomainEvent('Pet added', tofu);
 
     // Search all pets
-    const allPets = await searchAllPetsUseCase.execute(queryGetUserPets);
+    const allPets = await searchAllPetsQueryHandler.execute(queryGetUserPets);
     console.log('All pets of victor');
     console.log(allPets);
 
-    const updatePetUseCase = app.get(UpdatePetCommandHandler);
-    await updatePetUseCase.execute(
+    const updatePetCommandHandler = app.get(UpdatePetCommandHandler);
+    await updatePetCommandHandler.execute(
       new UpdatePetCommand(
         tofuUuid,
         'Tofu',
@@ -126,15 +127,13 @@ async function bootstrap() {
     );
     logDomainEvent('Pet updated', { id: tofuUuid });
 
-    const allPetsAfterUpdate = await searchAllPetsUseCase.execute(
-      new SearchAllPetsQuery(victorUuid),
-    );
+    const allPetsAfterUpdate = await searchAllPetsQueryHandler.execute(queryGetUserPets);
     console.log('All pets after update --- ');
     console.log(allPetsAfterUpdate);
 
     // Add pet life moment for neko
     const firstLifeMomentUuid = faker.string.uuid();
-    const addPetLifeMomentUseCase = app.get(AddPetLifeMomentCommandHandler);
+    const addPetLifeMomentCommandHandler = app.get(AddPetLifeMomentCommandHandler);
     const addFirstLifeMomentCommand = new AddPetLifeMomentCommand(
       firstLifeMomentUuid,
       'Arrival',
@@ -143,7 +142,7 @@ async function bootstrap() {
       new Date('2024-12-13'),
       'Nekito llega a casa!',
     );
-    await addPetLifeMomentUseCase.execute(addFirstLifeMomentCommand);
+    await addPetLifeMomentCommandHandler.execute(addFirstLifeMomentCommand);
     logDomainEvent('Pet life moment added', { id: firstLifeMomentUuid });
   });
 }
