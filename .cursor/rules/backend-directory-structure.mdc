@@ -1,0 +1,44 @@
+---
+description:
+globs: apps/lifetails-backend/src/**/*.ts
+alwaysApply: false
+---
+# Directory Structure
+
+## Rationale
+Maintaining a consistent, layered directory structure is critical for readability, scalability, and developer onboarding. This rule enforces separation of concerns through clearly defined directories aligned with Domain-Driven Design (DDD) and layered architecture principles.
+
+## Rule
+The application must follow the layered architecture pattern and organize its code under the following top-level directories:
+
+- src/ (Root source directory containing all application code)
+  - contexts/ (Organizes code by business domains/bounded contexts)
+    - Lifetails/ (Main bounded context for the pet lifecycle application)
+      - [module]/ (Domain-specific module, e.g., Authentication, Pets, Users)
+        - application/ (Use cases and application services for this module)
+          - [useCase]/ (Specific use case implementation)
+            - [UseCase]Command.ts (DTO defining the data needed for this use case)
+            - [UseCase]UseCase.spec.ts (Tests for the use case logic)
+            - [UseCase]UseCase.ts (Business logic for this use case)
+        - domain/ (Core business logic and rules for this module)
+          - entities/ (Business objects with identity and lifecycle)
+          - value-objects/ (Business objects represnting concepts)
+          - exceptions/ (Domain-specific error definitions)
+          - repositories/ (Interfaces defining data access contracts)
+          - services/ (Stateless domain operations and business rules)
+        - infrastructure/ (External dependencies implementation for this module)
+      - Shared/ (Cross-cutting concerns and utilities shared across domains)
+  - server/ (API server configuration and endpoints)
+    main.ts (Server bootstrap and configuration)
+    schema.gql (Generated GraphQL schema)
+    - graphql/ (GraphQL schema definitions and resolvers)
+    - modules/ (NestJS modules configuration)
+
+Each directory must be present if it is relevant to the application's scope.
+
+## Best Practices
+- Each module represents an aggregate root.
+- Keep layers **independent**. The domain layer should not depend on application or infrastructure.
+- Avoid mixing concerns (e.g., no business logic inside controllers).
+- Place shared code (e.g., types, constants) in clearly named `shared/` folders at the layer-appropriate level.
+
