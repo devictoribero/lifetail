@@ -5,7 +5,7 @@ import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { randomUUID } from 'node:crypto';
 import { faker } from '@faker-js/faker';
 
-describe('AddPetLifeMomentUseCase', () => {
+describe('AddPetLifeMomentCommandHandler', () => {
   let repository: PetLifeMomentInMemoryRepository;
   let commandHandler: AddPetLifeMomentCommandHandler;
 

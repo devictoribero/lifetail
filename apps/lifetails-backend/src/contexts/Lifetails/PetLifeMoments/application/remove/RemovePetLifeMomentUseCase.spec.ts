@@ -1,5 +1,5 @@
 import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
-import { RemovePetLifeMomentUseCase } from './RemovePetLifeMomentUseCase';
+import { RemovePetLifeMomentCommandHandler } from './RemovePetLifeMomentCommandHandler';
 import { RemovePetLifeMomentCommand } from './RemovePetLifeMomentCommand';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { randomUUID } from 'node:crypto';
@@ -9,13 +9,13 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { faker } from '@faker-js/faker';
 import { PetLifeMomentNotFoundException } from '../../domain/exceptions/PetLifeMomentNotFoundException';
 
-describe('RemovePetLifeMomentUseCase', () => {
+describe('RemovePetLifeMomentCommandHandler', () => {
   let repository: PetLifeMomentInMemoryRepository;
-  let useCase: RemovePetLifeMomentUseCase;
+  let commandHandler: RemovePetLifeMomentCommandHandler;
 
   beforeEach(() => {
     repository = new PetLifeMomentInMemoryRepository();
-    useCase = new RemovePetLifeMomentUseCase(repository);
+    commandHandler = new RemovePetLifeMomentCommandHandler(repository);
   });
 
   it('should throw a PetLifeMomentNotFoundException when the pet life moment does not exist', async () => {
@@ -23,7 +23,7 @@ describe('RemovePetLifeMomentUseCase', () => {
     const nonExistentId = randomUUID();
     const command = new RemovePetLifeMomentCommand(nonExistentId);
 
-    await expect(useCase.execute(command)).rejects.toThrow(PetLifeMomentNotFoundException);
+    await expect(commandHandler.execute(command)).rejects.toThrow(PetLifeMomentNotFoundException);
   });
 
   it('should remove a pet life moment', async () => {
@@ -51,7 +51,7 @@ describe('RemovePetLifeMomentUseCase', () => {
     const command = new RemovePetLifeMomentCommand(id);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(removeSpy).toHaveBeenCalledTimes(1);

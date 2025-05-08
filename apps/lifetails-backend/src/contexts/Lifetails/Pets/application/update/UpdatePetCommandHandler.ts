@@ -6,7 +6,7 @@ import { Gender } from '../../../Shared/domain/Gender';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { Pet } from '../../domain/entities/Pet';
 
-export class UpdatePetUseCase {
+export class UpdatePetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(command: UpdatePetCommand): Promise<void> {

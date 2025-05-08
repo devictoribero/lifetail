@@ -9,7 +9,7 @@ import { UUID } from '../../../Shared/domain/UUID';
 import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
 
-describe('AuthenticateAccountUseCase', () => {
+describe('AuthenticateAccountCommandHandler', () => {
   let commandHandler: AuthenticateAccountCommandHandler;
   let repository: jest.Mocked<AccountRepository>;
   let hasher: jest.Mocked<PasswordHasher>;

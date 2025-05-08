@@ -8,7 +8,7 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
 import { GetUserService } from '../../domain/services/GetUserService';
 
-export class CreateUserUseCase {
+export class CreateUserCommandHandler {
   constructor(
     private readonly getUserService: GetUserService,
     private readonly repository: UserRepository,

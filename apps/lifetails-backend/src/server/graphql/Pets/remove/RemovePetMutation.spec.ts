@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RemovePetMutation } from './RemovePetMutation';
-import { RemovePetUseCase } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetUseCase';
+import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
 import { RemovePetInput } from './RemovePetInput';
 import { randomUUID } from 'crypto';
 
 describe('RemovePetMutation', () => {
   let resolver: RemovePetMutation;
-  let useCase: RemovePetUseCase;
+  let commandHandler: RemovePetCommandHandler;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RemovePetMutation,
         {
-          provide: RemovePetUseCase,
+          provide: RemovePetCommandHandler,
           useValue: {
             execute: jest.fn().mockResolvedValue(undefined),
           },
@@ -22,7 +22,7 @@ describe('RemovePetMutation', () => {
     }).compile();
 
     resolver = module.get<RemovePetMutation>(RemovePetMutation);
-    useCase = module.get<RemovePetUseCase>(RemovePetUseCase);
+    commandHandler = module.get<RemovePetCommandHandler>(RemovePetCommandHandler);
   });
 
   it('should be defined', () => {
@@ -40,7 +40,9 @@ describe('RemovePetMutation', () => {
       const result = await resolver.removePet(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(expect.objectContaining({ id: input.id }));
+      expect(commandHandler.execute).toHaveBeenCalledWith(
+        expect.objectContaining({ id: input.id }),
+      );
       expect(result).toBe(true);
     });
 
@@ -51,7 +53,7 @@ describe('RemovePetMutation', () => {
       };
 
       const error = new Error('Pet not found');
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.removePet(input)).rejects.toThrow('Pet not found');
@@ -63,7 +65,7 @@ describe('RemovePetMutation', () => {
         id: randomUUID(),
       };
 
-      jest.spyOn(useCase, 'execute').mockRejectedValue({});
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue({});
 
       // Act & Assert
       await expect(resolver.removePet(input)).rejects.toThrow('Error removing pet');

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 // Application imports
-import { AddPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
-import { RemovePetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
-import { UpdatePetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
+import { AddPetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommandHandler';
+import { RemovePetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/remove/RemovePetLifeMomentCommandHandler';
+import { UpdatePetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/update/UpdatePetLifeMomentCommandHandler';
 import { FindPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/find/FindPetLifeMomentUseCase';
 // Infrastructure imports
 import { PetLifeMomentInMemoryRepository } from 'src/contexts/Lifetails/PetLifeMoments/infrastructure/PetLifeMomentInMemoryRepository';
@@ -13,25 +13,25 @@ const petLifeMomentRepositoryProvider = {
 };
 
 const addPetLifeMomentUseCaseProvider = {
-  provide: AddPetLifeMomentUseCase,
+  provide: AddPetLifeMomentCommandHandler,
   useFactory: (repository: PetLifeMomentInMemoryRepository) => {
-    return new AddPetLifeMomentUseCase(repository);
+    return new AddPetLifeMomentCommandHandler(repository);
   },
   inject: [PetLifeMomentInMemoryRepository],
 };
 
 const removePetLifeMomentUseCaseProvider = {
-  provide: RemovePetLifeMomentUseCase,
+  provide: RemovePetLifeMomentCommandHandler,
   useFactory: (repository: PetLifeMomentInMemoryRepository) => {
-    return new RemovePetLifeMomentUseCase(repository);
+    return new RemovePetLifeMomentCommandHandler(repository);
   },
   inject: [PetLifeMomentInMemoryRepository],
 };
 
 const updatePetLifeMomentUseCaseProvider = {
-  provide: UpdatePetLifeMomentUseCase,
+  provide: UpdatePetLifeMomentCommandHandler,
   useFactory: (repository: PetLifeMomentInMemoryRepository) => {
-    return new UpdatePetLifeMomentUseCase(repository);
+    return new UpdatePetLifeMomentCommandHandler(repository);
   },
   inject: [PetLifeMomentInMemoryRepository],
 };
@@ -55,9 +55,9 @@ const findPetLifeMomentUseCaseProvider = {
     findPetLifeMomentUseCaseProvider,
   ],
   exports: [
-    AddPetLifeMomentUseCase,
-    RemovePetLifeMomentUseCase,
-    UpdatePetLifeMomentUseCase,
+    AddPetLifeMomentCommandHandler,
+    RemovePetLifeMomentCommandHandler,
+    UpdatePetLifeMomentCommandHandler,
     FindPetLifeMomentUseCase,
     PetLifeMomentInMemoryRepository,
   ],

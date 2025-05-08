@@ -2,7 +2,7 @@ import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundExcepti
 import { PetRepository } from '../../domain/repositories/PetRepository';
 import { RemovePetCommand } from './RemovePetCommand';
 
-export class RemovePetUseCase {
+export class RemovePetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(command: RemovePetCommand): Promise<void> {

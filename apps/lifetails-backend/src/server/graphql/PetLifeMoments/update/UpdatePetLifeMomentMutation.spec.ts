@@ -1,20 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UpdatePetLifeMomentMutation } from './UpdatePetLifeMomentMutation';
 import { randomUUID } from 'crypto';
-import { UpdatePetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/update/UpdatePetLifeMomentUseCase';
+import { UpdatePetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/update/UpdatePetLifeMomentCommandHandler';
 import { UpdatePetLifeMomentInput } from './UpdatePetLifeMomentInput';
 import { faker } from '@faker-js/faker';
 
 describe('UpdatePetLifeMomentMutation', () => {
   let resolver: UpdatePetLifeMomentMutation;
-  let useCase: UpdatePetLifeMomentUseCase;
+  let commandHandler: UpdatePetLifeMomentCommandHandler;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UpdatePetLifeMomentMutation,
         {
-          provide: UpdatePetLifeMomentUseCase,
+          provide: UpdatePetLifeMomentCommandHandler,
           useValue: {
             execute: jest.fn().mockResolvedValue(undefined),
           },
@@ -23,7 +23,9 @@ describe('UpdatePetLifeMomentMutation', () => {
     }).compile();
 
     resolver = module.get<UpdatePetLifeMomentMutation>(UpdatePetLifeMomentMutation);
-    useCase = module.get<UpdatePetLifeMomentUseCase>(UpdatePetLifeMomentUseCase);
+    commandHandler = module.get<UpdatePetLifeMomentCommandHandler>(
+      UpdatePetLifeMomentCommandHandler,
+    );
   });
 
   it('should be defined', () => {
@@ -45,7 +47,7 @@ describe('UpdatePetLifeMomentMutation', () => {
       const result = await resolver.updatePetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
+      expect(commandHandler.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
           description: input.description,
@@ -68,7 +70,7 @@ describe('UpdatePetLifeMomentMutation', () => {
       await resolver.updatePetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
+      expect(commandHandler.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
           description: input.description,
@@ -91,7 +93,7 @@ describe('UpdatePetLifeMomentMutation', () => {
       await resolver.updatePetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
+      expect(commandHandler.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
           description: undefined,
@@ -114,7 +116,7 @@ describe('UpdatePetLifeMomentMutation', () => {
       await resolver.updatePetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
+      expect(commandHandler.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
           description: undefined,
@@ -132,7 +134,7 @@ describe('UpdatePetLifeMomentMutation', () => {
       };
 
       const error = new Error('Error message');
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.updatePetLifeMoment(input)).rejects.toThrow(error);

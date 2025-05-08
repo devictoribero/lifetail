@@ -1,15 +1,17 @@
 import { Module } from '@nestjs/common';
 // Application imports
 import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
-import { RemovePetUseCase } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetUseCase';
-import { UpdatePetUseCase } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetUseCase';
+import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
+import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
 import { FindPetUseCase } from 'src/contexts/Lifetails/Pets/application/find/FindPetUseCase';
 import { SearchAllPetsUseCase } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsUseCase';
 // Infrastructure imports
 import { PetInMemoryRepository } from 'src/contexts/Lifetails/Pets/infrastructure/PetInMemoryRepository';
+// Domain imports
+import { PetRepository } from 'src/contexts/Lifetails/Pets/domain/repositories/PetRepository';
 
 const petRepositoryProvider = {
-  provide: PetInMemoryRepository,
+  provide: 'PetRepository',
   useClass: PetInMemoryRepository,
 };
 
@@ -22,19 +24,19 @@ const addPetCommandHandlerProvider = {
 };
 
 const removePetUseCaseProvider = {
-  provide: RemovePetUseCase,
+  provide: RemovePetCommandHandler,
   useFactory: (repository: PetInMemoryRepository) => {
-    return new RemovePetUseCase(repository);
+    return new RemovePetCommandHandler(repository);
   },
-  inject: [PetInMemoryRepository],
+  inject: ['PetRepository'],
 };
 
 const updatePetUseCaseProvider = {
-  provide: UpdatePetUseCase,
+  provide: UpdatePetCommandHandler,
   useFactory: (repository: PetInMemoryRepository) => {
-    return new UpdatePetUseCase(repository);
+    return new UpdatePetCommandHandler(repository);
   },
-  inject: [PetInMemoryRepository],
+  inject: ['PetRepository'],
 };
 
 const findPetUseCaseProvider = {
@@ -42,7 +44,7 @@ const findPetUseCaseProvider = {
   useFactory: (repository: PetInMemoryRepository) => {
     return new FindPetUseCase(repository);
   },
-  inject: [PetInMemoryRepository],
+  inject: ['PetRepository'],
 };
 
 const searchAllPetsUseCaseProvider = {
@@ -50,7 +52,7 @@ const searchAllPetsUseCaseProvider = {
   useFactory: (repository: PetInMemoryRepository) => {
     return new SearchAllPetsUseCase(repository);
   },
-  inject: [PetInMemoryRepository],
+  inject: ['PetRepository'],
 };
 
 @Module({
@@ -65,12 +67,12 @@ const searchAllPetsUseCaseProvider = {
     searchAllPetsUseCaseProvider,
   ],
   exports: [
+    'PetRepository',
     AddPetCommandHandler,
-    RemovePetUseCase,
-    UpdatePetUseCase,
+    RemovePetCommandHandler,
+    UpdatePetCommandHandler,
     FindPetUseCase,
     SearchAllPetsUseCase,
-    PetInMemoryRepository,
   ],
 })
 export class PetsModule {}

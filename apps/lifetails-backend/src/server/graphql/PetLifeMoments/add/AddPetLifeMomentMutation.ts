@@ -6,23 +6,22 @@ import { AddPetLifeMomentCommand } from 'src/contexts/Lifetails/PetLifeMoments/a
 
 @Resolver()
 export class AddPetLifeMomentMutation {
-  constructor(private readonly useCase: AddPetLifeMomentCommandHandler) {}
+  constructor(private readonly commandHandler: AddPetLifeMomentCommandHandler) {}
 
   @Mutation(() => AddPetLifeMomentResponse)
   async addPetLifeMoment(
     @Args('input') input: AddPetLifeMomentInput,
   ): Promise<AddPetLifeMomentResponse> {
     try {
-      await this.useCase.execute(
-        new AddPetLifeMomentCommand(
-          input.id,
-          input.type,
-          input.petId,
-          input.createdBy,
-          input.occurredOn,
-          input.description,
-        ),
+      const command = new AddPetLifeMomentCommand(
+        input.id,
+        input.type,
+        input.petId,
+        input.createdBy,
+        input.occurredOn,
+        input.description,
       );
+      await this.commandHandler.execute(command);
 
       return { id: input.id };
     } catch (error) {

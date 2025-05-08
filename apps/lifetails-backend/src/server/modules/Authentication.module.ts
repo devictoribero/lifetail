@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-// Application imports
+// domain imports
 import { PasswordHasher } from 'src/contexts/Lifetails/Authentication/domain/services/PasswordHasher';
+// Application imports
 import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
-import { AuthenticateAccountUseCase } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountUseCase';
+import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 // Infrastructure imports
 import { AccountInMemoryRepository } from 'src/contexts/Lifetails/Authentication/infrastructure/AccountInMemoryRepository';
 
@@ -20,9 +21,9 @@ const createAccountCommandHandlerProvider = {
 };
 
 const authenticateAccountUseCaseProvider = {
-  provide: AuthenticateAccountUseCase,
+  provide: AuthenticateAccountCommandHandler,
   useFactory: (repository: AccountInMemoryRepository, hasher: PasswordHasher) => {
-    return new AuthenticateAccountUseCase(repository, hasher);
+    return new AuthenticateAccountCommandHandler(repository, hasher);
   },
   inject: ['AccountRepository', PasswordHasher],
 };
@@ -40,7 +41,7 @@ const authenticateAccountUseCaseProvider = {
     'AccountRepository',
     PasswordHasher,
     CreateAccountCommandHandler,
-    AuthenticateAccountUseCase,
+    AuthenticateAccountCommandHandler,
   ],
 })
 export class AuthenticationModule {}

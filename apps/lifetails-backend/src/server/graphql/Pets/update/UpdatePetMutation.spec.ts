@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UpdatePetMutation } from './UpdatePetMutation';
-import { UpdatePetUseCase } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetUseCase';
+import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
 import { UpdatePetInput } from './UpdatePetInput';
 import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
@@ -8,14 +8,14 @@ import { Gender } from 'src/contexts/Lifetails/Shared/domain/Gender';
 
 describe('UpdatePetMutation', () => {
   let resolver: UpdatePetMutation;
-  let useCase: UpdatePetUseCase;
+  let commandHandler: UpdatePetCommandHandler;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UpdatePetMutation,
         {
-          provide: UpdatePetUseCase,
+          provide: UpdatePetCommandHandler,
           useValue: {
             execute: jest.fn().mockResolvedValue(undefined),
           },
@@ -24,7 +24,7 @@ describe('UpdatePetMutation', () => {
     }).compile();
 
     resolver = module.get<UpdatePetMutation>(UpdatePetMutation);
-    useCase = module.get<UpdatePetUseCase>(UpdatePetUseCase);
+    commandHandler = module.get<UpdatePetCommandHandler>(UpdatePetCommandHandler);
   });
 
   it('should be defined', () => {
@@ -47,7 +47,7 @@ describe('UpdatePetMutation', () => {
       const result = await resolver.updatePet(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
+      expect(commandHandler.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
           name: input.name,
@@ -71,7 +71,7 @@ describe('UpdatePetMutation', () => {
       const result = await resolver.updatePet(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalledWith(
+      expect(commandHandler.execute).toHaveBeenCalledWith(
         expect.objectContaining({
           id: input.id,
           name: input.name,
@@ -92,7 +92,7 @@ describe('UpdatePetMutation', () => {
       };
 
       const error = new Error('Pet not found');
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.updatePet(input)).rejects.toThrow('Pet not found');
@@ -105,7 +105,7 @@ describe('UpdatePetMutation', () => {
         name: faker.animal.dog(),
       };
 
-      jest.spyOn(useCase, 'execute').mockRejectedValue({});
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue({});
 
       // Act & Assert
       await expect(resolver.updatePet(input)).rejects.toThrow('Error updating pet');

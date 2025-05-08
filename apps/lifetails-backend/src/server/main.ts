@@ -9,16 +9,16 @@ import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/ad
 import { SearchAllPetsUseCase } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsUseCase';
 import { SearchAllPetsQuery } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQuery';
 import { RemovePetCommand } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommand';
-import { RemovePetUseCase } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetUseCase';
-import { UpdatePetUseCase } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetUseCase';
+import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
+import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
 import { UpdatePetCommand } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommand';
 import { FindPetUseCase } from 'src/contexts/Lifetails/Pets/application/find/FindPetUseCase';
 import { FindPetQuery } from 'src/contexts/Lifetails/Pets/application/find/FindPetQuery';
-import { AddPetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentUseCase';
+import { AddPetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommandHandler';
 import { AddPetLifeMomentCommand } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommand';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
 import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
-import { CreateUserUseCase } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserUseCase';
+import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
 
 const logDomainEvent = (eventName: string, data?: any) => {
@@ -46,8 +46,8 @@ async function bootstrap() {
     // Create user for account
     const accountId = account.getId().toString();
     const victorUuid = faker.string.uuid();
-    const createUserUseCase = app.get(CreateUserUseCase);
-    await createUserUseCase.execute(
+    const createUserCommandHandler = app.get(CreateUserCommandHandler);
+    await createUserCommandHandler.execute(
       new CreateUserCommand(
         victorUuid,
         accountId,
@@ -87,7 +87,7 @@ async function bootstrap() {
     await searchAllPetsUseCase.execute(queryGetUserPets);
 
     // Remove pet
-    const removePetUseCase = app.get(RemovePetUseCase);
+    const removePetUseCase = app.get(RemovePetCommandHandler);
     await removePetUseCase.execute(new RemovePetCommand(nekoUuid));
     logDomainEvent('Pet removed', neko);
 
@@ -113,7 +113,7 @@ async function bootstrap() {
     console.log('All pets of victor');
     console.log(allPets);
 
-    const updatePetUseCase = app.get(UpdatePetUseCase);
+    const updatePetUseCase = app.get(UpdatePetCommandHandler);
     await updatePetUseCase.execute(
       new UpdatePetCommand(
         tofuUuid,
@@ -134,7 +134,7 @@ async function bootstrap() {
 
     // Add pet life moment for neko
     const firstLifeMomentUuid = faker.string.uuid();
-    const addPetLifeMomentUseCase = app.get(AddPetLifeMomentUseCase);
+    const addPetLifeMomentUseCase = app.get(AddPetLifeMomentCommandHandler);
     const addFirstLifeMomentCommand = new AddPetLifeMomentCommand(
       firstLifeMomentUuid,
       'Arrival',

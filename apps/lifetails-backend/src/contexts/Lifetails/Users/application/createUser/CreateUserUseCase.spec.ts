@@ -1,13 +1,14 @@
-import { CreateUserUseCase } from './CreateUserUseCase';
+import { CreateUserCommandHandler } from './CreateUserCommandHandler';
 import { UserRepository } from '../../domain/repositories/UserRepository';
 import { User } from '../../domain/entities/User';
 import { faker } from '@faker-js/faker';
 import { CreateUserCommand } from './CreateUserCommand';
 import { GetUserService } from '../../domain/services/GetUserService';
-describe('CreateUserUseCase', () => {
+
+describe('CreateUserCommandHandler', () => {
   let getUserService: jest.Mocked<GetUserService>;
   let repository: UserRepository;
-  let useCase: CreateUserUseCase;
+  let commandHandler: CreateUserCommandHandler;
 
   beforeEach(() => {
     getUserService = {
@@ -19,7 +20,7 @@ describe('CreateUserUseCase', () => {
       getByAccountId: jest.fn(),
     };
 
-    useCase = new CreateUserUseCase(getUserService, repository);
+    commandHandler = new CreateUserCommandHandler(getUserService, repository);
   });
 
   it('should create a user', async () => {
@@ -33,7 +34,7 @@ describe('CreateUserUseCase', () => {
     const command = new CreateUserCommand(id, accountId, name, nickname, gender, birthDate);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(repository.save).toHaveBeenCalledTimes(1);

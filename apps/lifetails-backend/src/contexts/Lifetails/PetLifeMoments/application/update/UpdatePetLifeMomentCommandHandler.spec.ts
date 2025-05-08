@@ -1,5 +1,5 @@
 import { PetLifeMomentInMemoryRepository } from '../../infrastructure/PetLifeMomentInMemoryRepository';
-import { UpdatePetLifeMomentUseCase } from './UpdatePetLifeMomentUseCase';
+import { UpdatePetLifeMomentCommandHandler } from './UpdatePetLifeMomentCommandHandler';
 import { UpdatePetLifeMomentCommand } from './UpdatePetLifeMomentCommand';
 import { PetLifeMoment } from '../../domain/entities/PetLifeMoment';
 import { PetLifeMomentNotFoundException } from '../../domain/exceptions/PetLifeMomentNotFoundException';
@@ -9,15 +9,15 @@ import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringVa
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 
-describe('UpdatePetLifeMomentUseCase', () => {
+describe('UpdatePetLifeMomentCommandHandler', () => {
   let repository: PetLifeMomentInMemoryRepository;
-  let useCase: UpdatePetLifeMomentUseCase;
+  let commandHandler: UpdatePetLifeMomentCommandHandler;
   let id: string;
   let petLifeMoment: PetLifeMoment;
 
   beforeEach(async () => {
     repository = new PetLifeMomentInMemoryRepository();
-    useCase = new UpdatePetLifeMomentUseCase(repository);
+    commandHandler = new UpdatePetLifeMomentCommandHandler(repository);
 
     // Create a test pet life moment
     id = randomUUID();
@@ -45,7 +45,7 @@ describe('UpdatePetLifeMomentUseCase', () => {
     const command = new UpdatePetLifeMomentCommand(nonExistentId, faker.lorem.sentence());
 
     // Act & Assert
-    await expect(useCase.execute(command)).rejects.toThrow(
+    await expect(commandHandler.execute(command)).rejects.toThrow(
       new PetLifeMomentNotFoundException(nonExistentId),
     );
   });
@@ -57,7 +57,7 @@ describe('UpdatePetLifeMomentUseCase', () => {
     const command = new UpdatePetLifeMomentCommand(id, newDescription);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);
@@ -74,7 +74,7 @@ describe('UpdatePetLifeMomentUseCase', () => {
     const command = new UpdatePetLifeMomentCommand(id, undefined, newDate);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);
@@ -93,7 +93,7 @@ describe('UpdatePetLifeMomentUseCase', () => {
     const command = new UpdatePetLifeMomentCommand(id, undefined, undefined, newPetId);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);
@@ -112,7 +112,7 @@ describe('UpdatePetLifeMomentUseCase', () => {
     const command = new UpdatePetLifeMomentCommand(id, newDescription, newDate, newPetId);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);

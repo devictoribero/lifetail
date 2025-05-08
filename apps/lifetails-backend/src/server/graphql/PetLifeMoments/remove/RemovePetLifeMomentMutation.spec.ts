@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RemovePetLifeMomentMutation } from './RemovePetLifeMomentMutation';
 import { randomUUID } from 'crypto';
-import { RemovePetLifeMomentUseCase } from 'src/contexts/Lifetails/PetLifeMoments/application/remove/RemovePetLifeMomentUseCase';
+import { RemovePetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/remove/RemovePetLifeMomentCommandHandler';
 import { RemovePetLifeMomentInput } from './RemovePetLifeMomentInput';
 describe('RemovePetLifeMomentMutation', () => {
   let resolver: RemovePetLifeMomentMutation;
-  let useCase: RemovePetLifeMomentUseCase;
+  let commandHandler: RemovePetLifeMomentCommandHandler;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RemovePetLifeMomentMutation,
         {
-          provide: RemovePetLifeMomentUseCase,
+          provide: RemovePetLifeMomentCommandHandler,
           useValue: {
             execute: jest.fn().mockResolvedValue(undefined),
           },
@@ -21,7 +21,9 @@ describe('RemovePetLifeMomentMutation', () => {
     }).compile();
 
     resolver = module.get<RemovePetLifeMomentMutation>(RemovePetLifeMomentMutation);
-    useCase = module.get<RemovePetLifeMomentUseCase>(RemovePetLifeMomentUseCase);
+    commandHandler = module.get<RemovePetLifeMomentCommandHandler>(
+      RemovePetLifeMomentCommandHandler,
+    );
   });
 
   it('should be defined', () => {
@@ -29,7 +31,7 @@ describe('RemovePetLifeMomentMutation', () => {
   });
 
   describe('removePetLifeMoment', () => {
-    it('should call use case', async () => {
+    it('should call the command handler', async () => {
       // Arrange
       const input: RemovePetLifeMomentInput = {
         id: randomUUID(),
@@ -39,7 +41,7 @@ describe('RemovePetLifeMomentMutation', () => {
       await resolver.removePetLifeMoment(input);
 
       // Assert
-      expect(useCase.execute).toHaveBeenCalled();
+      expect(commandHandler.execute).toHaveBeenCalled();
     });
 
     it('should propagate errors', async () => {
@@ -49,7 +51,7 @@ describe('RemovePetLifeMomentMutation', () => {
       };
 
       const error = new Error('Error message');
-      jest.spyOn(useCase, 'execute').mockRejectedValue(error);
+      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
       // Act & Assert
       await expect(resolver.removePetLifeMoment(input)).rejects.toThrow(error);

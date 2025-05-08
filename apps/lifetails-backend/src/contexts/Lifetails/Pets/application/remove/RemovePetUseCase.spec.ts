@@ -1,5 +1,5 @@
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
-import { RemovePetUseCase } from './RemovePetUseCase';
+import { RemovePetCommandHandler } from './RemovePetCommandHandler';
 import { RemovePetCommand } from './RemovePetCommand';
 import { Pet } from '../../domain/entities/Pet';
 import { randomUUID } from 'node:crypto';
@@ -10,13 +10,14 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { faker } from '@faker-js/faker';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { Species } from '../../domain/entities/PetSpecies';
-describe('RemovePetUseCase', () => {
+
+describe('RemovePetCommandHandler', () => {
   let repository: PetInMemoryRepository;
-  let useCase: RemovePetUseCase;
+  let commandHandler: RemovePetCommandHandler;
 
   beforeEach(() => {
     repository = new PetInMemoryRepository();
-    useCase = new RemovePetUseCase(repository);
+    commandHandler = new RemovePetCommandHandler(repository);
   });
 
   it('should throw a PetNotFoundException when the pet does not exist', async () => {
@@ -24,7 +25,7 @@ describe('RemovePetUseCase', () => {
     const nonExistentId = randomUUID();
     const command = new RemovePetCommand(nonExistentId);
 
-    await expect(useCase.execute(command)).rejects.toThrow(PetNotFoundException);
+    await expect(commandHandler.execute(command)).rejects.toThrow(PetNotFoundException);
   });
 
   it('should remove a pet', async () => {
@@ -55,7 +56,7 @@ describe('RemovePetUseCase', () => {
     const command = new RemovePetCommand(id);
 
     // Act
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     // Assert
     expect(removeSpy).toHaveBeenCalledTimes(1);

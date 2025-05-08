@@ -1,6 +1,6 @@
 import { Pet } from '../../domain/entities/Pet';
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
-import { UpdatePetUseCase } from './UpdatePetUseCase';
+import { UpdatePetCommandHandler } from './UpdatePetCommandHandler';
 import { UpdatePetCommand } from './UpdatePetCommand';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/BooleanValueObject';
@@ -11,16 +11,16 @@ import { faker } from '@faker-js/faker';
 import { randomUUID } from 'node:crypto';
 import { Species } from '../../domain/entities/PetSpecies';
 
-describe('UpdatePetUseCase', () => {
+describe('UpdatePetCommandHandler', () => {
   let repository: PetInMemoryRepository;
-  let useCase: UpdatePetUseCase;
+  let commandHandler: UpdatePetCommandHandler;
   let petId: string;
   let userId: string;
   let originalPet: Pet;
 
   beforeEach(async () => {
     repository = new PetInMemoryRepository();
-    useCase = new UpdatePetUseCase(repository);
+    commandHandler = new UpdatePetCommandHandler(repository);
 
     // Create a pet for testing
     petId = randomUUID();
@@ -41,7 +41,7 @@ describe('UpdatePetUseCase', () => {
   it('should throw a PetNotFoundException error when pet does not exist', async () => {
     const command = new UpdatePetCommand('non-existing-id');
 
-    await expect(useCase.execute(command)).rejects.toThrow(PetNotFoundException);
+    await expect(commandHandler.execute(command)).rejects.toThrow(PetNotFoundException);
   });
 
   it('should update all pet fields when all are provided', async () => {
@@ -60,7 +60,7 @@ describe('UpdatePetUseCase', () => {
       newBirthdate,
     );
 
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     const updatedPet = await repository.find(petId);
     expect(updatedPet).not.toBeNull();
@@ -77,7 +77,7 @@ describe('UpdatePetUseCase', () => {
     const newName = faker.animal.cat();
     const command = new UpdatePetCommand(petId, newName);
 
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     const updatedPet = await repository.find(petId);
     expect(updatedPet).not.toBeNull();
@@ -94,7 +94,7 @@ describe('UpdatePetUseCase', () => {
     const newSterilized = !originalPet.isSterilized().getValue();
     const command = new UpdatePetCommand(petId, undefined, undefined, undefined, newSterilized);
 
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     const updatedPet = await repository.find(petId);
     expect(updatedPet).not.toBeNull();
@@ -120,7 +120,7 @@ describe('UpdatePetUseCase', () => {
       newBirthdate,
     );
 
-    await useCase.execute(command);
+    await commandHandler.execute(command);
 
     const updatedPet = await repository.find(petId);
     expect(updatedPet).not.toBeNull();

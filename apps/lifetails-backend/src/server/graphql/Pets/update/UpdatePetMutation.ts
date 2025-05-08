@@ -1,17 +1,17 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { UpdatePetResponse } from './UpdatePetResponse';
 import { UpdatePetInput } from './UpdatePetInput';
-import { UpdatePetUseCase } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetUseCase';
+import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
 import { UpdatePetCommand } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommand';
 
 @Resolver()
 export class UpdatePetMutation {
-  constructor(private readonly useCase: UpdatePetUseCase) {}
+  constructor(private readonly commandHandler: UpdatePetCommandHandler) {}
 
   @Mutation(() => UpdatePetResponse)
   async updatePet(@Args('input') input: UpdatePetInput): Promise<UpdatePetResponse> {
     try {
-      await this.useCase.execute(
+      await this.commandHandler.execute(
         new UpdatePetCommand(
           input.id,
           input.name,

@@ -1,5 +1,5 @@
 import { Pet } from '../../domain/entities/Pet';
-import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
+import { PetRepository } from '../../domain/repositories/PetRepository';
 import { AddPetCommand } from './AddPetCommand';
 import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
@@ -11,7 +11,7 @@ import { MaxNumberOfPetsReachedException } from '../../domain/exceptions/MaxNumb
 const MAX_NUMBER_OF_PETS = 1;
 
 export class AddPetCommandHandler {
-  constructor(private readonly repository: PetInMemoryRepository) {}
+  constructor(private readonly repository: PetRepository) {}
 
   async execute(command: AddPetCommand): Promise<void> {
     await this.ensureUserCanAddPet(command.userId);
