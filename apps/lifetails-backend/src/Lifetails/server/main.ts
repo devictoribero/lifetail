@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './App.module';
+import { AppModule } from './modules/App.module';
 import { ConfigService } from '@nestjs/config';
 import { CreateAccountUseCase } from 'src/Lifetails/contexts/Authentication/application/createAccount/CreateAccountUseCase';
 import { CreateUserUseCase } from 'src/Lifetails/contexts/Users/application/createUser/CreateUserUseCase';
