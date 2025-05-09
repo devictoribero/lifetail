@@ -7,16 +7,16 @@ import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies'
 
 export class Pet extends AggregateRoot {
   private id: string;
-  private createdAt: DateValueObject;
   private species: Species;
   private name: StringValueObject;
   private gender: Gender;
-  private chipId: StringValueObject;
   private sterilized: BooleanValueObject;
   // Represents the date of birth or arrival date.
   // This is the date used to celebrate the pet's birthday.
   private anniversaryDate: DateValueObject;
+  private createdAt: DateValueObject;
   private userId: string | null;
+  private chipId: StringValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
@@ -24,11 +24,11 @@ export class Pet extends AggregateRoot {
     species: Species,
     name: StringValueObject,
     gender: Gender,
-    chipId: StringValueObject,
     sterilized: BooleanValueObject,
     anniversaryDate: DateValueObject,
     createdAt: DateValueObject,
     userId: string | null = null,
+    chipId: StringValueObject | null = null,
   ) {
     super();
     this.id = id;
@@ -36,10 +36,10 @@ export class Pet extends AggregateRoot {
     this.species = species;
     this.name = name;
     this.gender = gender;
-    this.chipId = chipId;
     this.sterilized = sterilized;
     this.anniversaryDate = anniversaryDate;
     this.userId = userId;
+    this.chipId = chipId;
   }
 
   // Use to create the entity from the domain
@@ -48,13 +48,12 @@ export class Pet extends AggregateRoot {
     species: Species,
     name: StringValueObject,
     gender: Gender,
-    chipId: StringValueObject,
     sterilized: BooleanValueObject,
     anniversaryDate: DateValueObject,
     userId: string,
   ) {
     const now = new DateValueObject(new Date());
-    return new Pet(id, species, name, gender, chipId, sterilized, anniversaryDate, now, userId);
+    return new Pet(id, species, name, gender, sterilized, anniversaryDate, now, userId);
   }
 
   // Use to reconstruct the entity from the database
@@ -63,22 +62,22 @@ export class Pet extends AggregateRoot {
     species: string,
     name: string,
     gender: string,
-    chipId: string,
     sterilized: boolean,
     anniversaryDate: Date,
     createdAt: Date,
     userId: string,
+    chipId: string | null = null,
   ) {
     return new Pet(
       id,
       Species.fromPrimitives(species),
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
-      new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(anniversaryDate),
       new DateValueObject(createdAt),
       userId,
+      chipId ? new StringValueObject(chipId) : null,
     );
   }
 
@@ -102,10 +101,6 @@ export class Pet extends AggregateRoot {
     return this.gender;
   }
 
-  public getChipId(): StringValueObject {
-    return this.chipId;
-  }
-
   public isSterilized(): BooleanValueObject {
     return this.sterilized;
   }
@@ -118,17 +113,21 @@ export class Pet extends AggregateRoot {
     return this.userId;
   }
 
+  public getChipId(): StringValueObject | null {
+    return this.chipId ?? null;
+  }
+
   public toPrimitives(): any {
     return {
       id: this.id,
       species: this.species.toString(),
       name: this.name.toString(),
       gender: this.gender.toString(),
-      chipId: this.chipId.toString(),
       sterilized: this.sterilized.getValue(),
       anniversaryDate: this.anniversaryDate.toISOString(),
       createdAt: this.createdAt.toISOString(),
       userId: this.userId,
+      chipId: this.chipId?.toString() ?? null,
     };
   }
 
@@ -148,11 +147,11 @@ export class Pet extends AggregateRoot {
     this.sterilized = new BooleanValueObject(false);
   }
 
-  public changeChipIdTo(chipId: StringValueObject): void {
-    this.chipId = chipId;
-  }
-
   public changeBirthdateTo(anniversaryDate: DateValueObject): void {
     this.anniversaryDate = anniversaryDate;
+  }
+
+  public changeChipIdTo(chipId: StringValueObject): void {
+    this.chipId = chipId;
   }
 }

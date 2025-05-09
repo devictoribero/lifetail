@@ -12,16 +12,17 @@ export class FindPetLifeMoment {
   async findPetLifeMoment(@Args('input') input: FindPetLifeMomentInput): Promise<PetLifeMoment> {
     try {
       const query = new FindPetLifeMomentQuery(input.id);
-      const moment = await this.queryHandler.execute(query);
+      const lifeMoment = await this.queryHandler.execute(query);
 
+      const lifeMomentPrimitive = lifeMoment.toPrimitives();
       return {
-        id: moment.getId(),
-        theme: moment.getTheme(),
-        type: moment.getType(),
-        petId: moment.getPetId(),
-        createdBy: moment.getCreatedBy(),
-        occurredOn: moment.getOccurredOn().toDate(),
-        description: moment.getDescription().toString(),
+        id: lifeMomentPrimitive.id,
+        theme: lifeMomentPrimitive.theme,
+        type: lifeMomentPrimitive.type,
+        petId: lifeMomentPrimitive.petId,
+        createdBy: lifeMomentPrimitive.createdBy,
+        occurredOn: lifeMomentPrimitive.occurredOn,
+        description: lifeMomentPrimitive.description,
       };
     } catch (error) {
       throw new Error(error.message ?? 'Error finding pet life moment');

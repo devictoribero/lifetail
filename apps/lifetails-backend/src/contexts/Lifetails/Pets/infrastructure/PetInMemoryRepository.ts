@@ -43,15 +43,15 @@ export class PetInMemoryRepository implements PetRepository {
       pet.species,
       pet.name,
       pet.gender,
-      pet.chipId,
       pet.sterilized,
       pet.anniversaryDate,
       pet.createdAt,
       pet.userId,
+      pet.chipId,
     );
   }
 
-  async findByUser(userId: string): Promise<Pet[]> {
+  async findByOwner(userId: string): Promise<Pet[]> {
     const filteredPets: Pet[] = [];
 
     for (const pet of this.pets.values()) {
@@ -62,11 +62,11 @@ export class PetInMemoryRepository implements PetRepository {
             pet.species,
             pet.name,
             pet.gender,
-            pet.chipId,
             pet.sterilized,
             pet.anniversaryDate,
             pet.createdAt,
             pet.userId,
+            pet.chipId,
           ),
         );
       }

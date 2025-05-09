@@ -36,6 +36,7 @@ async function bootstrap() {
   await app.listen(port).then(async () => {
     console.info(`LifeTail API is running on port ${port}`);
 
+    ////////////////////////////////////////////////////////////////////////////////
     // Create account
     const createAccountCommandHandler = app.get(CreateAccountCommandHandler);
     const account = await createAccountCommandHandler.execute({
@@ -44,8 +45,9 @@ async function bootstrap() {
     });
     logDomainEvent('Account created', account);
 
+    ////////////////////////////////////////////////////////////////////////////////
     // Create user for account
-    const accountId = account.getId().toString();
+    const accountId = account.id;
     const victorUuid = faker.string.uuid();
     const createUserCommandHandler = app.get(CreateUserCommandHandler);
     await createUserCommandHandler.execute(
@@ -58,21 +60,20 @@ async function bootstrap() {
         new Date('1990-01-01'),
       ),
     );
-    // Get user
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // Add pet (Neko)
     const getUserQueryHandler = app.get(GetUserQueryHandler);
     const userFound = await getUserQueryHandler.execute(new GetUserQuery(accountId));
     logDomainEvent('User created', userFound);
 
-    // Add pet (Neko)
     const nekoUuid = faker.string.uuid();
-    const nekoChipId = `chip-id-${faker.string.alphanumeric(9)}`;
     const addPetCommandHandler = app.get(AddPetCommandHandler);
     const addNekoCommand = new AddPetCommand(
       nekoUuid,
       Species.Cat.toString(),
       'Neko',
       'Male',
-      nekoChipId,
       true,
       new Date('2020-01-01'),
       victorUuid,
@@ -94,13 +95,11 @@ async function bootstrap() {
 
     // Add pet (Tofu)
     const tofuUuid = faker.string.uuid();
-    const tofuChipId = `chip-id-${faker.string.alphanumeric(9)}`;
     const addTofuCommand = new AddPetCommand(
       tofuUuid,
       Species.Cat.toString(),
       'Tofu',
       'Male',
-      tofuChipId,
       true,
       new Date('2020-10-01'),
       victorUuid,
@@ -116,14 +115,7 @@ async function bootstrap() {
 
     const updatePetCommandHandler = app.get(UpdatePetCommandHandler);
     await updatePetCommandHandler.execute(
-      new UpdatePetCommand(
-        tofuUuid,
-        'Tofu',
-        'Female',
-        `chip-id-${faker.string.alphanumeric(9)}`,
-        true,
-        new Date('2020-01-01'),
-      ),
+      new UpdatePetCommand(tofuUuid, 'Tofu', 'Female', 'new-chip-id', true, new Date('2020-01-01')),
     );
     logDomainEvent('Pet updated', { id: tofuUuid });
 

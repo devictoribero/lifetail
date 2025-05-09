@@ -21,7 +21,6 @@ export class AddPetCommandHandler {
       Species.fromPrimitives(command.species),
       new StringValueObject(command.name),
       Gender.fromPrimitives(command.gender),
-      new StringValueObject(command.chipId),
       new BooleanValueObject(command.sterilized),
       new DateValueObject(command.anniversaryDate),
       command.userId,
@@ -31,7 +30,7 @@ export class AddPetCommandHandler {
   }
 
   private async ensureUserCanAddPet(userId: string): Promise<void> {
-    const pets = await this.repository.findByUser(userId);
+    const pets = await this.repository.findByOwner(userId);
 
     if (pets.length >= MAX_NUMBER_OF_PETS) {
       throw new MaxNumberOfPetsReachedException();

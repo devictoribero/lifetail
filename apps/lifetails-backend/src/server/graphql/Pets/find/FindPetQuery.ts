@@ -14,13 +14,17 @@ export class FindPetQuery {
       const query = new FindPetQueryHandlerQuery(input.id);
       const pet = await this.queryHandler.execute(query);
 
+      const petPrimitives = pet.toPrimitives();
       return {
-        id: pet.getId(),
-        name: pet.getName().toString(),
-        gender: pet.getGender(),
-        chipId: pet.getChipId().toString(),
-        sterilized: pet.isSterilized().getValue(),
-        anniversaryDate: pet.getAnniversaryDate().toDate(),
+        id: petPrimitives.id,
+        species: petPrimitives.species,
+        name: petPrimitives.name,
+        gender: petPrimitives.gender,
+        chipId: petPrimitives.chipId,
+        sterilized: petPrimitives.sterilized,
+        anniversaryDate: petPrimitives.anniversaryDate,
+        createdAt: petPrimitives.createdAt,
+        userId: petPrimitives.userId,
       };
     } catch (error) {
       throw new Error(error.message ?? 'Error finding pet');

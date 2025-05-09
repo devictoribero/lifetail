@@ -3,7 +3,6 @@ import { FindPetQueryHandler } from './FindPetQueryHandler';
 import { FindPetQuery } from './FindPetQuery';
 import { Pet } from '../../domain/entities/Pet';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
-import { randomUUID } from 'node:crypto';
 import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/BooleanValueObject';
@@ -14,17 +13,17 @@ import { Species } from '../../domain/entities/PetSpecies';
 describe('FindPetQueryHandler', () => {
   let repository: PetInMemoryRepository;
   let queryHandler: FindPetQueryHandler;
-  let userId: string;
+  let ownerId: string;
 
   beforeEach(() => {
     repository = new PetInMemoryRepository();
     queryHandler = new FindPetQueryHandler(repository);
-    userId = randomUUID();
+    ownerId = faker.string.uuid();
   });
 
   it('should throw PetNotFoundException when pet does not exist', async () => {
     // Arrange
-    const nonExistentId = randomUUID();
+    const nonExistentId = faker.string.uuid();
     const query = new FindPetQuery(nonExistentId);
 
     // Act & Assert
@@ -35,24 +34,25 @@ describe('FindPetQueryHandler', () => {
 
   it('should find a pet', async () => {
     // Arrange
-    const id = randomUUID();
+    const id = faker.string.uuid();
     const name = faker.animal.cat();
     const gender = 'Female';
     const chipId = faker.string.numeric(9);
-    // const sterilized = faker.datatype.boolean();
     const sterilized = true;
     const anniversaryDate = faker.date.past();
+    const createdAt = faker.date.past();
 
     // Create and save a pet
-    const pet = Pet.create(
+    const pet = new Pet(
       id,
       Species.Cat,
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
-      new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(anniversaryDate),
-      userId,
+      new DateValueObject(createdAt),
+      ownerId,
+      new StringValueObject(chipId),
     );
 
     await repository.save(pet);

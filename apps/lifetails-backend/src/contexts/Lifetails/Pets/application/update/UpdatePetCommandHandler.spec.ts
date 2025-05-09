@@ -15,7 +15,6 @@ describe('UpdatePetCommandHandler', () => {
   let repository: PetInMemoryRepository;
   let commandHandler: UpdatePetCommandHandler;
   let petId: string;
-  let userId: string;
   let originalPet: Pet;
 
   beforeEach(async () => {
@@ -23,16 +22,17 @@ describe('UpdatePetCommandHandler', () => {
     commandHandler = new UpdatePetCommandHandler(repository);
 
     // Create a pet for testing
-    petId = randomUUID();
-    originalPet = Pet.create(
+    petId = faker.string.uuid();
+    originalPet = new Pet(
       petId,
       Species.Cat,
       new StringValueObject(faker.animal.cat()),
       Gender.fromPrimitives('Male'),
-      new StringValueObject(faker.string.numeric(9)),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),
-      userId,
+      new DateValueObject(faker.date.past()),
+      faker.string.uuid(),
+      new StringValueObject(faker.string.numeric(9)),
     );
 
     await repository.save(originalPet);
@@ -50,7 +50,6 @@ describe('UpdatePetCommandHandler', () => {
     const newChipId = faker.string.numeric(9);
     const newSterilized = faker.datatype.boolean();
     const newBirthdate = faker.date.past();
-
     const command = new UpdatePetCommand(
       petId,
       newName,
@@ -63,12 +62,15 @@ describe('UpdatePetCommandHandler', () => {
     await commandHandler.execute(command);
 
     const updatedPet = await repository.find(petId);
-    expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getName().toString()).toBe(newName);
-    expect(updatedPet?.getGender().toString()).toBe(newGender);
-    expect(updatedPet?.getChipId().toString()).toBe(newChipId);
-    expect(updatedPet?.isSterilized().getValue()).toBe(newSterilized);
-    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
+
+    const updatedPetPrimitives = updatedPet.toPrimitives();
+    expect(updatedPet).toBeInstanceOf(Pet);
+    expect(updatedPetPrimitives.id).toBe(petId);
+    expect(updatedPetPrimitives.name).toBe(newName);
+    expect(updatedPetPrimitives.gender).toBe(newGender);
+    expect(updatedPetPrimitives.chipId).toBe(newChipId);
+    expect(updatedPetPrimitives.sterilized).toBe(newSterilized);
+    expect(updatedPetPrimitives.anniversaryDate).toBe(
       new DateValueObject(newBirthdate).toISOString(),
     );
   });

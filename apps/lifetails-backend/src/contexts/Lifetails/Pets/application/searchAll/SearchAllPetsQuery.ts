@@ -1,3 +1,3 @@
 export class SearchAllPetsQuery {
-  constructor(public readonly userId: string) {}
+  constructor(public readonly ownerId: string) {}
 }

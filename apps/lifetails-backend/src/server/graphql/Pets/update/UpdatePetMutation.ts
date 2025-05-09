@@ -11,16 +11,15 @@ export class UpdatePetMutation {
   @Mutation(() => UpdatePetResponse)
   async updatePet(@Args('input') input: UpdatePetInput): Promise<UpdatePetResponse> {
     try {
-      await this.commandHandler.execute(
-        new UpdatePetCommand(
-          input.id,
-          input.name,
-          input?.gender?.toString(),
-          input.chipId,
-          input.sterilized,
-          input.anniversaryDate,
-        ),
+      const command = new UpdatePetCommand(
+        input.id,
+        input.name,
+        input?.gender?.toString(),
+        input.chipId,
+        input.sterilized,
+        input.anniversaryDate,
       );
+      await this.commandHandler.execute(command);
 
       return { id: input.id };
     } catch (error) {

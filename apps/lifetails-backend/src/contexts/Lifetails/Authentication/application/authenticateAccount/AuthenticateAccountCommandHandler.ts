@@ -1,3 +1,4 @@
+import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { Account } from '../../domain/entities/Account';
 import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
 import { AccountRepository } from '../../domain/repositories/AccountRepository';
@@ -13,10 +14,7 @@ export class AuthenticateAccountCommandHandler {
   async execute(command: AuthenticateAccountCommand): Promise<string> {
     const account = await this.getAccount(command.email);
 
-    const isPasswordValid = await this.hasher.compare(command.password, account.getPassword());
-    if (!isPasswordValid) {
-      throw new InvalidCredentialsException();
-    }
+    await this.ensurePasswordIsValid(command.password, account.getPassword());
 
     return account.getId().toString();
   }
@@ -28,5 +26,15 @@ export class AuthenticateAccountCommandHandler {
     }
 
     return account;
+  }
+
+  private async ensurePasswordIsValid(
+    password: string,
+    passwordHashed: PasswordHashValueObject,
+  ): Promise<void> {
+    const isPasswordValid = await this.hasher.compare(password, passwordHashed);
+    if (!isPasswordValid) {
+      throw new InvalidCredentialsException();
+    }
   }
 }

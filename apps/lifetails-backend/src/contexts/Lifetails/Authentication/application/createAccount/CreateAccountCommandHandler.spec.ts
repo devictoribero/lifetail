@@ -6,6 +6,9 @@ import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/Pa
 import { faker } from '@faker-js/faker';
 import { CreateAccountCommandHandler } from './CreateAccountCommandHandler';
 import { CreateAccountCommand } from './CreateAccountCommand';
+import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 
 describe('CreateAccountCommandHandler', () => {
   let commandHandler: CreateAccountCommandHandler;
@@ -27,17 +30,22 @@ describe('CreateAccountCommandHandler', () => {
   });
 
   it('should throw EmailAlreadyInUseException when email is already in use', async () => {
+    // Arrange
     const email = faker.internet.email();
     const password = faker.internet.password();
-    // Arrange
     const command = new CreateAccountCommand(email, password);
-    const existingAccount = {} as Account; // mock existing account
-
+    const existingAccount = new Account(
+      new UUID(faker.string.uuid()),
+      new EmailValueObject(email),
+      new PasswordHashValueObject(password),
+      new DateValueObject(new Date()),
+    );
     repository.findByEmail.mockResolvedValue(existingAccount);
 
-    // Act & Assert
-
+    // Act
     await expect(commandHandler.execute(command)).rejects.toThrow(EmailAlreadyInUseException);
+
+    // Assert
     expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
   });
 
@@ -47,7 +55,6 @@ describe('CreateAccountCommandHandler', () => {
     const password = faker.internet.password();
     const command = new CreateAccountCommand(email, password);
     const hashedPassword = new PasswordHashValueObject('hashed_password');
-
     repository.findByEmail.mockResolvedValue(null);
     hasher.hash.mockResolvedValue(hashedPassword);
 
@@ -58,8 +65,6 @@ describe('CreateAccountCommandHandler', () => {
     expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
     expect(hasher.hash).toHaveBeenCalledWith(command.password);
     expect(repository.save).toHaveBeenCalledWith(expect.any(Account));
-
-    // Verify the correct account was created
     const savedAccount = repository.save.mock.calls[0][0];
     expect(savedAccount.getEmail().toString()).toBe(command.email);
     expect(savedAccount.getPassword().toString()).toBe(hashedPassword.toString());

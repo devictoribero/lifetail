@@ -11,7 +11,7 @@ export class CreateAccountCommandHandler {
     private readonly hasher: PasswordHasher,
   ) {}
 
-  async execute(command: CreateAccountCommand): Promise<Account> {
+  async execute(command: CreateAccountCommand): Promise<{ id: string }> {
     await this.ensureEmailIsUnique(command.email);
 
     const passwordHashed = await this.hasher.hash(command.password);
@@ -19,7 +19,7 @@ export class CreateAccountCommandHandler {
 
     await this.repository.save(account);
 
-    return account;
+    return { id: account.getId().toString() };
   }
 
   private async ensureEmailIsUnique(email: string): Promise<void> {

@@ -12,17 +12,26 @@ export class Pet {
   id: string;
 
   @Field()
+  species: string;
+
+  @Field()
   name: string;
 
   @Field(() => DomainPetGender)
   gender: DomainPetGender;
 
   @Field()
-  chipId: string;
-
-  @Field()
   sterilized: boolean;
 
   @Field()
   anniversaryDate: Date;
+
+  @Field()
+  createdAt: Date;
+
+  @Field()
+  userId: string;
+
+  @Field()
+  chipId: string;
 }

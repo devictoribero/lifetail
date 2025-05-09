@@ -8,6 +8,7 @@ export class FindPetQueryHandler {
 
   async execute(query: FindPetQuery): Promise<Pet> {
     const pet = await this.repository.find(query.id);
+    console.log(pet);
     if (!pet) {
       throw new PetNotFoundException(query.id);
     }

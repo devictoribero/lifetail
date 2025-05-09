@@ -5,35 +5,15 @@ import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Pet } from 'src/contexts/Lifetails/Pets/domain/entities/Pet';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
-
-const createMockPet = (
-  id: string,
-  species: string,
-  name: string,
-  gender: string,
-  chipId: string,
-  sterilized: boolean,
-  anniversaryDate: Date,
-  createdAt: Date,
-  userId: string,
-): Pet => {
-  return Pet.fromPrimitives(
-    id,
-    species,
-    name,
-    gender,
-    chipId,
-    sterilized,
-    anniversaryDate,
-    createdAt,
-    userId,
-  );
-};
+import { Gender } from 'src/contexts/Lifetails/Shared/domain/Gender';
+import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/BooleanValueObject';
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 
 describe('SearchAllPetsQuery', () => {
   let resolver: SearchAllPetsQuery;
   let queryHandler: SearchAllPetsQueryHandler;
-  let userId: string;
+  let ownerId: string;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -56,90 +36,99 @@ describe('SearchAllPetsQuery', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('searchAllPets', () => {
-    it('should return all pets', async () => {
-      // Arrange
-      const mockPets = [
-        createMockPet(
-          randomUUID(),
-          Species.Dog.toString(),
-          faker.animal.dog(),
-          'Male',
-          faker.string.alphanumeric(10),
-          faker.datatype.boolean(),
-          faker.date.past(),
-          faker.date.past(),
-          userId,
-        ),
-        createMockPet(
-          randomUUID(),
-          Species.Cat.toString(),
-          faker.animal.cat(),
-          'Female',
-          faker.string.alphanumeric(10),
-          faker.datatype.boolean(),
-          faker.date.past(),
-          faker.date.past(),
-          userId,
-        ),
-      ];
+  it('should propagate errors', async () => {
+    // Arrange
+    const ownerId = faker.string.uuid();
+    const error = new Error('Database error');
+    jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
 
-      jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPets);
+    // Act & Assert
+    await expect(resolver.searchAllPets({ ownerId })).rejects.toThrow('Database error');
+  });
 
-      // Act
-      const result = await resolver.searchAllPets(userId);
+  it('should handle errors with no message', async () => {
+    // Arrange
+    const ownerId = faker.string.uuid();
+    jest.spyOn(queryHandler, 'execute').mockRejectedValue({});
 
-      // Assert
-      expect(queryHandler.execute).toHaveBeenCalled();
-      expect(result).toHaveLength(2);
+    // Act & Assert
+    await expect(resolver.searchAllPets({ ownerId })).rejects.toThrow('Error searching all pets');
+  });
 
-      // Check that the response format is correct
-      expect(result[0]).toEqual({
-        id: mockPets[0].getId(),
-        name: mockPets[0].getName().toString(),
-        gender: mockPets[0].getGender(),
-        chipId: mockPets[0].getChipId().toString(),
-        sterilized: mockPets[0].isSterilized().getValue(),
-        anniversaryDate: mockPets[0].getAnniversaryDate().toDate(),
-      });
+  it('should return empty array when no pets found', async () => {
+    // Arrange
+    const ownerId = faker.string.uuid();
+    jest.spyOn(queryHandler, 'execute').mockResolvedValue([]);
 
-      expect(result[1]).toEqual({
-        id: mockPets[1].getId(),
-        name: mockPets[1].getName().toString(),
-        gender: mockPets[1].getGender(),
-        chipId: mockPets[1].getChipId().toString(),
-        sterilized: mockPets[1].isSterilized().getValue(),
-        anniversaryDate: mockPets[1].getAnniversaryDate().toDate(),
-      });
+    // Act
+    const result = await resolver.searchAllPets({ ownerId });
+
+    // Assert
+    expect(queryHandler.execute).toHaveBeenCalled();
+    expect(result).toEqual([]);
+  });
+
+  it('should return all pets', async () => {
+    // Arrange
+    const ownerId = faker.string.uuid();
+    const firstPetChipId = faker.string.alphanumeric(10);
+    const firstPet = new Pet(
+      faker.string.uuid(),
+      Species.Dog,
+      new StringValueObject(faker.animal.dog()),
+      Gender.Male,
+      new BooleanValueObject(faker.datatype.boolean()),
+      new DateValueObject(faker.date.past()),
+      new DateValueObject(faker.date.past()),
+      ownerId,
+      new StringValueObject(firstPetChipId),
+    );
+    const secondPet = new Pet(
+      faker.string.uuid(),
+      Species.Cat,
+      new StringValueObject(faker.animal.cat()),
+      Gender.Female,
+      new BooleanValueObject(faker.datatype.boolean()),
+      new DateValueObject(faker.date.past()),
+      new DateValueObject(faker.date.past()),
+      ownerId,
+      null,
+    );
+    const mockPets = [firstPet, secondPet];
+    jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPets);
+
+    // Act
+    const result = await resolver.searchAllPets({ ownerId });
+
+    // Assert
+    expect(queryHandler.execute).toHaveBeenCalled();
+    expect(result).toHaveLength(2);
+
+    // Check that the response format is correct
+    const firstPetPrimitives = firstPet.toPrimitives();
+    expect(result[0]).toEqual({
+      id: firstPetPrimitives.id,
+      species: firstPetPrimitives.species,
+      name: firstPetPrimitives.name,
+      gender: firstPetPrimitives.gender,
+      sterilized: firstPetPrimitives.sterilized,
+      anniversaryDate: firstPetPrimitives.anniversaryDate,
+      createdAt: firstPetPrimitives.createdAt,
+      userId: firstPetPrimitives.userId,
+      chipId: firstPetPrimitives.chipId,
     });
 
-    it('should return empty array when no pets found', async () => {
-      // Arrange
-      jest.spyOn(queryHandler, 'execute').mockResolvedValue([]);
-
-      // Act
-      const result = await resolver.searchAllPets(userId);
-
-      // Assert
-      expect(queryHandler.execute).toHaveBeenCalled();
-      expect(result).toEqual([]);
-    });
-
-    it('should propagate errors', async () => {
-      // Arrange
-      const error = new Error('Database error');
-      jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
-
-      // Act & Assert
-      await expect(resolver.searchAllPets(userId)).rejects.toThrow('Database error');
-    });
-
-    it('should handle errors with no message', async () => {
-      // Arrange
-      jest.spyOn(queryHandler, 'execute').mockRejectedValue({});
-
-      // Act & Assert
-      await expect(resolver.searchAllPets(userId)).rejects.toThrow('Error searching all pets');
+    const secondPetPrimitives = secondPet.toPrimitives();
+    expect(result[1]).toEqual({
+      id: secondPetPrimitives.id,
+      species: secondPetPrimitives.species,
+      name: secondPetPrimitives.name,
+      gender: secondPetPrimitives.gender,
+      sterilized: secondPetPrimitives.sterilized,
+      anniversaryDate: secondPetPrimitives.anniversaryDate,
+      createdAt: secondPetPrimitives.createdAt,
+      userId: secondPetPrimitives.userId,
+      chipId: secondPetPrimitives.chipId,
     });
   });
 });

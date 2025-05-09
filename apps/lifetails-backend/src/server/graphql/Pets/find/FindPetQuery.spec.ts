@@ -6,29 +6,10 @@ import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { Pet } from 'src/contexts/Lifetails/Pets/domain/entities/Pet';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
-const createMockPet = (
-  id: string,
-  species: string,
-  name: string,
-  gender: string,
-  chipId: string,
-  sterilized: boolean,
-  anniversaryDate: Date,
-  createdAt: Date,
-  userId: string,
-): Pet => {
-  return Pet.fromPrimitives(
-    id,
-    species,
-    name,
-    gender,
-    chipId,
-    sterilized,
-    anniversaryDate,
-    createdAt,
-    userId,
-  );
-};
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/BooleanValueObject';
+import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { Gender } from 'src/contexts/Lifetails/Shared/domain/Gender';
 
 describe('FindPetQuery', () => {
   let resolver: FindPetQuery;
@@ -55,72 +36,66 @@ describe('FindPetQuery', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('findPet', () => {
-    it('should return a pet when found', async () => {
-      // Arrange
-      const id = faker.string.uuid();
-      const input: FindPetInput = { id };
+  it('should propagate errors when pet is not found', async () => {
+    // Arrange
+    const id = randomUUID();
+    const input: FindPetInput = { id };
+    const error = new Error(`Pet with id ${id} not found`);
+    jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
 
-      const mockName = faker.animal.dog();
-      const mockGender = 'Male';
-      const mockChipId = faker.string.alphanumeric(10);
-      const mockSterilized = faker.datatype.boolean();
-      const mockBirthdate = faker.date.past();
-      const mockCreatedAt = faker.date.past();
-      const mockUserId = faker.string.uuid();
-      const mockPet = createMockPet(
-        id,
-        Species.Cat.toString(),
-        mockName,
-        mockGender,
-        mockChipId,
-        mockSterilized,
-        mockBirthdate,
-        mockCreatedAt,
-        mockUserId,
-      );
+    // Act & Assert
+    await expect(resolver.findPet(input)).rejects.toThrow(
+      expect.objectContaining({ message: `Pet with id ${id} not found` }),
+    );
+  });
 
-      jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPet);
+  it('should handle errors with no message', async () => {
+    // Arrange
+    const id = randomUUID();
+    const input: FindPetInput = { id };
 
-      // Act
-      const result = await resolver.findPet(input);
+    jest.spyOn(queryHandler, 'execute').mockRejectedValue({});
 
-      // Assert
-      expect(queryHandler.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
+    // Act & Assert
+    await expect(resolver.findPet(input)).rejects.toThrow('Error finding pet');
+  });
 
-      expect(result).toEqual({
-        id: mockPet.getId(),
-        name: mockPet.getName().toString(),
-        gender: mockPet.getGender(),
-        chipId: mockPet.getChipId().toString(),
-        sterilized: mockPet.isSterilized().getValue(),
-        anniversaryDate: mockPet.getAnniversaryDate().toDate(),
-      });
-    });
+  it('should return a pet when found', async () => {
+    // Arrange
+    const id = faker.string.uuid();
+    const name = faker.animal.dog();
+    const sterilized = faker.datatype.boolean();
+    const birthdate = faker.date.past();
+    const createdAt = faker.date.past();
+    const userId = faker.string.uuid();
+    const pet = new Pet(
+      id,
+      Species.Cat,
+      new StringValueObject(name),
+      Gender.Male,
+      new BooleanValueObject(sterilized),
+      new DateValueObject(birthdate),
+      new DateValueObject(createdAt),
+      userId,
+    );
+    jest.spyOn(queryHandler, 'execute').mockResolvedValue(pet);
 
-    it('should propagate errors when pet is not found', async () => {
-      // Arrange
-      const id = randomUUID();
-      const input: FindPetInput = { id };
+    // Act
+    const input: FindPetInput = { id };
+    const result = await resolver.findPet(input);
 
-      const error = new Error(`Pet with id ${id} not found`);
-      jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
+    // Assert
+    expect(queryHandler.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
 
-      // Act & Assert
-      await expect(resolver.findPet(input)).rejects.toThrow(
-        expect.objectContaining({ message: expect.stringContaining(id) }),
-      );
-    });
-
-    it('should handle errors with no message', async () => {
-      // Arrange
-      const id = randomUUID();
-      const input: FindPetInput = { id };
-
-      jest.spyOn(queryHandler, 'execute').mockRejectedValue({});
-
-      // Act & Assert
-      await expect(resolver.findPet(input)).rejects.toThrow('Error finding pet');
-    });
+    expect(result).toBeDefined();
+    expect(result.id).toBe(pet.getId().toString());
+    expect(result.species).toBe(pet.getSpecies().toString());
+    expect(result.name).toBe(pet.getName().toString());
+    expect(result.gender).toBe(pet.getGender().toString());
+    expect(result.sterilized).toBe(pet.isSterilized().getValue());
+    expect(result.anniversaryDate).toBe(pet.getAnniversaryDate().toISOString());
+    expect(result.createdAt).toBe(pet.getCreatedAt().toISOString());
+    expect(result.userId).toBe(pet.getUserId());
+    expect(result.chipId).toBeNull();
   });
 });

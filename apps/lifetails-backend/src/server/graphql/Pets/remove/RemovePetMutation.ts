@@ -2,16 +2,19 @@ import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
 import { RemovePetCommand } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommand';
 import { RemovePetInput } from './RemovePetInput';
+import { RemovePetResponse } from './RemovePetResponse';
 
 @Resolver()
 export class RemovePetMutation {
   constructor(private readonly commandHandler: RemovePetCommandHandler) {}
 
-  @Mutation(() => Boolean)
-  async removePet(@Args('input') input: RemovePetInput): Promise<boolean> {
+  @Mutation(() => RemovePetResponse)
+  async removePet(@Args('input') input: RemovePetInput): Promise<RemovePetResponse> {
     try {
-      await this.commandHandler.execute(new RemovePetCommand(input.id));
-      return true;
+      const command = new RemovePetCommand(input.id);
+      await this.commandHandler.execute(command);
+
+      return { id: input.id };
     } catch (error) {
       throw new Error(error.message ?? 'Error removing pet');
     }

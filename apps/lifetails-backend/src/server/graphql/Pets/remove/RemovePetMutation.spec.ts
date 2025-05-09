@@ -29,46 +29,40 @@ describe('RemovePetMutation', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('removePet', () => {
-    it('should call use case and return true on success', async () => {
-      // Arrange
-      const input: RemovePetInput = {
-        id: randomUUID(),
-      };
+  it('should propagate errors from the command handler', async () => {
+    // Arrange
+    const input: RemovePetInput = {
+      id: randomUUID(),
+    };
 
-      // Act
-      const result = await resolver.removePet(input);
+    const error = new Error('Pet not found');
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
-      // Assert
-      expect(commandHandler.execute).toHaveBeenCalledWith(
-        expect.objectContaining({ id: input.id }),
-      );
-      expect(result).toBe(true);
-    });
+    // Act & Assert
+    await expect(resolver.removePet(input)).rejects.toThrow('Pet not found');
+  });
 
-    it('should propagate errors from the use case', async () => {
-      // Arrange
-      const input: RemovePetInput = {
-        id: randomUUID(),
-      };
+  it('should handle errors with no message', async () => {
+    // Arrange
+    const input: RemovePetInput = {
+      id: randomUUID(),
+    };
 
-      const error = new Error('Pet not found');
-      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue({});
 
-      // Act & Assert
-      await expect(resolver.removePet(input)).rejects.toThrow('Pet not found');
-    });
+    // Act & Assert
+    await expect(resolver.removePet(input)).rejects.toThrow('Error removing pet');
+  });
 
-    it('should handle errors with no message', async () => {
-      // Arrange
-      const input: RemovePetInput = {
-        id: randomUUID(),
-      };
+  it('should remove a pet and return the id of the removed pet', async () => {
+    // Arrange
 
-      jest.spyOn(commandHandler, 'execute').mockRejectedValue({});
+    // Act
+    const input: RemovePetInput = { id: randomUUID() };
+    const result = await resolver.removePet(input);
 
-      // Act & Assert
-      await expect(resolver.removePet(input)).rejects.toThrow('Error removing pet');
-    });
+    // Assert
+    expect(commandHandler.execute).toHaveBeenCalledWith(expect.objectContaining({ id: input.id }));
+    expect(result).toEqual({ id: input.id });
   });
 });

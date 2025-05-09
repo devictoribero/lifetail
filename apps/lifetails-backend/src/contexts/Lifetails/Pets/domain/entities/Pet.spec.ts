@@ -20,22 +20,23 @@ describe('Pet', () => {
     const species = Species.Cat;
     const name = new StringValueObject(faker.animal.cat());
     const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
-    const chipId = new StringValueObject(faker.string.alphanumeric(9));
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
     const anniversaryDate = new DateValueObject(faker.date.past());
+    const createdAt = new DateValueObject(faker.date.recent());
 
     // Act
-    const pet = Pet.create(id, species, name, gender, chipId, sterilized, anniversaryDate, userId);
+    const pet = new Pet(id, species, name, gender, sterilized, anniversaryDate, createdAt, userId);
 
     // Assert
-    expect(pet).toBeDefined();
+    expect(pet).toBeInstanceOf(Pet);
     expect(pet.getId()).toBe(id);
     expect(pet.getName()).toBe(name);
     expect(pet.getGender()).toBe(gender);
-    expect(pet.getChipId()).toBe(chipId);
     expect(pet.isSterilized()).toBe(sterilized);
     expect(pet.getAnniversaryDate()).toBe(anniversaryDate);
-    expect(pet.getCreatedAt()).toBeDefined();
+    expect(pet.getCreatedAt()).toBe(createdAt);
+    expect(pet.getUserId()).toBe(userId);
+    expect(pet.getChipId()).toBeNull();
   });
 
   it('should create a Pet instance from primitives', () => {
@@ -43,7 +44,6 @@ describe('Pet', () => {
     const species = Species.Cat.toString();
     const name = faker.animal.cat();
     const gender = Math.random() > 0.5 ? 'Male' : 'Female';
-    const chipId = faker.string.alphanumeric(9);
     const sterilized = faker.datatype.boolean();
     const anniversaryDate = faker.date.past();
     const createdAt = faker.date.recent();
@@ -54,7 +54,6 @@ describe('Pet', () => {
       species,
       name,
       gender,
-      chipId,
       sterilized,
       anniversaryDate,
       createdAt,
@@ -62,11 +61,10 @@ describe('Pet', () => {
     );
 
     // Assert
-    expect(pet).toBeDefined();
+    expect(pet).toBeInstanceOf(Pet);
     expect(pet.getId()).toBe(id);
     expect(pet.getName().toString()).toBe(name);
     expect(pet.getGender().toString()).toBe(gender);
-    expect(pet.getChipId().toString()).toBe(chipId);
     expect(pet.isSterilized().getValue()).toBe(sterilized);
     expect(pet.getAnniversaryDate().toDate()).toEqual(anniversaryDate);
     expect(pet.getCreatedAt().toDate()).toEqual(createdAt);
@@ -77,7 +75,6 @@ describe('Pet', () => {
     const species = Species.Cat.toString();
     const name = faker.animal.cat();
     const gender = Math.random() > 0.5 ? 'Male' : 'Female';
-    const chipId = faker.string.alphanumeric(9);
     const sterilized = faker.datatype.boolean();
     const anniversaryDate = faker.date.past();
     const createdAt = faker.date.recent();
@@ -86,7 +83,6 @@ describe('Pet', () => {
       species,
       name,
       gender,
-      chipId,
       sterilized,
       anniversaryDate,
       createdAt,
@@ -102,11 +98,11 @@ describe('Pet', () => {
       species,
       name,
       gender,
-      chipId,
       sterilized,
       anniversaryDate: anniversaryDate.toISOString(),
       createdAt: createdAt.toISOString(),
       userId,
+      chipId: null,
     });
   });
 
@@ -119,7 +115,6 @@ describe('Pet', () => {
       species,
       initialName,
       Math.random() > 0.5 ? Gender.Male : Gender.Female,
-      new StringValueObject(faker.string.alphanumeric(9)),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),
       userId,
@@ -143,7 +138,6 @@ describe('Pet', () => {
       species,
       new StringValueObject(faker.animal.cat()),
       initialGender,
-      new StringValueObject(faker.string.alphanumeric(9)),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),
       userId,
@@ -163,7 +157,6 @@ describe('Pet', () => {
       Species.Cat,
       new StringValueObject(faker.animal.cat()),
       Math.random() > 0.5 ? Gender.Male : Gender.Female,
-      new StringValueObject(faker.string.alphanumeric(9)),
       new BooleanValueObject(false),
       new DateValueObject(faker.date.past()),
       userId,
@@ -174,5 +167,26 @@ describe('Pet', () => {
 
     // Assert
     expect(pet.isSterilized().getValue()).toBe(true);
+  });
+
+  it('can change the chipId', () => {
+    // Arrange
+    const pet = Pet.create(
+      id,
+      Species.Cat,
+      new StringValueObject(faker.animal.cat()),
+      Gender.Male,
+      new BooleanValueObject(false),
+      new DateValueObject(faker.date.past()),
+      userId,
+    );
+    expect(pet.getChipId()).toBeNull();
+
+    // Act
+    const chipId = new StringValueObject(faker.string.alphanumeric(9));
+    pet.changeChipIdTo(chipId);
+
+    // Assert
+    expect(pet.getChipId()).toBe(chipId);
   });
 });

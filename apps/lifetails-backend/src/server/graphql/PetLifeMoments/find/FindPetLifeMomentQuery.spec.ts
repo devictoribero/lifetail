@@ -34,55 +34,53 @@ describe('FindPetLifeMoment', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('findPetLifeMoment', () => {
-    it('should return a pet life moment when found', async () => {
-      // Arrange
-      const id = randomUUID();
-      const input: FindPetLifeMomentInput = { id };
+  it('should propagate errors when pet life moment is not found', async () => {
+    // Arrange
+    const id = randomUUID();
+    const input: FindPetLifeMomentInput = { id };
 
-      const mockDate = faker.date.recent();
-      const mockDescription = faker.lorem.sentence();
-      const mockPetLifeMoment = createMockPetLifeMoment(
-        id,
-        'VeterinaryVisit',
-        'Wellness',
-        randomUUID(),
-        randomUUID(),
-        mockDate,
-        mockDescription,
-      );
+    const error = new PetLifeMomentNotFoundException(id);
+    jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
 
-      jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPetLifeMoment);
+    // Act & Assert
+    await expect(resolver.findPetLifeMoment(input)).rejects.toThrow(
+      expect.objectContaining({ message: expect.stringContaining(id) }),
+    );
+  });
 
-      // Act
-      const result = await resolver.findPetLifeMoment(input);
+  it('should return a pet life moment when found', async () => {
+    // Arrange
+    const id = randomUUID();
+    const input: FindPetLifeMomentInput = { id };
 
-      // Assert
-      expect(queryHandler.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
+    const mockDate = faker.date.recent();
+    const mockDescription = faker.lorem.sentence();
+    const mockPetLifeMoment = createMockPetLifeMoment(
+      id,
+      'VeterinaryVisit',
+      'Wellness',
+      randomUUID(),
+      randomUUID(),
+      mockDate,
+      mockDescription,
+    );
 
-      expect(result).toEqual({
-        id: mockPetLifeMoment.getId(),
-        theme: mockPetLifeMoment.getTheme(),
-        type: mockPetLifeMoment.getType(),
-        petId: mockPetLifeMoment.getPetId(),
-        createdBy: mockPetLifeMoment.getCreatedBy(),
-        occurredOn: mockPetLifeMoment.getOccurredOn().toDate(),
-        description: mockPetLifeMoment.getDescription().toString(),
-      });
-    });
+    jest.spyOn(queryHandler, 'execute').mockResolvedValue(mockPetLifeMoment);
 
-    it('should propagate errors when pet life moment is not found', async () => {
-      // Arrange
-      const id = randomUUID();
-      const input: FindPetLifeMomentInput = { id };
+    // Act
+    const result = await resolver.findPetLifeMoment(input);
 
-      const error = new PetLifeMomentNotFoundException(id);
-      jest.spyOn(queryHandler, 'execute').mockRejectedValue(error);
+    // Assert
+    expect(queryHandler.execute).toHaveBeenCalledWith(expect.objectContaining({ id }));
 
-      // Act & Assert
-      await expect(resolver.findPetLifeMoment(input)).rejects.toThrow(
-        expect.objectContaining({ message: expect.stringContaining(id) }),
-      );
+    expect(result).toEqual({
+      id: mockPetLifeMoment.getId(),
+      theme: mockPetLifeMoment.getTheme(),
+      type: mockPetLifeMoment.getType(),
+      petId: mockPetLifeMoment.getPetId(),
+      createdBy: mockPetLifeMoment.getCreatedBy(),
+      occurredOn: mockPetLifeMoment.getOccurredOn().toDate(),
+      description: mockPetLifeMoment.getDescription().toString(),
     });
   });
 });

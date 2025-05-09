@@ -17,7 +17,6 @@ export class AddPetMutation {
         input.species.toString(),
         input.name,
         input.gender.toString(),
-        input.chipId,
         input.sterilized,
         input.anniversaryDate,
         input.userId,

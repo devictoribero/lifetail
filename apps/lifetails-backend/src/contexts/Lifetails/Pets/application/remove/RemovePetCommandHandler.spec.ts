@@ -2,7 +2,6 @@ import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepositor
 import { RemovePetCommandHandler } from './RemovePetCommandHandler';
 import { RemovePetCommand } from './RemovePetCommand';
 import { Pet } from '../../domain/entities/Pet';
-import { randomUUID } from 'node:crypto';
 import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/BooleanValueObject';
@@ -22,7 +21,7 @@ describe('RemovePetCommandHandler', () => {
 
   it('should throw a PetNotFoundException when the pet does not exist', async () => {
     // Arrange
-    const nonExistentId = randomUUID();
+    const nonExistentId = faker.string.uuid();
     const command = new RemovePetCommand(nonExistentId);
 
     await expect(commandHandler.execute(command)).rejects.toThrow(PetNotFoundException);
@@ -30,38 +29,35 @@ describe('RemovePetCommandHandler', () => {
 
   it('should remove a pet', async () => {
     // Arrange
-    const id = randomUUID();
+    const id = faker.string.uuid();
     const name = faker.animal.cat();
     const gender = 'Female';
-    const chipId = faker.string.numeric(9);
     const sterilized = faker.datatype.boolean();
     const anniversaryDate = faker.date.past();
+    const createdAt = faker.date.recent();
     const userId = faker.string.uuid();
-    // Create and save a pet
-    const pet = Pet.create(
+    const pet = new Pet(
       id,
       Species.Cat,
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
-      new StringValueObject(chipId),
       new BooleanValueObject(sterilized),
       new DateValueObject(anniversaryDate),
+      new DateValueObject(createdAt),
       userId,
     );
     await repository.save(pet);
-    // Verify the pet exists before removal
     const beforeRemoval = await repository.find(id);
-    expect(beforeRemoval).not.toBeNull();
+    expect(beforeRemoval).toBeInstanceOf(Pet);
     const removeSpy = jest.spyOn(repository, 'remove');
-    const command = new RemovePetCommand(id);
 
     // Act
+    const command = new RemovePetCommand(id);
     await commandHandler.execute(command);
 
     // Assert
     expect(removeSpy).toHaveBeenCalledTimes(1);
     expect(removeSpy).toHaveBeenCalledWith(id);
-    // Verify the pet no longer exists
     const afterRemoval = await repository.find(id);
     expect(afterRemoval).toBeNull();
   });

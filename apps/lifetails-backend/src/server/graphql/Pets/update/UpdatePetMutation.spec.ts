@@ -31,84 +31,71 @@ describe('UpdatePetMutation', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('updatePet', () => {
-    it('should call the use case with all fields', async () => {
-      // Arrange
-      const input: UpdatePetInput = {
-        id: randomUUID(),
-        name: faker.animal.dog(),
-        gender: Gender.Male,
-        chipId: faker.string.alphanumeric(10),
-        sterilized: faker.datatype.boolean(),
-        anniversaryDate: faker.date.past(),
-      };
+  it('should propagate errors from the command handler', async () => {
+    // Arrange
+    const input: UpdatePetInput = { id: randomUUID(), name: faker.animal.dog() };
+    const error = new Error('Pet not found');
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
-      // Act
-      const result = await resolver.updatePet(input);
+    // Act & Assert
+    await expect(resolver.updatePet(input)).rejects.toThrow('Pet not found');
+  });
 
-      // Assert
-      expect(commandHandler.execute).toHaveBeenCalledWith(
-        expect.objectContaining({
-          id: input.id,
-          name: input.name,
-          gender: input.gender.toString(),
-          chipId: input.chipId,
-          sterilized: input.sterilized,
-          anniversaryDate: input.anniversaryDate,
-        }),
-      );
-      expect(result).toEqual({ id: input.id });
-    });
+  it('should handle errors with no message', async () => {
+    // Arrange
+    const input: UpdatePetInput = { id: randomUUID(), name: faker.animal.dog() };
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue({});
 
-    it('should call the use case with partial fields', async () => {
-      // Arrange
-      const input: UpdatePetInput = {
-        id: randomUUID(),
-        name: faker.animal.dog(),
-      };
+    // Act & Assert
+    await expect(resolver.updatePet(input)).rejects.toThrow('Error updating pet');
+  });
 
-      // Act
-      const result = await resolver.updatePet(input);
+  it('should call the command handler with all fields', async () => {
+    // Arrange
+    const input: UpdatePetInput = {
+      id: randomUUID(),
+      name: faker.animal.dog(),
+      gender: Gender.Male,
+      sterilized: faker.datatype.boolean(),
+      anniversaryDate: faker.date.past(),
+      chipId: faker.string.alphanumeric(10),
+    };
 
-      // Assert
-      expect(commandHandler.execute).toHaveBeenCalledWith(
-        expect.objectContaining({
-          id: input.id,
-          name: input.name,
-          gender: undefined,
-          chipId: undefined,
-          sterilized: undefined,
-          anniversaryDate: undefined,
-        }),
-      );
-      expect(result).toEqual({ id: input.id });
-    });
+    // Act
+    const result = await resolver.updatePet(input);
 
-    it('should propagate errors from the use case', async () => {
-      // Arrange
-      const input: UpdatePetInput = {
-        id: randomUUID(),
-        name: faker.animal.dog(),
-      };
+    // Assert
+    expect(commandHandler.execute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: input.id,
+        name: input.name,
+        gender: input.gender.toString(),
+        chipId: input.chipId,
+        sterilized: input.sterilized,
+        anniversaryDate: input.anniversaryDate,
+      }),
+    );
+    expect(result).toEqual({ id: input.id });
+  });
 
-      const error = new Error('Pet not found');
-      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
+  it('should call the command handler with partial fields', async () => {
+    // Arrange
+    const input: UpdatePetInput = { id: randomUUID(), name: faker.animal.dog() };
 
-      // Act & Assert
-      await expect(resolver.updatePet(input)).rejects.toThrow('Pet not found');
-    });
+    // Act
+    const result = await resolver.updatePet(input);
 
-    it('should handle errors with no message', async () => {
-      // Arrange
-      const input: UpdatePetInput = {
-        id: randomUUID(),
-        name: faker.animal.dog(),
-      };
-
-      jest.spyOn(commandHandler, 'execute').mockRejectedValue({});
-
-      // Act & Assert
-      await expect(resolver.updatePet(input)).rejects.toThrow('Error updating pet');
-    });
+    // Assert
+    expect(commandHandler.execute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: input.id,
+        name: input.name,
+        gender: undefined,
+        chipId: undefined,
+        sterilized: undefined,
+        anniversaryDate: undefined,
+      }),
+    );
+    expect(result).toEqual({ id: input.id });
   });
 });

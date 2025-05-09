@@ -30,31 +30,29 @@ describe('RemovePetLifeMomentMutation', () => {
     expect(resolver).toBeDefined();
   });
 
-  describe('removePetLifeMoment', () => {
-    it('should call the command handler', async () => {
-      // Arrange
-      const input: RemovePetLifeMomentInput = {
-        id: randomUUID(),
-      };
+  it('should propagate errors', async () => {
+    // Arrange
+    const input: RemovePetLifeMomentInput = {
+      id: randomUUID(),
+    };
 
-      // Act
-      await resolver.removePetLifeMoment(input);
+    const error = new Error('Error message');
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
 
-      // Assert
-      expect(commandHandler.execute).toHaveBeenCalled();
-    });
+    // Act & Assert
+    await expect(resolver.removePetLifeMoment(input)).rejects.toThrow(error);
+  });
 
-    it('should propagate errors', async () => {
-      // Arrange
-      const input: RemovePetLifeMomentInput = {
-        id: randomUUID(),
-      };
+  it('should call the command handler', async () => {
+    // Arrange
+    const input: RemovePetLifeMomentInput = {
+      id: randomUUID(),
+    };
 
-      const error = new Error('Error message');
-      jest.spyOn(commandHandler, 'execute').mockRejectedValue(error);
+    // Act
+    await resolver.removePetLifeMoment(input);
 
-      // Act & Assert
-      await expect(resolver.removePetLifeMoment(input)).rejects.toThrow(error);
-    });
+    // Assert
+    expect(commandHandler.execute).toHaveBeenCalled();
   });
 });

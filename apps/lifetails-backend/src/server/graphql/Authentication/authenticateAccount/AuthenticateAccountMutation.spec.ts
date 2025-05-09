@@ -31,21 +31,17 @@ describe('AuthenticateAccountMutation', () => {
     );
   });
 
-  it('should return accountId when authentication is successful', async () => {
+  it('should throw error when account is not found', async () => {
     // Arrange
     const input: AuthenticateAccountInput = {
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
-    const accountId = faker.string.uuid();
 
-    jest.spyOn(commandHandler, 'execute').mockResolvedValue(accountId);
+    jest.spyOn(commandHandler, 'execute').mockRejectedValue(new InvalidCredentialsException());
 
-    // Act
-    const result = await mutation.authenticateAccount(input);
-
-    // Assert
-    expect(result).toEqual({ accountId });
+    // Act & Assert
+    await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
     expect(commandHandler.execute).toHaveBeenCalledWith({
       email: input.email,
       password: input.password,
@@ -69,18 +65,21 @@ describe('AuthenticateAccountMutation', () => {
     });
   });
 
-  it('should throw error when an unexpected error occurs', async () => {
+  it('should return accountId when authentication is successful', async () => {
     // Arrange
     const input: AuthenticateAccountInput = {
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
-    const errorMessage = 'Unexpected error';
+    const accountId = faker.string.uuid();
 
-    jest.spyOn(commandHandler, 'execute').mockRejectedValue(new Error(errorMessage));
+    jest.spyOn(commandHandler, 'execute').mockResolvedValue(accountId);
 
-    // Act & Assert
-    await expect(mutation.authenticateAccount(input)).rejects.toThrow(errorMessage);
+    // Act
+    const result = await mutation.authenticateAccount(input);
+
+    // Assert
+    expect(result).toEqual({ accountId });
     expect(commandHandler.execute).toHaveBeenCalledWith({
       email: input.email,
       password: input.password,

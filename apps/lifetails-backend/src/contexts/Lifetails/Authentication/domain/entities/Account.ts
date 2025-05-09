@@ -10,7 +10,8 @@ export class Account extends AggregateRoot {
   private readonly password: PasswordHashValueObject;
   private readonly createdAt: DateValueObject;
 
-  private constructor(
+  // Use for testing purposes only. It should not be used in the domain.
+  constructor(
     id: UUID,
     email: EmailValueObject,
     password: PasswordHashValueObject,
@@ -23,6 +24,7 @@ export class Account extends AggregateRoot {
     this.createdAt = createdAt;
   }
 
+  // Use to create the entity from the domain
   static create(email: EmailValueObject, password: PasswordHashValueObject): Account {
     const id = UUID.create();
     const createdAt = new DateValueObject(new Date());
@@ -30,6 +32,16 @@ export class Account extends AggregateRoot {
     const account = new Account(id, email, password, createdAt);
 
     return account;
+  }
+
+  // Use to reconstruct the entity from the database
+  static fromPrimitives(id: string, email: string, password: string, createdAt: Date): Account {
+    return new Account(
+      new UUID(id),
+      new EmailValueObject(email),
+      new PasswordHashValueObject(password),
+      new DateValueObject(createdAt),
+    );
   }
 
   toPrimitives() {

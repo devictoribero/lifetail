@@ -37,24 +37,6 @@ describe('CreateAccountMutation', () => {
     commandHandler = module.get<CreateAccountCommandHandler>(CreateAccountCommandHandler);
   });
 
-  it('should return account id when creation is successful', async () => {
-    // Arrange
-    const input: CreateAccountInput = {
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    };
-
-    // Act
-    const result = await mutation.createAccount(input);
-
-    // Assert
-    expect(result).toEqual({ id: mockedId });
-    expect(commandHandler.execute).toHaveBeenCalledWith({
-      email: input.email,
-      password: input.password,
-    });
-  });
-
   it('should throw error when email is already in use', async () => {
     // Arrange
     const input: CreateAccountInput = {
@@ -86,6 +68,23 @@ describe('CreateAccountMutation', () => {
 
     // Act & Assert
     await expect(mutation.createAccount(input)).rejects.toThrow(errorMessage);
+    expect(commandHandler.execute).toHaveBeenCalledWith({
+      email: input.email,
+      password: input.password,
+    });
+  });
+
+  it('should create an account', async () => {
+    // Arrange
+    const input: CreateAccountInput = {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
+
+    // Act
+    await mutation.createAccount(input);
+
+    // Assert
     expect(commandHandler.execute).toHaveBeenCalledWith({
       email: input.email,
       password: input.password,

@@ -4,7 +4,6 @@
 
 input AddPetInput {
   anniversaryDate: Date!
-  chipId: String!
   gender: Gender!
   id: String!
   name: String!
@@ -75,7 +74,7 @@ type Mutation {
   addPetLifeMoment(input: AddPetLifeMomentInput!): AddPetLifeMomentResponse!
   authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
   createAccount(input: CreateAccountInput!): CreateAccountResponse!
-  removePet(input: RemovePetInput!): Boolean!
+  removePet(input: RemovePetInput!): RemovePetResponse!
   removePetLifeMoment(input: RemovePetLifeMomentInput!): Boolean!
   updatePet(input: UpdatePetInput!): UpdatePetResponse!
   updatePetLifeMoment(input: UpdatePetLifeMomentInput!): UpdatePetLifeMomentResponse!
@@ -84,15 +83,18 @@ type Mutation {
 type Pet {
   anniversaryDate: Date!
   chipId: String!
+  createdAt: Date!
   gender: Gender!
   id: String!
   name: String!
+  species: String!
   sterilized: Boolean!
+  userId: String!
 }
 
 type PetLifeMoment {
   createdBy: String!
-  description: String!
+  description: String
   id: String!
   occurredOn: Date!
   petId: String!
@@ -151,7 +153,7 @@ type Query {
   findPet(input: FindPetInput!): Pet!
   findPetLifeMoment(input: FindPetLifeMomentInput!): PetLifeMoment!
   healthCheck: HealthCheckResponse!
-  searchAllPets(userId: String!): [Pet!]!
+  searchAllPets(input: SearchAllPetsInput!): [Pet!]!
 }
 
 input RemovePetInput {
@@ -160,6 +162,14 @@ input RemovePetInput {
 
 input RemovePetLifeMomentInput {
   id: String!
+}
+
+type RemovePetResponse {
+  id: String!
+}
+
+input SearchAllPetsInput {
+  ownerId: String!
 }
 
 input UpdatePetInput {

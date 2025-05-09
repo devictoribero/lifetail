@@ -6,6 +6,6 @@ export class SearchAllPetsQueryHandler {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(query: SearchAllPetsQuery): Promise<Pet[]> {
-    return await this.repository.findByUser(query.userId);
+    return await this.repository.findByOwner(query.ownerId);
   }
 }
