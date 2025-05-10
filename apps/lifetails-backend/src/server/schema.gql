@@ -2,16 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-input AddPetInput {
-  anniversaryDate: Date!
-  gender: Gender!
-  id: String!
-  name: String!
-  species: PetSpecies!
-  sterilized: Boolean!
-  userId: String!
-}
-
 input AddLifeMomentInput {
   createdBy: String!
   description: String!
@@ -23,6 +13,16 @@ input AddLifeMomentInput {
 
 type AddLifeMomentResponse {
   id: String!
+}
+
+input AddPetInput {
+  anniversaryDate: Date!
+  gender: Gender!
+  id: String!
+  name: String!
+  species: PetSpecies!
+  sterilized: Boolean!
+  userId: String!
 }
 
 type AddPetResponse {
@@ -47,16 +47,14 @@ type CreateAccountResponse {
   id: String!
 }
 
-"""
-Date custom scalar type
-"""
+"""Date custom scalar type"""
 scalar Date
 
-input FindPetInput {
+input FindLifeMomentInput {
   id: String!
 }
 
-input FindLifeMomentInput {
+input FindPetInput {
   id: String!
 }
 
@@ -69,29 +67,6 @@ enum Gender {
 type HealthCheckResponse {
   status: String!
   timestamp: Date!
-}
-
-type Mutation {
-  addPet(input: AddPetInput!): AddPetResponse!
-  addLifeMoment(input: AddLifeMomentInput!): AddLifeMomentResponse!
-  authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
-  createAccount(input: CreateAccountInput!): CreateAccountResponse!
-  removePet(input: RemovePetInput!): RemovePetResponse!
-  removeLifeMoment(input: RemoveLifeMomentInput!): Boolean!
-  updatePet(input: UpdatePetInput!): UpdatePetResponse!
-  updateLifeMoment(input: UpdateLifeMomentInput!): UpdateLifeMomentResponse!
-}
-
-type Pet {
-  anniversaryDate: Date!
-  chipId: String!
-  createdAt: Date!
-  gender: Gender!
-  id: String!
-  name: String!
-  species: String!
-  sterilized: Boolean!
-  userId: String!
 }
 
 type LifeMoment {
@@ -145,6 +120,29 @@ enum LifeMomentType {
   types
 }
 
+type Mutation {
+  addLifeMoment(input: AddLifeMomentInput!): AddLifeMomentResponse!
+  addPet(input: AddPetInput!): AddPetResponse!
+  authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
+  createAccount(input: CreateAccountInput!): CreateAccountResponse!
+  removeLifeMoment(input: RemoveLifeMomentInput!): Boolean!
+  removePet(input: RemovePetInput!): RemovePetResponse!
+  updateLifeMoment(input: UpdateLifeMomentInput!): UpdateLifeMomentResponse!
+  updatePet(input: UpdatePetInput!): UpdatePetResponse!
+}
+
+type Pet {
+  anniversaryDate: Date!
+  chipId: String!
+  createdAt: Date!
+  gender: Gender!
+  id: String!
+  name: String!
+  species: String!
+  sterilized: Boolean!
+  userId: String!
+}
+
 enum PetSpecies {
   All
   Cat
@@ -152,17 +150,17 @@ enum PetSpecies {
 }
 
 type Query {
-  findPet(input: FindPetInput!): Pet!
   findLifeMoment(input: FindLifeMomentInput!): LifeMoment!
+  findPet(input: FindPetInput!): Pet!
   healthCheck: HealthCheckResponse!
   searchAllPets(input: SearchAllPetsInput!): [Pet!]!
 }
 
-input RemovePetInput {
+input RemoveLifeMomentInput {
   id: String!
 }
 
-input RemoveLifeMomentInput {
+input RemovePetInput {
   id: String!
 }
 
@@ -174,6 +172,16 @@ input SearchAllPetsInput {
   ownerId: String!
 }
 
+input UpdateLifeMomentInput {
+  description: String
+  id: String!
+  occurredOn: Date
+}
+
+type UpdateLifeMomentResponse {
+  id: String!
+}
+
 input UpdatePetInput {
   anniversaryDate: Date
   chipId: String
@@ -181,17 +189,6 @@ input UpdatePetInput {
   id: String!
   name: String
   sterilized: Boolean
-}
-
-input UpdateLifeMomentInput {
-  description: String
-  id: String!
-  occurredOn: Date
-  petId: String
-}
-
-type UpdateLifeMomentResponse {
-  id: String!
 }
 
 type UpdatePetResponse {
