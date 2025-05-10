@@ -6,11 +6,15 @@ import { Gender } from '../../../Shared/domain/Gender';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { Pet } from '../../domain/entities/Pet';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { PET_REPOSITORY } from '../../domain/repositories/PetRepository';
 
 @Injectable()
 export class UpdatePetCommandHandler {
-  constructor(private readonly repository: PetRepository) {}
+  constructor(
+    @Inject(PET_REPOSITORY)
+    private readonly repository: PetRepository,
+  ) {}
 
   async execute(command: UpdatePetCommand): Promise<void> {
     const pet = await this.getPet(new UUID(command.id));

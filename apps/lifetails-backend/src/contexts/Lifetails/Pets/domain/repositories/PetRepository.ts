@@ -1,7 +1,7 @@
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { Pet } from '../entities/Pet';
 
-export const PetRepositorySymbol = Symbol('PetRepository');
+export const PET_REPOSITORY = 'PET_REPOSITORY';
 
 export interface PetRepository {
   save(pet: Pet): Promise<void>;

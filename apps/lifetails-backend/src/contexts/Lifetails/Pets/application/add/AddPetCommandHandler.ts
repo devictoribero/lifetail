@@ -1,5 +1,5 @@
 import { Pet } from '../../domain/entities/Pet';
-import { PetRepository } from '../../domain/repositories/PetRepository';
+import { PET_REPOSITORY, PetRepository } from '../../domain/repositories/PetRepository';
 import { AddPetCommand } from './AddPetCommand';
 import { Gender } from '../../../Shared/domain/Gender';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
@@ -8,13 +8,16 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { Species } from '../../domain/entities/PetSpecies';
 import { MaxNumberOfPetsReachedException } from '../../domain/exceptions/MaxNumberOfPetsReachedException';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
 const MAX_NUMBER_OF_PETS = 1;
 
 @Injectable()
 export class AddPetCommandHandler {
-  constructor(private readonly repository: PetRepository) {}
+  constructor(
+    @Inject(PET_REPOSITORY)
+    private readonly repository: PetRepository,
+  ) {}
 
   async execute(command: AddPetCommand): Promise<void> {
     const ownerId = new UUID(command.userId);

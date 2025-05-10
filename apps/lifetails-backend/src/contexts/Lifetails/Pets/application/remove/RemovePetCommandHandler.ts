@@ -2,11 +2,15 @@ import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { PetRepository } from '../../domain/repositories/PetRepository';
 import { RemovePetCommand } from './RemovePetCommand';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { PET_REPOSITORY } from '../../domain/repositories/PetRepository';
 
 @Injectable()
 export class RemovePetCommandHandler {
-  constructor(private readonly repository: PetRepository) {}
+  constructor(
+    @Inject(PET_REPOSITORY)
+    private readonly repository: PetRepository,
+  ) {}
 
   async execute(command: RemovePetCommand): Promise<void> {
     const petId = new UUID(command.id);
