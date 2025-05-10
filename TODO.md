@@ -1,7 +1,6 @@
 
 # Todo
 
-- Review and update dependency injection
 - Review all the tests
 - Review all the entities (and tests)
 - Create lifetails namespace on Postman and create graphql queries/mutations
