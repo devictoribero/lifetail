@@ -14,7 +14,7 @@ export class UpdatePetLifeMomentMutation {
   ): Promise<UpdatePetLifeMomentResponse> {
     try {
       await this.commandHandler.execute(
-        new UpdatePetLifeMomentCommand(input.id, input.description, input.occurredOn, input.petId),
+        new UpdatePetLifeMomentCommand(input.id, input.description, input.occurredOn),
       );
 
       return { id: input.id };

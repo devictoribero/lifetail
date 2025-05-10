@@ -21,10 +21,6 @@ export class UpdatePetLifeMomentCommandHandler {
       petLifeMoment.reschedule(newDate);
     }
 
-    if (this.hasField(command.petId)) {
-      petLifeMoment.reassignToCat(command.petId);
-    }
-
     await this.repository.save(petLifeMoment);
   }
 

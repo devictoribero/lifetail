@@ -18,9 +18,4 @@ export class UpdatePetLifeMomentInput {
   @IsOptional()
   @Transform(({ value }) => (value ? new Date(value) : undefined))
   occurredOn?: Date;
-
-  @Field({ nullable: true })
-  @IsUUID()
-  @IsOptional()
-  petId?: string;
 }

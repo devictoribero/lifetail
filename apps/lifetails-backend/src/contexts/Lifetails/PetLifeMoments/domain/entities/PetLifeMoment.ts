@@ -3,25 +3,26 @@ import { PetLifeMomentTheme } from './PetLifeMomentTheme';
 import { PetLifeMomentType } from './PetLifeMomentType';
 import { AggregateRoot } from 'src/contexts/Lifetails/Shared/domain/AggregateRoot';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 export class PetLifeMoment extends AggregateRoot {
-  private id: string;
+  private id: UUID;
   private createdAt: DateValueObject;
   private updatedAt: DateValueObject | null;
   private type: PetLifeMomentType;
   private theme: PetLifeMomentTheme;
-  private petId: string;
-  private createdBy: string;
+  private petId: UUID;
+  private createdBy: UUID;
   private occurredOn: DateValueObject;
   private description: StringValueObject;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
-    id: string,
+    id: UUID,
     type: PetLifeMomentType,
     theme: PetLifeMomentTheme,
-    petId: string,
-    createdBy: string,
+    petId: UUID,
+    createdBy: UUID,
     occurredOn: DateValueObject,
     description: StringValueObject,
     createdAt: DateValueObject,
@@ -41,10 +42,10 @@ export class PetLifeMoment extends AggregateRoot {
 
   // Use to create the entity from the domain
   static create(
-    id: string,
+    id: UUID,
     type: PetLifeMomentType,
-    petId: string,
-    createdBy: string,
+    petId: UUID,
+    createdBy: UUID,
     occurredOn: DateValueObject,
     description: StringValueObject,
   ) {
@@ -74,11 +75,11 @@ export class PetLifeMoment extends AggregateRoot {
     updatedAt: Date | null = null,
   ) {
     return new PetLifeMoment(
-      id,
+      new UUID(id),
       PetLifeMomentType.fromPrimitives(type),
       PetLifeMomentTheme.fromPrimitives(theme),
-      petId,
-      createdBy,
+      new UUID(petId),
+      new UUID(createdBy),
       new DateValueObject(occurredOn),
       new StringValueObject(description),
       new DateValueObject(createdAt),
@@ -86,7 +87,7 @@ export class PetLifeMoment extends AggregateRoot {
     );
   }
 
-  public getId(): string {
+  public getId(): UUID {
     return this.id;
   }
 
@@ -106,11 +107,11 @@ export class PetLifeMoment extends AggregateRoot {
     return this.theme;
   }
 
-  public getPetId(): string {
+  public getPetId(): UUID {
     return this.petId;
   }
 
-  public getCreatedBy(): string {
+  public getCreatedBy(): UUID {
     return this.createdBy;
   }
 
@@ -132,22 +133,17 @@ export class PetLifeMoment extends AggregateRoot {
     this.updatedAt = new DateValueObject(new Date());
   }
 
-  public reassignToCat(petId: string): void {
-    this.petId = petId;
-    this.updatedAt = new DateValueObject(new Date());
-  }
-
   public toPrimitives(): any {
     return {
-      id: this.id,
+      id: this.id.toString(),
       type: this.type.toString(),
       theme: this.theme.toString(),
-      petId: this.petId,
-      createdBy: this.createdBy,
-      occurredOn: this.occurredOn.toDate(),
+      petId: this.petId.toString(),
+      createdBy: this.createdBy.toString(),
+      occurredOn: this.occurredOn.toISOString(),
       description: this.description.toString(),
-      createdAt: this.createdAt.toDate(),
-      updatedAt: this.updatedAt?.toDate() || null,
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt?.toISOString() || null,
     };
   }
 }

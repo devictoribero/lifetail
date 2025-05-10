@@ -3,7 +3,8 @@ import { PetLifeMomentTheme } from './PetLifeMomentTheme';
 import { InvalidPetLifeMomentTypeException } from '../exceptions/InvalidPetLifeMomentTypeException';
 
 export class PetLifeMomentType extends StringValueObject {
-  private constructor(value: string) {
+  // Use for testing purposes only. It should not be used in the domain.
+  constructor(value: string) {
     super(value);
   }
 
