@@ -45,14 +45,14 @@ describe('FindPetQueryHandler', () => {
 
     // Create and save a pet
     const pet = new Pet(
-      id,
+      new UUID(id),
       Species.Cat,
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
       new BooleanValueObject(sterilized),
       new DateValueObject(anniversaryDate),
       new DateValueObject(createdAt),
-      ownerId,
+      new UUID(ownerId),
       new StringValueObject(chipId),
     );
 

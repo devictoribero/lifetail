@@ -24,14 +24,14 @@ describe('AddPetCommandHandler', () => {
     // Arrange
     const ownerId = faker.string.uuid();
     const pet = new Pet(
-      faker.string.uuid(),
+      new UUID(faker.string.uuid()),
       Species.Cat,
       new StringValueObject('Neko'),
       Gender.fromPrimitives('Female'),
       new BooleanValueObject(true),
       new DateValueObject(new Date()),
       new DateValueObject(new Date()),
-      ownerId,
+      new UUID(ownerId),
     );
     await repository.save(pet);
 

@@ -24,14 +24,14 @@ describe('UpdatePetCommandHandler', () => {
     // Create a pet for testing
     petId = faker.string.uuid();
     originalPet = new Pet(
-      petId,
+      new UUID(petId),
       Species.Cat,
       new StringValueObject(faker.animal.cat()),
       Gender.fromPrimitives('Male'),
       new BooleanValueObject(faker.datatype.boolean()),
       new DateValueObject(faker.date.past()),
       new DateValueObject(faker.date.past()),
-      faker.string.uuid(),
+      new UUID(faker.string.uuid()),
       new StringValueObject(faker.string.numeric(9)),
     );
 

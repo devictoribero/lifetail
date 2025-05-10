@@ -29,36 +29,36 @@ describe('SearchAllPetsQueryHandler', () => {
   it('should return all pets for the requested owner', async () => {
     const ownerId = faker.string.uuid();
     const pet1 = new Pet(
-      faker.string.uuid(),
+      new UUID(faker.string.uuid()),
       Species.Cat,
       new StringValueObject('Neko'),
       Gender.fromPrimitives('Female'),
       new BooleanValueObject(true),
       new DateValueObject(new Date('2022-01-01')),
       new DateValueObject(new Date('2022-01-01')),
-      ownerId,
+      new UUID(ownerId),
     );
     const pet2 = new Pet(
-      faker.string.uuid(),
+      new UUID(faker.string.uuid()),
       Species.Dog,
       new StringValueObject('Inu'),
       Gender.fromPrimitives('Male'),
       new BooleanValueObject(false),
       new DateValueObject(new Date('2022-02-02')),
       new DateValueObject(new Date('2022-02-02')),
-      ownerId,
+      new UUID(ownerId),
     );
     // Create a pet for a different user
     const otherOwnerId = faker.string.uuid();
     const pet3 = new Pet(
-      faker.string.uuid(),
+      new UUID(faker.string.uuid()),
       Species.Dog,
       new StringValueObject('Hanstah'),
       Gender.fromPrimitives('Female'),
       new BooleanValueObject(true),
       new DateValueObject(new Date('2022-03-03')),
       new DateValueObject(new Date('2022-03-03')),
-      otherOwnerId,
+      new UUID(otherOwnerId),
     );
 
     await repository.save(pet1);
@@ -75,7 +75,7 @@ describe('SearchAllPetsQueryHandler', () => {
     expect(findSpy).toHaveBeenCalledTimes(1);
     expect(findSpy).toHaveBeenCalledWith(new UUID(ownerId));
     expect(result).toHaveLength(2);
-    expect(result[0].getId()).toBe(pet1.getId());
-    expect(result[1].getId()).toBe(pet2.getId());
+    expect(result[0].getId()).toEqual(pet1.getId());
+    expect(result[1].getId()).toEqual(pet2.getId());
   });
 });

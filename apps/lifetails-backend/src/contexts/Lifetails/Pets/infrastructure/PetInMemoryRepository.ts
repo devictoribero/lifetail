@@ -21,7 +21,7 @@ export class PetInMemoryRepository implements PetRepository {
   private pets: Map<string, InMemoryPet> = new Map();
 
   async save(pet: Pet): Promise<void> {
-    this.pets.set(pet.getId(), {
+    this.pets.set(pet.getId().toString(), {
       ...pet.toPrimitives(),
       isDeleted: false,
     } as InMemoryPet);

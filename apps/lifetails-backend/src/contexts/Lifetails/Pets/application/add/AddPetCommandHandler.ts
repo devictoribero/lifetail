@@ -24,13 +24,13 @@ export class AddPetCommandHandler {
     await this.ensureOwnerCanAddPet(ownerId);
 
     const newPet = Pet.create(
-      command.id,
+      new UUID(command.id),
       Species.fromPrimitives(command.species),
       new StringValueObject(command.name),
       Gender.fromPrimitives(command.gender),
       new BooleanValueObject(command.sterilized),
       new DateValueObject(command.anniversaryDate),
-      command.userId,
+      new UUID(command.userId),
     );
 
     await this.repository.save(newPet);

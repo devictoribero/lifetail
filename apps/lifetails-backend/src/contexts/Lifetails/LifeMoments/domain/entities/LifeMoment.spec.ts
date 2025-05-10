@@ -1,7 +1,4 @@
 import { LifeMoment } from './LifeMoment';
-import { InvalidLifeMomentTypeException } from '../exceptions/InvalidLifeMomentTypeException';
-import { fail } from 'node:assert';
-import { randomUUID } from 'crypto';
 import { faker } from '@faker-js/faker';
 import { LifeMomentType } from './LifeMomentType';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
@@ -72,6 +69,25 @@ describe('LifeMoment Domain Entity', () => {
     const lifeMoment = createLifeMoment();
     expect(lifeMoment).toBeDefined();
     expect(lifeMoment).toBeInstanceOf(LifeMoment);
+  });
+
+  it('should create a Pet instance from primitives', () => {
+    const lifeMoment = createLifeMoment();
+    const primitives = lifeMoment.toPrimitives();
+    const type = new LifeMomentType(primitives.type);
+    const reconstructedLifeMoment = new LifeMoment(
+      new UUID(primitives.id),
+      type,
+      type.getTheme(),
+      new UUID(primitives.petId),
+      new UUID(primitives.createdBy),
+      new DateValueObject(primitives.occurredOn),
+      new StringValueObject(primitives.description),
+      new DateValueObject(primitives.createdAt),
+      primitives.updatedAt ? new DateValueObject(primitives.updatedAt) : null,
+    );
+    expect(reconstructedLifeMoment).toBeDefined();
+    expect(reconstructedLifeMoment).toBeInstanceOf(LifeMoment);
   });
 
   it('can be created with a named constructor', () => {
