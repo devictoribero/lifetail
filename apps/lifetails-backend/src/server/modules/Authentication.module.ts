@@ -6,42 +6,21 @@ import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authenticati
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 // Infrastructure imports
 import { AccountInMemoryRepository } from 'src/contexts/Lifetails/Authentication/infrastructure/AccountInMemoryRepository';
-
-const accountRepositoryProvider = {
-  provide: 'AccountRepository',
-  useClass: AccountInMemoryRepository,
-};
-
-const createAccountCommandHandlerProvider = {
-  provide: CreateAccountCommandHandler,
-  useFactory: (repository: AccountInMemoryRepository, hasher: PasswordHasher) => {
-    return new CreateAccountCommandHandler(repository, hasher);
-  },
-  inject: ['AccountRepository', PasswordHasher],
-};
-
-const authenticateAccountCommandHandlerProvider = {
-  provide: AuthenticateAccountCommandHandler,
-  useFactory: (repository: AccountInMemoryRepository, hasher: PasswordHasher) => {
-    return new AuthenticateAccountCommandHandler(repository, hasher);
-  },
-  inject: ['AccountRepository', PasswordHasher],
-};
+// Constants
+import { ACCOUNT_REPOSITORY } from 'src/contexts/Lifetails/Authentication/domain/repositories/AccountRepository';
 
 @Module({
   imports: [],
   controllers: [],
   providers: [
-    accountRepositoryProvider,
-    PasswordHasher,
-    createAccountCommandHandlerProvider,
-    authenticateAccountCommandHandlerProvider,
-  ],
-  exports: [
-    'AccountRepository',
-    PasswordHasher,
     CreateAccountCommandHandler,
+    PasswordHasher,
     AuthenticateAccountCommandHandler,
+    {
+      provide: ACCOUNT_REPOSITORY,
+      useClass: AccountInMemoryRepository,
+    },
   ],
+  exports: [CreateAccountCommandHandler, AuthenticateAccountCommandHandler],
 })
 export class AuthenticationModule {}

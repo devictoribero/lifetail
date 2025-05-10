@@ -5,11 +5,13 @@ import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
 import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
 
 @Injectable()
 export class AuthenticateAccountCommandHandler {
   constructor(
+    @Inject(ACCOUNT_REPOSITORY)
     private readonly repository: AccountRepository,
     private readonly hasher: PasswordHasher,
   ) {}

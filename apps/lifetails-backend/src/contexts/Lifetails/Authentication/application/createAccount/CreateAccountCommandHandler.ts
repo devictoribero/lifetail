@@ -4,11 +4,13 @@ import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { CreateAccountCommand } from './CreateAccountCommand';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
 
 @Injectable()
 export class CreateAccountCommandHandler {
   constructor(
+    @Inject(ACCOUNT_REPOSITORY)
     private readonly repository: AccountRepository,
     private readonly hasher: PasswordHasher,
   ) {}
