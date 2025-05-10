@@ -9,6 +9,7 @@ import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/Boolean
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { Species } from '../../domain/entities/PetSpecies';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 describe('FindPetQueryHandler', () => {
   let repository: PetInMemoryRepository;
@@ -65,9 +66,9 @@ describe('FindPetQueryHandler', () => {
 
     // Assert
     expect(findSpy).toHaveBeenCalledTimes(1);
-    expect(findSpy).toHaveBeenCalledWith(id);
+    expect(findSpy).toHaveBeenCalledWith(new UUID(id));
     expect(foundPet).toBeInstanceOf(Pet);
-    expect(foundPet.getId()).toBe(id);
+    expect(foundPet.getId().toString()).toBe(id);
     expect(foundPet.getName().toString()).toBe(name);
     expect(foundPet.getGender().toString()).toBe(gender);
     expect(foundPet.getChipId().toString()).toBe(chipId);

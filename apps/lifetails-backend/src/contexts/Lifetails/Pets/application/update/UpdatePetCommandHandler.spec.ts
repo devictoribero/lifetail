@@ -8,8 +8,8 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { Gender } from '../../../Shared/domain/Gender';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { faker } from '@faker-js/faker';
-import { randomUUID } from 'node:crypto';
 import { Species } from '../../domain/entities/PetSpecies';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 describe('UpdatePetCommandHandler', () => {
   let repository: PetInMemoryRepository;
@@ -39,7 +39,7 @@ describe('UpdatePetCommandHandler', () => {
   });
 
   it('should throw a PetNotFoundException error when pet does not exist', async () => {
-    const command = new UpdatePetCommand('non-existing-id');
+    const command = new UpdatePetCommand(faker.string.uuid(), faker.animal.cat());
 
     await expect(commandHandler.execute(command)).rejects.toThrow(PetNotFoundException);
   });
@@ -61,7 +61,7 @@ describe('UpdatePetCommandHandler', () => {
 
     await commandHandler.execute(command);
 
-    const updatedPet = await repository.find(petId);
+    const updatedPet = await repository.find(new UUID(petId));
 
     const updatedPetPrimitives = updatedPet.toPrimitives();
     expect(updatedPet).toBeInstanceOf(Pet);
@@ -81,7 +81,7 @@ describe('UpdatePetCommandHandler', () => {
 
     await commandHandler.execute(command);
 
-    const updatedPet = await repository.find(petId);
+    const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();
     expect(updatedPet?.getName().toString()).toBe(newName);
     expect(updatedPet?.getGender().toString()).toBe(originalPet.getGender().toString()); // Unchanged
@@ -98,7 +98,7 @@ describe('UpdatePetCommandHandler', () => {
 
     await commandHandler.execute(command);
 
-    const updatedPet = await repository.find(petId);
+    const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();
     expect(updatedPet?.getName().toString()).toBe(originalPet.getName().toString()); // Unchanged
     expect(updatedPet?.getGender().toString()).toBe(originalPet.getGender().toString()); // Unchanged
@@ -124,7 +124,7 @@ describe('UpdatePetCommandHandler', () => {
 
     await commandHandler.execute(command);
 
-    const updatedPet = await repository.find(petId);
+    const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();
     expect(updatedPet?.getName().toString()).toBe(originalPet.getName().toString()); // Unchanged
     expect(updatedPet?.getGender().toString()).toBe(newGender); // Changed

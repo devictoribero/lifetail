@@ -13,8 +13,8 @@ import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application
 import { UpdatePetCommand } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommand';
 import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
 import { FindPetQuery } from 'src/contexts/Lifetails/Pets/application/find/FindPetQuery';
-import { AddPetLifeMomentCommandHandler } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommandHandler';
-import { AddPetLifeMomentCommand } from 'src/contexts/Lifetails/PetLifeMoments/application/add/AddPetLifeMomentCommand';
+import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommandHandler';
+import { AddLifeMomentCommand } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommand';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
 import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
@@ -123,10 +123,10 @@ async function bootstrap() {
     console.log('All pets after update --- ');
     console.log(allPetsAfterUpdate);
 
-    // Add pet life moment for neko
+    // Add life moment for neko
     const firstLifeMomentUuid = faker.string.uuid();
-    const addPetLifeMomentCommandHandler = app.get(AddPetLifeMomentCommandHandler);
-    const addFirstLifeMomentCommand = new AddPetLifeMomentCommand(
+    const addLifeMomentCommandHandler = app.get(AddLifeMomentCommandHandler);
+    const addFirstLifeMomentCommand = new AddLifeMomentCommand(
       firstLifeMomentUuid,
       'Arrival',
       nekoUuid,
@@ -134,8 +134,8 @@ async function bootstrap() {
       new Date('2024-12-13'),
       'Nekito llega a casa!',
     );
-    await addPetLifeMomentCommandHandler.execute(addFirstLifeMomentCommand);
-    logDomainEvent('Pet life moment added', { id: firstLifeMomentUuid });
+    await addLifeMomentCommandHandler.execute(addFirstLifeMomentCommand);
+    logDomainEvent('Life moment added', { id: firstLifeMomentUuid });
   });
 }
 

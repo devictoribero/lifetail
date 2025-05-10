@@ -1,3 +1,4 @@
+import { UUID } from '../../Shared/domain/UUID';
 import { Pet } from '../domain/entities/Pet';
 import { PetRepository } from '../domain/repositories/PetRepository';
 
@@ -24,15 +25,15 @@ export class PetInMemoryRepository implements PetRepository {
     } as InMemoryPet);
   }
 
-  async remove(id: string): Promise<void> {
-    const pet = this.pets.get(id);
+  async remove(id: UUID): Promise<void> {
+    const pet = this.pets.get(id.toString());
     if (pet) {
       pet.isDeleted = true;
     }
   }
 
-  async find(id: string): Promise<Pet | null> {
-    const pet = this.pets.get(id);
+  async find(id: UUID): Promise<Pet | null> {
+    const pet = this.pets.get(id.toString());
 
     if (!pet || pet.isDeleted) {
       return null;
@@ -51,11 +52,11 @@ export class PetInMemoryRepository implements PetRepository {
     );
   }
 
-  async findByOwner(userId: string): Promise<Pet[]> {
+  async findByOwner(ownerId: UUID): Promise<Pet[]> {
     const filteredPets: Pet[] = [];
 
     for (const pet of this.pets.values()) {
-      if (!pet.isDeleted && pet.userId === userId) {
+      if (!pet.isDeleted && pet.userId === ownerId.toString()) {
         filteredPets.push(
           Pet.fromPrimitives(
             pet.id,

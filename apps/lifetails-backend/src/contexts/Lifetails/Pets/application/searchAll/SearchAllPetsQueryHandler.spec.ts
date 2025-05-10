@@ -8,6 +8,7 @@ import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/Boolean
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { Gender } from 'src/contexts/Lifetails/Shared/domain/Gender';
 import { faker } from '@faker-js/faker';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 describe('SearchAllPetsQueryHandler', () => {
   let repository: PetInMemoryRepository;
@@ -19,13 +20,14 @@ describe('SearchAllPetsQueryHandler', () => {
     queryHandler = new SearchAllPetsQueryHandler(repository);
   });
 
-  it('should return empty array when no pets exist for user', async () => {
+  it('should return empty array when no pets exist for the requested owner', async () => {
     const query = new SearchAllPetsQuery(ownerId);
     const result = await queryHandler.execute(query);
     expect(result).toEqual([]);
   });
 
-  it('should return all pets for a user', async () => {
+  it('should return all pets for the requested owner', async () => {
+    const ownerId = faker.string.uuid();
     const pet1 = new Pet(
       faker.string.uuid(),
       Species.Cat,
@@ -36,7 +38,6 @@ describe('SearchAllPetsQueryHandler', () => {
       new DateValueObject(new Date('2022-01-01')),
       ownerId,
     );
-
     const pet2 = new Pet(
       faker.string.uuid(),
       Species.Dog,
@@ -47,9 +48,8 @@ describe('SearchAllPetsQueryHandler', () => {
       new DateValueObject(new Date('2022-02-02')),
       ownerId,
     );
-
     // Create a pet for a different user
-    const otherUserId = faker.string.uuid();
+    const otherOwnerId = faker.string.uuid();
     const pet3 = new Pet(
       faker.string.uuid(),
       Species.Dog,
@@ -58,7 +58,7 @@ describe('SearchAllPetsQueryHandler', () => {
       new BooleanValueObject(true),
       new DateValueObject(new Date('2022-03-03')),
       new DateValueObject(new Date('2022-03-03')),
-      otherUserId,
+      otherOwnerId,
     );
 
     await repository.save(pet1);
@@ -73,7 +73,7 @@ describe('SearchAllPetsQueryHandler', () => {
 
     // Assert
     expect(findSpy).toHaveBeenCalledTimes(1);
-    expect(findSpy).toHaveBeenCalledWith(ownerId);
+    expect(findSpy).toHaveBeenCalledWith(new UUID(ownerId));
     expect(result).toHaveLength(2);
     expect(result[0].getId()).toBe(pet1.getId());
     expect(result[1].getId()).toBe(pet2.getId());

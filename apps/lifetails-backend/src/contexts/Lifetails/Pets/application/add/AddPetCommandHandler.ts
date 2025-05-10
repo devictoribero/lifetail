@@ -7,6 +7,7 @@ import { BooleanValueObject } from 'src/contexts/Lifetails/Shared/domain/Boolean
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { Species } from '../../domain/entities/PetSpecies';
 import { MaxNumberOfPetsReachedException } from '../../domain/exceptions/MaxNumberOfPetsReachedException';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 const MAX_NUMBER_OF_PETS = 1;
 
@@ -14,7 +15,8 @@ export class AddPetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(command: AddPetCommand): Promise<void> {
-    await this.ensureUserCanAddPet(command.userId);
+    const ownerId = new UUID(command.userId);
+    await this.ensureUserCanAddPet(ownerId);
 
     const newPet = Pet.create(
       command.id,
@@ -29,8 +31,8 @@ export class AddPetCommandHandler {
     await this.repository.save(newPet);
   }
 
-  private async ensureUserCanAddPet(userId: string): Promise<void> {
-    const pets = await this.repository.findByOwner(userId);
+  private async ensureUserCanAddPet(ownerId: UUID): Promise<void> {
+    const pets = await this.repository.findByOwner(ownerId);
 
     if (pets.length >= MAX_NUMBER_OF_PETS) {
       throw new MaxNumberOfPetsReachedException();

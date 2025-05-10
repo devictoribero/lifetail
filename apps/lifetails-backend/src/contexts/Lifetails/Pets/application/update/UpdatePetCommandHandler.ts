@@ -5,12 +5,13 @@ import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringVa
 import { Gender } from '../../../Shared/domain/Gender';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { Pet } from '../../domain/entities/Pet';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 export class UpdatePetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(command: UpdatePetCommand): Promise<void> {
-    const pet = await this.getPet(command.id);
+    const pet = await this.getPet(new UUID(command.id));
 
     if (this.hasValue(command.name)) {
       pet.renameTo(new StringValueObject(command.name));
@@ -39,10 +40,10 @@ export class UpdatePetCommandHandler {
     await this.repository.save(pet);
   }
 
-  private async getPet(petId: string): Promise<Pet> {
+  private async getPet(petId: UUID): Promise<Pet> {
     const pet = await this.repository.find(petId);
     if (!pet) {
-      throw new PetNotFoundException(petId);
+      throw new PetNotFoundException(petId.toString());
     }
 
     return pet;

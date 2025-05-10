@@ -9,9 +9,11 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { faker } from '@faker-js/faker';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { Species } from '../../domain/entities/PetSpecies';
+import { PetRepository } from '../../domain/repositories/PetRepository';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 describe('RemovePetCommandHandler', () => {
-  let repository: PetInMemoryRepository;
+  let repository: PetRepository;
   let commandHandler: RemovePetCommandHandler;
 
   beforeEach(() => {
@@ -47,7 +49,8 @@ describe('RemovePetCommandHandler', () => {
       userId,
     );
     await repository.save(pet);
-    const beforeRemoval = await repository.find(id);
+    const petId = new UUID(id);
+    const beforeRemoval = await repository.find(petId);
     expect(beforeRemoval).toBeInstanceOf(Pet);
     const removeSpy = jest.spyOn(repository, 'remove');
 
@@ -57,8 +60,8 @@ describe('RemovePetCommandHandler', () => {
 
     // Assert
     expect(removeSpy).toHaveBeenCalledTimes(1);
-    expect(removeSpy).toHaveBeenCalledWith(id);
-    const afterRemoval = await repository.find(id);
+    expect(removeSpy).toHaveBeenCalledWith(petId);
+    const afterRemoval = await repository.find(petId);
     expect(afterRemoval).toBeNull();
   });
 });

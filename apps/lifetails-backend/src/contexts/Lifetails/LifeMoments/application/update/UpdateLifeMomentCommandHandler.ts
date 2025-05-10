@@ -1,0 +1,38 @@
+import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
+import { UpdateLifeMomentCommand } from './UpdateLifeMomentCommand';
+import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { LifeMoment } from '../../domain/entities/LifeMoment';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+
+export class UpdateLifeMomentCommandHandler {
+  constructor(private readonly repository: LifeMomentRepository) {}
+
+  async execute(command: UpdateLifeMomentCommand): Promise<void> {
+    const lifeMomentId = new UUID(command.id);
+    const lifeMoment = await this.getLifeMoment(lifeMomentId);
+
+    if (this.hasField(command.description)) {
+      lifeMoment.updateDescription(new StringValueObject(command.description));
+    }
+
+    if (this.hasField(command.occurredOn)) {
+      lifeMoment.reschedule(new DateValueObject(command.occurredOn));
+    }
+
+    await this.repository.save(lifeMoment);
+  }
+
+  private async getLifeMoment(id: UUID): Promise<LifeMoment> {
+    const lifeMoment = await this.repository.find(id);
+    if (!lifeMoment) {
+      throw new LifeMomentNotFoundException(id.toString());
+    }
+    return lifeMoment;
+  }
+
+  private hasField(value: any): boolean {
+    return value !== undefined;
+  }
+}

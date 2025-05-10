@@ -7,9 +7,9 @@ import { join } from 'path';
 // Module imports
 import { AuthenticationModule } from './Authentication.module';
 import { GraphqlModule } from './Graphql.module';
-import { PetLifeMomentsModule } from './PetLifeMoments.module';
 import { PetsModule } from './Pets.module';
 import { UsersModule } from './Users.module';
+import { LifeMomentsModule } from './LifeMoments.module';
 
 // GraphQL resolver imports
 import { HealthCheckQuery } from '../graphql/HealthCheckQuery';
@@ -20,10 +20,10 @@ import { RemovePetMutation } from '../graphql/Pets/remove/RemovePetMutation';
 import { UpdatePetMutation } from '../graphql/Pets/update/UpdatePetMutation';
 import { FindPetQuery } from '../graphql/Pets/find/FindPetQuery';
 import { SearchAllPetsQuery } from '../graphql/Pets/searchAll/SearchAllPetsQuery';
-import { AddPetLifeMomentMutation } from '../graphql/PetLifeMoments/add/AddPetLifeMomentMutation';
-import { RemovePetLifeMomentMutation } from '../graphql/PetLifeMoments/remove/RemovePetLifeMomentMutation';
-import { UpdatePetLifeMomentMutation } from '../graphql/PetLifeMoments/update/UpdatePetLifeMomentMutation';
-import { FindPetLifeMoment } from '../graphql/PetLifeMoments/find/FindPetLifeMomentQuery';
+import { AddLifeMomentMutation } from '../graphql/LifeMoments/add/AddLifeMomentMutation';
+import { RemoveLifeMomentMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentMutation';
+import { UpdateLifeMomentMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentMutation';
+import { FindLifeMoment } from '../graphql/LifeMoments/find/FindLifeMomentQuery';
 
 @Module({
   imports: [
@@ -38,7 +38,7 @@ import { FindPetLifeMoment } from '../graphql/PetLifeMoments/find/FindPetLifeMom
     }),
     AuthenticationModule,
     GraphqlModule,
-    PetLifeMomentsModule,
+    LifeMomentsModule,
     PetsModule,
     UsersModule,
   ],
@@ -53,10 +53,10 @@ import { FindPetLifeMoment } from '../graphql/PetLifeMoments/find/FindPetLifeMom
     UpdatePetMutation,
     FindPetQuery,
     SearchAllPetsQuery,
-    AddPetLifeMomentMutation,
-    RemovePetLifeMomentMutation,
-    UpdatePetLifeMomentMutation,
-    FindPetLifeMoment,
+    AddLifeMomentMutation,
+    RemoveLifeMomentMutation,
+    UpdateLifeMomentMutation,
+    FindLifeMoment,
   ],
 })
 export class AppModule {}
