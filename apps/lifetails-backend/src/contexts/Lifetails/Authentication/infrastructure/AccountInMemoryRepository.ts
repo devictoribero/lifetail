@@ -1,7 +1,9 @@
 import { Account } from '../domain/entities/Account';
 import { AccountRepository } from '../domain/repositories/AccountRepository';
 import { EmailValueObject } from '../../Shared/domain/EmailValueObject';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class AccountInMemoryRepository implements AccountRepository {
   private accounts: Account[] = [];
 

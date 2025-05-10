@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { UUID } from '../../Shared/domain/UUID';
 import { Pet } from '../domain/entities/Pet';
 import { PetRepository } from '../domain/repositories/PetRepository';
@@ -15,6 +16,7 @@ interface InMemoryPet {
   userId?: string;
 }
 
+@Injectable()
 export class PetInMemoryRepository implements PetRepository {
   private pets: Map<string, InMemoryPet> = new Map();
 

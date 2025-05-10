@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { UUID } from '../../Shared/domain/UUID';
 import { LifeMoment } from '../domain/entities/LifeMoment';
 import { LifeMomentRepository } from '../domain/repositories/LifeMomentRepository';
@@ -13,6 +14,7 @@ interface InMemoryLifeMoment {
   description: string;
 }
 
+@Injectable()
 export class LifeMomentInMemoryRepository implements LifeMomentRepository {
   private moments: Map<string, InMemoryLifeMoment> = new Map();
 

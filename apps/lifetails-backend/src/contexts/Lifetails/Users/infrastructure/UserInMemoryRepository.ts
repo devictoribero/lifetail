@@ -1,7 +1,9 @@
 import { User } from '../domain/entities/User';
 import { UserRepository } from '../domain/repositories/UserRepository';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserInMemoryRepository implements UserRepository {
   private users: User[] = [];
 
