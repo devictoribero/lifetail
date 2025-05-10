@@ -1,0 +1,34 @@
+---
+description:
+globs: apps/lifetails-backend/src/**/*.ts
+alwaysApply: false
+---
+# Coding style
+
+## Rationale
+This set of rules enforces a clean architecture aligned with Domain-Driven Design principles, ensuring proper separation of concerns between layers. By preventing inappropriate dependencies between domain, application, and infrastructure layers, we maintain the domain model as the core of our system, free from technical implementation details. Strict typing reinforces entity integrity while object-oriented principles preserve encapsulation and business rule enforcement.
+
+## Layer Dependencies
+- No imports from application/ layer in domain/ layer
+- No imports from infrastructure/ layer in application/ layer
+- No imports from graphql/ in any context modules
+
+## Design Principles
+- Follow object-oriented programming principles
+- Encapsulate entity state and behavior
+- Avoid anemic domain models (models with no behavior)
+- Use value objects for concepts without identity
+
+## Type Safety
+- Entities must use UUID from domain/ as identifier type
+- Properties referencing other entities by ID must use UUID from domain/
+
+## Additional Recommendations
+- Keep domain logic isolated from infrastructure concerns
+- Use repositories to abstract persistence details
+- Define explicit bounded contexts with clear boundaries
+- Implement domain events for cross-aggregate communication
+- Use factories for complex object creation
+- Protect entity invariants within the domain model
+- Use domain-specific terminology in your code
+- No direct database access from domain layer
