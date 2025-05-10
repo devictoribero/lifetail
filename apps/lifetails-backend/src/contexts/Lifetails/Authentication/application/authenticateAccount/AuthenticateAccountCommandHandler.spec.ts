@@ -50,7 +50,7 @@ describe('AuthenticateAccountCommandHandler', () => {
 
     // Act & Assert
     await expect(commandHandler.execute(command)).rejects.toThrow(InvalidCredentialsException);
-    expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
+    expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
   });
 
   it('should throw InvalidCredentialsException when password is incorrect', async () => {
@@ -64,7 +64,7 @@ describe('AuthenticateAccountCommandHandler', () => {
 
     // Act & Assert
     await expect(commandHandler.execute(command)).rejects.toThrow(InvalidCredentialsException);
-    expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
+    expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
     expect(hasher.compare).toHaveBeenCalledWith(command.password, account.getPassword());
   });
 
@@ -82,7 +82,7 @@ describe('AuthenticateAccountCommandHandler', () => {
 
     // Assert
     expect(result).toBe(accountId);
-    expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
+    expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
     expect(hasher.compare).toHaveBeenCalledWith(command.password, account.getPassword());
   });
 });

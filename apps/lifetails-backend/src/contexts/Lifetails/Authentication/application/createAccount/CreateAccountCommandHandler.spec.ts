@@ -46,7 +46,7 @@ describe('CreateAccountCommandHandler', () => {
     await expect(commandHandler.execute(command)).rejects.toThrow(EmailAlreadyInUseException);
 
     // Assert
-    expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
+    expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
   });
 
   it('should create a new account', async () => {
@@ -62,7 +62,7 @@ describe('CreateAccountCommandHandler', () => {
     await commandHandler.execute(command);
 
     // Assert
-    expect(repository.findByEmail).toHaveBeenCalledWith(command.email);
+    expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
     expect(hasher.hash).toHaveBeenCalledWith(command.password);
     expect(repository.save).toHaveBeenCalledWith(expect.any(Account));
     const savedAccount = repository.save.mock.calls[0][0];

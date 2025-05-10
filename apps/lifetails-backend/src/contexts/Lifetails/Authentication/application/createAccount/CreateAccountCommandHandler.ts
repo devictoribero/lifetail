@@ -12,7 +12,8 @@ export class CreateAccountCommandHandler {
   ) {}
 
   async execute(command: CreateAccountCommand): Promise<{ id: string }> {
-    await this.ensureEmailIsUnique(command.email);
+    const email = new EmailValueObject(command.email);
+    await this.ensureEmailIsUnique(email);
 
     const passwordHashed = await this.hasher.hash(command.password);
     const account = Account.create(new EmailValueObject(command.email), passwordHashed);
@@ -22,7 +23,7 @@ export class CreateAccountCommandHandler {
     return { id: account.getId().toString() };
   }
 
-  private async ensureEmailIsUnique(email: string): Promise<void> {
+  private async ensureEmailIsUnique(email: EmailValueObject): Promise<void> {
     const existingAccount = await this.repository.findByEmail(email);
     if (existingAccount) {
       throw new EmailAlreadyInUseException();
