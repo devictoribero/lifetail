@@ -5,7 +5,9 @@ import { LifeMomentRepository } from '../../domain/repositories/LifeMomentReposi
 import { AddLifeMomentCommand } from './AddLifeMomentCommand';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class AddLifeMomentCommandHandler {
   constructor(private readonly repository: LifeMomentRepository) {}
 

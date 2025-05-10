@@ -3,7 +3,9 @@ import { FindLifeMomentQuery } from './FindLifeMomentQuery';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class FindLifeMomentQueryHandler {
   constructor(private readonly repository: LifeMomentRepository) {}
 

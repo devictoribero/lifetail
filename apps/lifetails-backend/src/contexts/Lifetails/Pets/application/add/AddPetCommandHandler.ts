@@ -8,9 +8,11 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { Species } from '../../domain/entities/PetSpecies';
 import { MaxNumberOfPetsReachedException } from '../../domain/exceptions/MaxNumberOfPetsReachedException';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { Injectable } from '@nestjs/common';
 
 const MAX_NUMBER_OF_PETS = 1;
 
+@Injectable()
 export class AddPetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 

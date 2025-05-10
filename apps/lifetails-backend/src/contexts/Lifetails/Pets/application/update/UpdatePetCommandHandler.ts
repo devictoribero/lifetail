@@ -6,7 +6,9 @@ import { Gender } from '../../../Shared/domain/Gender';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { Pet } from '../../domain/entities/Pet';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UpdatePetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 

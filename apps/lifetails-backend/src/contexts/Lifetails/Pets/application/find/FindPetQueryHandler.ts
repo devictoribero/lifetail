@@ -3,7 +3,9 @@ import { PetRepository } from '../../domain/repositories/PetRepository';
 import { FindPetQuery } from './FindPetQuery';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class FindPetQueryHandler {
   constructor(private readonly repository: PetRepository) {}
 

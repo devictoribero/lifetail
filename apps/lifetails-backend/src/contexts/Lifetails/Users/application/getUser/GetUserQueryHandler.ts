@@ -3,7 +3,9 @@ import { User } from '../../domain/entities/User';
 import { GetUserQuery } from './GetUserQuery';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { GetUserService } from '../../domain/services/GetUserService';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class GetUserQueryHandler {
   constructor(private readonly getUserService: GetUserService) {}
 

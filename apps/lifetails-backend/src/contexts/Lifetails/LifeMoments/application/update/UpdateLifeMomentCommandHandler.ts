@@ -5,7 +5,9 @@ import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringVa
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UpdateLifeMomentCommandHandler {
   constructor(private readonly repository: LifeMomentRepository) {}
 

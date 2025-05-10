@@ -2,7 +2,9 @@ import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { PetRepository } from '../../domain/repositories/PetRepository';
 import { RemovePetCommand } from './RemovePetCommand';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class RemovePetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 
