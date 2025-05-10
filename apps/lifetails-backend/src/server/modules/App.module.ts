@@ -33,7 +33,7 @@ import { FindLifeMoment } from '../graphql/LifeMoments/find/FindLifeMomentQuery'
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/server/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/server/lifetails.gql'),
       sortSchema: true,
     }),
     AuthenticationModule,

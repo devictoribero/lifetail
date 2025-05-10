@@ -34,7 +34,7 @@ The application must follow the layered architecture pattern and organize its co
       - Shared/ (Cross-cutting concerns and utilities shared across domains)
   - server/ (API server configuration and endpoints)
     main.ts (Server bootstrap and configuration)
-    schema.gql (Generated GraphQL schema)
+    lifetails.gql (Generated GraphQL schema)
     - graphql/ (GraphQL schema definitions and resolvers)
     - modules/ (NestJS modules configuration)
 
