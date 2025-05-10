@@ -4,9 +4,10 @@ import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueO
 import { Gender } from '../../../Shared/domain/Gender';
 import { AggregateRoot } from 'src/contexts/Lifetails/Shared/domain/AggregateRoot';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 export class Pet extends AggregateRoot {
-  private id: string;
+  private id: UUID;
   private species: Species;
   private name: StringValueObject;
   private gender: Gender;
@@ -15,19 +16,19 @@ export class Pet extends AggregateRoot {
   // This is the date used to celebrate the pet's birthday.
   private anniversaryDate: DateValueObject;
   private createdAt: DateValueObject;
-  private userId: string | null;
+  private userId: UUID | null;
   private chipId: StringValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
-    id: string,
+    id: UUID,
     species: Species,
     name: StringValueObject,
     gender: Gender,
     sterilized: BooleanValueObject,
     anniversaryDate: DateValueObject,
     createdAt: DateValueObject,
-    userId: string | null = null,
+    userId: UUID | null = null,
     chipId: StringValueObject | null = null,
   ) {
     super();
@@ -44,13 +45,13 @@ export class Pet extends AggregateRoot {
 
   // Use to create the entity from the domain
   static create(
-    id: string,
+    id: UUID,
     species: Species,
     name: StringValueObject,
     gender: Gender,
     sterilized: BooleanValueObject,
     anniversaryDate: DateValueObject,
-    userId: string,
+    userId: UUID,
   ) {
     const now = new DateValueObject(new Date());
     return new Pet(id, species, name, gender, sterilized, anniversaryDate, now, userId);
@@ -69,19 +70,19 @@ export class Pet extends AggregateRoot {
     chipId: string | null = null,
   ) {
     return new Pet(
-      id,
+      new UUID(id),
       Species.fromPrimitives(species),
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
       new BooleanValueObject(sterilized),
       new DateValueObject(anniversaryDate),
       new DateValueObject(createdAt),
-      userId,
+      new UUID(userId),
       chipId ? new StringValueObject(chipId) : null,
     );
   }
 
-  public getId(): string {
+  public getId(): UUID {
     return this.id;
   }
 
@@ -109,7 +110,7 @@ export class Pet extends AggregateRoot {
     return this.anniversaryDate;
   }
 
-  public getUserId(): string | null {
+  public getUserId(): UUID | null {
     return this.userId;
   }
 
@@ -119,14 +120,14 @@ export class Pet extends AggregateRoot {
 
   public toPrimitives(): any {
     return {
-      id: this.id,
+      id: this.id.toString(),
       species: this.species.toString(),
       name: this.name.toString(),
       gender: this.gender.toString(),
       sterilized: this.sterilized.getValue(),
       anniversaryDate: this.anniversaryDate.toISOString(),
       createdAt: this.createdAt.toISOString(),
-      userId: this.userId,
+      userId: this.userId?.toString() ?? null,
       chipId: this.chipId?.toString() ?? null,
     };
   }
