@@ -17,9 +17,8 @@ export class AccountInMemoryRepository implements AccountRepository {
     }
   }
 
-  async findByEmail(email: string): Promise<Account | null> {
-    const emailVO = new EmailValueObject(email);
-    const account = this.accounts.find((acc) => acc.getEmail().toString() === emailVO.toString());
+  async findByEmail(email: EmailValueObject): Promise<Account | null> {
+    const account = this.accounts.find((acc) => acc.getEmail().toString() === email.toString());
 
     return account || null;
   }

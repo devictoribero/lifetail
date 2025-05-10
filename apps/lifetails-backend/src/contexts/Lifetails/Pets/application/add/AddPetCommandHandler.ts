@@ -16,7 +16,7 @@ export class AddPetCommandHandler {
 
   async execute(command: AddPetCommand): Promise<void> {
     const ownerId = new UUID(command.userId);
-    await this.ensureUserCanAddPet(ownerId);
+    await this.ensureOwnerCanAddPet(ownerId);
 
     const newPet = Pet.create(
       command.id,
@@ -31,7 +31,7 @@ export class AddPetCommandHandler {
     await this.repository.save(newPet);
   }
 
-  private async ensureUserCanAddPet(ownerId: UUID): Promise<void> {
+  private async ensureOwnerCanAddPet(ownerId: UUID): Promise<void> {
     const pets = await this.repository.findByOwner(ownerId);
 
     if (pets.length >= MAX_NUMBER_OF_PETS) {

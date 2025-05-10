@@ -7,15 +7,15 @@ export class RemovePetCommandHandler {
   constructor(private readonly repository: PetRepository) {}
 
   async execute(command: RemovePetCommand): Promise<void> {
-    await this.ensurePetExists(command.id);
-    await this.repository.remove(new UUID(command.id));
+    const petId = new UUID(command.id);
+    await this.ensurePetExists(petId);
+    await this.repository.remove(petId);
   }
 
-  private async ensurePetExists(id: string): Promise<void> {
-    const petId = new UUID(id);
-    const pet = await this.repository.find(petId);
+  private async ensurePetExists(id: UUID): Promise<void> {
+    const pet = await this.repository.find(id);
     if (!pet) {
-      throw new PetNotFoundException(id);
+      throw new PetNotFoundException(id.toString());
     }
   }
 }
