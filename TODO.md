@@ -1,7 +1,9 @@
 
 # Todo
 
-- Review all the use cases (and tests)
+- Review all the use cases
+- Review all the tests
+- Review documentation for @Injectable()
 - Review all the entities (and tests)
 - Use symbols for injecting dependencies
 - Create lifetails namespace on Postman and create graphql queries/mutations
