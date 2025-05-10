@@ -49,7 +49,7 @@ export class Account extends AggregateRoot {
       id: this.id.toString(),
       email: this.email.toString(),
       password: this.password.toString(),
-      createdAt: this.createdAt,
+      createdAt: this.createdAt.toISOString(),
     };
   }
 
