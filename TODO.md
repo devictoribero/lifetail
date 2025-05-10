@@ -1,7 +1,6 @@
 
 # Todo
 
-- Review all the use cases
 - Review all the tests
 - Review documentation for @Injectable()
 - Review all the entities (and tests)
