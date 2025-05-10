@@ -1,7 +1,7 @@
 import { User } from '../entities/User';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
-export const UserRepositorySymbol = Symbol('UserRepository');
+export const USER_REPOSITORY = 'USER_REPOSITORY';
 
 export interface UserRepository {
   save(user: User): Promise<void>;

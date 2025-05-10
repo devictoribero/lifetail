@@ -7,12 +7,14 @@ import { CreateUserCommand } from './CreateUserCommand';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
 import { GetUserService } from '../../domain/services/GetUserService';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { USER_REPOSITORY } from '../../domain/repositories/UserRepository';
 
 @Injectable()
 export class CreateUserCommandHandler {
   constructor(
     private readonly getUserService: GetUserService,
+    @Inject(USER_REPOSITORY)
     private readonly repository: UserRepository,
   ) {}
 
