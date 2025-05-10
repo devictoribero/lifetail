@@ -2,11 +2,15 @@ import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { RemoveLifeMomentCommand } from './RemoveLifeMomentCommand';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';
 
 @Injectable()
 export class RemoveLifeMomentCommandHandler {
-  constructor(private readonly repository: LifeMomentRepository) {}
+  constructor(
+    @Inject(LIFE_MOMENT_REPOSITORY)
+    private readonly repository: LifeMomentRepository,
+  ) {}
 
   async execute(command: RemoveLifeMomentCommand): Promise<void> {
     const lifeMomentId = new UUID(command.id);

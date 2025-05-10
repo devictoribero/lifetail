@@ -5,11 +5,15 @@ import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringVa
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';
 
 @Injectable()
 export class UpdateLifeMomentCommandHandler {
-  constructor(private readonly repository: LifeMomentRepository) {}
+  constructor(
+    @Inject(LIFE_MOMENT_REPOSITORY)
+    private readonly repository: LifeMomentRepository,
+  ) {}
 
   async execute(command: UpdateLifeMomentCommand): Promise<void> {
     const lifeMomentId = new UUID(command.id);

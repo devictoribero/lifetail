@@ -1,7 +1,7 @@
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { LifeMoment } from '../entities/LifeMoment';
 
-export const LifeMomentRepositorySymbol = Symbol('LifeMomentRepository');
+export const LIFE_MOMENT_REPOSITORY = 'LIFE_MOMENT_REPOSITORY';
 
 export interface LifeMomentRepository {
   save(moment: LifeMoment): Promise<void>;

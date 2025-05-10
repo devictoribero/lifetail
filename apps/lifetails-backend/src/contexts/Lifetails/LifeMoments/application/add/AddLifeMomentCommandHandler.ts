@@ -5,11 +5,15 @@ import { LifeMomentRepository } from '../../domain/repositories/LifeMomentReposi
 import { AddLifeMomentCommand } from './AddLifeMomentCommand';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';
 
 @Injectable()
 export class AddLifeMomentCommandHandler {
-  constructor(private readonly repository: LifeMomentRepository) {}
+  constructor(
+    @Inject(LIFE_MOMENT_REPOSITORY)
+    private readonly repository: LifeMomentRepository,
+  ) {}
 
   async execute(command: AddLifeMomentCommand): Promise<void> {
     const lifeMoment = LifeMoment.create(

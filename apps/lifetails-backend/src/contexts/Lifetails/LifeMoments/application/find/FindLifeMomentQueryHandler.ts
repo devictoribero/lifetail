@@ -3,11 +3,15 @@ import { FindLifeMomentQuery } from './FindLifeMomentQuery';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';
 
 @Injectable()
 export class FindLifeMomentQueryHandler {
-  constructor(private readonly repository: LifeMomentRepository) {}
+  constructor(
+    @Inject(LIFE_MOMENT_REPOSITORY)
+    private readonly repository: LifeMomentRepository,
+  ) {}
 
   async execute(query: FindLifeMomentQuery): Promise<LifeMoment> {
     const lifeMomentId = new UUID(query.id);
