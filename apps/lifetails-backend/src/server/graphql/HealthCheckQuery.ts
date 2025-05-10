@@ -6,7 +6,6 @@ export class HealthCheckQuery {
   @Query(() => HealthCheckResponse)
   healthCheck(): HealthCheckResponse {
     return {
-      status: 'ok',
       timestamp: new Date(),
     };
   }

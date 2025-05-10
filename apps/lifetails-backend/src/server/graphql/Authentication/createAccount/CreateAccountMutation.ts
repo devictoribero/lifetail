@@ -10,10 +10,14 @@ export class CreateAccountMutation {
   constructor(private readonly commandHandler: CreateAccountCommandHandler) {}
 
   @Mutation(() => CreateAccountResponse)
-  async createAccount(@Args('input') input: CreateAccountInput): Promise<void> {
+  async createAccount(@Args('input') input: CreateAccountInput): Promise<CreateAccountResponse> {
     try {
       const command = new CreateAccountCommand(input.email, input.password);
-      await this.commandHandler.execute(command);
+      const result = await this.commandHandler.execute(command);
+
+      return {
+        id: result.id,
+      };
     } catch (error) {
       if (error instanceof EmailAlreadyInUseException) {
         throw new Error('This email is already registered.');
