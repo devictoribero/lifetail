@@ -15,7 +15,7 @@ export class AccountCreatedDomainEvent extends DomainEvent {
   }
 
   public toPrimitives(): AccountCreatedDomainEventAttributes {
-    const { email, aggregateId } = this;
+    const { email } = this;
     return { email };
   }
 

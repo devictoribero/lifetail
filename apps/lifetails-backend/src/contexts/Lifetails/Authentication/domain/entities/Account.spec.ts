@@ -31,6 +31,22 @@ describe('Account', () => {
     expect(account.getCreatedAt()).toBe(createdAt);
   });
 
+  it('should record an AccountCreatedDomainEvent when an Account is created', () => {
+    // Arrange
+    const email = new EmailValueObject(faker.internet.email());
+    const password = new PasswordHashValueObject(faker.internet.password());
+
+    const account = Account.create(email, password);
+
+    // Assert
+    expect(account.pullDomainEvents()).toEqual([
+      expect.objectContaining({
+        aggregateId: account.getId().toString(),
+        email: account.getEmail().toString(),
+      }),
+    ]);
+  });
+
   it('should create an Account instance with named constructor method', () => {
     // Arrange
     const email = new EmailValueObject(faker.internet.email());
