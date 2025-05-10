@@ -9,11 +9,13 @@ import { CreateAccountCommand } from './CreateAccountCommand';
 import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { EventBus } from 'src/contexts/Lifetails/Shared/domain/EventBus';
 
 describe('CreateAccountCommandHandler', () => {
   let commandHandler: CreateAccountCommandHandler;
   let repository: jest.Mocked<AccountRepository>;
   let hasher: jest.Mocked<PasswordHasher>;
+  let eventBus: jest.Mocked<EventBus>;
 
   beforeEach(() => {
     repository = {
@@ -26,7 +28,11 @@ describe('CreateAccountCommandHandler', () => {
       compare: jest.fn(),
     } as jest.Mocked<PasswordHasher>;
 
-    commandHandler = new CreateAccountCommandHandler(repository, hasher);
+    eventBus = {
+      publish: jest.fn(),
+    } as jest.Mocked<EventBus>;
+
+    commandHandler = new CreateAccountCommandHandler(repository, hasher, eventBus);
   });
 
   it('should throw EmailAlreadyInUseException when email is already in use', async () => {

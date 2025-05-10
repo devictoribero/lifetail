@@ -3,6 +3,7 @@ import { UUID } from '../../../Shared/domain/UUID';
 import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { AccountCreatedDomainEvent } from '../AccountCreatedDomainEvent';
 
 export class Account extends AggregateRoot {
   private readonly id: UUID;
@@ -30,6 +31,9 @@ export class Account extends AggregateRoot {
     const createdAt = new DateValueObject(new Date());
 
     const account = new Account(id, email, password, createdAt);
+    account.record(
+      new AccountCreatedDomainEvent({ aggregateId: id.toString(), email: email.toString() }),
+    );
 
     return account;
   }

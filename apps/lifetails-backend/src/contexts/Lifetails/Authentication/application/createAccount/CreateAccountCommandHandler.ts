@@ -6,6 +6,7 @@ import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlready
 import { CreateAccountCommand } from './CreateAccountCommand';
 import { Injectable, Inject } from '@nestjs/common';
 import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
+import { EventBus, EVENT_BUS } from '../../../Shared/domain/EventBus';
 
 @Injectable()
 export class CreateAccountCommandHandler {
@@ -13,6 +14,8 @@ export class CreateAccountCommandHandler {
     @Inject(ACCOUNT_REPOSITORY)
     private readonly repository: AccountRepository,
     private readonly hasher: PasswordHasher,
+    @Inject(EVENT_BUS)
+    private readonly eventBus: EventBus,
   ) {}
 
   async execute(command: CreateAccountCommand): Promise<{ id: string }> {
@@ -23,6 +26,7 @@ export class CreateAccountCommandHandler {
     const account = Account.create(new EmailValueObject(command.email), passwordHashed);
 
     await this.repository.save(account);
+    await this.eventBus.publish(account.pullDomainEvents());
 
     return { id: account.getId().toString() };
   }

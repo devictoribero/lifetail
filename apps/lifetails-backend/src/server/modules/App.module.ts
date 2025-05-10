@@ -10,6 +10,7 @@ import { GraphqlModule } from './Graphql.module';
 import { PetsModule } from './Pets.module';
 import { UsersModule } from './Users.module';
 import { LifeMomentsModule } from './LifeMoments.module';
+import { SharedModule } from './Shared.module';
 
 // GraphQL resolver imports
 import { HealthCheckQuery } from '../graphql/HealthCheckQuery';
@@ -36,11 +37,12 @@ import { FindLifeMoment } from '../graphql/LifeMoments/find/FindLifeMomentQuery'
       autoSchemaFile: join(process.cwd(), 'src/server/lifetails.gql'),
       sortSchema: true,
     }),
-    AuthenticationModule,
+    SharedModule,
     GraphqlModule,
-    LifeMomentsModule,
-    PetsModule,
+    AuthenticationModule,
     UsersModule,
+    PetsModule,
+    LifeMomentsModule,
   ],
   controllers: [],
   providers: [
