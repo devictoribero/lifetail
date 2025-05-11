@@ -36,10 +36,13 @@ input AuthenticateAccountInput {
 
 type AuthenticateAccountResponse {
   accountId: String!
+  token: String!
+  userId: String!
 }
 
 input CreateAccountInput {
   email: String!
+  nickname: String!
   password: String!
 }
 

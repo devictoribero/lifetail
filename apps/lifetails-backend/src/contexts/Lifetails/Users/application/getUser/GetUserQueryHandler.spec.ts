@@ -30,9 +30,6 @@ describe('GetUserQueryHandler', () => {
       new UUID(userId),
       new UUID(accountId),
       new StringValueObject('John Doe'),
-      new StringValueObject('john'),
-      Gender.fromPrimitives('Male'),
-      new DateValueObject(new Date('1990-01-01')),
       new DateValueObject(new Date()),
     );
 

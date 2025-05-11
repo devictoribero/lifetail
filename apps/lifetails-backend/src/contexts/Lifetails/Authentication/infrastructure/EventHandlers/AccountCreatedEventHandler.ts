@@ -13,7 +13,7 @@ export class AccountCreatedEventHandler {
     occurredOn: Date;
     attributes: { email: string };
   }): Promise<void> {
-    console.log({ event });
+    this.logger.log('REMEMBER TO REMOVE THIS EVENT HANDLER');
     this.logger.log(
       `Account created with ID: ${event.aggregateId} and email: ${event.attributes.email}`,
     );

@@ -22,6 +22,8 @@ import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPe
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
 import { INestApplication } from '@nestjs/common';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 
 const logDomainEvent = (eventName: string, data?: any) => {
   console.log(`[Domain Event] ${eventName}`, data);
@@ -31,9 +33,12 @@ export const seedDatabase = async (app: INestApplication) => {
   ////////////////////////////////////////////////////////////////////////////////
   // Create account
   const createAccountCommandHandler = app.get(CreateAccountCommandHandler);
+  const userEmail = 'victor@test.com';
+  const userPassword = 'test';
   const account = await createAccountCommandHandler.execute({
-    email: 'victor@test.com',
-    password: 'test',
+    id: UUID.create().toString(),
+    email: userEmail,
+    password: userPassword,
   });
   logDomainEvent('Account created', account);
 
@@ -41,23 +46,17 @@ export const seedDatabase = async (app: INestApplication) => {
   // Create user for account
   const accountId = account.id;
   const victorUuid = faker.string.uuid();
-  const createUserCommandHandler = app.get(CreateUserCommandHandler);
-  await createUserCommandHandler.execute(
-    new CreateUserCommand(
-      victorUuid,
-      accountId,
-      'Victor',
-      'devictoribero',
-      'Male',
-      new Date('1990-01-01'),
-    ),
-  );
-
+  const authenticateAccountCommandHandler = app.get(AuthenticateAccountCommandHandler);
+  const token = await authenticateAccountCommandHandler.execute({
+    email: userEmail,
+    password: userPassword,
+  });
+  logDomainEvent('User authenticated', token);
   ////////////////////////////////////////////////////////////////////////////////
   // Add pet (Neko)
   const getUserQueryHandler = app.get(GetUserQueryHandler);
   const userFound = await getUserQueryHandler.execute(new GetUserQuery(accountId));
-  logDomainEvent('User created', userFound);
+  logDomainEvent('Pet created', userFound);
 
   const nekoUuid = faker.string.uuid();
   const addPetCommandHandler = app.get(AddPetCommandHandler);

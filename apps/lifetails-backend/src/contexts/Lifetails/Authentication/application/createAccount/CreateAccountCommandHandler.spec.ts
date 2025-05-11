@@ -10,6 +10,7 @@ import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValu
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { EventBus } from 'src/contexts/Lifetails/Shared/domain/EventBus';
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 
 describe('CreateAccountCommandHandler', () => {
   let commandHandler: CreateAccountCommandHandler;
@@ -39,7 +40,7 @@ describe('CreateAccountCommandHandler', () => {
     // Arrange
     const email = faker.internet.email();
     const password = faker.internet.password();
-    const command = new CreateAccountCommand(email, password);
+    const command = new CreateAccountCommand(UUID.create().toString(), email, password);
     const existingAccount = new Account(
       new UUID(faker.string.uuid()),
       new EmailValueObject(email),
@@ -55,11 +56,11 @@ describe('CreateAccountCommandHandler', () => {
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
   });
 
-  it('should create a new account', async () => {
+  it.only('should create a new account', async () => {
     // Arrange
     const email = faker.internet.email();
     const password = faker.internet.password();
-    const command = new CreateAccountCommand(email, password);
+    const command = new CreateAccountCommand(UUID.create().toString(), email, password);
     const hashedPassword = new PasswordHashValueObject('hashed_password');
     repository.findByEmail.mockResolvedValue(null);
     hasher.hash.mockResolvedValue(hashedPassword);
@@ -69,7 +70,7 @@ describe('CreateAccountCommandHandler', () => {
 
     // Assert
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
-    expect(hasher.hash).toHaveBeenCalledWith(command.password);
+    expect(hasher.hash).toHaveBeenCalledWith(new StringValueObject(command.password));
     expect(repository.save).toHaveBeenCalledWith(expect.any(Account));
     const savedAccount = repository.save.mock.calls[0][0];
     expect(savedAccount.getEmail().toString()).toBe(command.email);

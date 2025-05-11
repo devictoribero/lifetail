@@ -6,22 +6,29 @@ import { CreateAccountInput } from './CreateAccountInput';
 import { EmailAlreadyInUseException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/EmailAlreadyInUseException';
 import { Account } from 'src/contexts/Lifetails/Authentication/domain/entities/Account';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 
 describe('CreateAccountMutation', () => {
   let mockedId: string;
   let mutation: CreateAccountMutation;
   let commandHandler: CreateAccountCommandHandler;
+  let userCommandHandler: CreateUserCommandHandler;
 
   beforeEach(async () => {
     mockedId = faker.string.uuid();
     const mockAccount = {
-      getId: () => new UUID(mockedId),
+      id: mockedId,
     } as unknown as Account;
 
     // Create mock command handler with Jest
     const mockCommandHandler = {
       execute: jest.fn().mockResolvedValue(mockAccount),
     } as unknown as CreateAccountCommandHandler;
+
+    // Create mock user command handler
+    const mockUserCommandHandler = {
+      execute: jest.fn().mockResolvedValue({}),
+    } as unknown as CreateUserCommandHandler;
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -30,11 +37,16 @@ describe('CreateAccountMutation', () => {
           provide: CreateAccountCommandHandler,
           useValue: mockCommandHandler,
         },
+        {
+          provide: CreateUserCommandHandler,
+          useValue: mockUserCommandHandler,
+        },
       ],
     }).compile();
 
     mutation = module.get<CreateAccountMutation>(CreateAccountMutation);
     commandHandler = module.get<CreateAccountCommandHandler>(CreateAccountCommandHandler);
+    userCommandHandler = module.get<CreateUserCommandHandler>(CreateUserCommandHandler);
   });
 
   it('should throw error when email is already in use', async () => {
@@ -42,18 +54,20 @@ describe('CreateAccountMutation', () => {
     const input: CreateAccountInput = {
       email: faker.internet.email(),
       password: faker.internet.password(),
+      nickname: faker.person.firstName(),
     };
 
     commandHandler.execute = jest.fn().mockRejectedValue(new EmailAlreadyInUseException());
 
     // Act & Assert
-    await expect(mutation.createAccount(input)).rejects.toThrow(
-      'This email is already registered.',
+    await expect(mutation.createAccount(input)).rejects.toThrow('Email already in use');
+    expect(commandHandler.execute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: input.email,
+        password: input.password,
+        id: expect.any(String),
+      }),
     );
-    expect(commandHandler.execute).toHaveBeenCalledWith({
-      email: input.email,
-      password: input.password,
-    });
   });
 
   it('should throw error when an unexpected error occurs', async () => {
@@ -61,6 +75,7 @@ describe('CreateAccountMutation', () => {
     const input: CreateAccountInput = {
       email: faker.internet.email(),
       password: faker.internet.password(),
+      nickname: faker.person.firstName(),
     };
     const errorMessage = 'Unexpected error';
 
@@ -68,10 +83,13 @@ describe('CreateAccountMutation', () => {
 
     // Act & Assert
     await expect(mutation.createAccount(input)).rejects.toThrow(errorMessage);
-    expect(commandHandler.execute).toHaveBeenCalledWith({
-      email: input.email,
-      password: input.password,
-    });
+    expect(commandHandler.execute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: input.email,
+        password: input.password,
+        id: expect.any(String),
+      }),
+    );
   });
 
   it('should create an account', async () => {
@@ -79,15 +97,26 @@ describe('CreateAccountMutation', () => {
     const input: CreateAccountInput = {
       email: faker.internet.email(),
       password: faker.internet.password(),
+      nickname: faker.person.firstName(),
     };
 
     // Act
     await mutation.createAccount(input);
 
     // Assert
-    expect(commandHandler.execute).toHaveBeenCalledWith({
-      email: input.email,
-      password: input.password,
-    });
+    expect(commandHandler.execute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: input.email,
+        password: input.password,
+        id: expect.any(String),
+      }),
+    );
+    expect(userCommandHandler.execute).toHaveBeenCalledWith(
+      expect.objectContaining({
+        accountId: mockedId,
+        nickname: input.nickname,
+        id: expect.any(String),
+      }),
+    );
   });
 });

@@ -2,9 +2,15 @@ import { User } from '../domain/entities/User';
 import { UserInMemoryRepository } from './UserInMemoryRepository';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
-import { Gender } from 'src/contexts/Lifetails/Shared/domain/Gender';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
+
+function createUser(
+  id = faker.string.uuid(),
+  accountId = faker.string.uuid(),
+  nickname = faker.person.firstName(),
+): User {
+  return User.create(new UUID(id), new UUID(accountId), new StringValueObject(nickname));
+}
 
 describe('UserInMemoryRepository', () => {
   let repository: UserInMemoryRepository;
@@ -74,21 +80,3 @@ describe('UserInMemoryRepository', () => {
     });
   });
 });
-
-function createUser(
-  id = faker.string.uuid(),
-  accountId = faker.string.uuid(),
-  name = faker.person.fullName(),
-  nickname = faker.person.firstName(),
-  gender = 'Male',
-  birthDate = new Date(faker.date.birthdate()),
-): User {
-  return User.create(
-    new UUID(id),
-    new UUID(accountId),
-    new StringValueObject(name),
-    new StringValueObject(nickname),
-    Gender.fromPrimitives(gender),
-    new DateValueObject(birthDate),
-  );
-}

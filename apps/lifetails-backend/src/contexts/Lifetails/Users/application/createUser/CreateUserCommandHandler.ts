@@ -25,10 +25,7 @@ export class CreateUserCommandHandler {
     const user = User.create(
       new UUID(command.id),
       accountId,
-      new StringValueObject(command.name),
       new StringValueObject(command.nickname),
-      Gender.fromPrimitives(command.gender),
-      new DateValueObject(command.birthDate),
     );
 
     await this.repository.save(user);

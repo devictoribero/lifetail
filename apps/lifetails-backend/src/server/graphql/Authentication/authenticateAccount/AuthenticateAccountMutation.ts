@@ -4,11 +4,20 @@ import { AuthenticateAccountInput } from './AuthenticateAccountInput';
 import { InvalidCredentialsException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/InvalidCredentialsException';
 import { AuthenticateAccountCommand } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
+import { JwtTokenGenerator } from 'src/contexts/Lifetails/Authentication/infrastructure/services/JwtTokenGenerator';
+import { Public } from 'src/contexts/Lifetails/Authentication/infrastructure/decorators/Public';
+import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQuery';
+import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 
 @Resolver()
 export class AuthenticateAccountMutation {
-  constructor(private readonly commandHandler: AuthenticateAccountCommandHandler) {}
+  constructor(
+    private readonly commandHandler: AuthenticateAccountCommandHandler,
+    private readonly jwtService: JwtTokenGenerator,
+    private readonly getUserQueryHandler: GetUserQueryHandler,
+  ) {}
 
+  @Public()
   @Mutation(() => AuthenticateAccountResponse)
   async authenticateAccount(
     @Args('input') input: AuthenticateAccountInput,
@@ -17,7 +26,16 @@ export class AuthenticateAccountMutation {
       const command = new AuthenticateAccountCommand(input.email, input.password);
       const accountId = await this.commandHandler.execute(command);
 
-      return { accountId };
+      const getUserQuery = new GetUserQuery(accountId);
+      const user = await this.getUserQueryHandler.execute(getUserQuery);
+
+      const token = await this.jwtService.generateToken({
+        accountId,
+        userId: user.getId().toString(),
+        email: input.email,
+      });
+
+      return { accountId, userId: user.getId().toString(), token };
     } catch (error) {
       if (error instanceof InvalidCredentialsException) {
         throw new Error('Invalid email or password');

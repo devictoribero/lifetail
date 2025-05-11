@@ -7,6 +7,7 @@ import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
 import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
 import { Injectable, Inject } from '@nestjs/common';
 import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 
 @Injectable()
 export class AuthenticateAccountCommandHandler {
@@ -20,7 +21,10 @@ export class AuthenticateAccountCommandHandler {
     const email = new EmailValueObject(command.email);
     const account = await this.getAccount(email);
 
-    await this.ensurePasswordIsValid(command.password, account.getPassword());
+    await this.ensurePasswordIsValid(
+      new StringValueObject(command.password),
+      account.getPassword(),
+    );
 
     return account.getId().toString();
   }
@@ -35,7 +39,7 @@ export class AuthenticateAccountCommandHandler {
   }
 
   private async ensurePasswordIsValid(
-    password: string,
+    password: StringValueObject,
     passwordHashed: PasswordHashValueObject,
   ): Promise<void> {
     const isPasswordValid = await this.hasher.compare(password, passwordHashed);

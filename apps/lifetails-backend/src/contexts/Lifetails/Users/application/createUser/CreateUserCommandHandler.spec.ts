@@ -4,6 +4,10 @@ import { User } from '../../domain/entities/User';
 import { faker } from '@faker-js/faker';
 import { CreateUserCommand } from './CreateUserCommand';
 import { GetUserService } from '../../domain/services/GetUserService';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
 
 describe('CreateUserCommandHandler', () => {
   let getUserService: jest.Mocked<GetUserService>;
@@ -23,15 +27,33 @@ describe('CreateUserCommandHandler', () => {
     commandHandler = new CreateUserCommandHandler(getUserService, repository);
   });
 
+  it('should throw UserAlreadyExistsException when the user already exists', async () => {
+    // Arrange
+    const accountId = faker.string.uuid();
+    const id = faker.string.uuid();
+    const nickname = faker.person.firstName();
+    getUserService.execute.mockResolvedValue(
+      new User(
+        new UUID(id),
+        new UUID(accountId),
+        new StringValueObject(nickname),
+        new DateValueObject(new Date()),
+      ),
+    );
+
+    // Act
+    const command = new CreateUserCommand(accountId, id, nickname);
+    expect(async () => await commandHandler.execute(command)).rejects.toThrow(
+      UserAlreadyExistsException,
+    );
+  });
+
   it('should create a user', async () => {
     // Arrange
     const id = faker.string.uuid();
     const accountId = faker.string.uuid();
-    const name = faker.person.fullName();
     const nickname = faker.person.firstName();
-    const gender = 'Male';
-    const birthDate = faker.date.birthdate();
-    const command = new CreateUserCommand(id, accountId, name, nickname, gender, birthDate);
+    const command = new CreateUserCommand(accountId, id, nickname);
 
     // Act
     await commandHandler.execute(command);
@@ -43,10 +65,7 @@ describe('CreateUserCommandHandler', () => {
     expect(savedUser.toPrimitives()).toEqual({
       id,
       accountId,
-      name,
       nickname,
-      gender,
-      birthDate: birthDate.toISOString(),
       createdAt: expect.any(String),
     });
   });

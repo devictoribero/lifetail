@@ -7,6 +7,7 @@ import { CreateAccountCommand } from './CreateAccountCommand';
 import { Injectable, Inject } from '@nestjs/common';
 import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
 import { EventBus, EVENT_BUS } from '../../../Shared/domain/EventBus';
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 
 @Injectable()
 export class CreateAccountCommandHandler {
@@ -20,10 +21,12 @@ export class CreateAccountCommandHandler {
 
   async execute(command: CreateAccountCommand): Promise<{ id: string }> {
     const email = new EmailValueObject(command.email);
+    const password = new StringValueObject(command.password);
+
     await this.ensureEmailIsUnique(email);
 
-    const passwordHashed = await this.hasher.hash(command.password);
-    const account = Account.create(new EmailValueObject(command.email), passwordHashed);
+    const passwordHashed = await this.hasher.hash(password);
+    const account = Account.create(email, passwordHashed);
 
     await this.repository.save(account);
     await this.eventBus.publish(account.pullDomainEvents());

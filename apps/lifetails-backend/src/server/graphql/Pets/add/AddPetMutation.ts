@@ -1,17 +1,26 @@
-import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { AddPetResponse } from './AddPetResponse';
 import { AddPetInput } from './AddPetInput';
 import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
 import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
 import { MaxNumberOfPetsReachedException } from 'src/contexts/Lifetails/Pets/domain/exceptions/MaxNumberOfPetsReachedException';
+import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
 
 @Resolver()
 export class AddPetMutation {
   constructor(private readonly commandHandler: AddPetCommandHandler) {}
 
   @Mutation(() => AddPetResponse)
-  async addPet(@Args('input') input: AddPetInput): Promise<AddPetResponse> {
+  @UseGuards(AuthenticationRequired)
+  async addPet(
+    @Args('input') input: AddPetInput,
+    @Context() context: any,
+  ): Promise<AddPetResponse> {
     try {
+      // We could validate that the userId in the request matches the authenticated user
+      // For now, we'll just pass along the userId from the input
+
       const command = new AddPetCommand(
         input.id,
         input.species.toString(),

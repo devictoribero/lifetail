@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
+import { APP_GUARD } from '@nestjs/core';
 
 // Module imports
 import { AuthenticationModule } from './Authentication.module';
@@ -25,6 +26,7 @@ import { AddLifeMomentMutation } from '../graphql/LifeMoments/add/AddLifeMomentM
 import { RemoveLifeMomentMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentMutation';
 import { UpdateLifeMomentMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentMutation';
 import { FindLifeMoment } from '../graphql/LifeMoments/find/FindLifeMomentQuery';
+import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
 
 @Module({
   imports: [
@@ -36,6 +38,7 @@ import { FindLifeMoment } from '../graphql/LifeMoments/find/FindLifeMomentQuery'
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/server/lifetails.gql'),
       sortSchema: true,
+      context: ({ req }) => ({ req }),
     }),
     SharedModule,
     GraphqlModule,
@@ -46,6 +49,10 @@ import { FindLifeMoment } from '../graphql/LifeMoments/find/FindLifeMomentQuery'
   ],
   controllers: [],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthenticationRequired,
+    },
     // GraphQL resolvers
     HealthCheckQuery,
     CreateAccountMutation,

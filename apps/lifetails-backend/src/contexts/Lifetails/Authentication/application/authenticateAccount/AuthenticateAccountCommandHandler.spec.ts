@@ -8,6 +8,7 @@ import { PasswordHashValueObject } from '../../../Shared/domain/PasswordHashValu
 import { UUID } from '../../../Shared/domain/UUID';
 import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
+import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 
 describe('AuthenticateAccountCommandHandler', () => {
   let commandHandler: AuthenticateAccountCommandHandler;
@@ -65,7 +66,10 @@ describe('AuthenticateAccountCommandHandler', () => {
     // Act & Assert
     await expect(commandHandler.execute(command)).rejects.toThrow(InvalidCredentialsException);
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
-    expect(hasher.compare).toHaveBeenCalledWith(command.password, account.getPassword());
+    expect(hasher.compare).toHaveBeenCalledWith(
+      new StringValueObject(command.password),
+      account.getPassword(),
+    );
   });
 
   it('should return account id when credentials are valid', async () => {
@@ -83,6 +87,9 @@ describe('AuthenticateAccountCommandHandler', () => {
     // Assert
     expect(result).toBe(accountId);
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
-    expect(hasher.compare).toHaveBeenCalledWith(command.password, account.getPassword());
+    expect(hasher.compare).toHaveBeenCalledWith(
+      new StringValueObject(command.password),
+      account.getPassword(),
+    );
   });
 });

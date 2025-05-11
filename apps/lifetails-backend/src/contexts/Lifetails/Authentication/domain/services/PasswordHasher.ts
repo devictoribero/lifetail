@@ -1,13 +1,17 @@
 import * as bcrypt from 'bcrypt';
 import { PasswordHashValueObject } from '../../../Shared/domain/PasswordHashValueObject';
+import { StringValueObject } from '../../../Shared/domain/StringValueObject';
 
 export class PasswordHasher {
-  async hash(password: string): Promise<PasswordHashValueObject> {
-    const hashedPassword = await bcrypt.hash(password, 10);
+  async hash(password: StringValueObject): Promise<PasswordHashValueObject> {
+    const hashedPassword = await bcrypt.hash(password.toString(), 10);
     return new PasswordHashValueObject(hashedPassword);
   }
 
-  async compare(plainPassword: string, hashedPassword: PasswordHashValueObject): Promise<boolean> {
-    return bcrypt.compare(plainPassword, hashedPassword.toString());
+  async compare(
+    plainPassword: StringValueObject,
+    hashedPassword: PasswordHashValueObject,
+  ): Promise<boolean> {
+    return bcrypt.compare(plainPassword.toString(), hashedPassword.toString());
   }
 }
