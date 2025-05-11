@@ -10,9 +10,10 @@ import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/ge
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 // Infrastructure imports
 import { UserInMemoryRepository } from 'src/contexts/Lifetails/Users/infrastructure/UserInMemoryRepository';
+import { SharedModule } from './Shared.module';
 
 @Module({
-  imports: [],
+  imports: [SharedModule],
   controllers: [],
   providers: [
     {

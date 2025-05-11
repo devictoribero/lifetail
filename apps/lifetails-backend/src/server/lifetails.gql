@@ -2,6 +2,33 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AddLifeMomentInput {
+  createdBy: String!
+  description: String!
+  id: String!
+  occurredOn: Date!
+  petId: String!
+  type: String!
+}
+
+type AddLifeMomentResponse {
+  id: String!
+}
+
+input AddPetInput {
+  anniversaryDate: Date!
+  gender: Gender!
+  id: String!
+  name: String!
+  species: PetSpecies!
+  sterilized: Boolean!
+  userId: String!
+}
+
+type AddPetResponse {
+  id: String!
+}
+
 input AuthenticateAccountInput {
   email: String!
   password: String!
@@ -27,18 +54,54 @@ type CreateAccountResponse {
 """Date custom scalar type"""
 scalar Date
 
+input FindPetInput {
+  id: String!
+}
+
+enum Gender {
+  Female
+  Male
+  all
+}
+
 type HealthCheckResponse {
   timestamp: Date!
 }
 
 type Mutation {
+  addLifeMoment(input: AddLifeMomentInput!): AddLifeMomentResponse!
+  addPet(input: AddPetInput!): AddPetResponse!
   authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
   createAccount(input: CreateAccountInput!): CreateAccountResponse!
   refreshToken(input: RefreshTokenInput!): RefreshTokenResponse!
+  removeLifeMoment(input: RemoveLifeMomentInput!): Boolean!
+  removePet(input: RemovePetInput!): RemovePetResponse!
+  updateLifeMoment(input: UpdateLifeMomentInput!): UpdateLifeMomentResponse!
+  updatePet(input: UpdatePetInput!): UpdatePetResponse!
+}
+
+type Pet {
+  anniversaryDate: Date!
+  chipId: String!
+  createdAt: Date!
+  gender: Gender!
+  id: String!
+  name: String!
+  species: String!
+  sterilized: Boolean!
+  userId: String!
+}
+
+enum PetSpecies {
+  All
+  Cat
+  Dog
 }
 
 type Query {
+  findPet(input: FindPetInput!): Pet!
   healthCheck: HealthCheckResponse!
+  searchAllPets(input: SearchAllPetsInput!): [Pet!]!
 }
 
 input RefreshTokenInput {
@@ -48,4 +111,43 @@ input RefreshTokenInput {
 type RefreshTokenResponse {
   refreshToken: String!
   token: String!
+}
+
+input RemoveLifeMomentInput {
+  id: String!
+}
+
+input RemovePetInput {
+  id: String!
+}
+
+type RemovePetResponse {
+  id: String!
+}
+
+input SearchAllPetsInput {
+  ownerId: String!
+}
+
+input UpdateLifeMomentInput {
+  description: String
+  id: String!
+  occurredOn: Date
+}
+
+type UpdateLifeMomentResponse {
+  id: String!
+}
+
+input UpdatePetInput {
+  anniversaryDate: Date
+  chipId: String
+  gender: Gender
+  id: String!
+  name: String
+  sterilized: Boolean
+}
+
+type UpdatePetResponse {
+  id: String!
 }

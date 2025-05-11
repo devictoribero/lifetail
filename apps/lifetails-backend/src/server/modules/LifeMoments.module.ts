@@ -8,9 +8,15 @@ import { UpdateLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMomen
 import { FindLifeMomentQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/find/FindLifeMomentQueryHandler';
 // Infrastructure imports
 import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoments/infrastructure/LifeMomentInMemoryRepository';
+import { AuthenticationModule } from './Authentication.module';
+import { AddLifeMomentMutation } from '../graphql/LifeMoments/add/AddLifeMomentMutation';
+import { FindLifeMomentQuery } from 'src/contexts/Lifetails/LifeMoments/application/find/FindLifeMomentQuery';
+import { RemoveLifeMomentMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentMutation';
+import { UpdateLifeMomentMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentMutation';
+import { SharedModule } from './Shared.module';
 
 @Module({
-  imports: [],
+  imports: [SharedModule, AuthenticationModule],
   controllers: [],
   providers: [
     {
@@ -21,12 +27,20 @@ import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoments
     RemoveLifeMomentCommandHandler,
     UpdateLifeMomentCommandHandler,
     FindLifeMomentQueryHandler,
+    AddLifeMomentMutation,
+    RemoveLifeMomentMutation,
+    UpdateLifeMomentMutation,
+    FindLifeMomentQuery,
   ],
   exports: [
     AddLifeMomentCommandHandler,
     RemoveLifeMomentCommandHandler,
     UpdateLifeMomentCommandHandler,
     FindLifeMomentQueryHandler,
+    AddLifeMomentMutation,
+    RemoveLifeMomentMutation,
+    UpdateLifeMomentMutation,
+    FindLifeMomentQuery,
   ],
 })
 export class LifeMomentsModule {}
