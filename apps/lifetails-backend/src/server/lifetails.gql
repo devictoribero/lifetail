@@ -36,6 +36,7 @@ input AuthenticateAccountInput {
 
 type AuthenticateAccountResponse {
   accountId: String!
+  refreshToken: String!
   token: String!
   userId: String!
 }
