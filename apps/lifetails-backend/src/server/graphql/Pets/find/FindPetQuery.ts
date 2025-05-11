@@ -1,19 +1,21 @@
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Query, Resolver } from '@nestjs/graphql';
 import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
 import { FindPetQuery as FindPetQueryHandlerQuery } from 'src/contexts/Lifetails/Pets/application/find/FindPetQuery';
 import { FindPetInput } from './FindPetInput';
 import { Pet } from './Pet';
+import { NotFoundException } from '@nestjs/common';
+import { PetNotFoundException } from 'src/contexts/Lifetails/Pets/domain/exceptions/PetNotFoundException';
 
 @Resolver()
 export class FindPetQuery {
   constructor(private readonly queryHandler: FindPetQueryHandler) {}
 
   @Query(() => Pet)
-  async findPet(@Args('input') input: FindPetInput): Promise<Pet> {
+  async findPet(@Args('input') input: FindPetInput, @Context() context: any): Promise<Pet> {
     try {
+      const userId = context.req.user.id;
       const query = new FindPetQueryHandlerQuery(input.id);
       const pet = await this.queryHandler.execute(query);
-
       const petPrimitives = pet.toPrimitives();
       return {
         id: petPrimitives.id,
@@ -24,9 +26,12 @@ export class FindPetQuery {
         sterilized: petPrimitives.sterilized,
         anniversaryDate: petPrimitives.anniversaryDate,
         createdAt: petPrimitives.createdAt,
-        userId: petPrimitives.userId,
+        ownerId: userId,
       };
     } catch (error) {
+      if (error instanceof PetNotFoundException) {
+        throw new NotFoundException('Pet not found',);
+      }
       throw new Error(error.message ?? 'Error finding pet');
     }
   }

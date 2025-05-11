@@ -24,7 +24,7 @@ export class AuthenticationRequired implements CanActivate {
       // Add user information to the request
       req.user = {
         accountId: payload.sub,
-        userId: payload.userId,
+        id: payload.userId,
       };
       return true;
     } catch (error) {

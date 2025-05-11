@@ -47,10 +47,10 @@ export class PetInMemoryRepository implements PetRepository {
       pet.name,
       pet.gender,
       pet.sterilized,
-      pet.anniversaryDate,
+      pet.anniversaryDate ?? null,
       pet.createdAt,
       pet.userId,
-      pet.chipId,
+      pet.chipId ?? null,
     );
   }
 

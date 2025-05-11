@@ -18,14 +18,14 @@ export class SearchAllPetsQuery {
         const petPrimitives = pet.toPrimitives();
         return {
           id: petPrimitives.id,
+          species: petPrimitives.species,
           name: petPrimitives.name,
           gender: petPrimitives.gender,
-          chipId: petPrimitives.chipId,
           sterilized: petPrimitives.sterilized,
           anniversaryDate: petPrimitives.anniversaryDate,
+          chipId: petPrimitives.chipId,
           createdAt: petPrimitives.createdAt,
-          userId: petPrimitives.userId,
-          species: petPrimitives.species,
+          ownerId: petPrimitives.ownerId,
         };
       });
     } catch (error) {

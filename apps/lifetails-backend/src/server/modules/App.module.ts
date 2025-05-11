@@ -7,7 +7,6 @@ import { APP_GUARD } from '@nestjs/core';
 
 // Module imports
 import { AuthenticationModule } from './Authentication.module';
-import { GraphqlModule } from './Graphql.module';
 import { PetsModule } from './Pets.module';
 import { UsersModule } from './Users.module';
 import { LifeMomentsModule } from './LifeMoments.module';
@@ -42,7 +41,6 @@ import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/in
       context: ({ req }) => ({ req }),
     }),
     SharedModule,
-    GraphqlModule,
     AuthenticationModule,
     UsersModule,
     PetsModule,

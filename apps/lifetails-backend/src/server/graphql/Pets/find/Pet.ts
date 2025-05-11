@@ -1,10 +1,5 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
-import { Gender as DomainPetGender } from 'src/contexts/Lifetails/Shared/domain/Gender';
-
-// Register the enums for GraphQL
-registerEnumType(DomainPetGender, {
-  name: 'Gender',
-});
+import { Field, ObjectType } from '@nestjs/graphql';
+import { GraphQLGender } from '../../shared/Gender';
 
 @ObjectType()
 export class Pet {
@@ -17,21 +12,21 @@ export class Pet {
   @Field()
   name: string;
 
-  @Field(() => DomainPetGender)
-  gender: DomainPetGender;
+  @Field(() => GraphQLGender)
+  gender: GraphQLGender;
 
   @Field()
   sterilized: boolean;
 
-  @Field()
-  anniversaryDate: Date;
+  @Field({ nullable: true })
+  anniversaryDate: string | null;
 
   @Field()
-  createdAt: Date;
+  createdAt: string;
 
   @Field()
-  userId: string;
+  ownerId: string;
 
-  @Field()
-  chipId: string;
+  @Field({ nullable: true })
+  chipId: string | null;
 }

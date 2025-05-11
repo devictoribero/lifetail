@@ -14,7 +14,7 @@ export class Pet extends AggregateRoot {
   private sterilized: BooleanValueObject;
   // Represents the date of birth or arrival date.
   // This is the date used to celebrate the pet's birthday.
-  private anniversaryDate: DateValueObject;
+  private anniversaryDate: DateValueObject | null;
   private createdAt: DateValueObject;
   private userId: UUID | null;
   private chipId: StringValueObject | null;
@@ -26,7 +26,7 @@ export class Pet extends AggregateRoot {
     name: StringValueObject,
     gender: Gender,
     sterilized: BooleanValueObject,
-    anniversaryDate: DateValueObject,
+    anniversaryDate: DateValueObject | null = null,
     createdAt: DateValueObject,
     userId: UUID | null = null,
     chipId: StringValueObject | null = null,
@@ -75,7 +75,7 @@ export class Pet extends AggregateRoot {
       new StringValueObject(name),
       Gender.fromPrimitives(gender),
       new BooleanValueObject(sterilized),
-      new DateValueObject(anniversaryDate),
+      anniversaryDate ? new DateValueObject(anniversaryDate) : null,
       new DateValueObject(createdAt),
       new UUID(userId),
       chipId ? new StringValueObject(chipId) : null,
@@ -119,13 +119,14 @@ export class Pet extends AggregateRoot {
   }
 
   public toPrimitives(): any {
+    console.log(this);
     return {
       id: this.id.toString(),
       species: this.species.toString(),
       name: this.name.toString(),
       gender: this.gender.toString(),
       sterilized: this.sterilized.getValue(),
-      anniversaryDate: this.anniversaryDate.toISOString(),
+      anniversaryDate: this.anniversaryDate?.toISOString() ?? null,
       createdAt: this.createdAt.toISOString(),
       userId: this.userId?.toString() ?? null,
       chipId: this.chipId?.toString() ?? null,

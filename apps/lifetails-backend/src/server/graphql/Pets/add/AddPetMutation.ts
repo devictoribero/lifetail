@@ -17,6 +17,9 @@ export class AddPetMutation {
     @Args('input') input: AddPetInput,
     @Context() context: any,
   ): Promise<AddPetResponse> {
+    const userId = context.req.user.id;
+    console.log('userId', userId);
+
     try {
       // We could validate that the userId in the request matches the authenticated user
       // For now, we'll just pass along the userId from the input
@@ -28,7 +31,7 @@ export class AddPetMutation {
         input.gender.toString(),
         input.sterilized,
         input.anniversaryDate,
-        input.userId,
+        userId,
       );
       await this.commandHandler.execute(command);
 
