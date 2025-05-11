@@ -13,7 +13,7 @@ import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/ge
 export class AuthenticateAccountMutation {
   constructor(
     private readonly commandHandler: AuthenticateAccountCommandHandler,
-    private readonly jwtService: JwtTokenGenerator,
+    private readonly tokenGenerator: JwtTokenGenerator,
     private readonly getUserQueryHandler: GetUserQueryHandler,
   ) {}
 
@@ -29,13 +29,21 @@ export class AuthenticateAccountMutation {
       const getUserQuery = new GetUserQuery(accountId);
       const user = await this.getUserQueryHandler.execute(getUserQuery);
 
-      const token = await this.jwtService.generateToken({
+      const payload = {
         accountId,
         userId: user.getId().toString(),
         email: input.email,
-      });
+      };
 
-      return { accountId, userId: user.getId().toString(), token };
+      const token = await this.tokenGenerator.generateToken(payload);
+      const refreshToken = await this.tokenGenerator.generateRefreshToken(payload);
+
+      return {
+        accountId,
+        userId: user.getId().toString(),
+        token,
+        refreshToken,
+      };
     } catch (error) {
       if (error instanceof InvalidCredentialsException) {
         throw new Error('Invalid email or password');

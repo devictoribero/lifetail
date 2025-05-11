@@ -14,6 +14,7 @@ describe('AuthenticateAccountMutation', () => {
   let jwtService: JwtTokenGenerator;
   let getUserQueryHandler: GetUserQueryHandler;
   const mockToken = 'mock-jwt-token';
+  const mockRefreshToken = 'mock-refresh-token';
   const mockUserId = faker.string.uuid();
 
   beforeEach(async () => {
@@ -25,6 +26,7 @@ describe('AuthenticateAccountMutation', () => {
     // Create mock JWT service
     jwtService = {
       generateToken: jest.fn().mockResolvedValue(mockToken),
+      generateRefreshToken: jest.fn().mockResolvedValue(mockRefreshToken),
     } as unknown as JwtTokenGenerator;
 
     // Create mock GetUserQueryHandler
@@ -88,7 +90,7 @@ describe('AuthenticateAccountMutation', () => {
     expect(commandHandler.execute).toHaveBeenCalled();
   });
 
-  it('should return accountId, userId and token when authentication is successful', async () => {
+  it('should return accountId, userId, token and refreshToken when authentication is successful', async () => {
     // Arrange
     const input: AuthenticateAccountInput = {
       email: faker.internet.email(),
@@ -106,13 +108,18 @@ describe('AuthenticateAccountMutation', () => {
       accountId,
       userId: mockUserId,
       token: mockToken,
+      refreshToken: mockRefreshToken,
     });
     expect(commandHandler.execute).toHaveBeenCalled();
     expect(getUserQueryHandler.execute).toHaveBeenCalled();
-    expect(jwtService.generateToken).toHaveBeenCalledWith({
+
+    const expectedPayload = {
       accountId,
       userId: mockUserId,
       email: input.email,
-    });
+    };
+
+    expect(jwtService.generateToken).toHaveBeenCalledWith(expectedPayload);
+    expect(jwtService.generateRefreshToken).toHaveBeenCalledWith(expectedPayload);
   });
 });

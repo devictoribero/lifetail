@@ -15,4 +15,7 @@ export class AuthenticateAccountResponse {
 
   @Field(() => String)
   token: string;
+
+  @Field(() => String)
+  refreshToken: string;
 }
