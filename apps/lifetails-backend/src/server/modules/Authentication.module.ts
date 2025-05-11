@@ -6,6 +6,7 @@ import { PasswordHasher } from 'src/contexts/Lifetails/Authentication/domain/ser
 // Application imports
 import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
+import { RefreshTokenCommandHandler } from 'src/contexts/Lifetails/Authentication/application/refreshToken/RefreshTokenCommandHandler';
 // Infrastructure imports
 import { AccountInMemoryRepository } from 'src/contexts/Lifetails/Authentication/infrastructure/AccountInMemoryRepository';
 import { AccountCreatedEventHandler } from 'src/contexts/Lifetails/Authentication/infrastructure/EventHandlers/AccountCreatedEventHandler';
@@ -18,6 +19,9 @@ import { SharedModule } from './Shared.module';
 import jwtConfig from 'src/contexts/Lifetails/Authentication/infrastructure/config/jwt.config';
 import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
 import { UsersModule } from './Users.module';
+import { AuthenticateAccountMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountMutation';
+import { RefreshTokenMutation } from '../graphql/Authentication/refreshToken/RefreshTokenMutation';
+import { CreateAccountMutation } from '../graphql/Authentication/createAccount/CreateAccountMutation';
 
 @Module({
   imports: [
@@ -38,8 +42,12 @@ import { UsersModule } from './Users.module';
   controllers: [],
   providers: [
     CreateAccountCommandHandler,
-    PasswordHasher,
+    CreateAccountMutation,
+    AuthenticateAccountMutation,
     AuthenticateAccountCommandHandler,
+    PasswordHasher,
+    RefreshTokenCommandHandler,
+    RefreshTokenMutation,
     AccountCreatedEventHandler,
     JwtTokenGenerator,
     AuthenticationRequired,
@@ -49,8 +57,12 @@ import { UsersModule } from './Users.module';
     },
   ],
   exports: [
+    AuthenticateAccountMutation,
+    RefreshTokenMutation,
+    CreateAccountMutation,
     CreateAccountCommandHandler,
     AuthenticateAccountCommandHandler,
+    RefreshTokenCommandHandler,
     JwtTokenGenerator,
     AuthenticationRequired,
   ],

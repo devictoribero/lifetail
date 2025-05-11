@@ -17,6 +17,7 @@ import { SharedModule } from './Shared.module';
 import { HealthCheckQuery } from '../graphql/HealthCheckQuery';
 import { CreateAccountMutation } from '../graphql/Authentication/createAccount/CreateAccountMutation';
 import { AuthenticateAccountMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountMutation';
+import { RefreshTokenMutation } from '../graphql/Authentication/refreshToken/RefreshTokenMutation';
 import { AddPetMutation } from '../graphql/Pets/add/AddPetMutation';
 import { RemovePetMutation } from '../graphql/Pets/remove/RemovePetMutation';
 import { UpdatePetMutation } from '../graphql/Pets/update/UpdatePetMutation';
@@ -55,17 +56,6 @@ import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/in
     },
     // GraphQL resolvers
     HealthCheckQuery,
-    CreateAccountMutation,
-    AuthenticateAccountMutation,
-    AddPetMutation,
-    RemovePetMutation,
-    UpdatePetMutation,
-    FindPetQuery,
-    SearchAllPetsQuery,
-    AddLifeMomentMutation,
-    RemoveLifeMomentMutation,
-    UpdateLifeMomentMutation,
-    FindLifeMoment,
   ],
 })
 export class AppModule {}
