@@ -15,6 +15,7 @@ import { AddLifeMomentMutation } from '../graphql/LifeMoments/add/AddLifeMomentM
 import { RemoveLifeMomentMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentMutation';
 import { UpdateLifeMomentMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentMutation';
 import { SearchLifeMomentsGQLQuery } from '../graphql/LifeMoments/search/SearchLifeMomentsGQLQuery';
+import { FindLifeMomentGQLQuery } from '../graphql/LifeMoments/find/FindLifeMomentGQLQuery';
 import { SharedModule } from './Shared.module';
 
 @Module({
@@ -35,6 +36,7 @@ import { SharedModule } from './Shared.module';
     AddLifeMomentMutation,
     RemoveLifeMomentMutation,
     UpdateLifeMomentMutation,
+    FindLifeMomentGQLQuery,
     SearchLifeMomentsGQLQuery,
   ],
   exports: [
@@ -48,6 +50,7 @@ import { SharedModule } from './Shared.module';
     AddLifeMomentMutation,
     RemoveLifeMomentMutation,
     UpdateLifeMomentMutation,
+    FindLifeMomentGQLQuery,
     SearchLifeMomentsGQLQuery,
   ],
 })

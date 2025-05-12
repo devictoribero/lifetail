@@ -7,7 +7,7 @@ import { NotFoundException } from '@nestjs/common';
 import { PetNotFoundException } from 'src/contexts/Lifetails/Pets/domain/exceptions/PetNotFoundException';
 
 @Resolver()
-export class FindPetQuery {
+export class FindPetGQLQuery {
   constructor(private readonly queryHandler: FindPetQueryHandler) {}
 
   @Query(() => Pet)
@@ -30,7 +30,7 @@ export class FindPetQuery {
       };
     } catch (error) {
       if (error instanceof PetNotFoundException) {
-        throw new NotFoundException('Pet not found',);
+        throw new NotFoundException('Pet not found');
       }
       throw new Error(error.message ?? 'Error finding pet');
     }

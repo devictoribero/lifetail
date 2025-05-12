@@ -13,20 +13,20 @@ import { LifeMomentsModule } from './LifeMoments.module';
 import { SharedModule } from './Shared.module';
 
 // GraphQL resolver imports
-import { HealthCheckQuery } from '../graphql/HealthCheckQuery';
 import { CreateAccountMutation } from '../graphql/Authentication/createAccount/CreateAccountMutation';
 import { AuthenticateAccountMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountMutation';
 import { RefreshTokenMutation } from '../graphql/Authentication/refreshToken/RefreshTokenMutation';
 import { AddPetMutation } from '../graphql/Pets/add/AddPetMutation';
 import { RemovePetMutation } from '../graphql/Pets/remove/RemovePetMutation';
 import { UpdatePetMutation } from '../graphql/Pets/update/UpdatePetMutation';
-import { FindPetQuery } from '../graphql/Pets/find/FindPetQuery';
-import { SearchAllPetsQuery } from '../graphql/Pets/searchAll/SearchAllPetsQuery';
 import { AddLifeMomentMutation } from '../graphql/LifeMoments/add/AddLifeMomentMutation';
 import { RemoveLifeMomentMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentMutation';
 import { UpdateLifeMomentMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentMutation';
-import { FindLifeMoment } from '../graphql/LifeMoments/find/FindLifeMomentQuery';
 import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
+import { HealthCheckGQLQuery } from '../graphql/HealthCheckGQLQuery';
+import { FindPetGQLQuery } from '../graphql/Pets/find/FindPetGQLQuery';
+import { SearchAllPetsGQLQuery } from '../graphql/Pets/searchAll/SearchAllPetsGQLQuery';
+import { FindLifeMomentGQLQuery } from '../graphql/LifeMoments/find/FindLifeMomentGQLQuery';
 
 @Module({
   imports: [
@@ -53,7 +53,7 @@ import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/in
       useClass: AuthenticationRequired,
     },
     // GraphQL resolvers
-    HealthCheckQuery,
+    HealthCheckGQLQuery,
   ],
 })
 export class AppModule {}

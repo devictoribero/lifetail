@@ -5,7 +5,7 @@ import { FindLifeMomentInput } from './FindLifeMomentInput';
 import { LifeMoment } from './LifeMoment';
 
 @Resolver()
-export class FindLifeMoment {
+export class FindLifeMomentGQLQuery {
   constructor(private readonly queryHandler: FindLifeMomentQueryHandler) {}
 
   @Query(() => LifeMoment)

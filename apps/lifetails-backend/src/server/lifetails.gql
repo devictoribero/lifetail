@@ -54,6 +54,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input FindLifeMomentInput {
+  id: String!
+}
+
 input FindPetInput {
   id: String!
 }
@@ -147,6 +151,7 @@ enum PetSpecies {
 }
 
 type Query {
+  findLifeMoment(input: FindLifeMomentInput!): LifeMoment!
   findPet(input: FindPetInput!): Pet!
   healthCheck: HealthCheckResponse!
   searchAllPets(input: SearchAllPetsInput!): [Pet!]!

@@ -12,8 +12,8 @@ import { PET_REPOSITORY } from 'src/contexts/Lifetails/Pets/domain/repositories/
 import { AddPetMutation } from '../graphql/Pets/add/AddPetMutation';
 import { RemovePetMutation } from '../graphql/Pets/remove/RemovePetMutation';
 import { UpdatePetMutation } from '../graphql/Pets/update/UpdatePetMutation';
-import { FindPetQuery } from '../graphql/Pets/find/FindPetQuery';
-import { SearchAllPetsQuery } from '../graphql/Pets/searchAll/SearchAllPetsQuery';
+import { FindPetGQLQuery } from '../graphql/Pets/find/FindPetGQLQuery';
+import { SearchAllPetsGQLQuery } from '../graphql/Pets/searchAll/SearchAllPetsGQLQuery';
 import { SharedModule } from './Shared.module';
 import { AuthenticationModule } from './Authentication.module';
 
@@ -33,8 +33,8 @@ import { AuthenticationModule } from './Authentication.module';
     AddPetMutation,
     RemovePetMutation,
     UpdatePetMutation,
-    FindPetQuery,
-    SearchAllPetsQuery,
+    FindPetGQLQuery,
+    SearchAllPetsGQLQuery,
   ],
   exports: [
     AddPetCommandHandler,
@@ -45,8 +45,8 @@ import { AuthenticationModule } from './Authentication.module';
     AddPetMutation,
     RemovePetMutation,
     UpdatePetMutation,
-    FindPetQuery,
-    SearchAllPetsQuery,
+    FindPetGQLQuery,
+    SearchAllPetsGQLQuery,
   ],
 })
 export class PetsModule {}

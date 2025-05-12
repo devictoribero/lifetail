@@ -4,7 +4,7 @@ import { Public } from 'src/contexts/Lifetails/Authentication/infrastructure/dec
 
 @Public()
 @Resolver()
-export class HealthCheckQuery {
+export class HealthCheckGQLQuery {
   @Query(() => HealthCheckResponse)
   healthCheck(): HealthCheckResponse {
     return {

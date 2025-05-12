@@ -5,7 +5,7 @@ import { SearchAllPetsQuery as SearchAllPetsQueryDomain } from 'src/contexts/Lif
 import { SearchAllPetsInput } from './SearchAllPetsInput';
 
 @Resolver()
-export class SearchAllPetsQuery {
+export class SearchAllPetsGQLQuery {
   constructor(private readonly queryHandler: SearchAllPetsQueryHandler) {}
 
   @Query(() => [Pet])
