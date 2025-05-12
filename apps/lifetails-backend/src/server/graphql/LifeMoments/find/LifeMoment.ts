@@ -1,17 +1,8 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { IsUUID } from 'class-validator';
-import { LifeMomentTheme as DomainLifeMomentTheme } from 'src/contexts/Lifetails/LifeMoments/domain/entities/LifeMomentTheme';
-import { LifeMomentType as DomainLifeMomentType } from 'src/contexts/Lifetails/LifeMoments/domain/entities/LifeMomentType';
-
-// Register the enums for GraphQL
-registerEnumType(DomainLifeMomentTheme, {
-  name: 'LifeMomentTheme',
-});
-
-registerEnumType(DomainLifeMomentType, {
-  name: 'LifeMomentType',
-});
+import { LifeMomentThemeGraphqlEnum } from '../graphql-types';
+import { LifeMomentTypeGraphqlEnum } from '../graphql-types';
 
 @ObjectType()
 export class LifeMoment {
@@ -20,13 +11,13 @@ export class LifeMoment {
   @IsNotEmpty()
   id: string;
 
-  @Field(() => DomainLifeMomentTheme)
+  @Field(() => LifeMomentThemeGraphqlEnum)
   @IsNotEmpty()
-  theme: DomainLifeMomentTheme;
+  theme: LifeMomentThemeGraphqlEnum;
 
-  @Field(() => DomainLifeMomentType)
+  @Field(() => LifeMomentTypeGraphqlEnum)
   @IsNotEmpty()
-  type: DomainLifeMomentType;
+  type: LifeMomentTypeGraphqlEnum;
 
   @Field()
   @IsUUID()

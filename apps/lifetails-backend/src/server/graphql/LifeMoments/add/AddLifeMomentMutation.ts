@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AddLifeMomentResponse } from './AddLifeMomentResponse';
 import { AddLifeMomentInput } from './AddLifeMomentInput';
@@ -12,14 +12,19 @@ export class AddLifeMomentMutation {
   constructor(private readonly commandHandler: AddLifeMomentCommandHandler) {}
 
   @Mutation(() => AddLifeMomentResponse)
-  async addLifeMoment(@Args('input') input: AddLifeMomentInput): Promise<AddLifeMomentResponse> {
+  async addLifeMoment(
+    @Args('input') input: AddLifeMomentInput,
+    @Context() context: any,
+  ): Promise<AddLifeMomentResponse> {
     try {
+      const createdBy = context.req.user.id;
+      const now = input.occurredOn ? new Date(input.occurredOn) : new Date();
       const command = new AddLifeMomentCommand(
         input.id,
         input.type,
         input.petId,
-        input.createdBy,
-        input.occurredOn,
+        createdBy,
+        now,
         input.description,
       );
       await this.commandHandler.execute(command);

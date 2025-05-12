@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import { LifeMomentTypeGraphqlEnum } from '../graphql-types';
 
 @InputType()
 export class AddLifeMomentInput {
@@ -9,24 +9,19 @@ export class AddLifeMomentInput {
   @IsNotEmpty()
   id: string;
 
-  @Field()
-  @IsString()
+  @Field(() => LifeMomentTypeGraphqlEnum)
   @IsNotEmpty()
-  type: string;
+  type: LifeMomentTypeGraphqlEnum;
 
   @Field()
   @IsUUID()
   @IsNotEmpty()
   petId: string;
 
-  @Field()
-  @IsUUID()
-  @IsNotEmpty()
-  createdBy: string;
-
-  @Field(() => Date)
-  @Transform(({ value }) => new Date(value))
-  occurredOn: Date;
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  occurredOn?: string;
 
   @Field()
   @IsString()

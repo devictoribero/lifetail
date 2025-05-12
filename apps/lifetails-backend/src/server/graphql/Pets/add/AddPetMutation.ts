@@ -8,11 +8,11 @@ import { MaxNumberOfPetsReachedException } from 'src/contexts/Lifetails/Pets/dom
 import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
 
 @Resolver()
+@UseGuards(AuthenticationRequired)
 export class AddPetMutation {
   constructor(private readonly commandHandler: AddPetCommandHandler) {}
 
   @Mutation(() => AddPetResponse)
-  @UseGuards(AuthenticationRequired)
   async addPet(
     @Args('input') input: AddPetInput,
     @Context() context: any,

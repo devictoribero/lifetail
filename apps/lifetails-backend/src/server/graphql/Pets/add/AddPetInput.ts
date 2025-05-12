@@ -2,7 +2,7 @@ import { Field, InputType, registerEnumType } from '@nestjs/graphql';
 import { Species as DomainPetSpecies } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { IsUUID } from 'class-validator';
-import { GraphQLGender } from '../../shared/Gender';
+import { GenderGraphqlEnum } from '../../shared/Gender';
 
 registerEnumType(DomainPetSpecies, {
   name: 'PetSpecies',
@@ -22,9 +22,9 @@ export class AddPetInput {
   @IsNotEmpty()
   name: string;
 
-  @Field(() => GraphQLGender)
+  @Field(() => GenderGraphqlEnum)
   @IsNotEmpty()
-  gender: GraphQLGender;
+  gender: GenderGraphqlEnum;
 
   @Field()
   @IsNotEmpty()

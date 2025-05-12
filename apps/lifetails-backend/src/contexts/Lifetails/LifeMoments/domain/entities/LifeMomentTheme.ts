@@ -51,12 +51,12 @@ export class LifeMomentTheme extends StringValueObject {
   public static readonly Farewell = new LifeMomentTheme('Farewell');
 
   public static readonly types = [
-    LifeMomentTheme.Celebration,
-    LifeMomentTheme.Memories,
-    LifeMomentTheme.DeliciousMoments,
     LifeMomentTheme.Activity,
-    LifeMomentTheme.GroomingAndCare,
-    LifeMomentTheme.Wellness,
+    LifeMomentTheme.Celebration,
+    LifeMomentTheme.DeliciousMoments,
     LifeMomentTheme.Farewell,
+    LifeMomentTheme.GroomingAndCare,
+    LifeMomentTheme.Memories,
+    LifeMomentTheme.Wellness,
   ];
 }

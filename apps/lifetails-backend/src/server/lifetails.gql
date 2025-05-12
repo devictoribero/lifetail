@@ -3,12 +3,11 @@
 # ------------------------------------------------------
 
 input AddLifeMomentInput {
-  createdBy: String!
   description: String!
   id: String!
-  occurredOn: DateTime!
+  occurredOn: String
   petId: String!
-  type: String!
+  type: LifeMomentType!
 }
 
 type AddLifeMomentResponse {
@@ -68,6 +67,55 @@ type HealthCheckResponse {
   timestamp: DateTime!
 }
 
+type LifeMoment {
+  createdBy: String!
+  description: String
+  id: String!
+  occurredOn: DateTime!
+  petId: String!
+  theme: LifeMomentTheme!
+  type: LifeMomentType!
+}
+
+enum LifeMomentTheme {
+  Activity
+  Celebration
+  DeliciousMoments
+  Farewell
+  GroomingAndCare
+  Memories
+  Wellness
+}
+
+enum LifeMomentType {
+  Achievement
+  Anniversary
+  Arrival
+  Bath
+  Death
+  DietChange
+  Discomfort
+  Excursion
+  Exercise
+  Gift
+  Goodbye
+  GroomingVisit
+  Hydration
+  Illness
+  Injury
+  Medication
+  Move
+  NailCut
+  Play
+  Socialization
+  SpecialMeal
+  Surgery
+  Training
+  Vaccination
+  VeterinaryVisit
+  Walk
+}
+
 type Mutation {
   addLifeMoment(input: AddLifeMomentInput!): AddLifeMomentResponse!
   addPet(input: AddPetInput!): AddPetResponse!
@@ -102,6 +150,7 @@ type Query {
   findPet(input: FindPetInput!): Pet!
   healthCheck: HealthCheckResponse!
   searchAllPets(input: SearchAllPetsInput!): [Pet!]!
+  searchLifeMoments(input: SearchLifeMomentsInput!): [LifeMoment!]!
 }
 
 input RefreshTokenInput {
@@ -127,6 +176,10 @@ type RemovePetResponse {
 
 input SearchAllPetsInput {
   ownerId: String!
+}
+
+input SearchLifeMomentsInput {
+  petId: String!
 }
 
 input UpdateLifeMomentInput {

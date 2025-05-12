@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { GraphQLGender } from '../../shared/Gender';
+import { GenderGraphqlEnum } from '../../shared/Gender';
 
 @ObjectType()
 export class Pet {
@@ -12,8 +12,8 @@ export class Pet {
   @Field()
   name: string;
 
-  @Field(() => GraphQLGender)
-  gender: GraphQLGender;
+  @Field(() => GenderGraphqlEnum)
+  gender: GenderGraphqlEnum;
 
   @Field()
   sterilized: boolean;

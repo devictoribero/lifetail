@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsBoolean, IsDate, IsOptional, IsString, IsUUID } from 'class-validator';
-import { GraphQLGender } from '../../shared/Gender';
+import { GenderGraphqlEnum } from '../../shared/Gender';
 
 @InputType()
 export class UpdatePetInput {
@@ -14,9 +14,9 @@ export class UpdatePetInput {
   @IsOptional()
   name?: string;
 
-  @Field(() => GraphQLGender, { nullable: true })
+  @Field(() => GenderGraphqlEnum, { nullable: true })
   @IsOptional()
-  gender?: GraphQLGender;
+  gender?: GenderGraphqlEnum;
 
   @Field({ nullable: true })
   @IsBoolean()
