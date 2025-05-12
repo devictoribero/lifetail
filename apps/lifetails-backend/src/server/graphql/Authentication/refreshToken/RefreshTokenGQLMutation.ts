@@ -7,7 +7,7 @@ import { InvalidTokenException } from 'src/contexts/Lifetails/Authentication/dom
 import { Public } from 'src/contexts/Lifetails/Authentication/infrastructure/decorators/Public';
 
 @Resolver()
-export class RefreshTokenMutation {
+export class RefreshTokenGQLMutation {
   constructor(private readonly commandHandler: RefreshTokenCommandHandler) {}
 
   @Public()

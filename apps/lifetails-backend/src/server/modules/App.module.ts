@@ -13,15 +13,15 @@ import { LifeMomentsModule } from './LifeMoments.module';
 import { SharedModule } from './Shared.module';
 
 // GraphQL resolver imports
-import { CreateAccountMutation } from '../graphql/Authentication/createAccount/CreateAccountMutation';
-import { AuthenticateAccountMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountMutation';
-import { RefreshTokenMutation } from '../graphql/Authentication/refreshToken/RefreshTokenMutation';
-import { AddPetMutation } from '../graphql/Pets/add/AddPetMutation';
-import { RemovePetMutation } from '../graphql/Pets/remove/RemovePetMutation';
-import { UpdatePetMutation } from '../graphql/Pets/update/UpdatePetMutation';
-import { AddLifeMomentMutation } from '../graphql/LifeMoments/add/AddLifeMomentMutation';
-import { RemoveLifeMomentMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentMutation';
-import { UpdateLifeMomentMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentMutation';
+import { CreateAccountGQLMutation } from '../graphql/Authentication/createAccount/CreateAccountGQLMutation';
+import { AuthenticateAccountGQLMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountGQLMutation';
+import { RefreshTokenGQLMutation } from '../graphql/Authentication/refreshToken/RefreshTokenGQLMutation';
+import { AddPetGQLMutation } from '../graphql/Pets/add/AddPetGQLMutation';
+import { RemovePetGQLMutation } from '../graphql/Pets/remove/RemovePetGQLMutation';
+import { UpdatePetGQLMutation } from '../graphql/Pets/update/UpdatePetGQLMutation';
+import { AddLifeMomentGQLMutation } from '../graphql/LifeMoments/add/AddLifeMomentGQLMutation';
+import { RemoveLifeMomentGQLMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentGQLMutation';
+import { UpdateLifeMomentGQLMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentGQLMutation';
 import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
 import { HealthCheckGQLQuery } from '../graphql/HealthCheckGQLQuery';
 import { FindPetGQLQuery } from '../graphql/Pets/find/FindPetGQLQuery';

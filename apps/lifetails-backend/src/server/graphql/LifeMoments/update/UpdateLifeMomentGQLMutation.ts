@@ -5,7 +5,7 @@ import { UpdateLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMomen
 import { UpdateLifeMomentCommand } from 'src/contexts/Lifetails/LifeMoments/application/update/UpdateLifeMomentCommand';
 
 @Resolver()
-export class UpdateLifeMomentMutation {
+export class UpdateLifeMomentGQLMutation {
   constructor(private readonly commandHandler: UpdateLifeMomentCommandHandler) {}
 
   @Mutation(() => UpdateLifeMomentResponse)

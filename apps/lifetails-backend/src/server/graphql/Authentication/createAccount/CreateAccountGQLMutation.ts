@@ -10,7 +10,7 @@ import { CreateUserCommand } from 'src/contexts/Lifetails/Users/application/crea
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 
 @Resolver()
-export class CreateAccountMutation {
+export class CreateAccountGQLMutation {
   constructor(
     private readonly createAccountCommandHandler: CreateAccountCommandHandler,
     private readonly createUserCommandHandler: CreateUserCommandHandler,

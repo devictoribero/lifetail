@@ -9,7 +9,7 @@ import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/in
 
 @Resolver()
 @UseGuards(AuthenticationRequired)
-export class AddPetMutation {
+export class AddPetGQLMutation {
   constructor(private readonly commandHandler: AddPetCommandHandler) {}
 
   @Mutation(() => AddPetResponse)

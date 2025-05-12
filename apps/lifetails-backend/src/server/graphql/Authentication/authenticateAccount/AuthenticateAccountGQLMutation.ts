@@ -10,7 +10,7 @@ import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/G
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 
 @Resolver()
-export class AuthenticateAccountMutation {
+export class AuthenticateAccountGQLMutation {
   constructor(
     private readonly commandHandler: AuthenticateAccountCommandHandler,
     private readonly tokenGenerator: JwtTokenGenerator,

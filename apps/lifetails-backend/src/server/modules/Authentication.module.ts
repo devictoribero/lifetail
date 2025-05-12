@@ -19,9 +19,9 @@ import { SharedModule } from './Shared.module';
 import jwtConfig from 'src/contexts/Lifetails/Authentication/infrastructure/config/jwt.config';
 import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
 import { UsersModule } from './Users.module';
-import { AuthenticateAccountMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountMutation';
-import { RefreshTokenMutation } from '../graphql/Authentication/refreshToken/RefreshTokenMutation';
-import { CreateAccountMutation } from '../graphql/Authentication/createAccount/CreateAccountMutation';
+import { AuthenticateAccountGQLMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountGQLMutation';
+import { RefreshTokenGQLMutation } from '../graphql/Authentication/refreshToken/RefreshTokenGQLMutation';
+import { CreateAccountGQLMutation } from '../graphql/Authentication/createAccount/CreateAccountGQLMutation';
 
 @Module({
   imports: [
@@ -42,12 +42,12 @@ import { CreateAccountMutation } from '../graphql/Authentication/createAccount/C
   controllers: [],
   providers: [
     CreateAccountCommandHandler,
-    CreateAccountMutation,
-    AuthenticateAccountMutation,
+    CreateAccountGQLMutation,
+    AuthenticateAccountGQLMutation,
     AuthenticateAccountCommandHandler,
     PasswordHasher,
     RefreshTokenCommandHandler,
-    RefreshTokenMutation,
+    RefreshTokenGQLMutation,
     AccountCreatedEventHandler,
     JwtTokenGenerator,
     AuthenticationRequired,
@@ -57,9 +57,9 @@ import { CreateAccountMutation } from '../graphql/Authentication/createAccount/C
     },
   ],
   exports: [
-    AuthenticateAccountMutation,
-    RefreshTokenMutation,
-    CreateAccountMutation,
+    AuthenticateAccountGQLMutation,
+    RefreshTokenGQLMutation,
+    CreateAccountGQLMutation,
     CreateAccountCommandHandler,
     AuthenticateAccountCommandHandler,
     RefreshTokenCommandHandler,

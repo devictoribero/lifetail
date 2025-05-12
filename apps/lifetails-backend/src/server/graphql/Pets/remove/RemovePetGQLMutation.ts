@@ -5,7 +5,7 @@ import { RemovePetInput } from './RemovePetInput';
 import { RemovePetResponse } from './RemovePetResponse';
 
 @Resolver()
-export class RemovePetMutation {
+export class RemovePetGQLMutation {
   constructor(private readonly commandHandler: RemovePetCommandHandler) {}
 
   @Mutation(() => RemovePetResponse)

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
-import { AuthenticateAccountMutation } from './AuthenticateAccountMutation';
+import { AuthenticateAccountGQLMutation } from './AuthenticateAccountGQLMutation';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { AuthenticateAccountInput } from './AuthenticateAccountInput';
 import { InvalidCredentialsException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/InvalidCredentialsException';
@@ -8,8 +8,8 @@ import { JwtTokenGenerator } from 'src/contexts/Lifetails/Authentication/infrast
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
-describe('AuthenticateAccountMutation', () => {
-  let mutation: AuthenticateAccountMutation;
+describe('AuthenticateAccountGQLMutation', () => {
+  let mutation: AuthenticateAccountGQLMutation;
   let commandHandler: AuthenticateAccountCommandHandler;
   let jwtService: JwtTokenGenerator;
   let getUserQueryHandler: GetUserQueryHandler;
@@ -38,7 +38,7 @@ describe('AuthenticateAccountMutation', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AuthenticateAccountMutation,
+        AuthenticateAccountGQLMutation,
         {
           provide: AuthenticateAccountCommandHandler,
           useValue: commandHandler,
@@ -54,7 +54,7 @@ describe('AuthenticateAccountMutation', () => {
       ],
     }).compile();
 
-    mutation = module.get<AuthenticateAccountMutation>(AuthenticateAccountMutation);
+    mutation = module.get<AuthenticateAccountGQLMutation>(AuthenticateAccountGQLMutation);
     commandHandler = module.get<AuthenticateAccountCommandHandler>(
       AuthenticateAccountCommandHandler,
     );

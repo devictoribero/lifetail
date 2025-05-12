@@ -11,9 +11,9 @@ import { SearchLifeMomentsQueryHandler } from 'src/contexts/Lifetails/LifeMoment
 import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoments/infrastructure/LifeMomentInMemoryRepository';
 import { AuthenticationModule } from './Authentication.module';
 // GraphQL imports
-import { AddLifeMomentMutation } from '../graphql/LifeMoments/add/AddLifeMomentMutation';
-import { RemoveLifeMomentMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentMutation';
-import { UpdateLifeMomentMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentMutation';
+import { AddLifeMomentGQLMutation } from '../graphql/LifeMoments/add/AddLifeMomentGQLMutation';
+import { RemoveLifeMomentGQLMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentGQLMutation';
+import { UpdateLifeMomentGQLMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentGQLMutation';
 import { SearchLifeMomentsGQLQuery } from '../graphql/LifeMoments/search/SearchLifeMomentsGQLQuery';
 import { FindLifeMomentGQLQuery } from '../graphql/LifeMoments/find/FindLifeMomentGQLQuery';
 import { SharedModule } from './Shared.module';
@@ -33,9 +33,9 @@ import { SharedModule } from './Shared.module';
     FindLifeMomentQueryHandler,
     SearchLifeMomentsQueryHandler,
     // GraphQL resolvers
-    AddLifeMomentMutation,
-    RemoveLifeMomentMutation,
-    UpdateLifeMomentMutation,
+    AddLifeMomentGQLMutation,
+    RemoveLifeMomentGQLMutation,
+    UpdateLifeMomentGQLMutation,
     FindLifeMomentGQLQuery,
     SearchLifeMomentsGQLQuery,
   ],
@@ -47,9 +47,9 @@ import { SharedModule } from './Shared.module';
     FindLifeMomentQueryHandler,
     SearchLifeMomentsQueryHandler,
     // GraphQL resolvers
-    AddLifeMomentMutation,
-    RemoveLifeMomentMutation,
-    UpdateLifeMomentMutation,
+    AddLifeMomentGQLMutation,
+    RemoveLifeMomentGQLMutation,
+    UpdateLifeMomentGQLMutation,
     FindLifeMomentGQLQuery,
     SearchLifeMomentsGQLQuery,
   ],

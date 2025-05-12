@@ -1,16 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
-import { CreateAccountMutation } from './CreateAccountMutation';
+import { CreateAccountGQLMutation } from './CreateAccountGQLMutation';
 import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
 import { CreateAccountInput } from './CreateAccountInput';
 import { EmailAlreadyInUseException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/EmailAlreadyInUseException';
 import { Account } from 'src/contexts/Lifetails/Authentication/domain/entities/Account';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 
-describe('CreateAccountMutation', () => {
+describe('CreateAccountGQLMutation', () => {
   let mockedId: string;
-  let mutation: CreateAccountMutation;
+  let mutation: CreateAccountGQLMutation;
   let commandHandler: CreateAccountCommandHandler;
   let userCommandHandler: CreateUserCommandHandler;
 
@@ -32,7 +31,7 @@ describe('CreateAccountMutation', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        CreateAccountMutation,
+        CreateAccountGQLMutation,
         {
           provide: CreateAccountCommandHandler,
           useValue: mockCommandHandler,
@@ -44,7 +43,7 @@ describe('CreateAccountMutation', () => {
       ],
     }).compile();
 
-    mutation = module.get<CreateAccountMutation>(CreateAccountMutation);
+    mutation = module.get<CreateAccountGQLMutation>(CreateAccountGQLMutation);
     commandHandler = module.get<CreateAccountCommandHandler>(CreateAccountCommandHandler);
     userCommandHandler = module.get<CreateUserCommandHandler>(CreateUserCommandHandler);
   });

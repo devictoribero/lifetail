@@ -5,7 +5,7 @@ import { RemoveLifeMomentInput } from './RemoveLifeMomentInput';
 import { RemoveLifeMomentResponse } from './RemoveLifeMomentResponse';
 
 @Resolver()
-export class RemoveLifeMomentMutation {
+export class RemoveLifeMomentGQLMutation {
   constructor(private readonly commandHandler: RemoveLifeMomentCommandHandler) {}
 
   @Mutation(() => Boolean)

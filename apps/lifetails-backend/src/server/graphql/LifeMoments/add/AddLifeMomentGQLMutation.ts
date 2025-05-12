@@ -8,7 +8,7 @@ import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/in
 
 @Resolver()
 @UseGuards(AuthenticationRequired)
-export class AddLifeMomentMutation {
+export class AddLifeMomentGQLMutation {
   constructor(private readonly commandHandler: AddLifeMomentCommandHandler) {}
 
   @Mutation(() => AddLifeMomentResponse)

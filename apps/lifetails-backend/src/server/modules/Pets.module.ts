@@ -9,9 +9,9 @@ import { PetInMemoryRepository } from 'src/contexts/Lifetails/Pets/infrastructur
 // Domain imports
 import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
 import { PET_REPOSITORY } from 'src/contexts/Lifetails/Pets/domain/repositories/PetRepository';
-import { AddPetMutation } from '../graphql/Pets/add/AddPetMutation';
-import { RemovePetMutation } from '../graphql/Pets/remove/RemovePetMutation';
-import { UpdatePetMutation } from '../graphql/Pets/update/UpdatePetMutation';
+import { AddPetGQLMutation } from '../graphql/Pets/add/AddPetGQLMutation';
+import { RemovePetGQLMutation } from '../graphql/Pets/remove/RemovePetGQLMutation';
+import { UpdatePetGQLMutation } from '../graphql/Pets/update/UpdatePetGQLMutation';
 import { FindPetGQLQuery } from '../graphql/Pets/find/FindPetGQLQuery';
 import { SearchAllPetsGQLQuery } from '../graphql/Pets/searchAll/SearchAllPetsGQLQuery';
 import { SharedModule } from './Shared.module';
@@ -30,9 +30,9 @@ import { AuthenticationModule } from './Authentication.module';
     UpdatePetCommandHandler,
     FindPetQueryHandler,
     SearchAllPetsQueryHandler,
-    AddPetMutation,
-    RemovePetMutation,
-    UpdatePetMutation,
+    AddPetGQLMutation,
+    RemovePetGQLMutation,
+    UpdatePetGQLMutation,
     FindPetGQLQuery,
     SearchAllPetsGQLQuery,
   ],
@@ -42,9 +42,9 @@ import { AuthenticationModule } from './Authentication.module';
     UpdatePetCommandHandler,
     FindPetQueryHandler,
     SearchAllPetsQueryHandler,
-    AddPetMutation,
-    RemovePetMutation,
-    UpdatePetMutation,
+    AddPetGQLMutation,
+    RemovePetGQLMutation,
+    UpdatePetGQLMutation,
     FindPetGQLQuery,
     SearchAllPetsGQLQuery,
   ],

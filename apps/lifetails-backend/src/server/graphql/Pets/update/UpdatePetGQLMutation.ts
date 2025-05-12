@@ -5,7 +5,7 @@ import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application
 import { UpdatePetCommand } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommand';
 
 @Resolver()
-export class UpdatePetMutation {
+export class UpdatePetGQLMutation {
   constructor(private readonly commandHandler: UpdatePetCommandHandler) {}
 
   @Mutation(() => UpdatePetResponse)
