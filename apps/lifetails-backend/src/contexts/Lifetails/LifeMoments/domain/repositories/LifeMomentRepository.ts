@@ -8,4 +8,5 @@ export interface LifeMomentRepository {
   // Data is soft-deleted meaning it's not physically removed from the database
   remove(id: UUID): Promise<void>;
   find(id: UUID): Promise<LifeMoment | null>;
+  search(petId: UUID): Promise<LifeMoment[]>;
 }
