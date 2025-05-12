@@ -18,7 +18,6 @@ export class AddPetMutation {
     @Context() context: any,
   ): Promise<AddPetResponse> {
     const userId = context.req.user.id;
-    console.log('userId', userId);
 
     try {
       // We could validate that the userId in the request matches the authenticated user

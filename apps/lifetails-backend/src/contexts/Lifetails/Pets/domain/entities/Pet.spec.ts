@@ -30,7 +30,7 @@ describe('Pet', () => {
     expect(pet.isSterilized()).toBe(sterilized);
     expect(pet.getAnniversaryDate()).toBe(anniversaryDate);
     expect(pet.getCreatedAt()).toBe(createdAt);
-    expect(pet.getUserId()).toBe(ownerId);
+    expect(pet.getOwnerId()).toBe(ownerId);
     expect(pet.getChipId()).toBeNull();
   });
 
@@ -91,7 +91,7 @@ describe('Pet', () => {
       sterilized: sterilized.getValue(),
       anniversaryDate: anniversaryDate.toISOString(),
       createdAt: createdAt.toISOString(),
-      userId: ownerId.toString(),
+      ownerId: ownerId.toString(),
       chipId: null,
     });
   });

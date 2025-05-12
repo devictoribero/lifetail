@@ -16,7 +16,7 @@ export class Pet extends AggregateRoot {
   // This is the date used to celebrate the pet's birthday.
   private anniversaryDate: DateValueObject | null;
   private createdAt: DateValueObject;
-  private userId: UUID | null;
+  private ownerId: UUID | null;
   private chipId: StringValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
@@ -28,7 +28,7 @@ export class Pet extends AggregateRoot {
     sterilized: BooleanValueObject,
     anniversaryDate: DateValueObject | null = null,
     createdAt: DateValueObject,
-    userId: UUID | null = null,
+    ownerId: UUID | null = null,
     chipId: StringValueObject | null = null,
   ) {
     super();
@@ -39,7 +39,7 @@ export class Pet extends AggregateRoot {
     this.gender = gender;
     this.sterilized = sterilized;
     this.anniversaryDate = anniversaryDate;
-    this.userId = userId;
+    this.ownerId = ownerId;
     this.chipId = chipId;
   }
 
@@ -51,10 +51,10 @@ export class Pet extends AggregateRoot {
     gender: Gender,
     sterilized: BooleanValueObject,
     anniversaryDate: DateValueObject,
-    userId: UUID,
+    ownerId: UUID,
   ) {
     const now = new DateValueObject(new Date());
-    return new Pet(id, species, name, gender, sterilized, anniversaryDate, now, userId);
+    return new Pet(id, species, name, gender, sterilized, anniversaryDate, now, ownerId);
   }
 
   // Use to reconstruct the entity from the database
@@ -66,7 +66,7 @@ export class Pet extends AggregateRoot {
     sterilized: boolean,
     anniversaryDate: Date,
     createdAt: Date,
-    userId: string,
+    ownerId: string,
     chipId: string | null = null,
   ) {
     return new Pet(
@@ -77,7 +77,7 @@ export class Pet extends AggregateRoot {
       new BooleanValueObject(sterilized),
       anniversaryDate ? new DateValueObject(anniversaryDate) : null,
       new DateValueObject(createdAt),
-      new UUID(userId),
+      new UUID(ownerId),
       chipId ? new StringValueObject(chipId) : null,
     );
   }
@@ -110,8 +110,8 @@ export class Pet extends AggregateRoot {
     return this.anniversaryDate;
   }
 
-  public getUserId(): UUID | null {
-    return this.userId;
+  public getOwnerId(): UUID | null {
+    return this.ownerId;
   }
 
   public getChipId(): StringValueObject | null {
@@ -119,7 +119,6 @@ export class Pet extends AggregateRoot {
   }
 
   public toPrimitives(): any {
-    console.log(this);
     return {
       id: this.id.toString(),
       species: this.species.toString(),
@@ -128,7 +127,7 @@ export class Pet extends AggregateRoot {
       sterilized: this.sterilized.getValue(),
       anniversaryDate: this.anniversaryDate?.toISOString() ?? null,
       createdAt: this.createdAt.toISOString(),
-      userId: this.userId?.toString() ?? null,
+      ownerId: this.ownerId?.toString() ?? null,
       chipId: this.chipId?.toString() ?? null,
     };
   }

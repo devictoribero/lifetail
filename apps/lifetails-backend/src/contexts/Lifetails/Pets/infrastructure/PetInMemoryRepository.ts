@@ -13,7 +13,7 @@ interface InMemoryPet {
   sterilized: boolean;
   anniversaryDate: Date;
   createdAt: Date;
-  userId?: string;
+  ownerId?: string;
 }
 
 @Injectable()
@@ -49,7 +49,7 @@ export class PetInMemoryRepository implements PetRepository {
       pet.sterilized,
       pet.anniversaryDate ?? null,
       pet.createdAt,
-      pet.userId,
+      pet.ownerId,
       pet.chipId ?? null,
     );
   }
@@ -58,7 +58,7 @@ export class PetInMemoryRepository implements PetRepository {
     const filteredPets: Pet[] = [];
 
     for (const pet of this.pets.values()) {
-      if (!pet.isDeleted && pet.userId === ownerId.toString()) {
+      if (!pet.isDeleted && pet.ownerId === ownerId.toString()) {
         filteredPets.push(
           Pet.fromPrimitives(
             pet.id,
@@ -68,7 +68,7 @@ export class PetInMemoryRepository implements PetRepository {
             pet.sterilized,
             pet.anniversaryDate,
             pet.createdAt,
-            pet.userId,
+            pet.ownerId,
             pet.chipId,
           ),
         );
