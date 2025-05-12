@@ -49,4 +49,26 @@ export class LifeMomentInMemoryRepository implements LifeMomentRepository {
       moment.description,
     );
   }
+
+  async search(petId: UUID): Promise<LifeMoment[]> {
+    const result: LifeMoment[] = [];
+
+    for (const moment of this.moments.values()) {
+      if (moment.petId === petId.toString() && !moment.isDeleted) {
+        result.push(
+          LifeMoment.fromPrimitives(
+            moment.id,
+            moment.type,
+            moment.theme,
+            moment.petId,
+            moment.createdBy,
+            moment.occurredOn,
+            moment.description,
+          ),
+        );
+      }
+    }
+
+    return result;
+  }
 }
