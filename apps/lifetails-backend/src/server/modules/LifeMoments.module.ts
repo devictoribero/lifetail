@@ -7,6 +7,8 @@ import { RemoveLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMomen
 import { UpdateLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/update/UpdateLifeMomentCommandHandler';
 import { FindLifeMomentQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/find/FindLifeMomentQueryHandler';
 import { SearchLifeMomentsQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/search/SearchLifeMomentsQueryHandler';
+// Event handlers
+import { AddArrivalLifeMomentOnPetAdded } from 'src/contexts/Lifetails/LifeMoments/application/EventHandlers/AddArrivalLifeMomentOnPetAdded';
 // Infrastructure imports
 import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoments/infrastructure/LifeMomentInMemoryRepository';
 import { AuthenticationModule } from './Authentication.module';
@@ -17,9 +19,10 @@ import { UpdateLifeMomentGQLMutation } from '../graphql/LifeMoments/update/Updat
 import { SearchLifeMomentsGQLQuery } from '../graphql/LifeMoments/search/SearchLifeMomentsGQLQuery';
 import { FindLifeMomentGQLQuery } from '../graphql/LifeMoments/find/FindLifeMomentGQLQuery';
 import { SharedModule } from './Shared.module';
+import { PetsModule } from './Pets.module';
 
 @Module({
-  imports: [SharedModule, AuthenticationModule],
+  imports: [SharedModule, AuthenticationModule, PetsModule],
   controllers: [],
   providers: [
     {
@@ -32,6 +35,8 @@ import { SharedModule } from './Shared.module';
     UpdateLifeMomentCommandHandler,
     FindLifeMomentQueryHandler,
     SearchLifeMomentsQueryHandler,
+    // Event handlers
+    AddArrivalLifeMomentOnPetAdded,
     // GraphQL resolvers
     AddLifeMomentGQLMutation,
     RemoveLifeMomentGQLMutation,

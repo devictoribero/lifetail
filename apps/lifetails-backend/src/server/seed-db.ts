@@ -6,7 +6,7 @@ import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/
 import { AddLifeMomentCommand } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommand';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
 import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, Logger } from '@nestjs/common';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQuery';
@@ -16,8 +16,10 @@ import { CreateUserCommand } from 'src/contexts/Lifetails/Users/application/crea
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
 
+const logger = new Logger('seed-db');
+
 const logDomainEvent = (eventName: string, data?: any) => {
-  console.log(`[Domain Event] ${eventName}`, data);
+  logger.debug(`[Domain Event] ${eventName}`, data);
 };
 
 const USER_ID = '6e3bf192-2d53-452e-a713-157c7975e5ba';
@@ -26,7 +28,7 @@ const CREDENTIALS = {
   password: 'password123',
   nickname: 'Victor',
 };
-const LIFE_MOMENTS_COUNT = 100;
+const LIFE_MOMENTS_COUNT = 0;
 
 const getCommandHandlers = (app: INestApplication) => {
   const authenticateAccountCommandHandler = app.get(AuthenticateAccountCommandHandler);
@@ -125,17 +127,17 @@ export const seedDatabase = async (app: INestApplication) => {
   // Add life moment for pet
 
   // Iterate 10 times to add 10 life moments
-  for (let i = 0; i < LIFE_MOMENTS_COUNT; i++) {
-    const lifeMomentUuid = faker.string.uuid();
-    const addLifeMomentCommand = new AddLifeMomentCommand(
-      lifeMomentUuid,
-      'Arrival',
-      petId,
-      USER_ID,
-      new Date('2024-12-13'),
-      'Nekito llega a casa!',
-    );
-    await addLifeMomentCommandHandler.execute(addLifeMomentCommand);
-    logDomainEvent('Life moment added', { id: lifeMomentUuid });
-  }
+  // for (let i = 0; i < LIFE_MOMENTS_COUNT; i++) {
+  //   const lifeMomentUuid = faker.string.uuid();
+  //   const addLifeMomentCommand = new AddLifeMomentCommand(
+  //     lifeMomentUuid,
+  //     'Arrival',
+  //     petId,
+  //     USER_ID,
+  //     new Date('2024-12-13'),
+  //     'Nekito llega a casa!',
+  //   );
+  //   await addLifeMomentCommandHandler.execute(addLifeMomentCommand);
+  //   logDomainEvent('Life moment added', { id: lifeMomentUuid });
+  // }
 };
