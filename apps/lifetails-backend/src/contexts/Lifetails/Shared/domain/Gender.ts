@@ -8,7 +8,13 @@ export class Gender extends StringValueObject {
 
   // Use to create the entity from the domain
   public static create(value: string): Gender {
-    return new Gender(value);
+    const validGender = Gender.all.find((gender) => gender.equals(new Gender(value)));
+
+    if (!validGender) {
+      throw new InvalidGenderException(value);
+    }
+
+    return validGender;
   }
 
   // Use to reconstruct the entity from the database
@@ -25,6 +31,5 @@ export class Gender extends StringValueObject {
 
   public static readonly Male = new Gender('Male');
   public static readonly Female = new Gender('Female');
-
   public static readonly all = [Gender.Male, Gender.Female];
 }

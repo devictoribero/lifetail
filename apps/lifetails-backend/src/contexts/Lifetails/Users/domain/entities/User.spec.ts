@@ -3,6 +3,7 @@ import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringVa
 import { faker } from '@faker-js/faker';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { User } from './User';
+import { Language } from 'src/contexts/Lifetails/Shared/domain/Language';
 
 describe('User', () => {
   beforeEach(() => {
@@ -18,14 +19,16 @@ describe('User', () => {
     const accountId = UUID.create();
     const nickname = new StringValueObject(faker.person.firstName());
     const createdAt = new DateValueObject(faker.date.past());
+    const preferredLanguage = Language.English;
 
-    const user = new User(id, accountId, nickname, createdAt);
+    const user = new User(id, accountId, nickname, createdAt, preferredLanguage);
 
     expect(user).toBeDefined();
     expect(user.getId()).toBe(id);
     expect(user.getAccountId()).toBe(accountId);
     expect(user.getNickname()).toBe(nickname);
     expect(user.getCreatedAt()).toBe(createdAt);
+    expect(user.getPreferredLanguage()).toBe(preferredLanguage);
   });
 
   it('should create a User instance with the create named constructor method', () => {
@@ -40,6 +43,19 @@ describe('User', () => {
     expect(user.getAccountId()).toBe(accountId);
     expect(user.getNickname()).toBe(nickname);
     expect(user.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(user.getPreferredLanguage()).toBe(Language.English);
+  });
+
+  it('should create a User instance with a custom preferred language', () => {
+    const id = UUID.create();
+    const accountId = UUID.create();
+    const nickname = new StringValueObject(faker.person.firstName());
+    const preferredLanguage = Language.Spanish;
+
+    const user = User.create(id, accountId, nickname, preferredLanguage);
+
+    expect(user).toBeDefined();
+    expect(user.getPreferredLanguage()).toBe(Language.Spanish);
   });
 
   it('should convert the User to primitive values', () => {
@@ -47,8 +63,9 @@ describe('User', () => {
     const accountId = UUID.create();
     const nickname = new StringValueObject(faker.person.firstName());
     const createdAt = new DateValueObject(faker.date.past());
+    const preferredLanguage = Language.English;
 
-    const user = new User(id, accountId, nickname, createdAt);
+    const user = new User(id, accountId, nickname, createdAt, preferredLanguage);
 
     const primitives = user.toPrimitives();
     expect(primitives).toEqual({
@@ -56,6 +73,7 @@ describe('User', () => {
       accountId: accountId.toString(),
       nickname: nickname.toString(),
       createdAt: createdAt.toISOString(),
+      preferredLanguage: preferredLanguage.toString(),
     });
   });
 });

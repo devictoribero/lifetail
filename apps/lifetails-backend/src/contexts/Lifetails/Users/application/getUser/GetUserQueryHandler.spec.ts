@@ -8,6 +8,7 @@ import { Gender } from 'src/contexts/Lifetails/Shared/domain/Gender';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { randomUUID } from 'node:crypto';
+import { Language } from 'src/contexts/Lifetails/Shared/domain/Language';
 
 describe('GetUserQueryHandler', () => {
   let queryHandler: GetUserQueryHandler;
@@ -31,6 +32,7 @@ describe('GetUserQueryHandler', () => {
       new UUID(accountId),
       new StringValueObject('John Doe'),
       new DateValueObject(new Date()),
+      Language.English,
     );
 
     getUserService.execute.mockResolvedValue(mockUser);

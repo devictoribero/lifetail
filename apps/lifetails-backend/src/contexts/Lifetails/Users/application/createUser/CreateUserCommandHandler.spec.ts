@@ -8,6 +8,7 @@ import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
+import { Language } from 'src/contexts/Lifetails/Shared/domain/Language';
 
 describe('CreateUserCommandHandler', () => {
   let getUserService: jest.Mocked<GetUserService>;
@@ -38,6 +39,7 @@ describe('CreateUserCommandHandler', () => {
         new UUID(accountId),
         new StringValueObject(nickname),
         new DateValueObject(new Date()),
+        Language.English,
       ),
     );
 
@@ -66,6 +68,7 @@ describe('CreateUserCommandHandler', () => {
       id,
       accountId,
       nickname,
+      preferredLanguage: Language.English.toString(),
       createdAt: expect.any(String),
     });
   });
