@@ -5,7 +5,7 @@ import { LIFE_MOMENT_REPOSITORY } from 'src/contexts/Lifetails/LifeMoments/domai
 import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommandHandler';
 import { RemoveLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/remove/RemoveLifeMomentCommandHandler';
 import { UpdateLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/update/UpdateLifeMomentCommandHandler';
-import { FindLifeMomentQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/find/FindLifeMomentQueryHandler';
+import { GetLifeMomentQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/get/GetLifeMomentQueryHandler';
 import { SearchLifeMomentsQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/search/SearchLifeMomentsQueryHandler';
 // Event handlers
 import { AddArrivalLifeMomentOnPetAdded } from 'src/contexts/Lifetails/LifeMoments/application/EventHandlers/AddArrivalLifeMomentOnPetAdded';
@@ -17,7 +17,7 @@ import { AddLifeMomentGQLMutation } from '../graphql/LifeMoments/add/AddLifeMome
 import { RemoveLifeMomentGQLMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentGQLMutation';
 import { UpdateLifeMomentGQLMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentGQLMutation';
 import { SearchLifeMomentsGQLQuery } from '../graphql/LifeMoments/search/SearchLifeMomentsGQLQuery';
-import { FindLifeMomentGQLQuery } from '../graphql/LifeMoments/find/FindLifeMomentGQLQuery';
+import { GetLifeMomentGQLQuery } from '../graphql/LifeMoments/find/GetLifeMomentGQLQuery';
 import { SharedModule } from './Shared.module';
 import { PetsModule } from './Pets.module';
 
@@ -33,7 +33,7 @@ import { PetsModule } from './Pets.module';
     AddLifeMomentCommandHandler,
     RemoveLifeMomentCommandHandler,
     UpdateLifeMomentCommandHandler,
-    FindLifeMomentQueryHandler,
+    GetLifeMomentQueryHandler,
     SearchLifeMomentsQueryHandler,
     // Event handlers
     AddArrivalLifeMomentOnPetAdded,
@@ -41,7 +41,7 @@ import { PetsModule } from './Pets.module';
     AddLifeMomentGQLMutation,
     RemoveLifeMomentGQLMutation,
     UpdateLifeMomentGQLMutation,
-    FindLifeMomentGQLQuery,
+    GetLifeMomentGQLQuery,
     SearchLifeMomentsGQLQuery,
   ],
   exports: [
@@ -49,13 +49,13 @@ import { PetsModule } from './Pets.module';
     AddLifeMomentCommandHandler,
     RemoveLifeMomentCommandHandler,
     UpdateLifeMomentCommandHandler,
-    FindLifeMomentQueryHandler,
+    GetLifeMomentQueryHandler,
     SearchLifeMomentsQueryHandler,
     // GraphQL resolvers
     AddLifeMomentGQLMutation,
     RemoveLifeMomentGQLMutation,
     UpdateLifeMomentGQLMutation,
-    FindLifeMomentGQLQuery,
+    GetLifeMomentGQLQuery,
     SearchLifeMomentsGQLQuery,
   ],
 })

@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 
 @InputType()
-export class FindLifeMomentInput {
+export class GetLifeMomentInput {
   @Field()
   @IsUUID()
   @IsNotEmpty()

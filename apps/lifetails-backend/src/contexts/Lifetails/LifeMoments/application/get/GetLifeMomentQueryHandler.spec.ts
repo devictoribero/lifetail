@@ -1,6 +1,6 @@
 import { LifeMomentInMemoryRepository } from '../../infrastructure/LifeMomentInMemoryRepository';
-import { FindLifeMomentQueryHandler } from './FindLifeMomentQueryHandler';
-import { FindLifeMomentQuery } from './FindLifeMomentQuery';
+import { GetLifeMomentQueryHandler } from './GetLifeMomentQueryHandler';
+import { GetLifeMomentQuery } from './GetLifeMomentQuery';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
 import { LifeMomentType } from '../../domain/entities/LifeMomentType';
@@ -10,19 +10,19 @@ import { faker } from '@faker-js/faker';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
-describe('FindLifeMomentQueryHandler', () => {
+describe('GetLifeMomentQueryHandler', () => {
   let repository: LifeMomentInMemoryRepository;
-  let queryHandler: FindLifeMomentQueryHandler;
+  let queryHandler: GetLifeMomentQueryHandler;
 
   beforeEach(() => {
     repository = new LifeMomentInMemoryRepository();
-    queryHandler = new FindLifeMomentQueryHandler(repository as unknown as LifeMomentRepository);
+    queryHandler = new GetLifeMomentQueryHandler(repository as unknown as LifeMomentRepository);
   });
 
   it('should throw LifeMomentNotFoundException when life moment does not exist', async () => {
     // Arrange
     const nonExistentId = faker.string.uuid();
-    const query = new FindLifeMomentQuery(nonExistentId);
+    const query = new GetLifeMomentQuery(nonExistentId);
 
     // Act & Assert
     await expect(queryHandler.execute(query)).rejects.toThrow(
@@ -30,7 +30,7 @@ describe('FindLifeMomentQueryHandler', () => {
     );
   });
 
-  it('should find a life moment', async () => {
+  it('should get a life moment', async () => {
     // Arrange
     const id = faker.string.uuid();
     const type = 'VeterinaryVisit';
@@ -51,7 +51,7 @@ describe('FindLifeMomentQueryHandler', () => {
     const findSpy = jest.spyOn(repository, 'find');
 
     // Act
-    const query = new FindLifeMomentQuery(id);
+    const query = new GetLifeMomentQuery(id);
     const foundMoment = await queryHandler.execute(query);
 
     // Assert

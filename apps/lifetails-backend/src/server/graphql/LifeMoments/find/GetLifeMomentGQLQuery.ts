@@ -1,17 +1,17 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { FindLifeMomentQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/find/FindLifeMomentQueryHandler';
-import { FindLifeMomentQuery } from 'src/contexts/Lifetails/LifeMoments/application/find/FindLifeMomentQuery';
-import { FindLifeMomentInput } from './FindLifeMomentInput';
+import { GetLifeMomentQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/get/GetLifeMomentQueryHandler';
+import { GetLifeMomentQuery } from 'src/contexts/Lifetails/LifeMoments/application/get/GetLifeMomentQuery';
+import { GetLifeMomentInput } from './GetLifeMomentInput';
 import { LifeMoment } from './LifeMoment';
 
 @Resolver()
-export class FindLifeMomentGQLQuery {
-  constructor(private readonly queryHandler: FindLifeMomentQueryHandler) {}
+export class GetLifeMomentGQLQuery {
+  constructor(private readonly queryHandler: GetLifeMomentQueryHandler) {}
 
   @Query(() => LifeMoment)
-  async findLifeMoment(@Args('input') input: FindLifeMomentInput): Promise<LifeMoment> {
+  async getLifeMoment(@Args('input') input: GetLifeMomentInput): Promise<LifeMoment> {
     try {
-      const query = new FindLifeMomentQuery(input.id);
+      const query = new GetLifeMomentQuery(input.id);
       const lifeMoment = await this.queryHandler.execute(query);
 
       const lifeMomentPrimitive = lifeMoment.toPrimitives();
@@ -25,7 +25,7 @@ export class FindLifeMomentGQLQuery {
         description: lifeMomentPrimitive.description,
       };
     } catch (error) {
-      throw new Error(error.message ?? 'Error finding life moment');
+      throw new Error(error.message ?? 'Error getting life moment');
     }
   }
 }
