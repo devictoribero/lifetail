@@ -9,6 +9,8 @@ import { Species } from '../../domain/entities/PetSpecies';
 import { MaxNumberOfPetsReachedException } from '../../domain/exceptions/MaxNumberOfPetsReachedException';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { Inject, Injectable } from '@nestjs/common';
+import { EVENT_BUS } from 'src/contexts/Lifetails/Shared/domain/EventBus';
+import { EventBus } from 'src/contexts/Lifetails/Shared/domain/EventBus';
 
 const MAX_NUMBER_OF_PETS = 1;
 
@@ -17,6 +19,8 @@ export class AddPetCommandHandler {
   constructor(
     @Inject(PET_REPOSITORY)
     private readonly repository: PetRepository,
+    @Inject(EVENT_BUS)
+    private readonly eventBus: EventBus,
   ) {}
 
   async execute(command: AddPetCommand): Promise<void> {
@@ -34,6 +38,7 @@ export class AddPetCommandHandler {
     );
 
     await this.repository.save(newPet);
+    await this.eventBus.publish(newPet.pullDomainEvents());
   }
 
   private async ensureOwnerCanAddPet(ownerId: UUID): Promise<void> {

@@ -5,6 +5,7 @@ import { Gender } from '../../../Shared/domain/Gender';
 import { AggregateRoot } from 'src/contexts/Lifetails/Shared/domain/AggregateRoot';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { PetAddedDomainEvent } from '../PetAddedDomainEvent';
 
 export class Pet extends AggregateRoot {
   private id: UUID;
@@ -54,7 +55,11 @@ export class Pet extends AggregateRoot {
     ownerId: UUID,
   ) {
     const now = new DateValueObject(new Date());
-    return new Pet(id, species, name, gender, sterilized, anniversaryDate, now, ownerId);
+    const pet = new Pet(id, species, name, gender, sterilized, anniversaryDate, now, ownerId);
+
+    pet.record(new PetAddedDomainEvent({ aggregateId: id.toString(), name: name.toString() }));
+
+    return pet;
   }
 
   // Use to reconstruct the entity from the database

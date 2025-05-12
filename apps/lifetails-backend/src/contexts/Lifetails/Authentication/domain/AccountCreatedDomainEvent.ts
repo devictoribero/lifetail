@@ -26,14 +26,4 @@ export class AccountCreatedDomainEvent extends DomainEvent {
       attributes: { email },
     };
   }
-
-  public static fromPrimitives({
-    aggregateId,
-    attributes,
-  }: {
-    aggregateId: string;
-    attributes: AccountCreatedDomainEventAttributes;
-  }): DomainEvent {
-    return new AccountCreatedDomainEvent({ aggregateId, email: attributes.email });
-  }
 }
