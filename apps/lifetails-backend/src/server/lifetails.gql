@@ -58,13 +58,13 @@ input FindLifeMomentInput {
   id: String!
 }
 
-input FindPetInput {
-  id: String!
-}
-
 enum Gender {
   Female
   Male
+}
+
+input GetPetInput {
+  id: String!
 }
 
 type HealthCheckResponse {
@@ -152,7 +152,7 @@ enum PetSpecies {
 
 type Query {
   findLifeMoment(input: FindLifeMomentInput!): LifeMoment!
-  findPet(input: FindPetInput!): Pet!
+  getPet(input: GetPetInput!): Pet!
   healthCheck: HealthCheckResponse!
   searchAllPets(input: SearchAllPetsInput!): [Pet!]!
   searchLifeMoments(input: SearchLifeMomentsInput!): [LifeMoment!]!

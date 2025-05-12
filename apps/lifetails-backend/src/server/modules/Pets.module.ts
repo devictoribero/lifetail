@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
 import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
 import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
-import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
+import { GetPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/get/GetPetQueryHandler';
 // Infrastructure imports
 import { PetInMemoryRepository } from 'src/contexts/Lifetails/Pets/infrastructure/PetInMemoryRepository';
 // Domain imports
@@ -12,7 +12,7 @@ import { PET_REPOSITORY } from 'src/contexts/Lifetails/Pets/domain/repositories/
 import { AddPetGQLMutation } from '../graphql/Pets/add/AddPetGQLMutation';
 import { RemovePetGQLMutation } from '../graphql/Pets/remove/RemovePetGQLMutation';
 import { UpdatePetGQLMutation } from '../graphql/Pets/update/UpdatePetGQLMutation';
-import { FindPetGQLQuery } from '../graphql/Pets/find/FindPetGQLQuery';
+import { GetPetGQLQuery } from '../graphql/Pets/find/GetPetGQLQuery';
 import { SearchAllPetsGQLQuery } from '../graphql/Pets/searchAll/SearchAllPetsGQLQuery';
 import { SharedModule } from './Shared.module';
 import { AuthenticationModule } from './Authentication.module';
@@ -28,24 +28,24 @@ import { AuthenticationModule } from './Authentication.module';
     AddPetCommandHandler,
     RemovePetCommandHandler,
     UpdatePetCommandHandler,
-    FindPetQueryHandler,
+    GetPetQueryHandler,
     SearchAllPetsQueryHandler,
     AddPetGQLMutation,
     RemovePetGQLMutation,
     UpdatePetGQLMutation,
-    FindPetGQLQuery,
+    GetPetGQLQuery,
     SearchAllPetsGQLQuery,
   ],
   exports: [
     AddPetCommandHandler,
     RemovePetCommandHandler,
     UpdatePetCommandHandler,
-    FindPetQueryHandler,
+    GetPetQueryHandler,
     SearchAllPetsQueryHandler,
     AddPetGQLMutation,
     RemovePetGQLMutation,
     UpdatePetGQLMutation,
-    FindPetGQLQuery,
+    GetPetGQLQuery,
     SearchAllPetsGQLQuery,
   ],
 })

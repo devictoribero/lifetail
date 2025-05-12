@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
-import { FindPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/find/FindPetQueryHandler';
-import { FindPetQuery } from 'src/contexts/Lifetails/Pets/application/find/FindPetQuery';
+import { GetPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/get/GetPetQueryHandler';
+import { GetPetQuery } from 'src/contexts/Lifetails/Pets/application/get/GetPetQuery';
 import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommandHandler';
 import { AddLifeMomentCommand } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommand';
 import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
@@ -35,14 +35,14 @@ const getCommandHandlers = (app: INestApplication) => {
   const getUserQueryHandler = app.get(GetUserQueryHandler);
   const addPetCommandHandler = app.get(AddPetCommandHandler);
 
-  const findPetQueryHandler = app.get(FindPetQueryHandler);
+  const getPetQueryHandler = app.get(GetPetQueryHandler);
   const addLifeMomentCommandHandler = app.get(AddLifeMomentCommandHandler);
 
   return {
     authenticateAccountCommandHandler,
     getUserQueryHandler,
     addPetCommandHandler,
-    findPetQueryHandler,
+    getPetQueryHandler,
     addLifeMomentCommandHandler,
   };
 };
@@ -79,7 +79,7 @@ export const seedDatabase = async (app: INestApplication) => {
     authenticateAccountCommandHandler,
     getUserQueryHandler,
     addPetCommandHandler,
-    findPetQueryHandler,
+    getPetQueryHandler,
     addLifeMomentCommandHandler,
   } = getCommandHandlers(app);
 
@@ -121,7 +121,7 @@ export const seedDatabase = async (app: INestApplication) => {
     USER_ID,
   );
   await addPetCommandHandler.execute(addPetCommand);
-  const pet = await findPetQueryHandler.execute(new FindPetQuery(petId));
+  const pet = await getPetQueryHandler.execute(new GetPetQuery(petId));
   logDomainEvent('Pet added', pet);
 
   // Add life moment for pet

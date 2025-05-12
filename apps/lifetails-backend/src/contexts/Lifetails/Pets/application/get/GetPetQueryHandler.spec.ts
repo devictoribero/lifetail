@@ -1,6 +1,6 @@
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
-import { FindPetQueryHandler } from './FindPetQueryHandler';
-import { FindPetQuery } from './FindPetQuery';
+import { GetPetQueryHandler } from './GetPetQueryHandler';
+import { GetPetQuery } from './GetPetQuery';
 import { Pet } from '../../domain/entities/Pet';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { Gender } from '../../../Shared/domain/Gender';
@@ -11,21 +11,21 @@ import { faker } from '@faker-js/faker';
 import { Species } from '../../domain/entities/PetSpecies';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
-describe('FindPetQueryHandler', () => {
+describe('GetPetQueryHandler', () => {
   let repository: PetInMemoryRepository;
-  let queryHandler: FindPetQueryHandler;
+  let queryHandler: GetPetQueryHandler;
   let ownerId: string;
 
   beforeEach(() => {
     repository = new PetInMemoryRepository();
-    queryHandler = new FindPetQueryHandler(repository);
+    queryHandler = new GetPetQueryHandler(repository);
     ownerId = faker.string.uuid();
   });
 
   it('should throw PetNotFoundException when pet does not exist', async () => {
     // Arrange
     const nonExistentId = faker.string.uuid();
-    const query = new FindPetQuery(nonExistentId);
+    const query = new GetPetQuery(nonExistentId);
 
     // Act & Assert
     await expect(queryHandler.execute(query)).rejects.toThrow(
@@ -33,7 +33,7 @@ describe('FindPetQueryHandler', () => {
     );
   });
 
-  it('should find a pet', async () => {
+  it('should get a pet', async () => {
     // Arrange
     const id = faker.string.uuid();
     const name = faker.animal.cat();
@@ -59,7 +59,7 @@ describe('FindPetQueryHandler', () => {
     await repository.save(pet);
 
     const findSpy = jest.spyOn(repository, 'find');
-    const query = new FindPetQuery(id);
+    const query = new GetPetQuery(id);
 
     // Act
     const foundPet = await queryHandler.execute(query);

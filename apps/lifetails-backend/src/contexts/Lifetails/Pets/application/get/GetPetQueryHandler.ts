@@ -1,19 +1,19 @@
 import { Pet } from '../../domain/entities/Pet';
 import { PetRepository } from '../../domain/repositories/PetRepository';
-import { FindPetQuery } from './FindPetQuery';
+import { GetPetQuery } from './GetPetQuery';
 import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundException';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { Inject, Injectable } from '@nestjs/common';
 import { PET_REPOSITORY } from '../../domain/repositories/PetRepository';
 
 @Injectable()
-export class FindPetQueryHandler {
+export class GetPetQueryHandler {
   constructor(
     @Inject(PET_REPOSITORY)
     private readonly repository: PetRepository,
   ) {}
 
-  async execute(query: FindPetQuery): Promise<Pet> {
+  async execute(query: GetPetQuery): Promise<Pet> {
     const pet = await this.repository.find(new UUID(query.id));
     if (!pet) {
       throw new PetNotFoundException(query.id);
