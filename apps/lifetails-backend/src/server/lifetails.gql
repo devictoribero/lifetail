@@ -75,7 +75,7 @@ type LifeMoment {
   createdBy: String!
   description: String
   id: String!
-  occurredOn: DateTime!
+  occurredOn: String!
   petId: String!
   theme: LifeMomentTheme!
   type: LifeMomentType!

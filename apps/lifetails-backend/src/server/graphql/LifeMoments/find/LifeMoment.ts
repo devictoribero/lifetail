@@ -30,7 +30,7 @@ export class LifeMoment {
 
   @Field()
   @IsNotEmpty()
-  occurredOn: Date;
+  occurredOn: string;
 
   @Field({ nullable: true })
   @IsOptional()

@@ -25,7 +25,7 @@ export class SearchLifeMomentsGQLQuery {
           type: lifeMomentPrimitive.type,
           petId: lifeMomentPrimitive.petId,
           createdBy: lifeMomentPrimitive.createdBy,
-          occurredOn: lifeMomentPrimitive.occurredOn.toISOString(),
+          occurredOn: lifeMomentPrimitive.occurredOn,
           description: lifeMomentPrimitive.description,
         };
       });

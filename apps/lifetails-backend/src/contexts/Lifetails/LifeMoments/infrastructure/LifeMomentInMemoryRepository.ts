@@ -62,7 +62,7 @@ export class LifeMomentInMemoryRepository implements LifeMomentRepository {
             moment.theme,
             moment.petId,
             moment.createdBy,
-            moment.occurredOn,
+            new Date(moment.occurredOn),
             moment.description,
           ),
         );

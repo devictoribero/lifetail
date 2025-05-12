@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './modules/App.module';
+import { seedDatabase } from './seed-db';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,7 +12,7 @@ async function bootstrap() {
 
   await app.listen(port).then(async () => {
     console.info(`LifeTail API is running on port ${port}`);
-    // await seedDatabase(app);
+    await seedDatabase(app);
   });
 }
 

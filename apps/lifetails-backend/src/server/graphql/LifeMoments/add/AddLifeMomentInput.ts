@@ -21,7 +21,7 @@ export class AddLifeMomentInput {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()
-  occurredOn?: string;
+  occurredOn?: string | null;
 
   @Field()
   @IsString()

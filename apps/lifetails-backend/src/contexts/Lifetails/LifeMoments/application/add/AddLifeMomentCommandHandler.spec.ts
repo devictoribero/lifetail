@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { AddLifeMomentCommand } from './AddLifeMomentCommand';
 import { LifeMomentInMemoryRepository } from '../../infrastructure/LifeMomentInMemoryRepository';
 import { AddLifeMomentCommandHandler } from './AddLifeMomentCommandHandler';
-import { LifeMoment } from 'src/server/graphql/LifeMoments/find/LifeMoment';
+import { LifeMoment } from '../../domain/entities/LifeMoment';
 
 describe('AddLifeMomentCommandHandler', () => {
   let repository: LifeMomentInMemoryRepository;
@@ -31,11 +31,11 @@ describe('AddLifeMomentCommandHandler', () => {
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);
     const savedMoment = saveSpy.mock.calls[0][0] as unknown as LifeMoment;
-    expect(savedMoment.id.toString()).toBe(id);
-    expect(savedMoment.type.toString()).toBe(type);
-    expect(savedMoment.theme.toString()).toBe('Wellness');
-    expect(savedMoment.petId.toString()).toBe(petId);
-    expect(savedMoment.createdBy.toString()).toBe(createdBy);
-    expect(savedMoment.occurredOn.toISOString()).toBe(occurredOn.toISOString());
+    expect(savedMoment.getId().toString()).toBe(id);
+    expect(savedMoment.getType().toString()).toBe(type);
+    expect(savedMoment.getTheme().toString()).toBe('Wellness');
+    expect(savedMoment.getPetId().toString()).toBe(petId);
+    expect(savedMoment.getCreatedBy().toString()).toBe(createdBy);
+    expect(savedMoment.getOccurredOn().toISOString()).toBe(occurredOn.toISOString());
   });
 });
