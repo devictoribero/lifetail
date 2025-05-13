@@ -13,11 +13,11 @@ import { AddArrivalLifeMomentOnPetAdded } from 'src/contexts/Lifetails/LifeMomen
 import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoments/infrastructure/LifeMomentInMemoryRepository';
 import { AuthenticationModule } from './Authentication.module';
 // GraphQL imports
-import { AddLifeMomentGQLMutation } from '../graphql/LifeMoments/add/AddLifeMomentGQLMutation';
-import { RemoveLifeMomentGQLMutation } from '../graphql/LifeMoments/remove/RemoveLifeMomentGQLMutation';
-import { UpdateLifeMomentGQLMutation } from '../graphql/LifeMoments/update/UpdateLifeMomentGQLMutation';
-import { SearchLifeMomentsGQLQuery } from '../graphql/LifeMoments/search/SearchLifeMomentsGQLQuery';
-import { GetLifeMomentGQLQuery } from '../graphql/LifeMoments/find/GetLifeMomentGQLQuery';
+import { AddLifeMomentGQLMutation } from '../graphql/Lifetail/LifeMoments/add/AddLifeMomentGQLMutation';
+import { RemoveLifeMomentGQLMutation } from '../graphql/Lifetail/LifeMoments/remove/RemoveLifeMomentGQLMutation';
+import { UpdateLifeMomentGQLMutation } from '../graphql/Lifetail/LifeMoments/update/UpdateLifeMomentGQLMutation';
+import { SearchLifeMomentsGQLQuery } from '../graphql/Lifetail/LifeMoments/search/SearchLifeMomentsGQLQuery';
+import { GetLifeMomentGQLQuery } from '../graphql/Lifetail/LifeMoments/find/GetLifeMomentGQLQuery';
 import { SharedModule } from './Shared.module';
 import { PetsModule } from './Pets.module';
 
