@@ -9,6 +9,7 @@ type InMemoryAccount = {
   email: string;
   password: string;
   createdAt: string;
+  deletedAt: string | null;
 };
 
 @Injectable()
@@ -36,6 +37,7 @@ export class AccountInMemoryRepository implements AccountRepository {
       account.email,
       account.password,
       new Date(account.createdAt),
+      account.deletedAt ? new Date(account.deletedAt) : null,
     );
   }
 
@@ -50,6 +52,7 @@ export class AccountInMemoryRepository implements AccountRepository {
       account.email,
       account.password,
       new Date(account.createdAt),
+      account.deletedAt ? new Date(account.deletedAt) : null,
     );
   }
 

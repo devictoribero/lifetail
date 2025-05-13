@@ -11,6 +11,7 @@ export class Account extends AggregateRoot {
   private readonly email: EmailValueObject;
   private readonly password: PasswordHashValueObject;
   private readonly createdAt: DateValueObject;
+  private deletedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
@@ -18,12 +19,14 @@ export class Account extends AggregateRoot {
     email: EmailValueObject,
     password: PasswordHashValueObject,
     createdAt: DateValueObject,
+    deletedAt: DateValueObject | null = null,
   ) {
     super();
     this.id = id;
     this.email = email;
     this.password = password;
     this.createdAt = createdAt;
+    this.deletedAt = deletedAt;
   }
 
   // Use to create the entity from the domain
@@ -40,12 +43,19 @@ export class Account extends AggregateRoot {
   }
 
   // Use to reconstruct the entity from the database
-  static fromPrimitives(id: string, email: string, password: string, createdAt: Date): Account {
+  static fromPrimitives(
+    id: string,
+    email: string,
+    password: string,
+    createdAt: Date,
+    deletedAt: Date | null,
+  ): Account {
     return new Account(
       new UUID(id),
       new EmailValueObject(email),
       new PasswordHashValueObject(password),
       new DateValueObject(createdAt),
+      deletedAt ? new DateValueObject(deletedAt) : null,
     );
   }
 
@@ -55,10 +65,12 @@ export class Account extends AggregateRoot {
       email: this.email.toString(),
       password: this.password.toString(),
       createdAt: this.createdAt.toISOString(),
+      deletedAt: this.deletedAt?.toISOString() || null,
     };
   }
 
   markAsDeleted(): void {
+    this.deletedAt = new DateValueObject(new Date());
     this.record(
       new AccountDeletedDomainEvent({
         aggregateId: this.id.toString(),
@@ -81,5 +93,9 @@ export class Account extends AggregateRoot {
 
   getCreatedAt(): DateValueObject {
     return this.createdAt;
+  }
+
+  getDeletedAt(): DateValueObject | null {
+    return this.deletedAt;
   }
 }

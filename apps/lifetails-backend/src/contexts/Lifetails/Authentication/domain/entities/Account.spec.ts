@@ -70,9 +70,10 @@ describe('Account', () => {
     const email = faker.internet.email();
     const password = faker.internet.password();
     const createdAt = faker.date.recent();
+    const deletedAt = faker.date.recent();
 
     // Act
-    const account = Account.fromPrimitives(id, email, password, createdAt);
+    const account = Account.fromPrimitives(id, email, password, createdAt, deletedAt);
 
     // Assert
     expect(account).toBeInstanceOf(Account);
@@ -80,6 +81,7 @@ describe('Account', () => {
     expect(account.getEmail().toString()).toBe(email.toString());
     expect(account.getPassword().toString()).toBe(password.toString());
     expect(account.getCreatedAt().toISOString()).toEqual(createdAt.toISOString());
+    expect(account.getDeletedAt().toISOString()).toEqual(deletedAt.toISOString());
   });
 
   it('should convert Account instance to primitives', () => {
@@ -99,6 +101,7 @@ describe('Account', () => {
       email: email.toString(),
       password: password.toString(),
       createdAt: createdAt.toISOString(),
+      deletedAt: null,
     });
   });
 
@@ -114,6 +117,7 @@ describe('Account', () => {
     account.markAsDeleted();
 
     // Assert
+    expect(account.getDeletedAt()).not.toBeNull();
     const events = account.pullDomainEvents();
     expect(events).toHaveLength(1);
     expect(events[0]).toBeInstanceOf(AccountDeletedDomainEvent);
