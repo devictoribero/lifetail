@@ -15,7 +15,7 @@ import { SharedModule } from './Shared.module';
 // Module imports
 import { AuthenticationModule } from './Authentication.module';
 // GraphQL imports
-import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Users/changePreferredLanguage/ChangeUserPreferredLanguageGQLMutation';
+import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/Users/changePreferredLanguage/ChangeUserPreferredLanguageGQLMutation';
 
 @Module({
   imports: [SharedModule, forwardRef(() => AuthenticationModule)],

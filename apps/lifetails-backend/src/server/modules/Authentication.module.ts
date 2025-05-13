@@ -21,7 +21,7 @@ import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/in
 import { UsersModule } from './Users.module';
 import { AuthenticateAccountGQLMutation } from '../graphql/Identity/Authentication/authenticateAccount/AuthenticateAccountGQLMutation';
 import { RefreshTokenGQLMutation } from '../graphql/Identity/Authentication/refreshToken/RefreshTokenGQLMutation';
-import { CreateAccountGQLMutation } from '../graphql/Identity/Authentication/createAccount/CreateAccountGQLMutation';
+import { CreateAccountGQLMutation } from '../graphql/Identity/Accounts/createAccount/CreateAccountGQLMutation';
 
 @Module({
   imports: [
