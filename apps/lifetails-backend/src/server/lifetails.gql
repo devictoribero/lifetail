@@ -44,7 +44,7 @@ input ChangeUserPreferredLanguageInput {
 }
 
 type ChangeUserPreferredLanguageResponse {
-  languageCode: LanguageCode!
+  success: Boolean!
 }
 
 input CreateAccountInput {

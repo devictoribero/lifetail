@@ -19,9 +19,9 @@ import { SharedModule } from './Shared.module';
 import jwtConfig from 'src/contexts/Lifetails/Authentication/infrastructure/config/jwt.config';
 import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
 import { UsersModule } from './Users.module';
-import { AuthenticateAccountGQLMutation } from '../graphql/Authentication/authenticateAccount/AuthenticateAccountGQLMutation';
-import { RefreshTokenGQLMutation } from '../graphql/Authentication/refreshToken/RefreshTokenGQLMutation';
-import { CreateAccountGQLMutation } from '../graphql/Authentication/createAccount/CreateAccountGQLMutation';
+import { AuthenticateAccountGQLMutation } from '../graphql/Identity/Authentication/authenticateAccount/AuthenticateAccountGQLMutation';
+import { RefreshTokenGQLMutation } from '../graphql/Identity/Authentication/refreshToken/RefreshTokenGQLMutation';
+import { CreateAccountGQLMutation } from '../graphql/Identity/Authentication/createAccount/CreateAccountGQLMutation';
 
 @Module({
   imports: [
