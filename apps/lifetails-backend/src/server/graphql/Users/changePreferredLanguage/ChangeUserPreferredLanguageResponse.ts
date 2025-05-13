@@ -3,6 +3,6 @@ import { LanguageCodeGraphqlEnum } from './ChangeUserPreferredLanguageInput';
 
 @ObjectType()
 export class ChangeUserPreferredLanguageResponse {
-  @Field(() => LanguageCodeGraphqlEnum)
-  languageCode: LanguageCodeGraphqlEnum;
+  @Field(() => Boolean)
+  success: boolean;
 }

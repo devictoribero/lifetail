@@ -4,6 +4,7 @@ import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
+import { AccountDeletedDomainEvent } from '../AccountDeletedDomainEvent';
 
 describe('Account', () => {
   beforeEach(() => {
@@ -99,5 +100,28 @@ describe('Account', () => {
       password: password.toString(),
       createdAt: createdAt.toISOString(),
     });
+  });
+
+  it('should record an AccountDeletedDomainEvent when markAsDeleted is called', () => {
+    // Arrange
+    const id = new UUID(faker.string.uuid());
+    const email = new EmailValueObject(faker.internet.email());
+    const password = new PasswordHashValueObject(faker.internet.password());
+    const createdAt = new DateValueObject(faker.date.recent());
+    const account = new Account(id, email, password, createdAt);
+
+    // Act
+    account.markAsDeleted();
+
+    // Assert
+    const events = account.pullDomainEvents();
+    expect(events).toHaveLength(1);
+    expect(events[0]).toBeInstanceOf(AccountDeletedDomainEvent);
+    expect(events[0]).toEqual(
+      expect.objectContaining({
+        aggregateId: account.getId().toString(),
+        email: account.getEmail().toString(),
+      }),
+    );
   });
 });

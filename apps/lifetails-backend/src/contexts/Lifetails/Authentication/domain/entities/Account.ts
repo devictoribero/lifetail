@@ -4,6 +4,7 @@ import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { AccountCreatedDomainEvent } from '../AccountCreatedDomainEvent';
+import { AccountDeletedDomainEvent } from '../AccountDeletedDomainEvent';
 
 export class Account extends AggregateRoot {
   private readonly id: UUID;
@@ -55,6 +56,15 @@ export class Account extends AggregateRoot {
       password: this.password.toString(),
       createdAt: this.createdAt.toISOString(),
     };
+  }
+
+  markAsDeleted(): void {
+    this.record(
+      new AccountDeletedDomainEvent({
+        aggregateId: this.id.toString(),
+        email: this.email.toString(),
+      }),
+    );
   }
 
   getId(): UUID {

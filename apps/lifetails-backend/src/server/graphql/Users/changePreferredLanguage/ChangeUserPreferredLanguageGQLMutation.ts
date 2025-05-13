@@ -26,7 +26,7 @@ export class ChangeUserPreferredLanguageGQLMutation {
       const command = new ChangeUserPreferredLanguageCommand(userId, input.languageCode);
       await this.changeUserPreferredLanguageCommandHandler.handle(command);
 
-      return { languageCode: input.languageCode };
+      return { success: true };
     } catch (error) {
       if (error instanceof UserNotFoundException) {
         throw new Error(`User not found: ${error.message}`);

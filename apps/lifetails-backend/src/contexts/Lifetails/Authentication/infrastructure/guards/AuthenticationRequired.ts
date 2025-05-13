@@ -4,6 +4,11 @@ import { JwtTokenGenerator } from '../services/JwtTokenGenerator';
 import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from '../decorators/Public';
 
+export type UserInContext = {
+  accountId: string;
+  id: string;
+};
+
 @Injectable()
 export class AuthenticationRequired implements CanActivate {
   constructor(
@@ -21,11 +26,13 @@ export class AuthenticationRequired implements CanActivate {
 
     try {
       const payload = await this.tokenGenerator.verifyToken(token);
-      // Add user information to the request
-      req.user = {
+      const userInContext: UserInContext = {
         accountId: payload.sub,
         id: payload.userId,
       };
+
+      // Add user information to the request
+      req.user = userInContext;
       return true;
     } catch (error) {
       throw new UnauthorizedException('Invalid token');
