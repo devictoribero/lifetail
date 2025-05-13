@@ -1,6 +1,11 @@
 import { StringValueObject } from './StringValueObject';
 import { InvalidLanguageException } from './exceptions/InvalidLanguageException';
 
+export enum LanguageCode {
+  English = 'en',
+  Spanish = 'es',
+}
+
 export class Language extends StringValueObject {
   private constructor(value: string) {
     super(value);
@@ -23,7 +28,7 @@ export class Language extends StringValueObject {
     return validLanguage;
   }
 
-  public static readonly English = new Language('en');
-  public static readonly Spanish = new Language('es');
+  public static readonly English = new Language(LanguageCode.English);
+  public static readonly Spanish = new Language(LanguageCode.Spanish);
   public static readonly all = [Language.English, Language.Spanish];
 }

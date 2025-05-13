@@ -34,4 +34,10 @@ export class UserInMemoryRepository implements UserRepository {
   clear(): void {
     this.users = [];
   }
+
+  async getById(id: UUID): Promise<User | null> {
+    const user = this.users.find((u) => u.getId().toString() === id.toString());
+
+    return user || null;
+  }
 }

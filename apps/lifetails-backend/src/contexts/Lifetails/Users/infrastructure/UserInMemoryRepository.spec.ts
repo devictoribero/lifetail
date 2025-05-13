@@ -20,6 +20,7 @@ describe('UserInMemoryRepository', () => {
   });
 
   afterEach(() => {
+    // @todo: This is a hack to clear the repository after each test.
     repository.clear();
   });
 

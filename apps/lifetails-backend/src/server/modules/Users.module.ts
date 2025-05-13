@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 // Domain imports
 import { GetUserService } from 'src/contexts/Lifetails/Users/domain/services/GetUserService';
 import {
@@ -8,12 +8,17 @@ import {
 // Application imports
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
+import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Lifetails/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
 // Infrastructure imports
 import { UserInMemoryRepository } from 'src/contexts/Lifetails/Users/infrastructure/UserInMemoryRepository';
 import { SharedModule } from './Shared.module';
+// Module imports
+import { AuthenticationModule } from './Authentication.module';
+// GraphQL imports
+import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Users/changePreferredLanguage/ChangeUserPreferredLanguageGQLMutation';
 
 @Module({
-  imports: [SharedModule],
+  imports: [SharedModule, forwardRef(() => AuthenticationModule)],
   controllers: [],
   providers: [
     {
@@ -29,7 +34,15 @@ import { SharedModule } from './Shared.module';
     },
     GetUserQueryHandler,
     CreateUserCommandHandler,
+    ChangeUserPreferredLanguageCommandHandler,
+    ChangeUserPreferredLanguageGQLMutation,
   ],
-  exports: [CreateUserCommandHandler, GetUserQueryHandler, USER_REPOSITORY],
+  exports: [
+    CreateUserCommandHandler,
+    GetUserQueryHandler,
+    ChangeUserPreferredLanguageCommandHandler,
+    USER_REPOSITORY,
+    ChangeUserPreferredLanguageGQLMutation,
+  ],
 })
 export class UsersModule {}

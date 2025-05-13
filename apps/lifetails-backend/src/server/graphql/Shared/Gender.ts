@@ -6,5 +6,4 @@ export enum GenderGraphqlEnum {
   Female = 'Female',
 }
 
-// Register the enum with GraphQL only once
 registerEnumType(GenderGraphqlEnum, { name: 'Gender' });

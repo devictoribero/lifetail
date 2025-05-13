@@ -36,3 +36,7 @@ export class LifeMoment {
   @IsOptional()
   description: string | null;
 }
+
+registerEnumType(LifeMomentThemeGraphqlEnum, {
+  name: 'LifeMomentTheme',
+});

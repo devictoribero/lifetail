@@ -39,7 +39,6 @@ export enum LifeMomentTypeGraphqlEnum {
   Walk = 'Walk',
 }
 
-// Register the enums for GraphQL
 registerEnumType(LifeMomentThemeGraphqlEnum, {
   name: 'LifeMomentTheme',
 });

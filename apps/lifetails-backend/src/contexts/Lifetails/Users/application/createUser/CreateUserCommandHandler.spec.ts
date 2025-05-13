@@ -23,6 +23,7 @@ describe('CreateUserCommandHandler', () => {
     repository = {
       save: jest.fn(),
       getByAccountId: jest.fn(),
+      getById: jest.fn(),
     };
 
     commandHandler = new CreateUserCommandHandler(getUserService, repository);

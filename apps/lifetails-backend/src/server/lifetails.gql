@@ -39,6 +39,14 @@ type AuthenticateAccountResponse {
   userId: String!
 }
 
+input ChangeUserPreferredLanguageInput {
+  languageCode: LanguageCode!
+}
+
+type ChangeUserPreferredLanguageResponse {
+  languageCode: LanguageCode!
+}
+
 input CreateAccountInput {
   email: String!
   nickname: String!
@@ -69,6 +77,11 @@ input GetPetInput {
 
 type HealthCheckResponse {
   timestamp: DateTime!
+}
+
+enum LanguageCode {
+  en
+  es
 }
 
 type LifeMoment {
@@ -124,6 +137,7 @@ type Mutation {
   addLifeMoment(input: AddLifeMomentInput!): AddLifeMomentResponse!
   addPet(input: AddPetInput!): AddPetResponse!
   authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
+  changeUserPreferredLanguage(input: ChangeUserPreferredLanguageInput!): ChangeUserPreferredLanguageResponse!
   createAccount(input: CreateAccountInput!): CreateAccountResponse!
   refreshToken(input: RefreshTokenInput!): RefreshTokenResponse!
   removeLifeMoment(input: RemoveLifeMomentInput!): Boolean!

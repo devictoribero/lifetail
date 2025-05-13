@@ -11,7 +11,7 @@ export class User extends AggregateRoot {
   private readonly accountId: UUID;
   private readonly nickname: StringValueObject;
   private readonly createdAt: DateValueObject;
-  private readonly preferredLanguage: Language;
+  private preferredLanguage: Language;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
@@ -58,6 +58,10 @@ export class User extends AggregateRoot {
 
   getPreferredLanguage(): Language {
     return this.preferredLanguage;
+  }
+
+  changePreferredLanguageTo(language: Language): void {
+    this.preferredLanguage = language;
   }
 
   toPrimitives(): any {
