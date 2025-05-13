@@ -1,7 +1,6 @@
 
 # Todo
 
-- A ser can select the preferred language
 - A user can log out
 - A user can delete the account
   - The account remains inactive for 30 days. After that, the account and all-related data gets deleted.
