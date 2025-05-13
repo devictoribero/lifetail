@@ -1,10 +1,10 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CreateAccountResponse } from './CreateAccountResponse';
 import { CreateAccountInput } from './CreateAccountInput';
-import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
-import { EmailAlreadyInUseException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/EmailAlreadyInUseException';
-import { CreateAccountCommand } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommand';
-import { Public } from 'src/contexts/Lifetails/Authentication/infrastructure/decorators/Public';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/createAccount/CreateAccountCommandHandler';
+import { EmailAlreadyInUseException } from 'src/contexts/Identity/Authentication/domain/exceptions/EmailAlreadyInUseException';
+import { CreateAccountCommand } from 'src/contexts/Identity/Authentication/application/createAccount/CreateAccountCommand';
+import { Public } from 'src/contexts/Identity/Authentication/infrastructure/decorators/Public';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { CreateUserCommand } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommand';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';

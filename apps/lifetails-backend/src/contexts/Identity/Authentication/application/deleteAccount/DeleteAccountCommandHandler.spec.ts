@@ -1,7 +1,7 @@
 import { DeleteAccountCommandHandler } from './DeleteAccountCommandHandler';
 import { AccountRepository, ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
 import { DeleteAccountCommand } from './DeleteAccountCommand';
-import { EventBus } from '../../../Shared/domain/EventBus';
+import { EventBus } from 'src/contexts/Lifetails/Shared/domain/EventBus';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { Account } from '../../domain/entities/Account';
 import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';

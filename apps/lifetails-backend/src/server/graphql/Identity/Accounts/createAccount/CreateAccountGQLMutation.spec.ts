@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
 import { CreateAccountGQLMutation } from './CreateAccountGQLMutation';
-import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/createAccount/CreateAccountCommandHandler';
 import { CreateAccountInput } from './CreateAccountInput';
-import { EmailAlreadyInUseException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/EmailAlreadyInUseException';
-import { Account } from 'src/contexts/Lifetails/Authentication/domain/entities/Account';
+import { EmailAlreadyInUseException } from 'src/contexts/Identity/Authentication/domain/exceptions/EmailAlreadyInUseException';
+import { Account } from 'src/contexts/Identity/Authentication/domain/entities/Account';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
 
 describe('CreateAccountGQLMutation', () => {

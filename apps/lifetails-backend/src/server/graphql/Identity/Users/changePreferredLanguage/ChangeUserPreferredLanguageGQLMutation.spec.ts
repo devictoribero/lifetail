@@ -8,8 +8,8 @@ import {
 import { UserNotFoundException } from 'src/contexts/Lifetails/Users/domain/exceptions/UserNotFoundException';
 import { faker } from '@faker-js/faker';
 import { InvalidLanguageException } from 'src/contexts/Lifetails/Shared/domain/exceptions/InvalidLanguageException';
-import { JwtTokenGenerator } from 'src/contexts/Lifetails/Authentication/infrastructure/services/JwtTokenGenerator';
-import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
+import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
+import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 import { Reflector } from '@nestjs/core';
 
 describe('ChangeUserPreferredLanguageGQLMutation', () => {

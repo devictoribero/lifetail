@@ -1,6 +1,6 @@
 import { Query, Resolver } from '@nestjs/graphql';
 import { HealthCheckResponse } from './HealthCheckResponse';
-import { Public } from 'src/contexts/Lifetails/Authentication/infrastructure/decorators/Public';
+import { Public } from 'src/contexts/Identity/Authentication/infrastructure/decorators/Public';
 
 @Public()
 @Resolver()

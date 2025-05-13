@@ -4,7 +4,7 @@ import { ChangeUserPreferredLanguageCommand } from 'src/contexts/Lifetails/Users
 import { UserNotFoundException } from 'src/contexts/Lifetails/Users/domain/exceptions/UserNotFoundException';
 import { InvalidLanguageException } from 'src/contexts/Lifetails/Shared/domain/exceptions/InvalidLanguageException';
 import { UseGuards } from '@nestjs/common';
-import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
+import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 import { ChangeUserPreferredLanguageResponse } from './ChangeUserPreferredLanguageResponse';
 import { ChangeUserPreferredLanguageInput } from './ChangeUserPreferredLanguageInput';
 

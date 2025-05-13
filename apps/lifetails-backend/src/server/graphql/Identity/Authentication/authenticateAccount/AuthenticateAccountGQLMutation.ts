@@ -1,11 +1,11 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthenticateAccountResponse } from './AuthenticateAccountResponse';
 import { AuthenticateAccountInput } from './AuthenticateAccountInput';
-import { InvalidCredentialsException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/InvalidCredentialsException';
-import { AuthenticateAccountCommand } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
-import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
-import { JwtTokenGenerator } from 'src/contexts/Lifetails/Authentication/infrastructure/services/JwtTokenGenerator';
-import { Public } from 'src/contexts/Lifetails/Authentication/infrastructure/decorators/Public';
+import { InvalidCredentialsException } from 'src/contexts/Identity/Authentication/domain/exceptions/InvalidCredentialsException';
+import { AuthenticateAccountCommand } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
+import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
+import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
+import { Public } from 'src/contexts/Identity/Authentication/infrastructure/decorators/Public';
 import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQuery';
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 

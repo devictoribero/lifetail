@@ -1,10 +1,10 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { RefreshTokenResponse } from './RefreshTokenResponse';
 import { RefreshTokenInput } from './RefreshTokenInput';
-import { RefreshTokenCommand } from 'src/contexts/Lifetails/Authentication/application/refreshToken/RefreshTokenCommand';
-import { RefreshTokenCommandHandler } from 'src/contexts/Lifetails/Authentication/application/refreshToken/RefreshTokenCommandHandler';
-import { InvalidTokenException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/InvalidTokenException';
-import { Public } from 'src/contexts/Lifetails/Authentication/infrastructure/decorators/Public';
+import { RefreshTokenCommand } from 'src/contexts/Identity/Authentication/application/refreshToken/RefreshTokenCommand';
+import { RefreshTokenCommandHandler } from 'src/contexts/Identity/Authentication/application/refreshToken/RefreshTokenCommandHandler';
+import { InvalidTokenException } from 'src/contexts/Identity/Authentication/domain/exceptions/InvalidTokenException';
+import { Public } from 'src/contexts/Identity/Authentication/infrastructure/decorators/Public';
 
 @Resolver()
 export class RefreshTokenGQLMutation {

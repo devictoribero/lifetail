@@ -1,6 +1,6 @@
-import { AggregateRoot } from '../../../Shared/domain/AggregateRoot';
-import { UUID } from '../../../Shared/domain/UUID';
-import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
+import { AggregateRoot } from 'src/contexts/Lifetails/Shared/domain/AggregateRoot';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { AccountCreatedDomainEvent } from '../AccountCreatedDomainEvent';
@@ -75,6 +75,7 @@ export class Account extends AggregateRoot {
       new AccountDeletedDomainEvent({
         aggregateId: this.id.toString(),
         email: this.email.toString(),
+        eventId: UUID.create().toString(),
       }),
     );
   }

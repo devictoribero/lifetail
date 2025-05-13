@@ -1,14 +1,14 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { DeleteAccountInput } from './DeleteAccountInput';
 import { DeleteAccountResponse } from './DeleteAccountResponse';
-import { DeleteAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/deleteAccount/DeleteAccountCommandHandler';
-import { DeleteAccountCommand } from 'src/contexts/Lifetails/Authentication/application/deleteAccount/DeleteAccountCommand';
+import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/deleteAccount/DeleteAccountCommandHandler';
+import { DeleteAccountCommand } from 'src/contexts/Identity/Authentication/application/deleteAccount/DeleteAccountCommand';
 import { UseGuards } from '@nestjs/common';
-import { AccountNotFoundException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/AccountNotFoundException';
+import { AccountNotFoundException } from 'src/contexts/Identity/Authentication/domain/exceptions/AccountNotFoundException';
 import {
   AuthenticationRequired,
   UserInContext,
-} from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
+} from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 
 @Resolver()
 export class DeleteAccountGQLMutation {

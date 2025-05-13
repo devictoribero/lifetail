@@ -1,8 +1,8 @@
+import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
 import { Account } from '../domain/entities/Account';
 import { AccountRepository } from '../domain/repositories/AccountRepository';
-import { EmailValueObject } from '../../Shared/domain/EmailValueObject';
 import { Injectable } from '@nestjs/common';
-import { UUID } from '../../Shared/domain/UUID';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
 type InMemoryAccount = {
   id: string;

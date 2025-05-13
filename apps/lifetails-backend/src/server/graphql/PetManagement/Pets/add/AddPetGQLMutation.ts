@@ -5,7 +5,7 @@ import { AddPetInput } from './AddPetInput';
 import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
 import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
 import { MaxNumberOfPetsReachedException } from 'src/contexts/Lifetails/Pets/domain/exceptions/MaxNumberOfPetsReachedException';
-import { AuthenticationRequired } from 'src/contexts/Lifetails/Authentication/infrastructure/guards/AuthenticationRequired';
+import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 
 @Resolver()
 @UseGuards(AuthenticationRequired)

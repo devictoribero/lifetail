@@ -1,13 +1,13 @@
 import { Account } from '../../domain/entities/Account';
-import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
 import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { CreateAccountCommand } from './CreateAccountCommand';
 import { Injectable, Inject } from '@nestjs/common';
 import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
-import { EventBus, EVENT_BUS } from '../../../Shared/domain/EventBus';
+import { EventBus, EVENT_BUS } from 'src/contexts/Lifetails/Shared/domain/EventBus';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
 
 @Injectable()
 export class CreateAccountCommandHandler {

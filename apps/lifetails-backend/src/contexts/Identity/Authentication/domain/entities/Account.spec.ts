@@ -1,6 +1,6 @@
 import { Account } from './Account';
-import { UUID } from '../../../Shared/domain/UUID';
-import { EmailValueObject } from '../../../Shared/domain/EmailValueObject';
+import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';

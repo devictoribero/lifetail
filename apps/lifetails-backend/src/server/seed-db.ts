@@ -8,13 +8,13 @@ import { Species } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies'
 import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
 import { INestApplication, Logger } from '@nestjs/common';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
+import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQuery';
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
-import { AuthenticateAccountCommand } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
+import { AuthenticateAccountCommand } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
 import { CreateUserCommand } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommand';
 import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
-import { CreateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/createAccount/CreateAccountCommandHandler';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/createAccount/CreateAccountCommandHandler';
 
 const logger = new Logger('seed-db');
 

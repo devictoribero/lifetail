@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
 import { AuthenticateAccountGQLMutation } from './AuthenticateAccountGQLMutation';
-import { AuthenticateAccountCommandHandler } from 'src/contexts/Lifetails/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
+import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { AuthenticateAccountInput } from './AuthenticateAccountInput';
-import { InvalidCredentialsException } from 'src/contexts/Lifetails/Authentication/domain/exceptions/InvalidCredentialsException';
-import { JwtTokenGenerator } from 'src/contexts/Lifetails/Authentication/infrastructure/services/JwtTokenGenerator';
+import { InvalidCredentialsException } from 'src/contexts/Identity/Authentication/domain/exceptions/InvalidCredentialsException';
+import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
 import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 
