@@ -1,8 +1,8 @@
 
 # Todo
 
+- Finish Reorganize bounded contexts.
 - Delete accounts and related data after 30d.
-- Reorganize bounded contexts.
 - A user can log out
 -
 - Review the error handling and follow best practices
