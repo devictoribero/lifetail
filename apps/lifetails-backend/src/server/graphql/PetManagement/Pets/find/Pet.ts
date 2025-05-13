@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { GenderGraphqlEnum } from '../../shared/Gender';
+import { GenderGraphqlEnum } from 'src/server/graphql/Shared/Gender';
 
 @ObjectType()
 export class Pet {

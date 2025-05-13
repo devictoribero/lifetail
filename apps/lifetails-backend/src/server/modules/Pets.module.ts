@@ -9,11 +9,11 @@ import { PetInMemoryRepository } from 'src/contexts/Lifetails/Pets/infrastructur
 // Domain imports
 import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
 import { PET_REPOSITORY } from 'src/contexts/Lifetails/Pets/domain/repositories/PetRepository';
-import { AddPetGQLMutation } from '../graphql/Pets/add/AddPetGQLMutation';
-import { RemovePetGQLMutation } from '../graphql/Pets/remove/RemovePetGQLMutation';
-import { UpdatePetGQLMutation } from '../graphql/Pets/update/UpdatePetGQLMutation';
-import { GetPetGQLQuery } from '../graphql/Pets/find/GetPetGQLQuery';
-import { SearchAllPetsGQLQuery } from '../graphql/Pets/searchAll/SearchAllPetsGQLQuery';
+import { AddPetGQLMutation } from '../graphql/PetManagement/Pets/add/AddPetGQLMutation';
+import { RemovePetGQLMutation } from '../graphql/PetManagement/Pets/remove/RemovePetGQLMutation';
+import { UpdatePetGQLMutation } from '../graphql/PetManagement/Pets/update/UpdatePetGQLMutation';
+import { GetPetGQLQuery } from '../graphql/PetManagement/Pets/find/GetPetGQLQuery';
+import { SearchAllPetsGQLQuery } from '../graphql/PetManagement/Pets/searchAll/SearchAllPetsGQLQuery';
 import { SharedModule } from './Shared.module';
 import { AuthenticationModule } from './Authentication.module';
 

@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsBoolean, IsDate, IsOptional, IsString, IsUUID } from 'class-validator';
-import { GenderGraphqlEnum } from '../../shared/Gender';
+import { GenderGraphqlEnum } from 'src/server/graphql/Shared/Gender';
 
 @InputType()
 export class UpdatePetInput {
