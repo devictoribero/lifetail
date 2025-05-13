@@ -1,7 +1,3 @@
-import { Account } from '../../domain/entities/Account';
-import { AccountRepository } from '../../domain/repositories/AccountRepository';
-import { PasswordHasher } from '../../domain/services/PasswordHasher';
-import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { faker } from '@faker-js/faker';
 import { CreateAccountCommandHandler } from './CreateAccountCommandHandler';
@@ -11,6 +7,10 @@ import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
 import { EventBus } from 'src/contexts/Lifetails/Shared/domain/EventBus';
 import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { AccountRepository } from 'src/contexts/Identity/Authentication/domain/repositories/AccountRepository';
+import { PasswordHasher } from 'src/contexts/Identity/Authentication/domain/services/PasswordHasher';
+import { Account } from 'src/contexts/Identity/Authentication/domain/entities/Account';
+import { EmailAlreadyInUseException } from 'src/contexts/Identity/Authentication/domain/exceptions/EmailAlreadyInUseException';
 
 describe('CreateAccountCommandHandler', () => {
   let commandHandler: CreateAccountCommandHandler;

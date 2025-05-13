@@ -1,13 +1,13 @@
 import { DeleteAccountCommandHandler } from './DeleteAccountCommandHandler';
-import { AccountRepository, ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
 import { DeleteAccountCommand } from './DeleteAccountCommand';
 import { EventBus } from 'src/contexts/Lifetails/Shared/domain/EventBus';
 import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { Account } from '../../domain/entities/Account';
 import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
-import { AccountNotFoundException } from '../../domain/exceptions/AccountNotFoundException';
+import { AccountRepository } from 'src/contexts/Identity/Authentication/domain/repositories/AccountRepository';
+import { AccountNotFoundException } from 'src/contexts/Identity/Authentication/domain/exceptions/AccountNotFoundException';
+import { Account } from 'src/contexts/Identity/Authentication/domain/entities/Account';
 
 describe('DeleteAccountCommandHandler', () => {
   let handler: DeleteAccountCommandHandler;

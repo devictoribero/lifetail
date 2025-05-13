@@ -1,8 +1,8 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { DeleteAccountInput } from './DeleteAccountInput';
 import { DeleteAccountResponse } from './DeleteAccountResponse';
-import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/deleteAccount/DeleteAccountCommandHandler';
-import { DeleteAccountCommand } from 'src/contexts/Identity/Authentication/application/deleteAccount/DeleteAccountCommand';
+import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Accounts/application/deleteAccount/DeleteAccountCommandHandler';
+import { DeleteAccountCommand } from 'src/contexts/Identity/Accounts/application/deleteAccount/DeleteAccountCommand';
 import { UseGuards } from '@nestjs/common';
 import { AccountNotFoundException } from 'src/contexts/Identity/Authentication/domain/exceptions/AccountNotFoundException';
 import {

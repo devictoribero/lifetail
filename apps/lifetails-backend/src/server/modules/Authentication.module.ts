@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 // domain imports
 import { PasswordHasher } from 'src/contexts/Identity/Authentication/domain/services/PasswordHasher';
 // Application imports
-import { CreateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/createAccount/CreateAccountCommandHandler';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Accounts/application/createAccount/CreateAccountCommandHandler';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { RefreshTokenCommandHandler } from 'src/contexts/Identity/Authentication/application/refreshToken/RefreshTokenCommandHandler';
 // Infrastructure imports
