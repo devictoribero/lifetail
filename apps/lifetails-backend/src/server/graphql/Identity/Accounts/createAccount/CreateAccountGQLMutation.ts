@@ -5,9 +5,9 @@ import { CreateAccountCommandHandler } from 'src/contexts/Identity/Accounts/appl
 import { EmailAlreadyInUseException } from 'src/contexts/Identity/Authentication/domain/exceptions/EmailAlreadyInUseException';
 import { CreateAccountCommand } from 'src/contexts/Identity/Accounts/application/createAccount/CreateAccountCommand';
 import { Public } from 'src/contexts/Identity/Authentication/infrastructure/decorators/Public';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { CreateUserCommand } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommand';
-import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { CreateUserCommand } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommand';
+import { CreateUserCommandHandler } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommandHandler';
 
 @Resolver()
 export class CreateAccountGQLMutation {

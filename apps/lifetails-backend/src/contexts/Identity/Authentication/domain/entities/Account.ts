@@ -1,8 +1,8 @@
-import { AggregateRoot } from 'src/contexts/Lifetails/Shared/domain/AggregateRoot';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
-import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
+import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { AccountCreatedDomainEvent } from '../AccountCreatedDomainEvent';
 import { AccountDeletedDomainEvent } from '../AccountDeletedDomainEvent';
 

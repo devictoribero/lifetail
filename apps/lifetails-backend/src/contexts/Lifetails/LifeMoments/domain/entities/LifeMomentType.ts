@@ -1,4 +1,4 @@
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { LifeMomentTheme } from './LifeMomentTheme';
 import { InvalidLifeMomentTypeException } from '../exceptions/InvalidLifeMomentTypeException';
 

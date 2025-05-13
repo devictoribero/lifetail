@@ -1,12 +1,12 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Lifetails/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
-import { ChangeUserPreferredLanguageCommand } from 'src/contexts/Lifetails/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommand';
-import { UserNotFoundException } from 'src/contexts/Lifetails/Users/domain/exceptions/UserNotFoundException';
-import { InvalidLanguageException } from 'src/contexts/Lifetails/Shared/domain/exceptions/InvalidLanguageException';
+import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
+import { InvalidLanguageException } from 'src/contexts/Shared/domain/exceptions/InvalidLanguageException';
 import { UseGuards } from '@nestjs/common';
 import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 import { ChangeUserPreferredLanguageResponse } from './ChangeUserPreferredLanguageResponse';
 import { ChangeUserPreferredLanguageInput } from './ChangeUserPreferredLanguageInput';
+import { ChangeUserPreferredLanguageCommand } from 'src/contexts/Identity/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommand';
+import { UserNotFoundException } from 'src/contexts/Identity/Users/domain/exceptions/UserNotFoundException';
 
 @Resolver()
 @UseGuards(AuthenticationRequired)

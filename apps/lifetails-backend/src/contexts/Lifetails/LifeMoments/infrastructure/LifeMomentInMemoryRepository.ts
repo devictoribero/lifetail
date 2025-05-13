@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UUID } from '../../Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMoment } from '../domain/entities/LifeMoment';
 import { LifeMomentRepository } from '../domain/repositories/LifeMomentRepository';
 

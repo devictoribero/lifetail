@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { EVENT_BUS } from 'src/contexts/Lifetails/Shared/domain/EventBus';
-import { NestEventBus } from 'src/contexts/Lifetails/Shared/infrastructure/EventBus/NestEventBus';
+import { EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
+import { NestEventBus } from 'src/contexts/Shared/infrastructure/EventBus/NestEventBus';
 
 const EventBusProvider = {
   provide: EVENT_BUS,

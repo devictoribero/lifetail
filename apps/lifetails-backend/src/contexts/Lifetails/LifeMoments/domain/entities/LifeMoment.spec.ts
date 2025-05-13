@@ -1,9 +1,9 @@
 import { LifeMoment } from './LifeMoment';
 import { faker } from '@faker-js/faker';
 import { LifeMomentType } from './LifeMomentType';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMomentTheme } from './LifeMomentTheme';
 
 // Array of all valid moment types for random selection

@@ -1,5 +1,5 @@
 import { InvalidLifeThemeException } from '../exceptions/InvalidLifeThemeException';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 export class LifeMomentTheme extends StringValueObject {
   private constructor(value: string) {

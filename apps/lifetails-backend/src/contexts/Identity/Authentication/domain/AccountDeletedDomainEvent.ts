@@ -1,4 +1,4 @@
-import { DomainEvent } from 'src/contexts/Lifetails/Shared/domain/DomainEvent';
+import { DomainEvent } from 'src/contexts/Shared/domain/DomainEvent';
 
 type AccountDeletedDomainEventAttributes = {
   readonly email: string;

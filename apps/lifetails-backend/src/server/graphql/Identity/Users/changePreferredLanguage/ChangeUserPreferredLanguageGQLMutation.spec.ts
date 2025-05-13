@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChangeUserPreferredLanguageGQLMutation } from './ChangeUserPreferredLanguageGQLMutation';
-import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Lifetails/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
+import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
 import {
   ChangeUserPreferredLanguageInput,
   LanguageCodeGraphqlEnum,
 } from './ChangeUserPreferredLanguageInput';
-import { UserNotFoundException } from 'src/contexts/Lifetails/Users/domain/exceptions/UserNotFoundException';
+import { UserNotFoundException } from 'src/contexts/Identity/Users/domain/exceptions/UserNotFoundException';
 import { faker } from '@faker-js/faker';
-import { InvalidLanguageException } from 'src/contexts/Lifetails/Shared/domain/exceptions/InvalidLanguageException';
+import { InvalidLanguageException } from 'src/contexts/Shared/domain/exceptions/InvalidLanguageException';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
 import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 import { Reflector } from '@nestjs/core';

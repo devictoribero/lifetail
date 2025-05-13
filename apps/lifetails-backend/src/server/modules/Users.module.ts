@@ -1,16 +1,16 @@
 import { Module, forwardRef } from '@nestjs/common';
 // Domain imports
-import { GetUserService } from 'src/contexts/Lifetails/Users/domain/services/GetUserService';
+import { GetUserService } from 'src/contexts/Identity/Users/domain/services/GetUserService';
 import {
   UserRepository,
   USER_REPOSITORY,
-} from 'src/contexts/Lifetails/Users/domain/repositories/UserRepository';
+} from 'src/contexts/Identity/Users/domain/repositories/UserRepository';
 // Application imports
-import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
-import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
-import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Lifetails/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
+import { GetUserQueryHandler } from 'src/contexts/Identity/Users/application/getUser/GetUserQueryHandler';
+import { CreateUserCommandHandler } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommandHandler';
+import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/Users/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
 // Infrastructure imports
-import { UserInMemoryRepository } from 'src/contexts/Lifetails/Users/infrastructure/UserInMemoryRepository';
+import { UserInMemoryRepository } from 'src/contexts/Identity/Users/infrastructure/UserInMemoryRepository';
 import { SharedModule } from './Shared.module';
 // Module imports
 import { AuthenticationModule } from './Authentication.module';

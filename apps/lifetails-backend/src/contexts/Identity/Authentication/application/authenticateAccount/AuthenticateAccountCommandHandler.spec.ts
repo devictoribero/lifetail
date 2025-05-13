@@ -3,12 +3,12 @@ import { AuthenticateAccountCommandHandler } from './AuthenticateAccountCommandH
 import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { Account } from '../../domain/entities/Account';
-import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
-import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
+import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 describe('AuthenticateAccountCommandHandler', () => {
   let commandHandler: AuthenticateAccountCommandHandler;

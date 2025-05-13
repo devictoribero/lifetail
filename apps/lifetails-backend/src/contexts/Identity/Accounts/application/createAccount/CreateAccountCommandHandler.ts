@@ -5,9 +5,9 @@ import { EmailAlreadyInUseException } from '../../../Authentication/domain/excep
 import { CreateAccountCommand } from './CreateAccountCommand';
 import { Injectable, Inject } from '@nestjs/common';
 import { ACCOUNT_REPOSITORY } from '../../../Authentication/domain/repositories/AccountRepository';
-import { EventBus, EVENT_BUS } from 'src/contexts/Lifetails/Shared/domain/EventBus';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
-import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
+import { EventBus, EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 
 @Injectable()
 export class CreateAccountCommandHandler {

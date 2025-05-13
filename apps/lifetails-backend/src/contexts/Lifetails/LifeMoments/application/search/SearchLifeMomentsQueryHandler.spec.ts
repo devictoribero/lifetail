@@ -1,10 +1,10 @@
 import { SearchLifeMomentsQueryHandler } from './SearchLifeMomentsQueryHandler';
 import { SearchLifeMomentsQuery } from './SearchLifeMomentsQuery';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { LifeMomentType } from '../../domain/entities/LifeMomentType';
 import { LifeMomentTheme } from '../../domain/entities/LifeMomentTheme';
 

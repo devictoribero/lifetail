@@ -1,9 +1,9 @@
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { LifeMomentTheme } from './LifeMomentTheme';
 import { LifeMomentType } from './LifeMomentType';
-import { AggregateRoot } from 'src/contexts/Lifetails/Shared/domain/AggregateRoot';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 export class LifeMoment extends AggregateRoot {
   private id: UUID;

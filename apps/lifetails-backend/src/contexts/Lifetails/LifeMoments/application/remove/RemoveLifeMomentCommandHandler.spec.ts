@@ -4,12 +4,12 @@ import { RemoveLifeMomentCommand } from './RemoveLifeMomentCommand';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { randomUUID } from 'node:crypto';
 import { LifeMomentType } from '../../domain/entities/LifeMomentType';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 describe('RemoveLifeMomentCommandHandler', () => {
   let repository: LifeMomentInMemoryRepository;

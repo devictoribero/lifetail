@@ -6,8 +6,8 @@ import { AuthenticateAccountCommand } from 'src/contexts/Identity/Authentication
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
 import { Public } from 'src/contexts/Identity/Authentication/infrastructure/decorators/Public';
-import { GetUserQuery } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQuery';
-import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
+import { GetUserQuery } from 'src/contexts/Identity/Users/application/getUser/GetUserQuery';
+import { GetUserQueryHandler } from 'src/contexts/Identity/Users/application/getUser/GetUserQueryHandler';
 
 @Resolver()
 export class AuthenticateAccountGQLMutation {

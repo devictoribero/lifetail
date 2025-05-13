@@ -5,8 +5,8 @@ import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authent
 import { AuthenticateAccountInput } from './AuthenticateAccountInput';
 import { InvalidCredentialsException } from 'src/contexts/Identity/Authentication/domain/exceptions/InvalidCredentialsException';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
-import { GetUserQueryHandler } from 'src/contexts/Lifetails/Users/application/getUser/GetUserQueryHandler';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { GetUserQueryHandler } from 'src/contexts/Identity/Users/application/getUser/GetUserQueryHandler';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 describe('AuthenticateAccountGQLMutation', () => {
   let mutation: AuthenticateAccountGQLMutation;

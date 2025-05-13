@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
-import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 export class PasswordHasher {
   async hash(password: StringValueObject): Promise<PasswordHashValueObject> {

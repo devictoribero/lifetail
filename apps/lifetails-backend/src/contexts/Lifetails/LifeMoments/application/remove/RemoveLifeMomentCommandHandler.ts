@@ -1,4 +1,4 @@
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { RemoveLifeMomentCommand } from './RemoveLifeMomentCommand';

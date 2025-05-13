@@ -1,4 +1,4 @@
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMoment } from '../entities/LifeMoment';
 
 export const LIFE_MOMENT_REPOSITORY = 'LIFE_MOMENT_REPOSITORY';

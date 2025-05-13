@@ -2,9 +2,9 @@ import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AddPetResponse } from './AddPetResponse';
 import { AddPetInput } from './AddPetInput';
-import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
-import { AddPetCommand } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommand';
-import { MaxNumberOfPetsReachedException } from 'src/contexts/Lifetails/Pets/domain/exceptions/MaxNumberOfPetsReachedException';
+import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommandHandler';
+import { AddPetCommand } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommand';
+import { MaxNumberOfPetsReachedException } from 'src/contexts/PetManagement/Pets/domain/exceptions/MaxNumberOfPetsReachedException';
 import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 
 @Resolver()

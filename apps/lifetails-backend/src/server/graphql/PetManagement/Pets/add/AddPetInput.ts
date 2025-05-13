@@ -1,5 +1,5 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql';
-import { Species as DomainPetSpecies } from 'src/contexts/Lifetails/Pets/domain/entities/PetSpecies';
+import { Species as DomainPetSpecies } from 'src/contexts/PetManagement/Pets/domain/entities/PetSpecies';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { IsUUID } from 'class-validator';
 import { GenderGraphqlEnum } from 'src/server/graphql/Shared/Gender';

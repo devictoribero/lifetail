@@ -1,6 +1,6 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
-import { RemovePetCommand } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommand';
+import { RemovePetCommandHandler } from 'src/contexts/PetManagement/Pets/application/remove/RemovePetCommandHandler';
+import { RemovePetCommand } from 'src/contexts/PetManagement/Pets/application/remove/RemovePetCommand';
 import { RemovePetInput } from './RemovePetInput';
 import { RemovePetResponse } from './RemovePetResponse';
 

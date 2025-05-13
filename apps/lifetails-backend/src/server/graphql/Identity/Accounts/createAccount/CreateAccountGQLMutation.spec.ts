@@ -5,7 +5,7 @@ import { CreateAccountCommandHandler } from 'src/contexts/Identity/Accounts/appl
 import { CreateAccountInput } from './CreateAccountInput';
 import { EmailAlreadyInUseException } from 'src/contexts/Identity/Authentication/domain/exceptions/EmailAlreadyInUseException';
 import { Account } from 'src/contexts/Identity/Authentication/domain/entities/Account';
-import { CreateUserCommandHandler } from 'src/contexts/Lifetails/Users/application/createUser/CreateUserCommandHandler';
+import { CreateUserCommandHandler } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommandHandler';
 
 describe('CreateAccountGQLMutation', () => {
   let mockedId: string;

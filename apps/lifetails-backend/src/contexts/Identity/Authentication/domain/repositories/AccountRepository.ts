@@ -1,5 +1,5 @@
-import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { Account } from '../entities/Account';
 
 export const ACCOUNT_REPOSITORY = 'ACCOUNT_REPOSITORY';

@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 // Application imports
-import { AddPetCommandHandler } from 'src/contexts/Lifetails/Pets/application/add/AddPetCommandHandler';
-import { RemovePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/remove/RemovePetCommandHandler';
-import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
-import { GetPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/get/GetPetQueryHandler';
+import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommandHandler';
+import { RemovePetCommandHandler } from 'src/contexts/PetManagement/Pets/application/remove/RemovePetCommandHandler';
+import { UpdatePetCommandHandler } from 'src/contexts/PetManagement/Pets/application/update/UpdatePetCommandHandler';
+import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pets/application/get/GetPetQueryHandler';
 // Infrastructure imports
-import { PetInMemoryRepository } from 'src/contexts/Lifetails/Pets/infrastructure/PetInMemoryRepository';
+import { PetInMemoryRepository } from 'src/contexts/PetManagement/Pets/infrastructure/PetInMemoryRepository';
 // Domain imports
-import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
-import { PET_REPOSITORY } from 'src/contexts/Lifetails/Pets/domain/repositories/PetRepository';
+import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pets/application/searchAll/SearchAllPetsQueryHandler';
+import { PET_REPOSITORY } from 'src/contexts/PetManagement/Pets/domain/repositories/PetRepository';
 import { AddPetGQLMutation } from '../graphql/PetManagement/Pets/add/AddPetGQLMutation';
 import { RemovePetGQLMutation } from '../graphql/PetManagement/Pets/remove/RemovePetGQLMutation';
 import { UpdatePetGQLMutation } from '../graphql/PetManagement/Pets/update/UpdatePetGQLMutation';

@@ -1,8 +1,8 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { UpdatePetResponse } from './UpdatePetResponse';
 import { UpdatePetInput } from './UpdatePetInput';
-import { UpdatePetCommandHandler } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommandHandler';
-import { UpdatePetCommand } from 'src/contexts/Lifetails/Pets/application/update/UpdatePetCommand';
+import { UpdatePetCommandHandler } from 'src/contexts/PetManagement/Pets/application/update/UpdatePetCommandHandler';
+import { UpdatePetCommand } from 'src/contexts/PetManagement/Pets/application/update/UpdatePetCommand';
 
 @Resolver()
 export class UpdatePetGQLMutation {

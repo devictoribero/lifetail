@@ -1,6 +1,6 @@
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { SearchLifeMomentsQuery } from './SearchLifeMomentsQuery';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { Injectable, Inject } from '@nestjs/common';
 import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';

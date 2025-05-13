@@ -1,10 +1,10 @@
 import { Args, Context, Query, Resolver } from '@nestjs/graphql';
-import { GetPetQueryHandler } from 'src/contexts/Lifetails/Pets/application/get/GetPetQueryHandler';
-import { GetPetQuery as GetPetQueryHandlerQuery } from 'src/contexts/Lifetails/Pets/application/get/GetPetQuery';
+import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pets/application/get/GetPetQueryHandler';
+import { GetPetQuery as GetPetQueryHandlerQuery } from 'src/contexts/PetManagement/Pets/application/get/GetPetQuery';
 import { GetPetInput } from './GetPetInput';
 import { Pet } from './Pet';
 import { NotFoundException } from '@nestjs/common';
-import { PetNotFoundException } from 'src/contexts/Lifetails/Pets/domain/exceptions/PetNotFoundException';
+import { PetNotFoundException } from 'src/contexts/PetManagement/Pets/domain/exceptions/PetNotFoundException';
 
 @Resolver()
 export class GetPetGQLQuery {

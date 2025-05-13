@@ -1,8 +1,9 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { Pet } from '../find/Pet';
-import { SearchAllPetsQueryHandler } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQueryHandler';
-import { SearchAllPetsQuery as SearchAllPetsQueryDomain } from 'src/contexts/Lifetails/Pets/application/searchAll/SearchAllPetsQuery';
+import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pets/application/searchAll/SearchAllPetsQueryHandler';
+import { SearchAllPetsQuery as SearchAllPetsQueryDomain } from 'src/contexts/PetManagement/Pets/application/searchAll/SearchAllPetsQuery';
 import { SearchAllPetsInput } from './SearchAllPetsInput';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver()
 export class SearchAllPetsGQLQuery {

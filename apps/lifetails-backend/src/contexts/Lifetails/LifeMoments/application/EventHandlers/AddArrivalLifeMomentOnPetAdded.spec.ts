@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { Logger } from '@nestjs/common';
 import { AddArrivalLifeMomentOnPetAdded } from './AddArrivalLifeMomentOnPetAdded';
-import { AddLifeMomentCommand } from '../../application/add/AddLifeMomentCommand';
+import { AddLifeMomentCommand } from '../add/AddLifeMomentCommand';
 import { LifeMomentType } from '../../domain/entities/LifeMomentType';
 import { AddLifeMomentCommandHandler } from '../add/AddLifeMomentCommandHandler';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { faker } from '@faker-js/faker';
 
 describe('AddArrivalLifeMomentOnPetAdded', () => {

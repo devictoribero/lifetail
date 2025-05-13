@@ -1,10 +1,10 @@
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { LifeMomentType } from '../../domain/entities/LifeMomentType';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { AddLifeMomentCommand } from './AddLifeMomentCommand';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { Injectable, Inject } from '@nestjs/common';
 import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';
 

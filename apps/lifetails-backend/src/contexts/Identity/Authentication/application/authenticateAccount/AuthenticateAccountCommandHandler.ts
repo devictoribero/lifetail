@@ -1,13 +1,13 @@
-import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
+import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { Account } from '../../domain/entities/Account';
 import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
 import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
-import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
+import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { Injectable, Inject } from '@nestjs/common';
 import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
-import { StringValueObject } from 'src/contexts/Lifetails/Shared/domain/StringValueObject';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 @Injectable()
 export class AuthenticateAccountCommandHandler {

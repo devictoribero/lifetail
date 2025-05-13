@@ -1,8 +1,8 @@
 import { Account } from './Account';
-import { UUID } from 'src/contexts/Lifetails/Shared/domain/UUID';
-import { EmailValueObject } from 'src/contexts/Lifetails/Shared/domain/EmailValueObject';
-import { PasswordHashValueObject } from 'src/contexts/Lifetails/Shared/domain/PasswordHashValueObject';
-import { DateValueObject } from 'src/contexts/Lifetails/Shared/domain/DateValueObject';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
+import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { AccountDeletedDomainEvent } from '../AccountDeletedDomainEvent';
 
