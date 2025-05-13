@@ -1,9 +1,9 @@
 
 # Todo
 
+- Delete accounts and related data after 30d.
+- Reorganize bounded contexts.
 - A user can log out
-- A user can delete the account
-  - The account remains inactive for 30 days. After that, the account and all-related data gets deleted.
 -
 - Review the error handling and follow best practices
   - Error handling in graphql apis work differently than in rest APIs.
