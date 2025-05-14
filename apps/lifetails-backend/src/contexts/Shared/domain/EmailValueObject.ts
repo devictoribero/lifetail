@@ -13,7 +13,7 @@ export class EmailValueObject extends ValueObject<string> {
     }
   }
 
-  toString(): string {
+  public toString(): string {
     return this.value;
   }
 }
