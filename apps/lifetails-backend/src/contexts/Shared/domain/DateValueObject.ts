@@ -6,6 +6,6 @@ export class DateValueObject extends ValueObject<Date> {
   }
 
   public toDate(): Date {
-    return new Date(this.value);
+    return this.value;
   }
 }

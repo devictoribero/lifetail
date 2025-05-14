@@ -73,6 +73,6 @@ describe('GetPetQueryHandler', () => {
     expect(foundPet.getGender().toString()).toBe(gender);
     expect(foundPet.getChipId().toString()).toBe(chipId);
     expect(foundPet.isSterilized().getValue()).toBe(sterilized);
-    expect(foundPet.getAnniversaryDate().toDate().getTime()).toBe(anniversaryDate.getTime());
+    expect(foundPet.getAnniversaryDate().toISOString()).toBe(anniversaryDate.toISOString());
   });
 });
