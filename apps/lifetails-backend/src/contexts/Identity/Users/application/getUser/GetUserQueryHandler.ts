@@ -4,12 +4,13 @@ import { GetUserQuery } from './GetUserQuery';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { GetUserService } from '../../domain/services/GetUserService';
 import { Injectable } from '@nestjs/common';
+import { QueryHandler } from 'src/contexts/Shared/domain/QueryHandler';
 
 @Injectable()
-export class GetUserQueryHandler {
+export class GetUserQueryHandler implements QueryHandler<GetUserQuery, User> {
   constructor(private readonly getUserService: GetUserService) {}
 
-  async execute(query: GetUserQuery): Promise<User> {
+  async handle(query: GetUserQuery): Promise<User> {
     const accountId = new UUID(query.accountId);
     const user = await this.getUserService.execute(accountId);
 

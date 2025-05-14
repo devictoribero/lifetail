@@ -1,81 +1,80 @@
 import { SearchAllPetsQueryHandler } from './SearchAllPetsQueryHandler';
-import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 import { SearchAllPetsQuery } from './SearchAllPetsQuery';
+import { PetRepository } from '../../domain/repositories/PetRepository';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { Pet } from '../../domain/entities/Pet';
-import { Species } from '../../domain/entities/PetSpecies';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { Species } from '../../domain/entities/PetSpecies';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
-import { faker } from '@faker-js/faker';
-import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 describe('SearchAllPetsQueryHandler', () => {
-  let repository: PetInMemoryRepository;
   let queryHandler: SearchAllPetsQueryHandler;
-  const ownerId = faker.string.uuid();
+  let repository: jest.Mocked<PetRepository>;
+  let ownerId: UUID;
 
   beforeEach(() => {
-    repository = new PetInMemoryRepository();
+    repository = {
+      findByOwner: jest.fn(),
+      find: jest.fn(),
+      save: jest.fn(),
+      remove: jest.fn(),
+    };
     queryHandler = new SearchAllPetsQueryHandler(repository);
+    ownerId = UUID.create();
   });
 
-  it('should return empty array when no pets exist for the requested owner', async () => {
-    const query = new SearchAllPetsQuery(ownerId);
-    const result = await queryHandler.execute(query);
+  it('should return an empty array when no pets found', async () => {
+    // Arrange
+    repository.findByOwner.mockResolvedValue([]);
+
+    // Act
+    const query = new SearchAllPetsQuery(ownerId.toString());
+    const result = await queryHandler.handle(query);
+
+    // Assert
+    expect(repository.findByOwner).toHaveBeenCalledWith(ownerId);
     expect(result).toEqual([]);
   });
 
-  it('should return all pets for the requested owner', async () => {
-    const ownerId = faker.string.uuid();
-    const pet1 = new Pet(
-      new UUID(faker.string.uuid()),
-      Species.Cat,
-      new StringValueObject('Neko'),
-      Gender.fromPrimitives('Female'),
-      new BooleanValueObject(true),
-      new DateValueObject(new Date('2022-01-01')),
-      new DateValueObject(new Date('2022-01-01')),
-      new UUID(ownerId),
-    );
-    const pet2 = new Pet(
-      new UUID(faker.string.uuid()),
-      Species.Dog,
-      new StringValueObject('Inu'),
+  it('should return all pets for an owner', async () => {
+    // Arrange
+    const petId1 = UUID.create();
+    const petId2 = UUID.create();
+
+    // Create two pets
+    const pet1 = Pet.create(
+      petId1,
+      Species.fromPrimitives('Dog'),
+      new StringValueObject('Max'),
       Gender.fromPrimitives('Male'),
-      new BooleanValueObject(false),
-      new DateValueObject(new Date('2022-02-02')),
-      new DateValueObject(new Date('2022-02-02')),
-      new UUID(ownerId),
-    );
-    // Create a pet for a different user
-    const otherOwnerId = faker.string.uuid();
-    const pet3 = new Pet(
-      new UUID(faker.string.uuid()),
-      Species.Dog,
-      new StringValueObject('Hanstah'),
-      Gender.fromPrimitives('Female'),
       new BooleanValueObject(true),
-      new DateValueObject(new Date('2022-03-03')),
-      new DateValueObject(new Date('2022-03-03')),
-      new UUID(otherOwnerId),
+      new DateValueObject(new Date('2020-01-01')),
+      ownerId,
     );
 
-    await repository.save(pet1);
-    await repository.save(pet2);
-    await repository.save(pet3);
+    const pet2 = Pet.create(
+      petId2,
+      Species.fromPrimitives('Cat'),
+      new StringValueObject('Lucy'),
+      Gender.fromPrimitives('Female'),
+      new BooleanValueObject(false),
+      new DateValueObject(new Date('2021-05-15')),
+      ownerId,
+    );
 
-    const findSpy = jest.spyOn(repository, 'findByOwner');
-    const query = new SearchAllPetsQuery(ownerId);
+    const pets = [pet1, pet2];
+    repository.findByOwner.mockResolvedValue(pets);
 
     // Act
-    const result = await queryHandler.execute(query);
+    const query = new SearchAllPetsQuery(ownerId.toString());
+    const result = await queryHandler.handle(query);
 
     // Assert
-    expect(findSpy).toHaveBeenCalledTimes(1);
-    expect(findSpy).toHaveBeenCalledWith(new UUID(ownerId));
+    expect(repository.findByOwner).toHaveBeenCalledWith(ownerId);
     expect(result).toHaveLength(2);
-    expect(result[0].getId()).toEqual(pet1.getId());
-    expect(result[1].getId()).toEqual(pet2.getId());
+    expect(result[0].getId()).toEqual(petId1);
+    expect(result[1].getId()).toEqual(petId2);
   });
 });

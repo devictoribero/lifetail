@@ -40,7 +40,7 @@ describe('GetUserQueryHandler', () => {
     const query = new GetUserQuery(accountId);
 
     // Act
-    const result = await queryHandler.execute(query);
+    const result = await queryHandler.handle(query);
 
     // Assert
     expect(getUserService.execute).toHaveBeenCalledWith(new UUID(accountId));
@@ -55,7 +55,7 @@ describe('GetUserQueryHandler', () => {
     const query = new GetUserQuery(accountId);
 
     // Act & Assert
-    await expect(queryHandler.execute(query)).rejects.toThrow(new UserNotFoundException(accountId));
+    await expect(queryHandler.handle(query)).rejects.toThrow(new UserNotFoundException(accountId));
     expect(getUserService.execute).toHaveBeenCalledWith(new UUID(accountId));
   });
 });

@@ -28,7 +28,7 @@ describe('GetPetQueryHandler', () => {
     const query = new GetPetQuery(nonExistentId);
 
     // Act & Assert
-    await expect(queryHandler.execute(query)).rejects.toThrow(
+    await expect(queryHandler.handle(query)).rejects.toThrow(
       new PetNotFoundException(nonExistentId),
     );
   });
@@ -62,7 +62,7 @@ describe('GetPetQueryHandler', () => {
     const query = new GetPetQuery(id);
 
     // Act
-    const foundPet = await queryHandler.execute(query);
+    const foundPet = await queryHandler.handle(query);
 
     // Assert
     expect(findSpy).toHaveBeenCalledTimes(1);

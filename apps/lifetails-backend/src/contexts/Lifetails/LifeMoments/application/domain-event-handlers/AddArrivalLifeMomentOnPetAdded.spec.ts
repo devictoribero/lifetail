@@ -3,9 +3,9 @@ import { Logger } from '@nestjs/common';
 import { AddArrivalLifeMomentOnPetAdded } from './AddArrivalLifeMomentOnPetAdded';
 import { AddLifeMomentCommand } from '../add/AddLifeMomentCommand';
 import { LifeMomentType } from '../../domain/entities/LifeMomentType';
-import { AddLifeMomentCommandHandler } from '../add/AddLifeMomentCommandHandler';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { faker } from '@faker-js/faker';
+import { AddLifeMomentCommandHandler } from '../add/AddLifeMomentCommandHandler';
 
 describe('AddArrivalLifeMomentOnPetAdded', () => {
   let eventListener: AddArrivalLifeMomentOnPetAdded;
@@ -18,7 +18,7 @@ describe('AddArrivalLifeMomentOnPetAdded', () => {
         {
           provide: AddLifeMomentCommandHandler,
           useValue: {
-            execute: jest.fn(),
+            handle: jest.fn(),
           },
         },
       ],

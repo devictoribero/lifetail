@@ -26,12 +26,12 @@ export class CreateAccountGQLMutation {
         input.email,
         input.password,
       );
-      const { id: accountId } = await this.createAccountCommandHandler.execute(command);
+      const { id: accountId } = await this.createAccountCommandHandler.handle(command);
 
       // Create user for account
       const userId = UUID.create().toString();
       const createUserCommand = new CreateUserCommand(accountId, userId, input.nickname);
-      await this.createUserCommandHandler.execute(createUserCommand);
+      await this.createUserCommandHandler.handle(createUserCommand);
 
       return { id: accountId };
     } catch (error) {

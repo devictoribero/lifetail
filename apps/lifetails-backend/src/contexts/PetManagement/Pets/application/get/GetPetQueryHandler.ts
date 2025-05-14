@@ -5,15 +5,16 @@ import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundExcepti
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { Inject, Injectable } from '@nestjs/common';
 import { PET_REPOSITORY } from '../../domain/repositories/PetRepository';
+import { QueryHandler } from 'src/contexts/Shared/domain/QueryHandler';
 
 @Injectable()
-export class GetPetQueryHandler {
+export class GetPetQueryHandler implements QueryHandler<GetPetQuery, Pet> {
   constructor(
     @Inject(PET_REPOSITORY)
     private readonly repository: PetRepository,
   ) {}
 
-  async execute(query: GetPetQuery): Promise<Pet> {
+  async handle(query: GetPetQuery): Promise<Pet> {
     const pet = await this.repository.find(new UUID(query.id));
     if (!pet) {
       throw new PetNotFoundException(query.id);

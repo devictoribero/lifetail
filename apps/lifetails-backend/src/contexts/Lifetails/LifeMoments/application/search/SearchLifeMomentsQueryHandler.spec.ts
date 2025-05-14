@@ -59,7 +59,7 @@ describe('SearchLifeMomentsQueryHandler', () => {
 
     // Act
     const query = new SearchLifeMomentsQuery(petId.toString());
-    const result = await commandHandler.handle(query);
+    const result = await handler.handle(query);
 
     // Assert
     expect(repository.search).toHaveBeenCalledWith(petId);
@@ -72,7 +72,7 @@ describe('SearchLifeMomentsQueryHandler', () => {
 
     // Act
     const query = new SearchLifeMomentsQuery(petId.toString());
-    const result = await commandHandler.handle(query);
+    const result = await handler.handle(query);
 
     // Assert
     expect(repository.search).toHaveBeenCalledWith(petId);

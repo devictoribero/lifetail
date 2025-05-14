@@ -5,15 +5,16 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { Injectable, Inject } from '@nestjs/common';
 import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';
+import { QueryHandler } from 'src/contexts/Shared/domain/QueryHandler';
 
 @Injectable()
-export class GetLifeMomentQueryHandler {
+export class GetLifeMomentQueryHandler implements QueryHandler<GetLifeMomentQuery, LifeMoment> {
   constructor(
     @Inject(LIFE_MOMENT_REPOSITORY)
     private readonly repository: LifeMomentRepository,
   ) {}
 
-  async execute(query: GetLifeMomentQuery): Promise<LifeMoment> {
+  async handle(query: GetLifeMomentQuery): Promise<LifeMoment> {
     const lifeMomentId = new UUID(query.id);
     const lifeMoment = await this.getLifeMoment(lifeMomentId);
 

@@ -27,7 +27,7 @@ export class AuthenticateAccountGQLMutation {
       const accountId = await this.commandHandler.handle(command);
 
       const getUserQuery = new GetUserQuery(accountId);
-      const user = await this.getUserQueryHandler.execute(getUserQuery);
+      const user = await this.getUserQueryHandler.handle(getUserQuery);
 
       const payload = {
         accountId,

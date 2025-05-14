@@ -25,7 +25,7 @@ describe('GetLifeMomentQueryHandler', () => {
     const query = new GetLifeMomentQuery(nonExistentId);
 
     // Act & Assert
-    await expect(queryHandler.execute(query)).rejects.toThrow(
+    await expect(queryHandler.handle(query)).rejects.toThrow(
       new LifeMomentNotFoundException(nonExistentId),
     );
   });
@@ -52,7 +52,7 @@ describe('GetLifeMomentQueryHandler', () => {
 
     // Act
     const query = new GetLifeMomentQuery(id);
-    const foundMoment = await queryHandler.execute(query);
+    const foundMoment = await queryHandler.handle(query);
 
     // Assert
     expect(findSpy).toHaveBeenCalledTimes(1);

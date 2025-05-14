@@ -20,7 +20,7 @@ describe('AuthenticateAccountGQLMutation', () => {
   beforeEach(async () => {
     // Create mock use case with Jest
     commandHandler = {
-      execute: jest.fn(),
+      handle: jest.fn(),
     } as unknown as AuthenticateAccountCommandHandler;
 
     // Create mock JWT service
@@ -31,7 +31,7 @@ describe('AuthenticateAccountGQLMutation', () => {
 
     // Create mock GetUserQueryHandler
     getUserQueryHandler = {
-      execute: jest.fn().mockResolvedValue({
+      handle: jest.fn().mockResolvedValue({
         getId: () => new UUID(mockUserId),
       }),
     } as unknown as GetUserQueryHandler;
@@ -69,7 +69,7 @@ describe('AuthenticateAccountGQLMutation', () => {
       password: faker.internet.password(),
     };
 
-    jest.spyOn(commandHandler, 'execute').mockRejectedValue(new InvalidCredentialsException());
+    jest.spyOn(commandHandler, 'handle').mockRejectedValue(new InvalidCredentialsException());
 
     // Act & Assert
     await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
@@ -83,7 +83,7 @@ describe('AuthenticateAccountGQLMutation', () => {
       password: faker.internet.password(),
     };
 
-    jest.spyOn(commandHandler, 'execute').mockRejectedValue(new InvalidCredentialsException());
+    jest.spyOn(commandHandler, 'handle').mockRejectedValue(new InvalidCredentialsException());
 
     // Act & Assert
     await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
@@ -98,7 +98,7 @@ describe('AuthenticateAccountGQLMutation', () => {
     };
     const accountId = faker.string.uuid();
 
-    jest.spyOn(commandHandler, 'execute').mockResolvedValue(accountId);
+    jest.spyOn(commandHandler, 'handle').mockResolvedValue(accountId);
 
     // Act
     const result = await mutation.authenticateAccount(input);
@@ -111,7 +111,7 @@ describe('AuthenticateAccountGQLMutation', () => {
       refreshToken: mockRefreshToken,
     });
     expect(commandHandler.handle).toHaveBeenCalled();
-    expect(getUserQueryHandler.execute).toHaveBeenCalled();
+    expect(getUserQueryHandler.handle).toHaveBeenCalled();
 
     const expectedPayload = {
       accountId,

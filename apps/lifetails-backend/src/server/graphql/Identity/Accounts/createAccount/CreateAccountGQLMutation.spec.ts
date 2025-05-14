@@ -21,12 +21,12 @@ describe('CreateAccountGQLMutation', () => {
 
     // Create mock command handler with Jest
     const mockCommandHandler = {
-      execute: jest.fn().mockResolvedValue(mockAccount),
+      handle: jest.fn().mockResolvedValue(mockAccount),
     } as unknown as CreateAccountCommandHandler;
 
     // Create mock user command handler
     const mockUserCommandHandler = {
-      execute: jest.fn().mockResolvedValue({}),
+      handle: jest.fn().mockResolvedValue({}),
     } as unknown as CreateUserCommandHandler;
 
     const module: TestingModule = await Test.createTestingModule({
@@ -110,7 +110,7 @@ describe('CreateAccountGQLMutation', () => {
         id: expect.any(String),
       }),
     );
-    expect(userCommandHandler.execute).toHaveBeenCalledWith(
+    expect(userCommandHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         accountId: mockedId,
         nickname: input.nickname,
