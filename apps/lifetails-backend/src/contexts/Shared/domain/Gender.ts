@@ -1,26 +1,19 @@
-import { StringValueObject } from './StringValueObject';
-import { InvalidGenderException } from '../exceptions/InvalidGenderException';
+import { InvalidGenderException } from './exceptions/InvalidGenderException';
 
-export class Gender extends StringValueObject {
-  private constructor(value: string) {
-    super(value);
-  }
+export enum GenderEnum {
+  Male = 'Male',
+  Female = 'Female',
+}
 
-  // Use to create the entity from the domain
-  public static create(value: string): Gender {
-    const validGender = Gender.all.find((gender) => gender.equals(new Gender(value)));
+export class Gender {
+  static readonly Male = new Gender(GenderEnum.Male);
+  static readonly Female = new Gender(GenderEnum.Female);
+  private static readonly types = [Gender.Male, Gender.Female];
 
-    if (!validGender) {
-      throw new InvalidGenderException(value);
-    }
+  private constructor(private readonly value: string) {}
 
-    return validGender;
-  }
-
-  // Use to reconstruct the entity from the database
-  public static fromPrimitives(value: string): Gender {
-    const petGender = new Gender(value);
-    const gender = Gender.all.find((gender) => gender.equals(petGender));
+  static create(value: string): Gender {
+    const gender = this.fromPrimitives(value);
 
     if (!gender) {
       throw new InvalidGenderException(value);
@@ -29,7 +22,21 @@ export class Gender extends StringValueObject {
     return gender;
   }
 
-  public static readonly Male = new Gender('Male');
-  public static readonly Female = new Gender('Female');
-  public static readonly all = [Gender.Male, Gender.Female];
+  static fromPrimitives(value: string): Gender {
+    const gender = this.types.find((gender) => gender.value === value);
+
+    if (!gender) {
+      throw new InvalidGenderException(value);
+    }
+
+    return gender;
+  }
+
+  toString(): string {
+    return this.value;
+  }
+
+  equals(other: Gender): boolean {
+    return this.value === other.value;
+  }
 }

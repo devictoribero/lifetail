@@ -1,9 +1,9 @@
-import { Language } from './Language';
+import { Language, LanguageEnum } from './Language';
 import { InvalidLanguageException } from './exceptions/InvalidLanguageException';
 
 const SUPPORTED_LANGUAGES = [
-  { name: 'English', constant: Language.English, code: 'en' },
-  { name: 'Spanish', constant: Language.Spanish, code: 'es' },
+  { name: 'English', constant: Language.English, code: LanguageEnum.English },
+  { name: 'Spanish', constant: Language.Spanish, code: LanguageEnum.Spanish },
 ];
 
 describe('Language', () => {
