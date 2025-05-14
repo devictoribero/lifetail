@@ -4,7 +4,7 @@ import { RefreshTokenInput } from './RefreshTokenInput';
 import { RefreshTokenCommand } from 'src/contexts/Identity/Authentication/application/refreshToken/RefreshTokenCommand';
 import { RefreshTokenCommandHandler } from 'src/contexts/Identity/Authentication/application/refreshToken/RefreshTokenCommandHandler';
 import { InvalidTokenException } from 'src/contexts/Identity/Authentication/domain/exceptions/InvalidTokenException';
-import { Public } from 'src/contexts/Identity/Authentication/infrastructure/decorators/Public';
+import { Public } from 'src/server/graphql/Shared/decorators/Public';
 
 @Resolver()
 export class RefreshTokenGQLMutation {

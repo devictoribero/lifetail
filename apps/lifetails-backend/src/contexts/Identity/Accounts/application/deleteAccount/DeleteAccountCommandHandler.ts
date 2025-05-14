@@ -1,13 +1,10 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import {
-  AccountRepository,
-  ACCOUNT_REPOSITORY,
-} from '../../../Authentication/domain/repositories/AccountRepository';
-import { AccountNotFoundException } from '../../../Authentication/domain/exceptions/AccountNotFoundException';
+import { AccountRepository, ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
+import { AccountNotFoundException } from '../../domain/exceptions/AccountNotFoundException';
 import { DeleteAccountCommand } from './DeleteAccountCommand';
 import { EventBus, EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
-import { Account } from '../../../Authentication/domain/entities/Account';
+import { Account } from '../../domain/entities/Account';
 
 @Injectable()
 export class DeleteAccountCommandHandler {

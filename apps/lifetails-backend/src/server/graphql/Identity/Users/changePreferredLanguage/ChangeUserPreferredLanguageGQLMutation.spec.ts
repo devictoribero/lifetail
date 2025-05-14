@@ -9,8 +9,8 @@ import { UserNotFoundException } from 'src/contexts/Identity/Users/domain/except
 import { faker } from '@faker-js/faker';
 import { InvalidLanguageException } from 'src/contexts/Shared/domain/exceptions/InvalidLanguageException';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
-import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
 import { Reflector } from '@nestjs/core';
+import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 
 describe('ChangeUserPreferredLanguageGQLMutation', () => {
   let mutation: ChangeUserPreferredLanguageGQLMutation;

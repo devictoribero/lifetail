@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { AuthenticateAccountCommandHandler } from './AuthenticateAccountCommandHandler';
-import { AccountRepository } from '../../domain/repositories/AccountRepository';
+import { AccountRepository } from '../../../Accounts/domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
-import { Account } from '../../domain/entities/Account';
+import { Account } from '../../../Accounts/domain/entities/Account';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { UUID } from 'src/contexts/Shared/domain/UUID';

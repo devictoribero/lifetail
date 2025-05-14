@@ -5,7 +5,7 @@ import { AddPetInput } from './AddPetInput';
 import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommandHandler';
 import { AddPetCommand } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommand';
 import { MaxNumberOfPetsReachedException } from 'src/contexts/PetManagement/Pets/domain/exceptions/MaxNumberOfPetsReachedException';
-import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
+import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 
 @Resolver()
 @UseGuards(AuthenticationRequired)

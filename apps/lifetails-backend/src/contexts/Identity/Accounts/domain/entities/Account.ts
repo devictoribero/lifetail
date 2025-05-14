@@ -3,8 +3,8 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { AccountCreatedDomainEvent } from '../AccountCreatedDomainEvent';
-import { AccountDeletedDomainEvent } from '../AccountDeletedDomainEvent';
+import { AccountCreatedDomainEvent } from '../events/AccountCreatedDomainEvent';
+import { AccountDeletedDomainEvent } from '../events/AccountDeletedDomainEvent';
 
 export class Account extends AggregateRoot {
   private readonly id: UUID;

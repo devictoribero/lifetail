@@ -5,9 +5,9 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { AccountRepository } from 'src/contexts/Identity/Authentication/domain/repositories/AccountRepository';
-import { AccountNotFoundException } from 'src/contexts/Identity/Authentication/domain/exceptions/AccountNotFoundException';
-import { Account } from 'src/contexts/Identity/Authentication/domain/entities/Account';
+import { AccountRepository } from 'src/contexts/Identity/Accounts/domain/repositories/AccountRepository';
+import { AccountNotFoundException } from 'src/contexts/Identity/Accounts/domain/exceptions/AccountNotFoundException';
+import { Account } from '../../domain/entities/Account';
 
 describe('DeleteAccountCommandHandler', () => {
   let handler: DeleteAccountCommandHandler;

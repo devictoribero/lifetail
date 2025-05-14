@@ -8,16 +8,15 @@ import { CreateAccountCommandHandler } from 'src/contexts/Identity/Accounts/appl
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { RefreshTokenCommandHandler } from 'src/contexts/Identity/Authentication/application/refreshToken/RefreshTokenCommandHandler';
 // Infrastructure imports
-import { AccountInMemoryRepository } from 'src/contexts/Identity/Authentication/infrastructure/AccountInMemoryRepository';
-import { AccountCreatedEventHandler } from 'src/contexts/Identity/Authentication/infrastructure/EventHandlers/AccountCreatedEventHandler';
+import { AccountInMemoryRepository } from 'src/contexts/Identity/Accounts/infrastructure/AccountInMemoryRepository';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
 // Constants
-import { ACCOUNT_REPOSITORY } from 'src/contexts/Identity/Authentication/domain/repositories/AccountRepository';
+import { ACCOUNT_REPOSITORY } from 'src/contexts/Identity/Accounts/domain/repositories/AccountRepository';
 // Modules
 import { SharedModule } from './Shared.module';
 // Config
 import jwtConfig from 'src/contexts/Identity/Authentication/infrastructure/config/jwt.config';
-import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
+import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { UsersModule } from './Users.module';
 import { AuthenticateAccountGQLMutation } from '../graphql/Identity/Authentication/authenticateAccount/AuthenticateAccountGQLMutation';
 import { RefreshTokenGQLMutation } from '../graphql/Identity/Authentication/refreshToken/RefreshTokenGQLMutation';
@@ -48,7 +47,6 @@ import { CreateAccountGQLMutation } from '../graphql/Identity/Accounts/createAcc
     PasswordHasher,
     RefreshTokenCommandHandler,
     RefreshTokenGQLMutation,
-    AccountCreatedEventHandler,
     JwtTokenGenerator,
     AuthenticationRequired,
     {

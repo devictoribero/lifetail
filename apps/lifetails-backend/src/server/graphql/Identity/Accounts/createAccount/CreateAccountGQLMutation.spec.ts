@@ -3,8 +3,8 @@ import { faker } from '@faker-js/faker';
 import { CreateAccountGQLMutation } from './CreateAccountGQLMutation';
 import { CreateAccountCommandHandler } from 'src/contexts/Identity/Accounts/application/createAccount/CreateAccountCommandHandler';
 import { CreateAccountInput } from './CreateAccountInput';
-import { EmailAlreadyInUseException } from 'src/contexts/Identity/Authentication/domain/exceptions/EmailAlreadyInUseException';
-import { Account } from 'src/contexts/Identity/Authentication/domain/entities/Account';
+import { EmailAlreadyInUseException } from 'src/contexts/Identity/Accounts/domain/exceptions/EmailAlreadyInUseException';
+import { Account } from 'src/contexts/Identity/Accounts/domain/entities/Account';
 import { CreateUserCommandHandler } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommandHandler';
 
 describe('CreateAccountGQLMutation', () => {

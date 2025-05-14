@@ -2,7 +2,7 @@ import { UseGuards } from '@nestjs/common';
 import { Args, Query, Resolver } from '@nestjs/graphql';
 import { SearchLifeMomentsQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/search/SearchLifeMomentsQueryHandler';
 import { SearchLifeMomentsQuery } from 'src/contexts/Lifetails/LifeMoments/application/search/SearchLifeMomentsQuery';
-import { AuthenticationRequired } from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
+import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { SearchLifeMomentsInput } from './SearchLifeMomentsInput';
 import { LifeMoment } from '../find/LifeMoment';
 

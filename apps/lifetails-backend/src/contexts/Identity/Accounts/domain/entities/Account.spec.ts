@@ -4,7 +4,7 @@ import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
-import { AccountDeletedDomainEvent } from '../AccountDeletedDomainEvent';
+import { AccountDeletedDomainEvent } from '../events/AccountDeletedDomainEvent';
 
 describe('Account', () => {
   beforeEach(() => {

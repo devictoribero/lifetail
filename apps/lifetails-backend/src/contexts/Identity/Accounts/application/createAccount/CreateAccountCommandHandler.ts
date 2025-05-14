@@ -1,10 +1,10 @@
-import { Account } from '../../../Authentication/domain/entities/Account';
-import { AccountRepository } from '../../../Authentication/domain/repositories/AccountRepository';
+import { Account } from '../../domain/entities/Account';
+import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../../Authentication/domain/services/PasswordHasher';
-import { EmailAlreadyInUseException } from '../../../Authentication/domain/exceptions/EmailAlreadyInUseException';
+import { EmailAlreadyInUseException } from '../../domain/exceptions/EmailAlreadyInUseException';
 import { CreateAccountCommand } from './CreateAccountCommand';
 import { Injectable, Inject } from '@nestjs/common';
-import { ACCOUNT_REPOSITORY } from '../../../Authentication/domain/repositories/AccountRepository';
+import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository';
 import { EventBus, EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';

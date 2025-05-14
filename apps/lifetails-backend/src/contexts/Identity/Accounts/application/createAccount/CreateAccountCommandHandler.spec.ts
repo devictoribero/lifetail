@@ -7,10 +7,10 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { EventBus } from 'src/contexts/Shared/domain/EventBus';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { AccountRepository } from 'src/contexts/Identity/Authentication/domain/repositories/AccountRepository';
+import { AccountRepository } from 'src/contexts/Identity/Accounts/domain/repositories/AccountRepository';
 import { PasswordHasher } from 'src/contexts/Identity/Authentication/domain/services/PasswordHasher';
-import { Account } from 'src/contexts/Identity/Authentication/domain/entities/Account';
-import { EmailAlreadyInUseException } from 'src/contexts/Identity/Authentication/domain/exceptions/EmailAlreadyInUseException';
+import { EmailAlreadyInUseException } from 'src/contexts/Identity/Accounts/domain/exceptions/EmailAlreadyInUseException';
+import { Account } from '../../domain/entities/Account';
 
 describe('CreateAccountCommandHandler', () => {
   let commandHandler: CreateAccountCommandHandler;

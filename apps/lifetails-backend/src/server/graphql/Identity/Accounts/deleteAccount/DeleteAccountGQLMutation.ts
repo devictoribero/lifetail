@@ -4,11 +4,11 @@ import { DeleteAccountResponse } from './DeleteAccountResponse';
 import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Accounts/application/deleteAccount/DeleteAccountCommandHandler';
 import { DeleteAccountCommand } from 'src/contexts/Identity/Accounts/application/deleteAccount/DeleteAccountCommand';
 import { UseGuards } from '@nestjs/common';
-import { AccountNotFoundException } from 'src/contexts/Identity/Authentication/domain/exceptions/AccountNotFoundException';
+import { AccountNotFoundException } from 'src/contexts/Identity/Accounts/domain/exceptions/AccountNotFoundException';
 import {
   AuthenticationRequired,
   UserInContext,
-} from 'src/contexts/Identity/Authentication/infrastructure/guards/AuthenticationRequired';
+} from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 
 @Resolver()
 export class DeleteAccountGQLMutation {
