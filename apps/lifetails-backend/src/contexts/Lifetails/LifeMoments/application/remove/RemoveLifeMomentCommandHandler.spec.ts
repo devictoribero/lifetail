@@ -25,7 +25,7 @@ describe('RemoveLifeMomentCommandHandler', () => {
     const nonExistentId = randomUUID();
     const command = new RemoveLifeMomentCommand(nonExistentId);
 
-    await expect(commandHandler.execute(command)).rejects.toThrow(LifeMomentNotFoundException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(LifeMomentNotFoundException);
   });
 
   it('should remove a life moment', async () => {
@@ -54,7 +54,7 @@ describe('RemoveLifeMomentCommandHandler', () => {
     const command = new RemoveLifeMomentCommand(lifeMomentId.toString());
 
     // Act
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(removeSpy).toHaveBeenCalledTimes(1);

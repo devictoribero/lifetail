@@ -1,3 +1,3 @@
-export interface CommandHandler<T> {
-  handle(command: T): Promise<void>;
+export interface CommandHandler<T, R = void> {
+  handle(command: T): Promise<R>;
 }

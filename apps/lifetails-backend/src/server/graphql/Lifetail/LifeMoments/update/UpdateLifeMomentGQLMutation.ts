@@ -14,7 +14,7 @@ export class UpdateLifeMomentGQLMutation {
   ): Promise<UpdateLifeMomentResponse> {
     try {
       const command = new UpdateLifeMomentCommand(input.id, input.description, input.occurredOn);
-      await this.commandHandler.execute(command);
+      await this.commandHandler.handle(command);
 
       return { id: input.id };
     } catch (error) {

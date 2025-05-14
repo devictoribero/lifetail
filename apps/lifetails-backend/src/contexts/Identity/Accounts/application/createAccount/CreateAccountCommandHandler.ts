@@ -8,9 +8,12 @@ import { ACCOUNT_REPOSITORY } from '../../domain/repositories/AccountRepository'
 import { EventBus, EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 @Injectable()
-export class CreateAccountCommandHandler {
+export class CreateAccountCommandHandler
+  implements CommandHandler<CreateAccountCommand, { id: string }>
+{
   constructor(
     @Inject(ACCOUNT_REPOSITORY)
     private readonly repository: AccountRepository,
@@ -19,7 +22,7 @@ export class CreateAccountCommandHandler {
     private readonly eventBus: EventBus,
   ) {}
 
-  async execute(command: CreateAccountCommand): Promise<{ id: string }> {
+  async handle(command: CreateAccountCommand): Promise<{ id: string }> {
     const email = new EmailValueObject(command.email);
     const password = new StringValueObject(command.password);
 

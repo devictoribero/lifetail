@@ -7,15 +7,16 @@ import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { Inject, Injectable } from '@nestjs/common';
 import { LIFE_MOMENT_REPOSITORY } from '../../domain/repositories/LifeMomentRepository';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 @Injectable()
-export class UpdateLifeMomentCommandHandler {
+export class UpdateLifeMomentCommandHandler implements CommandHandler<UpdateLifeMomentCommand> {
   constructor(
     @Inject(LIFE_MOMENT_REPOSITORY)
     private readonly repository: LifeMomentRepository,
   ) {}
 
-  async execute(command: UpdateLifeMomentCommand): Promise<void> {
+  async handle(command: UpdateLifeMomentCommand): Promise<void> {
     const lifeMomentId = new UUID(command.id);
     const lifeMoment = await this.getLifeMoment(lifeMomentId);
 

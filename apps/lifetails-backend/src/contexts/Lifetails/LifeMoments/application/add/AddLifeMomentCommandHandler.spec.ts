@@ -26,7 +26,7 @@ describe('AddLifeMomentCommandHandler', () => {
 
     // Act
     const command = new AddLifeMomentCommand(id, type, petId, createdBy, occurredOn, description);
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);

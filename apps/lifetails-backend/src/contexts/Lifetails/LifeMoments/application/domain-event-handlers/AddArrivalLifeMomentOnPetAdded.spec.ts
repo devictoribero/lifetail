@@ -51,8 +51,8 @@ describe('AddArrivalLifeMomentOnPetAdded', () => {
     await eventListener.handle(event);
 
     // Assert
-    expect(commandHandler.execute).toHaveBeenCalledTimes(1);
-    const command = (commandHandler.execute as jest.Mock).mock.calls[0][0];
+    expect(commandHandler.handle).toHaveBeenCalledTimes(1);
+    const command = (commandHandler.handle as jest.Mock).mock.calls[0][0];
     expect(command).toBeInstanceOf(AddLifeMomentCommand);
     expect(command.type).toBe(LifeMomentType.Arrival.toString());
     expect(command.petId).toBe(aggregateId);

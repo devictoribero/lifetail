@@ -4,16 +4,24 @@ import { JwtTokenGenerator } from '../../infrastructure/services/JwtTokenGenerat
 import { InvalidTokenException } from '../../domain/exceptions/InvalidTokenException';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
+
+type RefreshTokenCommandHandlerResponse = {
+  token: string;
+  refreshToken: string;
+};
 
 @Injectable()
-export class RefreshTokenCommandHandler {
+export class RefreshTokenCommandHandler
+  implements CommandHandler<RefreshTokenCommand, RefreshTokenCommandHandlerResponse>
+{
   constructor(
     private readonly tokenGenerator: JwtTokenGenerator,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
   ) {}
 
-  async execute(command: RefreshTokenCommand): Promise<{
+  async handle(command: RefreshTokenCommand): Promise<{
     token: string;
     refreshToken: string;
   }> {

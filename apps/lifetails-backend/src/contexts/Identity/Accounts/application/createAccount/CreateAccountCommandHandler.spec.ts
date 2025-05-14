@@ -52,7 +52,7 @@ describe('CreateAccountCommandHandler', () => {
     repository.findByEmail.mockResolvedValue(existingAccount);
 
     // Act
-    await expect(commandHandler.execute(command)).rejects.toThrow(EmailAlreadyInUseException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(EmailAlreadyInUseException);
 
     // Assert
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
@@ -68,7 +68,7 @@ describe('CreateAccountCommandHandler', () => {
     hasher.hash.mockResolvedValue(hashedPassword);
 
     // Act
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));

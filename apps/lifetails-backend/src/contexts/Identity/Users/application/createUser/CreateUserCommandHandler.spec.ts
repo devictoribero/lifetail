@@ -46,7 +46,7 @@ describe('CreateUserCommandHandler', () => {
 
     // Act
     const command = new CreateUserCommand(accountId, id, nickname);
-    expect(async () => await commandHandler.execute(command)).rejects.toThrow(
+    expect(async () => await commandHandler.handle(command)).rejects.toThrow(
       UserAlreadyExistsException,
     );
   });
@@ -59,7 +59,7 @@ describe('CreateUserCommandHandler', () => {
     const command = new CreateUserCommand(accountId, id, nickname);
 
     // Act
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(repository.save).toHaveBeenCalledTimes(1);

@@ -8,7 +8,7 @@ import { UpdateLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMomen
 import { GetLifeMomentQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/get/GetLifeMomentQueryHandler';
 import { SearchLifeMomentsQueryHandler } from 'src/contexts/Lifetails/LifeMoments/application/search/SearchLifeMomentsQueryHandler';
 // Event handlers
-import { AddArrivalLifeMomentOnPetAdded } from 'src/contexts/Lifetails/LifeMoments/application/EventHandlers/AddArrivalLifeMomentOnPetAdded';
+import { AddArrivalLifeMomentOnPetAdded } from 'src/contexts/Lifetails/LifeMoments/application/domain-event-handlers/AddArrivalLifeMomentOnPetAdded';
 // Infrastructure imports
 import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoments/infrastructure/LifeMomentInMemoryRepository';
 import { AuthenticationModule } from './Authentication.module';

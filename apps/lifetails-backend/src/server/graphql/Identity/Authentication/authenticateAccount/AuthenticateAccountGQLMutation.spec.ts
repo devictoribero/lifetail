@@ -73,7 +73,7 @@ describe('AuthenticateAccountGQLMutation', () => {
 
     // Act & Assert
     await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
-    expect(commandHandler.execute).toHaveBeenCalled();
+    expect(commandHandler.handle).toHaveBeenCalled();
   });
 
   it('should throw error when credentials are invalid', async () => {
@@ -87,7 +87,7 @@ describe('AuthenticateAccountGQLMutation', () => {
 
     // Act & Assert
     await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
-    expect(commandHandler.execute).toHaveBeenCalled();
+    expect(commandHandler.handle).toHaveBeenCalled();
   });
 
   it('should return accountId, userId, token and refreshToken when authentication is successful', async () => {
@@ -110,7 +110,7 @@ describe('AuthenticateAccountGQLMutation', () => {
       token: mockToken,
       refreshToken: mockRefreshToken,
     });
-    expect(commandHandler.execute).toHaveBeenCalled();
+    expect(commandHandler.handle).toHaveBeenCalled();
     expect(getUserQueryHandler.execute).toHaveBeenCalled();
 
     const expectedPayload = {

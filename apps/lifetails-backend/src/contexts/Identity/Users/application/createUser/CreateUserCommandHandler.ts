@@ -9,16 +9,17 @@ import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyE
 import { GetUserService } from '../../domain/services/GetUserService';
 import { Injectable, Inject } from '@nestjs/common';
 import { USER_REPOSITORY } from '../../domain/repositories/UserRepository';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 @Injectable()
-export class CreateUserCommandHandler {
+export class CreateUserCommandHandler implements CommandHandler<CreateUserCommand> {
   constructor(
     private readonly getUserService: GetUserService,
     @Inject(USER_REPOSITORY)
     private readonly repository: UserRepository,
   ) {}
 
-  async execute(command: CreateUserCommand): Promise<void> {
+  async handle(command: CreateUserCommand): Promise<void> {
     const accountId = new UUID(command.accountId);
     await this.ensureUserDoesNotExist(accountId);
 

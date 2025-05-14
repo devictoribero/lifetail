@@ -11,11 +11,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
 import { EventBus } from 'src/contexts/Shared/domain/EventBus';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 const MAX_NUMBER_OF_PETS = 1;
 
 @Injectable()
-export class AddPetCommandHandler {
+export class AddPetCommandHandler implements CommandHandler<AddPetCommand> {
   constructor(
     @Inject(PET_REPOSITORY)
     private readonly repository: PetRepository,
@@ -23,7 +24,7 @@ export class AddPetCommandHandler {
     private readonly eventBus: EventBus,
   ) {}
 
-  async execute(command: AddPetCommand): Promise<void> {
+  async handle(command: AddPetCommand): Promise<void> {
     const ownerId = new UUID(command.userId);
     await this.ensureOwnerCanAddPet(ownerId);
 

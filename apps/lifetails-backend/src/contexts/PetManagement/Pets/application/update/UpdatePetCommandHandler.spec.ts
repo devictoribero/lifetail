@@ -41,7 +41,7 @@ describe('UpdatePetCommandHandler', () => {
   it('should throw a PetNotFoundException error when pet does not exist', async () => {
     const command = new UpdatePetCommand(faker.string.uuid(), faker.animal.cat());
 
-    await expect(commandHandler.execute(command)).rejects.toThrow(PetNotFoundException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(PetNotFoundException);
   });
 
   it('should update all pet fields when all are provided', async () => {
@@ -59,7 +59,7 @@ describe('UpdatePetCommandHandler', () => {
       newBirthdate,
     );
 
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     const updatedPet = await repository.find(new UUID(petId));
 
@@ -79,7 +79,7 @@ describe('UpdatePetCommandHandler', () => {
     const newName = faker.animal.cat();
     const command = new UpdatePetCommand(petId, newName);
 
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();
@@ -96,7 +96,7 @@ describe('UpdatePetCommandHandler', () => {
     const newSterilized = !originalPet.isSterilized().getValue();
     const command = new UpdatePetCommand(petId, undefined, undefined, undefined, newSterilized);
 
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();
@@ -122,7 +122,7 @@ describe('UpdatePetCommandHandler', () => {
       newBirthdate,
     );
 
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();

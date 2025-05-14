@@ -32,7 +32,7 @@ export class AddPetGQLMutation {
         input.anniversaryDate,
         userId,
       );
-      await this.commandHandler.execute(command);
+      await this.commandHandler.handle(command);
 
       return { id: input.id };
     } catch (error) {

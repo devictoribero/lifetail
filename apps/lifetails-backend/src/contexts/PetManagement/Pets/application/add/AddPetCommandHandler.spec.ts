@@ -58,7 +58,7 @@ describe('AddPetCommandHandler', () => {
       ownerId,
     );
 
-    await expect(commandHandler.execute(command)).rejects.toThrow(MaxNumberOfPetsReachedException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(MaxNumberOfPetsReachedException);
   });
 
   it('should add a pet', async () => {
@@ -81,7 +81,7 @@ describe('AddPetCommandHandler', () => {
     );
 
     // Act
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(repository.save).toHaveBeenCalled();

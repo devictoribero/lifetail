@@ -39,6 +39,6 @@ export class AddArrivalLifeMomentOnPetAdded {
       occurredOn,
       description,
     );
-    await this.commandHandler.execute(command);
+    await this.commandHandler.handle(command);
   }
 }

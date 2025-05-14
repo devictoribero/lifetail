@@ -10,7 +10,7 @@ import { AccountNotFoundException } from 'src/contexts/Identity/Accounts/domain/
 import { Account } from '../../domain/entities/Account';
 
 describe('DeleteAccountCommandHandler', () => {
-  let handler: DeleteAccountCommandHandler;
+  let commandHandler: DeleteAccountCommandHandler;
   let mockRepository: jest.Mocked<AccountRepository>;
   let mockEventBus: jest.Mocked<EventBus>;
 
@@ -26,12 +26,12 @@ describe('DeleteAccountCommandHandler', () => {
       publish: jest.fn(),
     } as jest.Mocked<EventBus>;
 
-    // Create handler instance directly
-    handler = new DeleteAccountCommandHandler(mockRepository, mockEventBus);
+    // Create commandHandler instance directly
+    commandHandler = new DeleteAccountCommandHandler(mockRepository, mockEventBus);
   });
 
   it('should be defined', () => {
-    expect(handler).toBeDefined();
+    expect(commandHandler).toBeDefined();
   });
 
   it('should throw AccountNotFoundException when account does not exist', async () => {
@@ -41,7 +41,7 @@ describe('DeleteAccountCommandHandler', () => {
     mockRepository.get.mockResolvedValue(null);
 
     // Act & Assert
-    await expect(handler.execute(command)).rejects.toThrow(AccountNotFoundException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(AccountNotFoundException);
     expect(mockRepository.get).toHaveBeenCalledWith(expect.any(UUID));
     expect(mockRepository.delete).not.toHaveBeenCalled();
     expect(mockEventBus.publish).not.toHaveBeenCalled();
@@ -65,7 +65,7 @@ describe('DeleteAccountCommandHandler', () => {
     mockRepository.get.mockResolvedValue(account);
 
     // Act
-    await handler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(mockRepository.get).toHaveBeenCalledWith(accountId);

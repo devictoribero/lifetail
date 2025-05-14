@@ -12,7 +12,7 @@ export class RemovePetGQLMutation {
   async removePet(@Args('input') input: RemovePetInput): Promise<RemovePetResponse> {
     try {
       const command = new RemovePetCommand(input.id);
-      await this.commandHandler.execute(command);
+      await this.commandHandler.handle(command);
 
       return { id: input.id };
     } catch (error) {

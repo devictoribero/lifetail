@@ -15,7 +15,7 @@ export class RefreshTokenGQLMutation {
   async refreshToken(@Args('input') input: RefreshTokenInput): Promise<RefreshTokenResponse> {
     try {
       const command = new RefreshTokenCommand(input.refreshToken);
-      const result = await this.commandHandler.execute(command);
+      const result = await this.commandHandler.handle(command);
 
       return {
         token: result.token,

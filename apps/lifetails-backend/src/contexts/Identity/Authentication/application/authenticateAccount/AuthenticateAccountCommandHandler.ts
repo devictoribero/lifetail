@@ -8,16 +8,19 @@ import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { Injectable, Inject } from '@nestjs/common';
 import { ACCOUNT_REPOSITORY } from '../../../Accounts/domain/repositories/AccountRepository';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 @Injectable()
-export class AuthenticateAccountCommandHandler {
+export class AuthenticateAccountCommandHandler
+  implements CommandHandler<AuthenticateAccountCommand, string>
+{
   constructor(
     @Inject(ACCOUNT_REPOSITORY)
     private readonly repository: AccountRepository,
     private readonly hasher: PasswordHasher,
   ) {}
 
-  async execute(command: AuthenticateAccountCommand): Promise<string> {
+  async handle(command: AuthenticateAccountCommand): Promise<string> {
     const email = new EmailValueObject(command.email);
     const account = await this.getAccount(email);
 

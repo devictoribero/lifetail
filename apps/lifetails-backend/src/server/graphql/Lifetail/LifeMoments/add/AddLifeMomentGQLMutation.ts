@@ -27,7 +27,7 @@ export class AddLifeMomentGQLMutation {
         now,
         input.description,
       );
-      await this.commandHandler.execute(command);
+      await this.commandHandler.handle(command);
 
       return { id: input.id };
     } catch (error) {

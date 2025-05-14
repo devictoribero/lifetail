@@ -24,7 +24,7 @@ export class AuthenticateAccountGQLMutation {
   ): Promise<AuthenticateAccountResponse> {
     try {
       const command = new AuthenticateAccountCommand(input.email, input.password);
-      const accountId = await this.commandHandler.execute(command);
+      const accountId = await this.commandHandler.handle(command);
 
       const getUserQuery = new GetUserQuery(accountId);
       const user = await this.getUserQueryHandler.execute(getUserQuery);

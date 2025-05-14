@@ -19,7 +19,7 @@ export class UpdatePetGQLMutation {
         input.sterilized,
         input.anniversaryDate,
       );
-      await this.commandHandler.execute(command);
+      await this.commandHandler.handle(command);
 
       return { id: input.id };
     } catch (error) {

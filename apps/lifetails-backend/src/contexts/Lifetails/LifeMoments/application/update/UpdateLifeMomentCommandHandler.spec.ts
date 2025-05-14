@@ -45,7 +45,7 @@ describe('UpdateLifeMomentCommandHandler', () => {
     const command = new UpdateLifeMomentCommand(nonExistentId, faker.lorem.sentence());
 
     // Act & Assert
-    await expect(commandHandler.execute(command)).rejects.toThrow(
+    await expect(commandHandler.handle(command)).rejects.toThrow(
       new LifeMomentNotFoundException(nonExistentId),
     );
   });
@@ -57,7 +57,7 @@ describe('UpdateLifeMomentCommandHandler', () => {
     const command = new UpdateLifeMomentCommand(id.toString(), newDescription);
 
     // Act
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);
@@ -74,7 +74,7 @@ describe('UpdateLifeMomentCommandHandler', () => {
     const command = new UpdateLifeMomentCommand(id.toString(), undefined, newDate);
 
     // Act
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);
@@ -94,7 +94,7 @@ describe('UpdateLifeMomentCommandHandler', () => {
     const command = new UpdateLifeMomentCommand(id.toString(), newDescription, newDate);
 
     // Act
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(saveSpy).toHaveBeenCalledTimes(1);

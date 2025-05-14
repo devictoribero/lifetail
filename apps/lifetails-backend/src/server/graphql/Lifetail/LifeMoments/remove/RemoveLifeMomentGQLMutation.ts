@@ -14,7 +14,7 @@ export class RemoveLifeMomentGQLMutation {
   ): Promise<RemoveLifeMomentResponse> {
     try {
       const command = new RemoveLifeMomentCommand(input.id);
-      await this.commandHandler.execute(command);
+      await this.commandHandler.handle(command);
 
       return { id: input.id };
     } catch (error) {

@@ -5,9 +5,10 @@ import { AccountNotFoundException } from '../../domain/exceptions/AccountNotFoun
 import { DeleteAccountCommand } from './DeleteAccountCommand';
 import { EventBus, EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
 import { Account } from '../../domain/entities/Account';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 @Injectable()
-export class DeleteAccountCommandHandler {
+export class DeleteAccountCommandHandler implements CommandHandler<DeleteAccountCommand> {
   constructor(
     @Inject(ACCOUNT_REPOSITORY)
     private readonly repository: AccountRepository,
@@ -15,7 +16,7 @@ export class DeleteAccountCommandHandler {
     private readonly eventBus: EventBus,
   ) {}
 
-  async execute(command: DeleteAccountCommand): Promise<void> {
+  async handle(command: DeleteAccountCommand): Promise<void> {
     const accountId = new UUID(command.accountId);
 
     const account = await this.getAccount(accountId);

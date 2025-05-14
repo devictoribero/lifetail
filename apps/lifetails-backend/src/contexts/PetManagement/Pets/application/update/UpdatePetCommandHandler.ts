@@ -8,15 +8,16 @@ import { Pet } from '../../domain/entities/Pet';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { Inject, Injectable } from '@nestjs/common';
 import { PET_REPOSITORY } from '../../domain/repositories/PetRepository';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 @Injectable()
-export class UpdatePetCommandHandler {
+export class UpdatePetCommandHandler implements CommandHandler<UpdatePetCommand> {
   constructor(
     @Inject(PET_REPOSITORY)
     private readonly repository: PetRepository,
   ) {}
 
-  async execute(command: UpdatePetCommand): Promise<void> {
+  async handle(command: UpdatePetCommand): Promise<void> {
     const pet = await this.getPet(new UUID(command.id));
 
     if (this.hasValue(command.name)) {

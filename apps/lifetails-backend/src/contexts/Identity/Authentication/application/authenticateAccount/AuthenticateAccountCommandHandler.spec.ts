@@ -52,7 +52,7 @@ describe('AuthenticateAccountCommandHandler', () => {
     repository.findByEmail.mockResolvedValue(null);
 
     // Act & Assert
-    await expect(commandHandler.execute(command)).rejects.toThrow(InvalidCredentialsException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(InvalidCredentialsException);
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
   });
 
@@ -66,7 +66,7 @@ describe('AuthenticateAccountCommandHandler', () => {
     hasher.compare.mockResolvedValue(false);
 
     // Act & Assert
-    await expect(commandHandler.execute(command)).rejects.toThrow(InvalidCredentialsException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(InvalidCredentialsException);
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
     expect(hasher.compare).toHaveBeenCalledWith(
       new StringValueObject(command.password),
@@ -84,7 +84,7 @@ describe('AuthenticateAccountCommandHandler', () => {
     hasher.compare.mockResolvedValue(true);
 
     // Act
-    const result = await commandHandler.execute(command);
+    const result = await commandHandler.handle(command);
 
     // Assert
     expect(result).toBe(accountId);

@@ -56,11 +56,11 @@ describe('CreateAccountGQLMutation', () => {
       nickname: faker.person.firstName(),
     };
 
-    commandHandler.execute = jest.fn().mockRejectedValue(new EmailAlreadyInUseException());
+    commandHandler.handle = jest.fn().mockRejectedValue(new EmailAlreadyInUseException());
 
     // Act & Assert
     await expect(mutation.createAccount(input)).rejects.toThrow('Email already in use');
-    expect(commandHandler.execute).toHaveBeenCalledWith(
+    expect(commandHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         email: input.email,
         password: input.password,
@@ -78,11 +78,11 @@ describe('CreateAccountGQLMutation', () => {
     };
     const errorMessage = 'Unexpected error';
 
-    commandHandler.execute = jest.fn().mockRejectedValue(new Error(errorMessage));
+    commandHandler.handle = jest.fn().mockRejectedValue(new Error(errorMessage));
 
     // Act & Assert
     await expect(mutation.createAccount(input)).rejects.toThrow(errorMessage);
-    expect(commandHandler.execute).toHaveBeenCalledWith(
+    expect(commandHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         email: input.email,
         password: input.password,
@@ -103,7 +103,7 @@ describe('CreateAccountGQLMutation', () => {
     await mutation.createAccount(input);
 
     // Assert
-    expect(commandHandler.execute).toHaveBeenCalledWith(
+    expect(commandHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         email: input.email,
         password: input.password,

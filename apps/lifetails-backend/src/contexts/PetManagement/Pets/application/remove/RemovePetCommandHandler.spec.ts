@@ -26,7 +26,7 @@ describe('RemovePetCommandHandler', () => {
     const nonExistentId = faker.string.uuid();
     const command = new RemovePetCommand(nonExistentId);
 
-    await expect(commandHandler.execute(command)).rejects.toThrow(PetNotFoundException);
+    await expect(commandHandler.handle(command)).rejects.toThrow(PetNotFoundException);
   });
 
   it('should remove a pet', async () => {
@@ -56,7 +56,7 @@ describe('RemovePetCommandHandler', () => {
 
     // Act
     const command = new RemovePetCommand(id);
-    await commandHandler.execute(command);
+    await commandHandler.handle(command);
 
     // Assert
     expect(removeSpy).toHaveBeenCalledTimes(1);

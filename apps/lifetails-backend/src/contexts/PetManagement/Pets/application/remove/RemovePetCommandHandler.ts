@@ -4,15 +4,16 @@ import { PetRepository } from '../../domain/repositories/PetRepository';
 import { RemovePetCommand } from './RemovePetCommand';
 import { Inject, Injectable } from '@nestjs/common';
 import { PET_REPOSITORY } from '../../domain/repositories/PetRepository';
+import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 
 @Injectable()
-export class RemovePetCommandHandler {
+export class RemovePetCommandHandler implements CommandHandler<RemovePetCommand> {
   constructor(
     @Inject(PET_REPOSITORY)
     private readonly repository: PetRepository,
   ) {}
 
-  async execute(command: RemovePetCommand): Promise<void> {
+  async handle(command: RemovePetCommand): Promise<void> {
     const petId = new UUID(command.id);
     await this.ensurePetExists(petId);
     await this.repository.remove(petId);
