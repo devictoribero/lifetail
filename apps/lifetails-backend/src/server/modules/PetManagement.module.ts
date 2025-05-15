@@ -23,6 +23,7 @@ import { DeleteVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary
 import { SharedModule } from './Shared.module';
 import { IdentityModule } from './Identity.module';
 import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinaries/application/GetVeterinary/GetVeterinaryQueryHandler';
+import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/GetVeterinaryGQLQuery';
 
 @Module({
   imports: [SharedModule, IdentityModule],
@@ -48,6 +49,7 @@ import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinari
     RemovePetGQLMutation,
     UpdatePetGQLMutation,
     GetPetGQLQuery,
+    GetVeterinaryGQLQuery,
     SearchAllPetsGQLQuery,
     AddVeterinaryGQLMutation,
     DeleteVeterinaryGQLMutation,

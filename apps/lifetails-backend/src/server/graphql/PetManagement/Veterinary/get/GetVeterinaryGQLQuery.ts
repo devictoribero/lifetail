@@ -8,20 +8,17 @@ import { UseGuards } from '@nestjs/common';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 
 @Resolver()
+@UseGuards(AuthenticationRequired)
 export class GetVeterinaryGQLQuery {
   constructor(private readonly queryHandler: GetVeterinaryQueryHandler) {}
 
   @Query(() => Veterinary)
-  @UseGuards(AuthenticationRequired)
   async getVeterinary(@Args('input') input: GetVeterinaryInput): Promise<Veterinary> {
     try {
       const query = new GetVeterinaryQuery(input.id);
       const veterinary = await this.queryHandler.handle(query);
 
-      return {
-        id: veterinary.getId().toString(),
-        name: veterinary.getName().toString(),
-      };
+      return veterinary.toPrimitives();
     } catch (error) {
       if (error instanceof VeterinaryNotFoundException) {
         throw new Error(`Veterinary not found: ${input.id}`);

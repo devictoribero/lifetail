@@ -7,4 +7,28 @@ export class Veterinary {
 
   @Field()
   name: string;
+
+  @Field(() => String, { nullable: true })
+  address: string | null;
+
+  @Field(() => String, { nullable: true })
+  email: string | null;
+
+  @Field(() => String, { nullable: true })
+  primaryPhone: string | null;
+
+  @Field(() => String, { nullable: true })
+  emergencyPhone: string | null;
+
+  @Field(() => String, { nullable: true })
+  notes: string | null;
+
+  @Field(() => String)
+  createdAt: string;
+
+  @Field(() => String, { nullable: true })
+  updatedAt: string | null;
+
+  @Field(() => String, { nullable: true })
+  deletedAt: string | null;
 }

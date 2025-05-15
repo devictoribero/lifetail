@@ -134,7 +134,7 @@ export const seedDatabase = async (app: INestApplication) => {
 
   ////////////////////////////////////////////////////////////////////////////////
   // Add veterinaries
-  const fontblancaVetId = UUID.create().toString();
+  const fontblancaVetId = '7c0dabfa-e6f8-41a4-adfd-c891f509d4d8';
   const addFontblancaVetCommand = new AddVeterinaryCommand(
     fontblancaVetId,
     'Fontblanca veterinary',

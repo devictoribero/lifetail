@@ -92,6 +92,10 @@ input GetPetInput {
   id: String!
 }
 
+input GetVeterinaryInput {
+  id: ID!
+}
+
 type HealthCheckResponse {
   timestamp: DateTime!
 }
@@ -186,6 +190,7 @@ enum PetSpecies {
 type Query {
   getLifeMoment(input: GetLifeMomentInput!): LifeMoment!
   getPet(input: GetPetInput!): Pet!
+  getVeterinary(input: GetVeterinaryInput!): Veterinary!
   healthCheck: HealthCheckResponse!
   searchAllPets(input: SearchAllPetsInput!): [Pet!]!
   searchLifeMoments(input: SearchLifeMomentsInput!): [LifeMoment!]!
@@ -241,4 +246,17 @@ input UpdatePetInput {
 
 type UpdatePetResponse {
   id: String!
+}
+
+type Veterinary {
+  address: String
+  createdAt: String!
+  deletedAt: String
+  email: String
+  emergencyPhone: String
+  id: ID!
+  name: String!
+  notes: String
+  primaryPhone: String
+  updatedAt: String
 }
