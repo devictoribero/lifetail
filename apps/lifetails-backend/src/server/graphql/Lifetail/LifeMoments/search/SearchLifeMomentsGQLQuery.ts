@@ -15,7 +15,7 @@ export class SearchLifeMomentsGQLQuery {
   async searchLifeMoments(@Args('input') input: SearchLifeMomentsInput): Promise<LifeMoment[]> {
     try {
       const query = new SearchLifeMomentsQuery(input.petId);
-      const lifeMoments = await this.queryHandler.execute(query);
+      const lifeMoments = await this.queryHandler.handle(query);
 
       return lifeMoments.map((lifeMoment) => {
         const lifeMomentPrimitive = lifeMoment.toPrimitives();

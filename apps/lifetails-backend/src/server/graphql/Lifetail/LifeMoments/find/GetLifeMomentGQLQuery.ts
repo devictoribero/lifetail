@@ -12,7 +12,7 @@ export class GetLifeMomentGQLQuery {
   async getLifeMoment(@Args('input') input: GetLifeMomentInput): Promise<LifeMoment> {
     try {
       const query = new GetLifeMomentQuery(input.id);
-      const lifeMoment = await this.queryHandler.execute(query);
+      const lifeMoment = await this.queryHandler.handle(query);
 
       const lifeMomentPrimitive = lifeMoment.toPrimitives();
       return {

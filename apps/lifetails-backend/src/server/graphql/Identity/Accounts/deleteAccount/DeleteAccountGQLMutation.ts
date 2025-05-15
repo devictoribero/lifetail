@@ -23,7 +23,7 @@ export class DeleteAccountGQLMutation {
     try {
       const accountId = this.getUserFromContext(context).accountId;
       const command = new DeleteAccountCommand(accountId);
-      await this.deleteAccountCommandHandler.execute(command);
+      await this.deleteAccountCommandHandler.handle(command);
 
       return { success: true };
     } catch (error) {

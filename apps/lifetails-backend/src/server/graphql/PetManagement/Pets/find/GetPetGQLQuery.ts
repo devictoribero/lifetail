@@ -15,7 +15,7 @@ export class GetPetGQLQuery {
     try {
       const userId = context.req.user.id;
       const query = new GetPetQueryHandlerQuery(input.id);
-      const pet = await this.queryHandler.execute(query);
+      const pet = await this.queryHandler.handle(query);
       const petPrimitives = pet.toPrimitives();
       return {
         id: petPrimitives.id,

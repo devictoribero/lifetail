@@ -59,4 +59,4 @@ import { IdentityModule } from './Identity.module';
     SearchLifeMomentsGQLQuery,
   ],
 })
-export class LifeMomentsModule {}
+export class LifetailsModule {}

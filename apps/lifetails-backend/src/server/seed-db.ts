@@ -60,7 +60,7 @@ const createAccountAndUser = async (
   const createAccountCommandHandler = app.get(CreateAccountCommandHandler);
   const createUserCommandHandler = app.get(CreateUserCommandHandler);
 
-  const account = await createAccountCommandHandler.execute({
+  const account = await createAccountCommandHandler.handle({
     id: UUID.create().toString(),
     email: CREDENTIALS.email,
     password: CREDENTIALS.password,
@@ -69,7 +69,7 @@ const createAccountAndUser = async (
   logDomainEvent('Account created', account);
 
   const createUserCommand = new CreateUserCommand(accountId, USER_ID, CREDENTIALS.nickname);
-  await createUserCommandHandler.execute(createUserCommand);
+  await createUserCommandHandler.handle(createUserCommand);
 
   return { id: account.id };
 };
@@ -92,7 +92,7 @@ export const seedDatabase = async (app: INestApplication) => {
   const accountId = account.id;
   const USER_ID = '6e3bf192-2d53-452e-a713-157c7975e5ba';
   const getUserQuery = new GetUserQuery(accountId);
-  const user = await getUserQueryHandler.execute(getUserQuery);
+  const user = await getUserQueryHandler.handle(getUserQuery);
 
   const payload = { accountId, userId: user.getId().toString(), email: CREDENTIALS.email };
 
@@ -105,7 +105,7 @@ export const seedDatabase = async (app: INestApplication) => {
     CREDENTIALS.email,
     CREDENTIALS.password,
   );
-  await authenticateAccountCommandHandler.execute(authenticateAccountCommand);
+  await authenticateAccountCommandHandler.handle(authenticateAccountCommand);
   logDomainEvent('User authenticated', { userId: USER_ID, token });
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -120,8 +120,8 @@ export const seedDatabase = async (app: INestApplication) => {
     new Date('2020-01-01'),
     USER_ID,
   );
-  await addPetCommandHandler.execute(addPetCommand);
-  const pet = await getPetQueryHandler.execute(new GetPetQuery(petId));
+  await addPetCommandHandler.handle(addPetCommand);
+  const pet = await getPetQueryHandler.handle(new GetPetQuery(petId));
   logDomainEvent('Pet added', pet);
 
   // Add life moment for pet
@@ -137,7 +137,7 @@ export const seedDatabase = async (app: INestApplication) => {
   //     new Date('2024-12-13'),
   //     'Nekito llega a casa!',
   //   );
-  //   await addLifeMomentCommandHandler.execute(addLifeMomentCommand);
+  //   await addLifeMomentCommandHandler.handle(addLifeMomentCommand);
   //   logDomainEvent('Life moment added', { id: lifeMomentUuid });
   // }
 };

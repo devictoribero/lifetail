@@ -13,7 +13,7 @@ export class SearchAllPetsGQLQuery {
   async searchAllPets(@Args('input') input: SearchAllPetsInput): Promise<Pet[]> {
     try {
       const query = new SearchAllPetsQueryDomain(input.ownerId);
-      const pets = await this.queryHandler.execute(query);
+      const pets = await this.queryHandler.handle(query);
 
       return pets.map((pet) => {
         const petPrimitives = pet.toPrimitives();
