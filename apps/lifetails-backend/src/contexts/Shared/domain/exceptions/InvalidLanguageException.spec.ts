@@ -5,7 +5,7 @@ describe('InvalidLanguageException', () => {
     expect(InvalidLanguageException).toBeDefined();
   });
 
-  it('should be an instance of Error', () => {
+  it('should be an instance of InvalidLanguageException', () => {
     const error = new InvalidLanguageException('invalid-language');
 
     expect(error).toBeInstanceOf(InvalidLanguageException);

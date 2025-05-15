@@ -5,7 +5,7 @@ describe('PasswordTooShortException', () => {
     expect(PasswordTooShortException).toBeDefined();
   });
 
-  it('should be an instance of Error', () => {
+  it('should be an instance of PasswordTooShortException', () => {
     const error = new PasswordTooShortException('short');
 
     expect(error).toBeInstanceOf(PasswordTooShortException);

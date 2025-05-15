@@ -5,7 +5,7 @@ describe('UnsupportedEmptyPasswordException', () => {
     expect(UnsupportedEmptyPasswordException).toBeDefined();
   });
 
-  it('should be an instance of Error', () => {
+  it('should be an instance of UnsupportedEmptyPasswordException', () => {
     const error = new UnsupportedEmptyPasswordException();
 
     expect(error).toBeInstanceOf(UnsupportedEmptyPasswordException);

@@ -1,7 +1,11 @@
 import { UnsupportedEmptyStringException } from './UnsupportedEmptyStringException';
 
 describe('UnsupportedEmptyStringException', () => {
-  it('should create an exception with the expected message', () => {
+  it('should be defined', () => {
+    expect(UnsupportedEmptyStringException).toBeDefined();
+  });
+
+  it('should be instance of UnsupportedEmptyStringException', () => {
     const exception = new UnsupportedEmptyStringException();
 
     expect(exception).toBeInstanceOf(Error);
