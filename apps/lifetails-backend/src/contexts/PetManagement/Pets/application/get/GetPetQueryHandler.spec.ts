@@ -29,7 +29,7 @@ describe('GetPetQueryHandler', () => {
 
     // Act & Assert
     await expect(queryHandler.handle(query)).rejects.toThrow(
-      new PetNotFoundException(nonExistentId),
+      new PetNotFoundException(new UUID(nonExistentId)),
     );
   });
 

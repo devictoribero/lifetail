@@ -1,6 +1,8 @@
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+
 export class InvalidLifeMomentTypeException extends Error {
-  constructor(eventType: string) {
-    super(`Unknown life moment type: ${eventType}`);
+  constructor(eventType: StringValueObject) {
+    super(`Unknown life moment type: ${eventType.toString()}`);
     this.name = 'InvalidLifeMomentTypeException';
   }
 }

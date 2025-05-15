@@ -1,6 +1,8 @@
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+
 export class InvalidLifeThemeException extends Error {
-  constructor(theme: string) {
-    super(`Unknown life theme: ${theme}`);
+  constructor(theme: StringValueObject) {
+    super(`Unknown life theme: ${theme.toString()}`);
     this.name = 'InvalidLifeThemeException';
   }
 }

@@ -25,7 +25,7 @@ export class GetLifeMomentQueryHandler implements QueryHandler<GetLifeMomentQuer
     const lifeMoment = await this.repository.find(id);
 
     if (!lifeMoment) {
-      throw new LifeMomentNotFoundException(id.toString());
+      throw new LifeMomentNotFoundException(id);
     }
 
     return lifeMoment;

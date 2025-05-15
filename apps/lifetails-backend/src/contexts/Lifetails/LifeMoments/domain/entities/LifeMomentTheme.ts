@@ -9,7 +9,7 @@ export class LifeMomentTheme extends StringValueObject {
   public static fromPrimitives(value: string): LifeMomentTheme {
     const theme = LifeMomentTheme.types.find((type) => type.value === value);
     if (!theme) {
-      throw new InvalidLifeThemeException(value);
+      throw new InvalidLifeThemeException(new StringValueObject(value));
     }
     return theme;
   }

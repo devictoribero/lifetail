@@ -26,7 +26,7 @@ describe('GetLifeMomentQueryHandler', () => {
 
     // Act & Assert
     await expect(queryHandler.handle(query)).rejects.toThrow(
-      new LifeMomentNotFoundException(nonExistentId),
+      new LifeMomentNotFoundException(new UUID(nonExistentId)),
     );
   });
 

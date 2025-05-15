@@ -46,7 +46,7 @@ describe('UpdateLifeMomentCommandHandler', () => {
 
     // Act & Assert
     await expect(commandHandler.handle(command)).rejects.toThrow(
-      new LifeMomentNotFoundException(nonExistentId),
+      new LifeMomentNotFoundException(new UUID(nonExistentId)),
     );
   });
 

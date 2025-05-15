@@ -62,22 +62,26 @@ describe('GetVeterinaryGQLQuery', () => {
   it('should return a veterinary when it exists', async () => {
     // Arrange
     const id = faker.string.uuid();
-    const input: GetVeterinaryInput = { id };
     const veterinary = Veterinary.create(new UUID(id), new StringValueObject('Test Veterinary'));
     queryHandler.handle.mockResolvedValue(veterinary);
+    const input: GetVeterinaryInput = { id };
 
     // Act
     const result = await query.getVeterinary(input);
 
     // Assert
-    expect(queryHandler.handle).toHaveBeenCalledWith(
-      expect.objectContaining({
-        id: input.id,
-      }),
-    );
+    expect(queryHandler.handle).toHaveBeenCalledWith(expect.objectContaining({ id: input.id }));
     expect(result).toEqual({
       id: id,
       name: 'Test Veterinary',
+      address: null,
+      email: null,
+      primaryPhone: null,
+      emergencyPhone: null,
+      notes: null,
+      createdAt: expect.any(String),
+      updatedAt: null,
+      deletedAt: null,
     });
   });
 

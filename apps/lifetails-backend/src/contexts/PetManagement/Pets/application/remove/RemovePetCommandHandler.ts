@@ -22,7 +22,7 @@ export class RemovePetCommandHandler implements CommandHandler<RemovePetCommand>
   private async ensurePetExists(id: UUID): Promise<void> {
     const pet = await this.repository.find(id);
     if (!pet) {
-      throw new PetNotFoundException(id.toString());
+      throw new PetNotFoundException(id);
     }
   }
 }

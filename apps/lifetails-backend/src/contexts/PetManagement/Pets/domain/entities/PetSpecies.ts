@@ -17,7 +17,7 @@ export class Species extends StringValueObject {
     const species = Species.All.find((species) => species.equals(petSpecies));
 
     if (!species) {
-      throw new InvalidPetSpeciesException(value);
+      throw new InvalidPetSpeciesException(new StringValueObject(value));
     }
 
     return species;

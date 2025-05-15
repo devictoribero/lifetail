@@ -17,7 +17,7 @@ export class LifeMomentType extends StringValueObject {
   public static fromPrimitives(value: string): LifeMomentType {
     const type = LifeMomentType.types.find((type) => type.value === value);
     if (!type) {
-      throw new InvalidLifeMomentTypeException(value);
+      throw new InvalidLifeMomentTypeException(new StringValueObject(value));
     }
 
     return type;
@@ -59,7 +59,7 @@ export class LifeMomentType extends StringValueObject {
       case 'Death':
         return LifeMomentTheme.Farewell;
       default:
-        throw new InvalidLifeMomentTypeException(this.value);
+        throw new InvalidLifeMomentTypeException(new StringValueObject(this.value));
     }
   }
 
