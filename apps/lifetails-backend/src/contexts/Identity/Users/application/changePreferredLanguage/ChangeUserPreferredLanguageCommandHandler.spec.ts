@@ -5,7 +5,7 @@ import { User } from '../../domain/entities/User';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { Language } from 'src/contexts/Shared/domain/Language';
+import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { faker } from '@faker-js/faker';
 
@@ -26,7 +26,7 @@ describe('ChangeUserPreferredLanguageCommandHandler', () => {
       new UUID(accountId),
       new StringValueObject(faker.person.firstName()),
       new DateValueObject(new Date('2025-01-01')),
-      Language.English,
+      LanguageCode.English,
     );
 
     // Setup repository mock
@@ -63,7 +63,7 @@ describe('ChangeUserPreferredLanguageCommandHandler', () => {
     // Assert
     expect(repository.save).toHaveBeenCalledTimes(1);
     const savedUser = repository.save.mock.calls[0][0] as User;
-    expect(savedUser.getPreferredLanguage()).toBe(Language.Spanish);
+    expect(savedUser.getPreferredLanguage()).toBe(LanguageCode.Spanish);
   });
 
   it('should maintain the existing language when the provided language code is invalid', async () => {
@@ -73,7 +73,7 @@ describe('ChangeUserPreferredLanguageCommandHandler', () => {
       new UUID(accountId),
       new StringValueObject(faker.person.firstName()),
       new DateValueObject(new Date()),
-      Language.Spanish,
+      LanguageCode.Spanish,
     );
     repository.getById.mockResolvedValue(mockUserWithSpanish);
 

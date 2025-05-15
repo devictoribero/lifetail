@@ -3,19 +3,23 @@ import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pets/application/
 import { GetPetQuery as GetPetQueryHandlerQuery } from 'src/contexts/PetManagement/Pets/application/get/GetPetQuery';
 import { GetPetInput } from './GetPetInput';
 import { Pet } from './Pet';
-import { NotFoundException } from '@nestjs/common';
+import { NotFoundException, UseGuards } from '@nestjs/common';
 import { PetNotFoundException } from 'src/contexts/PetManagement/Pets/domain/exceptions/PetNotFoundException';
+import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 
 @Resolver()
+@UseGuards(AuthenticationRequired)
 export class GetPetGQLQuery {
   constructor(private readonly queryHandler: GetPetQueryHandler) {}
 
   @Query(() => Pet)
   async getPet(@Args('input') input: GetPetInput, @Context() context: any): Promise<Pet> {
     try {
+      console.log(context.req.user);
       const userId = context.req.user.id;
       const query = new GetPetQueryHandlerQuery(input.id);
       const pet = await this.queryHandler.handle(query);
+
       const petPrimitives = pet.toPrimitives();
       return {
         id: petPrimitives.id,

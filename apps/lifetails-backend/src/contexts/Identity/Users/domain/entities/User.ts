@@ -2,14 +2,14 @@ import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { Language } from 'src/contexts/Shared/domain/Language';
+import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 
 export class User extends AggregateRoot {
   private readonly id: UUID;
   private readonly accountId: UUID;
   private readonly nickname: StringValueObject;
   private readonly createdAt: DateValueObject;
-  private preferredLanguage: Language;
+  private preferredLanguage: LanguageCode;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
@@ -17,7 +17,7 @@ export class User extends AggregateRoot {
     accountId: UUID,
     nickname: StringValueObject,
     createdAt: DateValueObject,
-    preferredLanguage: Language,
+    preferredLanguage: LanguageCode,
   ) {
     super();
     this.id = id;
@@ -31,10 +31,10 @@ export class User extends AggregateRoot {
     id: UUID,
     accountId: UUID,
     nickname: StringValueObject,
-    preferredLanguage?: Language,
+    preferredLanguage?: LanguageCode,
   ): User {
     const createdAt = new DateValueObject(new Date());
-    const language = preferredLanguage || Language.English;
+    const language = preferredLanguage || LanguageCode.English;
     return new User(id, accountId, nickname, createdAt, language);
   }
 
@@ -54,11 +54,11 @@ export class User extends AggregateRoot {
     return this.createdAt;
   }
 
-  getPreferredLanguage(): Language {
+  getPreferredLanguage(): LanguageCode {
     return this.preferredLanguage;
   }
 
-  changePreferredLanguageTo(language: Language): void {
+  changePreferredLanguageTo(language: LanguageCode): void {
     this.preferredLanguage = language;
   }
 

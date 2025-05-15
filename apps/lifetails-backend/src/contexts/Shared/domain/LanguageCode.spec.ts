@@ -1,17 +1,17 @@
-import { Language, LanguageEnum } from './Language';
+import { LanguageCode, LanguageCodeEnum } from './LanguageCode';
 import { InvalidLanguageException } from './exceptions/InvalidLanguageException';
 
 const SUPPORTED_LANGUAGES = [
-  { name: 'English', constant: Language.English, code: LanguageEnum.English },
-  { name: 'Spanish', constant: Language.Spanish, code: LanguageEnum.Spanish },
+  { name: 'English', constant: LanguageCode.English, code: LanguageCodeEnum.English },
+  { name: 'Spanish', constant: LanguageCode.Spanish, code: LanguageCodeEnum.Spanish },
 ];
 
-describe('Language', () => {
+describe('LanguageCode', () => {
   SUPPORTED_LANGUAGES.forEach((language) => {
     describe(`${language.name} language`, () => {
       it('should throw an InvalidLanguageException when creating from invalid code', () => {
         expect(() => {
-          Language.fromPrimitives('invalid-language');
+          LanguageCode.fromPrimitives('invalid-language');
         }).toThrow(InvalidLanguageException);
       });
 
@@ -20,13 +20,13 @@ describe('Language', () => {
       });
 
       it(`should create ${language.name} language using code "${language.code}" with create method`, () => {
-        const created = Language.create(language.code);
+        const created = LanguageCode.create(language.code);
 
         expect(created.equals(language.constant)).toBeTruthy();
       });
 
       it(`should reconstruct ${language.name} language from code "${language.code}" with fromPrimitives method`, () => {
-        const reconstructed = Language.fromPrimitives(language.code);
+        const reconstructed = LanguageCode.fromPrimitives(language.code);
 
         expect(reconstructed).toBe(language.constant);
       });

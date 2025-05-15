@@ -8,7 +8,7 @@ import { Gender } from 'src/contexts/Shared/domain/Gender';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { randomUUID } from 'node:crypto';
-import { Language } from 'src/contexts/Shared/domain/Language';
+import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 
 describe('GetUserQueryHandler', () => {
   let queryHandler: GetUserQueryHandler;
@@ -32,7 +32,7 @@ describe('GetUserQueryHandler', () => {
       new UUID(accountId),
       new StringValueObject('John Doe'),
       new DateValueObject(new Date()),
-      Language.English,
+      LanguageCode.English,
     );
 
     getUserService.execute.mockResolvedValue(mockUser);

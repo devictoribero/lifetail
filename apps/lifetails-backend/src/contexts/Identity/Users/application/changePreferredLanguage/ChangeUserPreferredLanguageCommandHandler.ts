@@ -2,7 +2,7 @@ import { ChangeUserPreferredLanguageCommand } from './ChangeUserPreferredLanguag
 import { UserRepository, USER_REPOSITORY } from '../../domain/repositories/UserRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
-import { Language } from 'src/contexts/Shared/domain/Language';
+import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../../domain/entities/User';
 import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
@@ -20,7 +20,7 @@ export class ChangeUserPreferredLanguageCommandHandler
     const userId = new UUID(command.userId);
     const user = await this.getUser(userId);
 
-    const preferredLanguage = Language.fromPrimitives(command.languageCode);
+    const preferredLanguage = LanguageCode.fromPrimitives(command.languageCode);
     user.changePreferredLanguageTo(preferredLanguage);
 
     await this.userRepository.save(user);

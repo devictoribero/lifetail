@@ -8,7 +8,7 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
-import { Language } from 'src/contexts/Shared/domain/Language';
+import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 
 describe('CreateUserCommandHandler', () => {
   let getUserService: jest.Mocked<GetUserService>;
@@ -40,7 +40,7 @@ describe('CreateUserCommandHandler', () => {
         new UUID(accountId),
         new StringValueObject(nickname),
         new DateValueObject(new Date()),
-        Language.English,
+        LanguageCode.English,
       ),
     );
 
@@ -69,7 +69,7 @@ describe('CreateUserCommandHandler', () => {
       id,
       accountId,
       nickname,
-      preferredLanguage: Language.English.toString(),
+      preferredLanguage: LanguageCode.English.toString(),
       createdAt: expect.any(String),
     });
   });

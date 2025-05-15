@@ -3,7 +3,7 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { faker } from '@faker-js/faker';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { User } from './User';
-import { Language } from 'src/contexts/Shared/domain/Language';
+import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 
 describe('User', () => {
   beforeEach(() => {
@@ -19,7 +19,7 @@ describe('User', () => {
     const accountId = UUID.create();
     const nickname = new StringValueObject(faker.person.firstName());
     const createdAt = new DateValueObject(faker.date.past());
-    const preferredLanguage = Language.English;
+    const preferredLanguage = LanguageCode.English;
 
     const user = new User(id, accountId, nickname, createdAt, preferredLanguage);
 
@@ -43,19 +43,19 @@ describe('User', () => {
     expect(user.getAccountId()).toBe(accountId);
     expect(user.getNickname()).toBe(nickname);
     expect(user.getCreatedAt()).toBeInstanceOf(DateValueObject);
-    expect(user.getPreferredLanguage()).toBe(Language.English);
+    expect(user.getPreferredLanguage()).toBe(LanguageCode.English);
   });
 
   it('should create a User instance with a custom preferred language', () => {
     const id = UUID.create();
     const accountId = UUID.create();
     const nickname = new StringValueObject(faker.person.firstName());
-    const preferredLanguage = Language.Spanish;
+    const preferredLanguage = LanguageCode.Spanish;
 
     const user = User.create(id, accountId, nickname, preferredLanguage);
 
     expect(user).toBeDefined();
-    expect(user.getPreferredLanguage()).toBe(Language.Spanish);
+    expect(user.getPreferredLanguage()).toBe(LanguageCode.Spanish);
   });
 
   it('should convert the User to primitive values', () => {
@@ -63,7 +63,7 @@ describe('User', () => {
     const accountId = UUID.create();
     const nickname = new StringValueObject(faker.person.firstName());
     const createdAt = new DateValueObject(faker.date.past());
-    const preferredLanguage = Language.English;
+    const preferredLanguage = LanguageCode.English;
 
     const user = new User(id, accountId, nickname, createdAt, preferredLanguage);
 
