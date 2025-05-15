@@ -5,8 +5,10 @@ import { RemovePetCommandHandler } from 'src/contexts/PetManagement/Pets/applica
 import { UpdatePetCommandHandler } from 'src/contexts/PetManagement/Pets/application/update/UpdatePetCommandHandler';
 import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pets/application/get/GetPetQueryHandler';
 import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommandHandler';
+import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/DeleteVeterinary/DeleteVeterinaryCommandHandler';
 // Infrastructure imports
 import { PetInMemoryRepository } from 'src/contexts/PetManagement/Pets/infrastructure/PetInMemoryRepository';
+import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterinaries/infrastructure/VeterinaryInMemoryRepository';
 // Domain imports
 import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pets/application/searchAll/SearchAllPetsQueryHandler';
 import { PET_REPOSITORY } from 'src/contexts/PetManagement/Pets/domain/repositories/PetRepository';
@@ -17,6 +19,7 @@ import { UpdatePetGQLMutation } from '../graphql/PetManagement/Pets/update/Updat
 import { GetPetGQLQuery } from '../graphql/PetManagement/Pets/find/GetPetGQLQuery';
 import { SearchAllPetsGQLQuery } from '../graphql/PetManagement/Pets/searchAll/SearchAllPetsGQLQuery';
 import { AddVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary/add/AddVeterinaryGQLMutation';
+import { DeleteVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary/delete/DeleteVeterinaryGQLMutation';
 import { SharedModule } from './Shared.module';
 import { IdentityModule } from './Identity.module';
 
@@ -30,7 +33,7 @@ import { IdentityModule } from './Identity.module';
     },
     {
       provide: VETERINARY_REPOSITORY,
-      useClass: PetInMemoryRepository, // Replace with a proper Veterinary repository when available
+      useClass: VeterinaryInMemoryRepository,
     },
     AddPetCommandHandler,
     RemovePetCommandHandler,
@@ -38,12 +41,14 @@ import { IdentityModule } from './Identity.module';
     GetPetQueryHandler,
     SearchAllPetsQueryHandler,
     AddVeterinaryCommandHandler,
+    DeleteVeterinaryCommandHandler,
     AddPetGQLMutation,
     RemovePetGQLMutation,
     UpdatePetGQLMutation,
     GetPetGQLQuery,
     SearchAllPetsGQLQuery,
     AddVeterinaryGQLMutation,
+    DeleteVeterinaryGQLMutation,
   ],
   exports: [
     AddPetCommandHandler,
@@ -52,12 +57,14 @@ import { IdentityModule } from './Identity.module';
     GetPetQueryHandler,
     SearchAllPetsQueryHandler,
     AddVeterinaryCommandHandler,
+    DeleteVeterinaryCommandHandler,
     AddPetGQLMutation,
     RemovePetGQLMutation,
     UpdatePetGQLMutation,
     GetPetGQLQuery,
     SearchAllPetsGQLQuery,
     AddVeterinaryGQLMutation,
+    DeleteVeterinaryGQLMutation,
   ],
 })
 export class PetManagementModule {}
