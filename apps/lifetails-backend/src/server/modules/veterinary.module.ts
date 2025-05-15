@@ -3,7 +3,9 @@ import { VETERINARY_REPOSITORY } from 'src/contexts/PetManagement/Veterinaries/d
 import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommandHandler';
 import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinaries/application/GetVeterinary/GetVeterinaryQueryHandler';
 import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/DeleteVeterinary/DeleteVeterinaryCommandHandler';
+import { UpdateVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/UpdateVeterinary/UpdateVeterinaryCommandHandler';
 import { DeleteVeterinaryGQLMutation } from 'src/server/graphql/PetManagement/Veterinary/delete/DeleteVeterinaryGQLMutation';
+import { UpdateVeterinaryGQLMutation } from 'src/server/graphql/PetManagement/Veterinary/update/UpdateVeterinaryGQLMutation';
 import { GetVeterinaryGQLQuery } from 'src/server/graphql/PetManagement/Veterinary/get/GetVeterinaryGQLQuery';
 import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterinaries/infrastructure/VeterinaryInMemoryRepository';
 
@@ -12,6 +14,7 @@ import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterin
     // Command handlers
     AddVeterinaryCommandHandler,
     DeleteVeterinaryCommandHandler,
+    UpdateVeterinaryCommandHandler,
 
     // Query handlers
     GetVeterinaryQueryHandler,
@@ -19,6 +22,7 @@ import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterin
     // GraphQL resolvers
     DeleteVeterinaryGQLMutation,
     GetVeterinaryGQLQuery,
+    UpdateVeterinaryGQLMutation,
 
     // Repository implementation
     {
@@ -26,6 +30,11 @@ import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterin
       useClass: VeterinaryInMemoryRepository,
     },
   ],
-  exports: [AddVeterinaryCommandHandler, DeleteVeterinaryCommandHandler, GetVeterinaryQueryHandler],
+  exports: [
+    AddVeterinaryCommandHandler,
+    DeleteVeterinaryCommandHandler,
+    GetVeterinaryQueryHandler,
+    UpdateVeterinaryCommandHandler,
+  ],
 })
 export class VeterinaryModule {}
