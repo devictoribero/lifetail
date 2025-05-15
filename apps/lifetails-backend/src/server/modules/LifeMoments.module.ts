@@ -11,7 +11,6 @@ import { SearchLifeMomentsQueryHandler } from 'src/contexts/Lifetails/LifeMoment
 import { AddArrivalLifeMomentOnPetAdded } from 'src/contexts/Lifetails/LifeMoments/application/domain-event-handlers/AddArrivalLifeMomentOnPetAdded';
 // Infrastructure imports
 import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoments/infrastructure/LifeMomentInMemoryRepository';
-import { AuthenticationModule } from './Authentication.module';
 // GraphQL imports
 import { AddLifeMomentGQLMutation } from '../graphql/Lifetail/LifeMoments/add/AddLifeMomentGQLMutation';
 import { RemoveLifeMomentGQLMutation } from '../graphql/Lifetail/LifeMoments/remove/RemoveLifeMomentGQLMutation';
@@ -20,9 +19,10 @@ import { SearchLifeMomentsGQLQuery } from '../graphql/Lifetail/LifeMoments/searc
 import { GetLifeMomentGQLQuery } from '../graphql/Lifetail/LifeMoments/find/GetLifeMomentGQLQuery';
 import { SharedModule } from './Shared.module';
 import { PetsModule } from './Pets.module';
+import { IdentityModule } from './Identity.module';
 
 @Module({
-  imports: [SharedModule, AuthenticationModule, PetsModule],
+  imports: [SharedModule, IdentityModule, PetsModule],
   controllers: [],
   providers: [
     {

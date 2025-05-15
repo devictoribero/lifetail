@@ -15,10 +15,10 @@ import { UpdatePetGQLMutation } from '../graphql/PetManagement/Pets/update/Updat
 import { GetPetGQLQuery } from '../graphql/PetManagement/Pets/find/GetPetGQLQuery';
 import { SearchAllPetsGQLQuery } from '../graphql/PetManagement/Pets/searchAll/SearchAllPetsGQLQuery';
 import { SharedModule } from './Shared.module';
-import { AuthenticationModule } from './Authentication.module';
+import { IdentityModule } from './Identity.module';
 
 @Module({
-  imports: [SharedModule, AuthenticationModule],
+  imports: [SharedModule, IdentityModule],
   controllers: [],
   providers: [
     {

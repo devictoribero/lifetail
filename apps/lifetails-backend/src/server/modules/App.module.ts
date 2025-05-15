@@ -5,11 +5,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 
 // Module imports
-import { AuthenticationModule } from './Authentication.module';
 import { PetsModule } from './Pets.module';
-import { UsersModule } from './Users.module';
 import { LifeMomentsModule } from './LifeMoments.module';
 import { SharedModule } from './Shared.module';
+import { IdentityModule } from './Identity.module';
 
 // GraphQL resolver imports
 import { HealthCheckGQLQuery } from '../graphql/HealthCheckGQLQuery';
@@ -27,8 +26,7 @@ import { HealthCheckGQLQuery } from '../graphql/HealthCheckGQLQuery';
       context: ({ req }) => ({ req }),
     }),
     SharedModule,
-    AuthenticationModule,
-    UsersModule,
+    IdentityModule,
     PetsModule,
     LifeMomentsModule,
   ],
