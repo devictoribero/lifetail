@@ -147,21 +147,6 @@ export const seedDatabase = async (app: INestApplication) => {
   await addVeterinaryCommandHandler.handle(addEncampVetCommand);
   logDomainEvent('Veterinary added', { id: encampVetId, name: 'Veterinary Encamp' });
 
-  // Test GetVeterinary functionality
-  const fontblancaVet = await getVeterinaryQueryHandler.handle(
-    new GetVeterinaryQuery(fontblancaVetId),
-  );
-  logDomainEvent('Veterinary retrieved', {
-    id: fontblancaVet.getId().toString(),
-    name: fontblancaVet.getName().toString(),
-  });
-
-  const encampVet = await getVeterinaryQueryHandler.handle(new GetVeterinaryQuery(encampVetId));
-  logDomainEvent('Veterinary retrieved', {
-    id: encampVet.getId().toString(),
-    name: encampVet.getName().toString(),
-  });
-
   // Add life moment for pet
 
   // Iterate 10 times to add 10 life moments
