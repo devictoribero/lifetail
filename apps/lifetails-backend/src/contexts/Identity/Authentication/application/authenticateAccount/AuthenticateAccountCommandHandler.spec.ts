@@ -9,6 +9,7 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 describe('AuthenticateAccountCommandHandler', () => {
   let commandHandler: AuthenticateAccountCommandHandler;
@@ -33,14 +34,17 @@ describe('AuthenticateAccountCommandHandler', () => {
 
     // Create a mock account
     accountId = faker.string.uuid();
-    jest.spyOn(UUID, 'create').mockReturnValue(new UUID(accountId));
+    jest.spyOn(UUID, 'generate').mockReturnValue(new UUID(accountId));
 
     const email = new EmailValueObject(faker.internet.email());
     const password = new PasswordHashValueObject('hashed_password');
     const createdAt = new Date();
-
-    // @ts-ignore - Accessing private constructor for testing
-    account = new Account(new UUID(accountId), email, password, createdAt);
+    account = new Account({
+      id: new UUID(accountId),
+      email,
+      password,
+      createdAt: new DateValueObject(createdAt),
+    });
   });
 
   it('should throw InvalidCredentialsException when account with email is not found', async () => {

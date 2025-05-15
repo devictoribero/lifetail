@@ -42,13 +42,13 @@ describe('CreateAccountCommandHandler', () => {
     // Arrange
     const email = faker.internet.email();
     const password = faker.internet.password();
-    const command = new CreateAccountCommand(UUID.create().toString(), email, password);
-    const existingAccount = new Account(
-      new UUID(faker.string.uuid()),
-      new EmailValueObject(email),
-      new PasswordHashValueObject(password),
-      new DateValueObject(new Date()),
-    );
+    const command = new CreateAccountCommand(UUID.generate().toString(), email, password);
+    const existingAccount = new Account({
+      id: new UUID(faker.string.uuid()),
+      email: new EmailValueObject(email),
+      password: new PasswordHashValueObject(password),
+      createdAt: new DateValueObject(new Date()),
+    });
     repository.findByEmail.mockResolvedValue(existingAccount);
 
     // Act
@@ -58,11 +58,11 @@ describe('CreateAccountCommandHandler', () => {
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
   });
 
-  it.only('should create a new account', async () => {
+  it('should create a new account', async () => {
     // Arrange
     const email = faker.internet.email();
     const password = faker.internet.password();
-    const command = new CreateAccountCommand(UUID.create().toString(), email, password);
+    const command = new CreateAccountCommand(UUID.generate().toString(), email, password);
     const hashedPassword = new PasswordHashValueObject('hashed_password');
     repository.findByEmail.mockResolvedValue(null);
     hasher.hash.mockResolvedValue(hashedPassword);

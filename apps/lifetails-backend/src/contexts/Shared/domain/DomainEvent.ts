@@ -10,7 +10,7 @@ export abstract class DomainEvent {
   constructor({
     eventName,
     aggregateId,
-    eventId = UUID.create().toString(),
+    eventId = UUID.generate().toString(),
     occurredOn = new Date(),
   }: {
     eventName: string;

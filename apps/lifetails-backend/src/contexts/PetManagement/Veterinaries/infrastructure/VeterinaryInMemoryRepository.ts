@@ -34,17 +34,17 @@ export class VeterinaryInMemoryRepository implements VeterinaryRepository {
       return null;
     }
 
-    return Veterinary.fromPrimitives(
-      veterinary.id,
-      veterinary.name,
-      veterinary.address,
-      veterinary.email,
-      veterinary.primaryPhone,
-      veterinary.emergencyPhone,
-      veterinary.notes,
-      new Date(veterinary.createdAt),
-      veterinary.updatedAt ? new Date(veterinary.updatedAt) : null,
-      veterinary.deletedAt ? new Date(veterinary.deletedAt) : null,
-    );
+    return Veterinary.fromPrimitives({
+      id: veterinary.id,
+      name: veterinary.name,
+      address: veterinary.address,
+      email: veterinary.email,
+      primaryPhone: veterinary.primaryPhone,
+      emergencyPhone: veterinary.emergencyPhone,
+      notes: veterinary.notes,
+      createdAt: new Date(veterinary.createdAt),
+      updatedAt: veterinary.updatedAt ? new Date(veterinary.updatedAt) : null,
+      deletedAt: veterinary.deletedAt ? new Date(veterinary.deletedAt) : null,
+    });
   }
 }

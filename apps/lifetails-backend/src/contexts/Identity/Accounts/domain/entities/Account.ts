@@ -14,27 +14,33 @@ export class Account extends AggregateRoot {
   private deletedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
-  constructor(
-    id: UUID,
-    email: EmailValueObject,
-    password: PasswordHashValueObject,
-    createdAt: DateValueObject,
-    deletedAt: DateValueObject | null = null,
-  ) {
+  constructor(params: {
+    id: UUID;
+    email: EmailValueObject;
+    password: PasswordHashValueObject;
+    createdAt: DateValueObject;
+    deletedAt?: DateValueObject | null;
+  }) {
     super();
-    this.id = id;
-    this.email = email;
-    this.password = password;
-    this.createdAt = createdAt;
-    this.deletedAt = deletedAt;
+    this.id = params.id;
+    this.email = params.email;
+    this.password = params.password;
+    this.createdAt = params.createdAt;
+    this.deletedAt = params.deletedAt;
   }
 
   // Use to create the entity from the domain
-  static create(email: EmailValueObject, password: PasswordHashValueObject): Account {
-    const id = UUID.create();
+  static create({
+    email,
+    password,
+  }: {
+    email: EmailValueObject;
+    password: PasswordHashValueObject;
+  }): Account {
+    const id = UUID.generate();
     const createdAt = new DateValueObject(new Date());
 
-    const account = new Account(id, email, password, createdAt);
+    const account = new Account({ id, email, password, createdAt });
     account.record(
       new AccountCreatedDomainEvent({ aggregateId: id.toString(), email: email.toString() }),
     );
@@ -43,20 +49,26 @@ export class Account extends AggregateRoot {
   }
 
   // Use to reconstruct the entity from the database
-  static fromPrimitives(
-    id: string,
-    email: string,
-    password: string,
-    createdAt: Date,
-    deletedAt: Date | null,
-  ): Account {
-    return new Account(
-      new UUID(id),
-      new EmailValueObject(email),
-      new PasswordHashValueObject(password),
-      new DateValueObject(createdAt),
-      deletedAt ? new DateValueObject(deletedAt) : null,
-    );
+  static fromPrimitives({
+    id,
+    email,
+    password,
+    createdAt,
+    deletedAt,
+  }: {
+    id: string;
+    email: string;
+    password: string;
+    createdAt: Date;
+    deletedAt: Date | null;
+  }): Account {
+    return new Account({
+      id: new UUID(id),
+      email: new EmailValueObject(email),
+      password: new PasswordHashValueObject(password),
+      createdAt: new DateValueObject(createdAt),
+      deletedAt: deletedAt ? new DateValueObject(deletedAt) : null,
+    });
   }
 
   toPrimitives() {
@@ -75,7 +87,7 @@ export class Account extends AggregateRoot {
       new AccountDeletedDomainEvent({
         aggregateId: this.id.toString(),
         email: this.email.toString(),
-        eventId: UUID.create().toString(),
+        eventId: UUID.generate().toString(),
       }),
     );
   }

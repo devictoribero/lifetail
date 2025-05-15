@@ -16,9 +16,8 @@ export class GetPetQueryHandler implements QueryHandler<GetPetQuery, Pet> {
 
   async handle(query: GetPetQuery): Promise<Pet> {
     const id = new UUID(query.id);
-    console.log(id);
     const pet = await this.repository.find(id);
-    console.log(pet);
+
     if (!pet) {
       throw new PetNotFoundException(id);
     }

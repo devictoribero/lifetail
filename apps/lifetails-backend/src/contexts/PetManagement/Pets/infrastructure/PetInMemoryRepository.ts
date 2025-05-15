@@ -41,17 +41,17 @@ export class PetInMemoryRepository implements PetRepository {
       return null;
     }
 
-    return Pet.fromPrimitives(
-      pet.id,
-      pet.species,
-      pet.name,
-      pet.gender,
-      pet.sterilized,
-      pet.anniversaryDate ?? null,
-      pet.createdAt,
-      pet.ownerId,
-      pet.chipId ?? null,
-    );
+    return Pet.fromPrimitives({
+      id: pet.id,
+      species: pet.species,
+      name: pet.name,
+      gender: pet.gender,
+      sterilized: pet.sterilized,
+      anniversaryDate: pet.anniversaryDate,
+      createdAt: pet.createdAt,
+      ownerId: pet.ownerId,
+      chipId: pet.chipId,
+    });
   }
 
   async findByOwner(ownerId: UUID): Promise<Pet[]> {
@@ -60,17 +60,17 @@ export class PetInMemoryRepository implements PetRepository {
     for (const pet of this.pets.values()) {
       if (!pet.isDeleted && pet.ownerId === ownerId.toString()) {
         filteredPets.push(
-          Pet.fromPrimitives(
-            pet.id,
-            pet.species,
-            pet.name,
-            pet.gender,
-            pet.sterilized,
-            pet.anniversaryDate,
-            pet.createdAt,
-            pet.ownerId,
-            pet.chipId,
-          ),
+          Pet.fromPrimitives({
+            id: pet.id,
+            species: pet.species,
+            name: pet.name,
+            gender: pet.gender,
+            sterilized: pet.sterilized,
+            anniversaryDate: pet.anniversaryDate,
+            createdAt: pet.createdAt ? pet.createdAt : null,
+            ownerId: pet.ownerId,
+            chipId: pet.chipId,
+          }),
         );
       }
     }

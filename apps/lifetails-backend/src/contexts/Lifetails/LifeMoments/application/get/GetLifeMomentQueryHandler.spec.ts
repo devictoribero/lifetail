@@ -39,14 +39,14 @@ describe('GetLifeMomentQueryHandler', () => {
     const occurredOn = faker.date.recent();
     const description = 'Annual checkup, all looking good';
     // Create and save a life moment
-    const lifeMoment = LifeMoment.create(
-      new UUID(id),
-      LifeMomentType.fromPrimitives(type),
-      new UUID(petId),
-      new UUID(createdBy),
-      new DateValueObject(occurredOn),
-      new StringValueObject(description),
-    );
+    const lifeMoment = LifeMoment.create({
+      id: new UUID(id),
+      type: LifeMomentType.fromPrimitives(type),
+      petId: new UUID(petId),
+      createdBy: new UUID(createdBy),
+      occurredOn: new DateValueObject(occurredOn),
+      description: new StringValueObject(description),
+    });
     await repository.save(lifeMoment);
     const findSpy = jest.spyOn(repository, 'find');
 

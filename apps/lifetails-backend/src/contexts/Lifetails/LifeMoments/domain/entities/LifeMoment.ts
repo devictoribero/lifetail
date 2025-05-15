@@ -17,74 +17,92 @@ export class LifeMoment extends AggregateRoot {
   private description: StringValueObject;
 
   // Use for testing purposes only. It should not be used in the domain.
-  constructor(
-    id: UUID,
-    type: LifeMomentType,
-    theme: LifeMomentTheme,
-    petId: UUID,
-    createdBy: UUID,
-    occurredOn: DateValueObject,
-    description: StringValueObject,
-    createdAt: DateValueObject,
-    updatedAt: DateValueObject | null = null,
-  ) {
+  constructor(params: {
+    id: UUID;
+    type: LifeMomentType;
+    theme: LifeMomentTheme;
+    petId: UUID;
+    createdBy: UUID;
+    occurredOn: DateValueObject;
+    description: StringValueObject;
+    createdAt: DateValueObject;
+    updatedAt?: DateValueObject | null;
+  }) {
     super();
-    this.id = id;
-    this.theme = theme;
-    this.type = type;
-    this.petId = petId;
-    this.createdBy = createdBy;
-    this.occurredOn = occurredOn;
-    this.description = description;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.id = params.id;
+    this.theme = params.theme;
+    this.type = params.type;
+    this.petId = params.petId;
+    this.createdBy = params.createdBy;
+    this.occurredOn = params.occurredOn;
+    this.description = params.description;
+    this.createdAt = params.createdAt;
+    this.updatedAt = params.updatedAt ?? null;
   }
 
   // Use to create the entity from the domain
-  static create(
-    id: UUID,
-    type: LifeMomentType,
-    petId: UUID,
-    createdBy: UUID,
-    occurredOn: DateValueObject,
-    description: StringValueObject,
-  ) {
+  static create({
+    id,
+    type,
+    petId,
+    createdBy,
+    occurredOn,
+    description,
+  }: {
+    id: UUID;
+    type: LifeMomentType;
+    petId: UUID;
+    createdBy: UUID;
+    occurredOn: DateValueObject;
+    description: StringValueObject;
+  }) {
     const now = new DateValueObject(new Date());
-    return new LifeMoment(
+    return new LifeMoment({
       id,
       type,
-      type.getTheme(),
+      theme: type.getTheme(),
       petId,
       createdBy,
       occurredOn,
       description,
-      now,
-    );
+      createdAt: now,
+      updatedAt: null,
+    });
   }
 
   // Use to reconstruct the entity from the database
-  static fromPrimitives(
-    id: string,
-    type: string,
-    theme: string,
-    petId: string,
-    createdBy: string,
-    occurredOn: Date,
-    description: string,
-    createdAt: Date = new Date(),
-    updatedAt: Date | null = null,
-  ) {
-    return new LifeMoment(
-      new UUID(id),
-      LifeMomentType.fromPrimitives(type),
-      LifeMomentTheme.fromPrimitives(theme),
-      new UUID(petId),
-      new UUID(createdBy),
-      new DateValueObject(occurredOn),
-      new StringValueObject(description),
-      new DateValueObject(createdAt),
-      updatedAt ? new DateValueObject(updatedAt) : null,
-    );
+  static fromPrimitives({
+    id,
+    type,
+    theme,
+    petId,
+    createdBy,
+    occurredOn,
+    description,
+    createdAt = new Date(),
+    updatedAt = null,
+  }: {
+    id: string;
+    type: string;
+    theme: string;
+    petId: string;
+    createdBy: string;
+    occurredOn: Date;
+    description: string;
+    createdAt?: Date;
+    updatedAt?: Date | null;
+  }) {
+    return new LifeMoment({
+      id: new UUID(id),
+      type: LifeMomentType.fromPrimitives(type),
+      theme: LifeMomentTheme.fromPrimitives(theme),
+      petId: new UUID(petId),
+      createdBy: new UUID(createdBy),
+      occurredOn: new DateValueObject(occurredOn),
+      description: new StringValueObject(description),
+      createdAt: new DateValueObject(createdAt),
+      updatedAt: updatedAt ? new DateValueObject(updatedAt) : null,
+    });
   }
 
   public getId(): UUID {

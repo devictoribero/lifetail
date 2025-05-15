@@ -3,13 +3,19 @@ import { UserInMemoryRepository } from './UserInMemoryRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { faker } from '@faker-js/faker';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 function createUser(
   id = faker.string.uuid(),
   accountId = faker.string.uuid(),
   nickname = faker.person.firstName(),
 ): User {
-  return User.create(new UUID(id), new UUID(accountId), new StringValueObject(nickname));
+  return new User({
+    id: new UUID(id),
+    accountId: new UUID(accountId),
+    nickname: new StringValueObject(nickname),
+    createdAt: new DateValueObject(new Date()),
+  });
 }
 
 describe('UserInMemoryRepository', () => {

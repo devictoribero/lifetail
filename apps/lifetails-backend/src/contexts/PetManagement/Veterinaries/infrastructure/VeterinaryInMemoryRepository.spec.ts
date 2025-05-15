@@ -5,6 +5,7 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { faker } from '@faker-js/faker';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 describe('VeterinaryInMemoryRepository', () => {
   let repository: VeterinaryInMemoryRepository;
@@ -19,9 +20,9 @@ describe('VeterinaryInMemoryRepository', () => {
 
   it('should save a veterinary', async () => {
     // Arrange
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = new StringValueObject('Animal Hospital');
-    const veterinary = Veterinary.create(id, name);
+    const veterinary = Veterinary.create({ id, name });
 
     // Act
     await repository.save(veterinary);
@@ -35,10 +36,10 @@ describe('VeterinaryInMemoryRepository', () => {
 
   it('should update an existing veterinary', async () => {
     // Arrange
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = new StringValueObject('Animal Hospital');
     const newName = new StringValueObject('Updated Hospital');
-    const veterinary = Veterinary.create(id, name);
+    const veterinary = Veterinary.create({ id, name });
 
     // Act
     await repository.save(veterinary);
@@ -53,7 +54,7 @@ describe('VeterinaryInMemoryRepository', () => {
 
   it('should return null when veterinary does not exist', async () => {
     // Arrange
-    const id = UUID.create();
+    const id = UUID.generate();
 
     // Act
     const result = await repository.find(id);
@@ -64,12 +65,19 @@ describe('VeterinaryInMemoryRepository', () => {
 
   it('should find a veterinary when it exists', async () => {
     // Arrange
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = new StringValueObject('Animal Hospital');
     const address = new StringValueObject('123 Main St');
     const email = new EmailValueObject('info@hospital.com');
     const primaryPhone = new StringValueObject('555-1234');
-    const veterinary = Veterinary.create(id, name, address, email, primaryPhone);
+    const veterinary = new Veterinary({
+      id,
+      name,
+      address,
+      email,
+      primaryPhone,
+      createdAt: new DateValueObject(new Date()),
+    });
 
     // Act
     await repository.save(veterinary);
@@ -83,11 +91,11 @@ describe('VeterinaryInMemoryRepository', () => {
     expect(found?.getPrimaryPhone()?.toString()).toBe(primaryPhone.toString());
   });
 
-  it.only('should return null for deleted veterinaries', async () => {
+  it('should return null for deleted veterinaries', async () => {
     // Arrange
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = new StringValueObject('Animal Hospital');
-    const veterinary = Veterinary.create(id, name);
+    const veterinary = Veterinary.create({ id, name });
 
     // Act
     veterinary.markAsDeleted();

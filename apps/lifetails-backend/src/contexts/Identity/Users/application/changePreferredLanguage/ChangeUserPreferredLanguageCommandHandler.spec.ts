@@ -21,13 +21,13 @@ describe('ChangeUserPreferredLanguageCommandHandler', () => {
     accountId = faker.string.uuid();
 
     // Create a mock user with English as default language
-    mockUser = new User(
-      new UUID(userId),
-      new UUID(accountId),
-      new StringValueObject(faker.person.firstName()),
-      new DateValueObject(new Date('2025-01-01')),
-      LanguageCode.English,
-    );
+    mockUser = new User({
+      id: new UUID(userId),
+      accountId: new UUID(accountId),
+      nickname: new StringValueObject(faker.person.firstName()),
+      createdAt: new DateValueObject(new Date('2025-01-01')),
+      preferredLanguage: LanguageCode.English,
+    });
 
     // Setup repository mock
     repository = {
@@ -68,13 +68,13 @@ describe('ChangeUserPreferredLanguageCommandHandler', () => {
 
   it('should maintain the existing language when the provided language code is invalid', async () => {
     // Arrange
-    const mockUserWithSpanish = new User(
-      new UUID(userId),
-      new UUID(accountId),
-      new StringValueObject(faker.person.firstName()),
-      new DateValueObject(new Date()),
-      LanguageCode.Spanish,
-    );
+    const mockUserWithSpanish = new User({
+      id: new UUID(userId),
+      accountId: new UUID(accountId),
+      nickname: new StringValueObject(faker.person.firstName()),
+      createdAt: new DateValueObject(new Date()),
+      preferredLanguage: LanguageCode.Spanish,
+    });
     repository.getById.mockResolvedValue(mockUserWithSpanish);
 
     const command = new ChangeUserPreferredLanguageCommand(userId, 'invalid-language');

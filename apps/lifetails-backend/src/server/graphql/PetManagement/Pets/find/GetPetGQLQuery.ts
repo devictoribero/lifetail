@@ -15,7 +15,6 @@ export class GetPetGQLQuery {
   @Query(() => Pet)
   async getPet(@Args('input') input: GetPetInput, @Context() context: any): Promise<Pet> {
     try {
-      console.log(context.req.user);
       const userId = context.req.user.id;
       const query = new GetPetQueryHandlerQuery(input.id);
       const pet = await this.queryHandler.handle(query);

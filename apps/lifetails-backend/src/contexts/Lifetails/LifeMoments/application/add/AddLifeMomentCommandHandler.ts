@@ -17,14 +17,14 @@ export class AddLifeMomentCommandHandler implements CommandHandler<AddLifeMoment
   ) {}
 
   async handle(command: AddLifeMomentCommand): Promise<void> {
-    const lifeMoment = LifeMoment.create(
-      new UUID(command.id),
-      LifeMomentType.fromPrimitives(command.type),
-      new UUID(command.petId),
-      new UUID(command.createdBy),
-      new DateValueObject(command.occurredOn),
-      new StringValueObject(command.description),
-    );
+    const lifeMoment = LifeMoment.create({
+      id: new UUID(command.id),
+      type: LifeMomentType.fromPrimitives(command.type),
+      petId: new UUID(command.petId),
+      createdBy: new UUID(command.createdBy),
+      occurredOn: new DateValueObject(command.occurredOn),
+      description: new StringValueObject(command.description),
+    });
 
     await this.repository.save(lifeMoment);
   }

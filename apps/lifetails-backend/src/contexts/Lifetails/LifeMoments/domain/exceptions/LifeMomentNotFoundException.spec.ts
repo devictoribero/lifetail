@@ -3,7 +3,7 @@ import { LifeMomentNotFoundException } from './LifeMomentNotFoundException';
 
 describe('LifeMomentNotFoundException', () => {
   it('should create an instance of LifeMomentNotFoundException', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const exception = new LifeMomentNotFoundException(id);
 
     expect(exception).toBeInstanceOf(Error);

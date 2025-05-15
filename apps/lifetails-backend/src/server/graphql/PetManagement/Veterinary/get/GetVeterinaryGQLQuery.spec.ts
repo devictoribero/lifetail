@@ -62,7 +62,10 @@ describe('GetVeterinaryGQLQuery', () => {
   it('should return a veterinary when it exists', async () => {
     // Arrange
     const id = faker.string.uuid();
-    const veterinary = Veterinary.create(new UUID(id), new StringValueObject('Test Veterinary'));
+    const veterinary = Veterinary.create({
+      id: new UUID(id),
+      name: new StringValueObject('Test Veterinary'),
+    });
     queryHandler.handle.mockResolvedValue(veterinary);
     const input: GetVeterinaryInput = { id };
 

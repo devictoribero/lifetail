@@ -32,13 +32,13 @@ export class AccountInMemoryRepository implements AccountRepository {
       return null;
     }
 
-    return Account.fromPrimitives(
-      account.id,
-      account.email,
-      account.password,
-      new Date(account.createdAt),
-      account.deletedAt ? new Date(account.deletedAt) : null,
-    );
+    return Account.fromPrimitives({
+      id: account.id,
+      email: account.email,
+      password: account.password,
+      createdAt: new Date(account.createdAt),
+      deletedAt: account.deletedAt ? new Date(account.deletedAt) : null,
+    });
   }
 
   async find(id: UUID): Promise<Account | null> {
@@ -47,13 +47,13 @@ export class AccountInMemoryRepository implements AccountRepository {
       return null;
     }
 
-    return Account.fromPrimitives(
-      account.id,
-      account.email,
-      account.password,
-      new Date(account.createdAt),
-      account.deletedAt ? new Date(account.deletedAt) : null,
-    );
+    return Account.fromPrimitives({
+      id: account.id,
+      email: account.email,
+      password: account.password,
+      createdAt: new Date(account.createdAt),
+      deletedAt: account.deletedAt ? new Date(account.deletedAt) : null,
+    });
   }
 
   async delete(account: Account): Promise<void> {

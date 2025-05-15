@@ -20,7 +20,16 @@ describe('Pet', () => {
     const ownerId = new UUID(faker.string.uuid());
 
     // Act
-    const pet = new Pet(id, species, name, gender, sterilized, anniversaryDate, createdAt, ownerId);
+    const pet = new Pet({
+      id,
+      species,
+      name,
+      gender,
+      sterilized,
+      anniversaryDate,
+      createdAt,
+      ownerId,
+    });
 
     // Assert
     expect(pet).toBeInstanceOf(Pet);
@@ -46,7 +55,7 @@ describe('Pet', () => {
     const ownerId = faker.string.uuid();
 
     // Act
-    const pet = Pet.fromPrimitives(
+    const pet = Pet.fromPrimitives({
       id,
       species,
       name,
@@ -55,7 +64,7 @@ describe('Pet', () => {
       anniversaryDate,
       createdAt,
       ownerId,
-    );
+    });
 
     // Assert
     expect(pet).toBeInstanceOf(Pet);
@@ -77,8 +86,16 @@ describe('Pet', () => {
     const anniversaryDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
-    const pet = new Pet(id, species, name, gender, sterilized, anniversaryDate, createdAt, ownerId);
-
+    const pet = new Pet({
+      id,
+      species,
+      name,
+      gender,
+      sterilized,
+      anniversaryDate,
+      createdAt,
+      ownerId,
+    });
     // Act
     const primitives = pet.toPrimitives();
 
@@ -106,16 +123,16 @@ describe('Pet', () => {
     const anniversaryDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
-    const pet = new Pet(
+    const pet = new Pet({
       id,
       species,
-      initialName,
+      name: initialName,
       gender,
       sterilized,
       anniversaryDate,
       createdAt,
       ownerId,
-    );
+    });
 
     // Act
     pet.renameTo(new StringValueObject(faker.animal.cat()));
@@ -126,16 +143,16 @@ describe('Pet', () => {
 
   it('can change gender', () => {
     // Arrange
-    const pet = new Pet(
-      new UUID(faker.string.uuid()),
-      Species.Cat,
-      new StringValueObject(faker.animal.cat()),
-      Gender.Male,
-      new BooleanValueObject(faker.datatype.boolean()),
-      new DateValueObject(faker.date.past()),
-      new DateValueObject(faker.date.recent()),
-      new UUID(faker.string.uuid()),
-    );
+    const pet = new Pet({
+      id: new UUID(faker.string.uuid()),
+      species: Species.Cat,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Gender.Male,
+      sterilized: new BooleanValueObject(faker.datatype.boolean()),
+      anniversaryDate: new DateValueObject(faker.date.past()),
+      createdAt: new DateValueObject(faker.date.recent()),
+      ownerId: new UUID(faker.string.uuid()),
+    });
 
     // Act
     pet.changeGenderTo(Gender.Female);
@@ -146,16 +163,16 @@ describe('Pet', () => {
 
   it('can be sterilized', () => {
     // Arrange
-    const pet = new Pet(
-      new UUID(faker.string.uuid()),
-      Species.Cat,
-      new StringValueObject(faker.animal.cat()),
-      Gender.Male,
-      new BooleanValueObject(false),
-      new DateValueObject(faker.date.past()),
-      new DateValueObject(faker.date.recent()),
-      new UUID(faker.string.uuid()),
-    );
+    const pet = new Pet({
+      id: new UUID(faker.string.uuid()),
+      species: Species.Cat,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Gender.Male,
+      sterilized: new BooleanValueObject(false),
+      anniversaryDate: new DateValueObject(faker.date.past()),
+      createdAt: new DateValueObject(faker.date.recent()),
+      ownerId: new UUID(faker.string.uuid()),
+    });
 
     // Act
     pet.sterilize();
@@ -166,16 +183,16 @@ describe('Pet', () => {
 
   it('can change the chipId', () => {
     // Arrange
-    const pet = new Pet(
-      new UUID(faker.string.uuid()),
-      Species.Cat,
-      new StringValueObject(faker.animal.cat()),
-      Gender.Male,
-      new BooleanValueObject(false),
-      new DateValueObject(faker.date.past()),
-      new DateValueObject(faker.date.recent()),
-      new UUID(faker.string.uuid()),
-    );
+    const pet = new Pet({
+      id: new UUID(faker.string.uuid()),
+      species: Species.Cat,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Gender.Male,
+      sterilized: new BooleanValueObject(false),
+      anniversaryDate: new DateValueObject(faker.date.past()),
+      createdAt: new DateValueObject(faker.date.recent()),
+      ownerId: new UUID(faker.string.uuid()),
+    });
     expect(pet.getChipId()).toBeNull();
 
     // Act

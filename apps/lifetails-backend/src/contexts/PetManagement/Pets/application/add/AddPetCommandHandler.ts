@@ -28,15 +28,15 @@ export class AddPetCommandHandler implements CommandHandler<AddPetCommand> {
     const ownerId = new UUID(command.userId);
     await this.ensureOwnerCanAddPet(ownerId);
 
-    const newPet = Pet.create(
-      new UUID(command.id),
-      Species.fromPrimitives(command.species),
-      new StringValueObject(command.name),
-      Gender.fromPrimitives(command.gender),
-      new BooleanValueObject(command.sterilized),
-      new DateValueObject(command.anniversaryDate),
-      new UUID(command.userId),
-    );
+    const newPet = Pet.create({
+      id: new UUID(command.id),
+      species: Species.fromPrimitives(command.species),
+      name: new StringValueObject(command.name),
+      gender: Gender.fromPrimitives(command.gender),
+      sterilized: new BooleanValueObject(command.sterilized),
+      anniversaryDate: new DateValueObject(command.anniversaryDate),
+      ownerId: new UUID(command.userId),
+    });
 
     await this.repository.save(newPet);
     await this.eventBus.publish(newPet.pullDomainEvents());

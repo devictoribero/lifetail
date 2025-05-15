@@ -32,10 +32,13 @@ describe('DeleteVeterinaryCommandHandler', () => {
     handler = module.get<DeleteVeterinaryCommandHandler>(DeleteVeterinaryCommandHandler);
   });
 
-  it.only('should delete a veterinary when it exists', async () => {
+  it('should delete a veterinary when it exists', async () => {
     // Arrange
     const id = faker.string.uuid();
-    const veterinary = Veterinary.create(new UUID(id), new StringValueObject('Test Veterinary'));
+    const veterinary = Veterinary.create({
+      id: new UUID(id),
+      name: new StringValueObject('Test Veterinary'),
+    });
     repository.find.mockResolvedValue(veterinary);
 
     // Act

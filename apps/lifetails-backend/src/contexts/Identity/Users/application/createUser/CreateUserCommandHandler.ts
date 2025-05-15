@@ -23,11 +23,11 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
     const accountId = new UUID(command.accountId);
     await this.ensureUserDoesNotExist(accountId);
 
-    const user = User.create(
-      new UUID(command.id),
+    const user = User.create({
+      id: new UUID(command.id),
       accountId,
-      new StringValueObject(command.nickname),
-    );
+      nickname: new StringValueObject(command.nickname),
+    });
 
     await this.repository.save(user);
   }

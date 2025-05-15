@@ -23,17 +23,17 @@ describe('UpdatePetCommandHandler', () => {
 
     // Create a pet for testing
     petId = faker.string.uuid();
-    originalPet = new Pet(
-      new UUID(petId),
-      Species.Cat,
-      new StringValueObject(faker.animal.cat()),
-      Gender.fromPrimitives('Male'),
-      new BooleanValueObject(faker.datatype.boolean()),
-      new DateValueObject(faker.date.past()),
-      new DateValueObject(faker.date.past()),
-      new UUID(faker.string.uuid()),
-      new StringValueObject(faker.string.numeric(9)),
-    );
+    originalPet = new Pet({
+      id: new UUID(petId),
+      species: Species.Cat,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Gender.fromPrimitives('Male'),
+      sterilized: new BooleanValueObject(faker.datatype.boolean()),
+      anniversaryDate: new DateValueObject(faker.date.past()),
+      createdAt: new DateValueObject(faker.date.past()),
+      ownerId: new UUID(faker.string.uuid()),
+      chipId: new StringValueObject(faker.string.numeric(9)),
+    });
 
     await repository.save(originalPet);
   });

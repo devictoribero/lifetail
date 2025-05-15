@@ -12,30 +12,54 @@ export class User extends AggregateRoot {
   private preferredLanguage: LanguageCode;
 
   // Use for testing purposes only. It should not be used in the domain.
-  constructor(
-    id: UUID,
-    accountId: UUID,
-    nickname: StringValueObject,
-    createdAt: DateValueObject,
-    preferredLanguage: LanguageCode,
-  ) {
+  constructor(params: {
+    id: UUID;
+    accountId: UUID;
+    nickname: StringValueObject;
+    createdAt: DateValueObject;
+    preferredLanguage?: LanguageCode;
+  }) {
     super();
-    this.id = id;
-    this.accountId = accountId;
-    this.nickname = nickname;
-    this.createdAt = createdAt;
-    this.preferredLanguage = preferredLanguage;
+    this.id = params.id;
+    this.accountId = params.accountId;
+    this.nickname = params.nickname;
+    this.createdAt = params.createdAt;
+    this.preferredLanguage = params.preferredLanguage || LanguageCode.English;
   }
 
-  static create(
-    id: UUID,
-    accountId: UUID,
-    nickname: StringValueObject,
-    preferredLanguage?: LanguageCode,
-  ): User {
+  static create({
+    id,
+    accountId,
+    nickname,
+  }: {
+    id: UUID;
+    accountId: UUID;
+    nickname: StringValueObject;
+  }): User {
     const createdAt = new DateValueObject(new Date());
-    const language = preferredLanguage || LanguageCode.English;
-    return new User(id, accountId, nickname, createdAt, language);
+    return new User({ id, accountId, nickname, createdAt });
+  }
+
+  static fromPrimitives({
+    id,
+    accountId,
+    nickname,
+    createdAt,
+    preferredLanguage,
+  }: {
+    id: string;
+    accountId: string;
+    nickname: string;
+    createdAt: Date;
+    preferredLanguage: string;
+  }): User {
+    return new User({
+      id: new UUID(id),
+      accountId: new UUID(accountId),
+      nickname: new StringValueObject(nickname),
+      createdAt: new DateValueObject(createdAt),
+      preferredLanguage: LanguageCode.fromPrimitives(preferredLanguage),
+    });
   }
 
   getId(): UUID {

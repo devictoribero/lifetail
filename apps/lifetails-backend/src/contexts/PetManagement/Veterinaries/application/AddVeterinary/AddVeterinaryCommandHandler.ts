@@ -20,7 +20,7 @@ export class AddVeterinaryCommandHandler implements CommandHandler<AddVeterinary
     const id = new UUID(command.id);
     const name = new StringValueObject(command.name);
 
-    const veterinary = Veterinary.create(id, name);
+    const veterinary = Veterinary.create({ id, name });
 
     await this.repository.save(veterinary);
   }

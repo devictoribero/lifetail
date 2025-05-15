@@ -18,53 +18,53 @@ interface InMemoryLifeMoment {
 export class LifeMomentInMemoryRepository implements LifeMomentRepository {
   private moments: Map<string, InMemoryLifeMoment> = new Map();
 
-  async save(moment: LifeMoment): Promise<void> {
-    this.moments.set(moment.getId().toString(), {
-      ...moment.toPrimitives(),
+  async save(lifeMoment: LifeMoment): Promise<void> {
+    this.moments.set(lifeMoment.getId().toString(), {
+      ...lifeMoment.toPrimitives(),
       isDeleted: false,
     } as InMemoryLifeMoment);
   }
 
   async remove(id: UUID): Promise<void> {
-    const moment = this.moments.get(id.toString());
-    if (moment) {
-      moment.isDeleted = true;
+    const lifeMoment = this.moments.get(id.toString());
+    if (lifeMoment) {
+      lifeMoment.isDeleted = true;
     }
   }
 
   async find(id: UUID): Promise<LifeMoment | null> {
-    const moment = this.moments.get(id.toString());
+    const lifeMoment = this.moments.get(id.toString());
 
-    if (!moment || moment.isDeleted) {
+    if (!lifeMoment || lifeMoment.isDeleted) {
       return null;
     }
 
-    return LifeMoment.fromPrimitives(
-      moment.id,
-      moment.type,
-      moment.theme,
-      moment.petId,
-      moment.createdBy,
-      moment.occurredOn,
-      moment.description,
-    );
+    return LifeMoment.fromPrimitives({
+      id: lifeMoment.id,
+      type: lifeMoment.type,
+      theme: lifeMoment.theme,
+      petId: lifeMoment.petId,
+      createdBy: lifeMoment.createdBy,
+      occurredOn: lifeMoment.occurredOn,
+      description: lifeMoment.description,
+    });
   }
 
   async search(petId: UUID): Promise<LifeMoment[]> {
     const result: LifeMoment[] = [];
 
-    for (const moment of this.moments.values()) {
-      if (moment.petId === petId.toString() && !moment.isDeleted) {
+    for (const lifeMoment of this.moments.values()) {
+      if (lifeMoment.petId === petId.toString() && !lifeMoment.isDeleted) {
         result.push(
-          LifeMoment.fromPrimitives(
-            moment.id,
-            moment.type,
-            moment.theme,
-            moment.petId,
-            moment.createdBy,
-            new Date(moment.occurredOn),
-            moment.description,
-          ),
+          LifeMoment.fromPrimitives({
+            id: lifeMoment.id,
+            type: lifeMoment.type,
+            theme: lifeMoment.theme,
+            petId: lifeMoment.petId,
+            createdBy: lifeMoment.createdBy,
+            occurredOn: lifeMoment.occurredOn,
+            description: lifeMoment.description,
+          }),
         );
       }
     }

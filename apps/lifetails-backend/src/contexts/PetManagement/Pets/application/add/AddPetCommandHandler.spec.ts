@@ -30,16 +30,16 @@ describe('AddPetCommandHandler', () => {
   it('should throw MaxNumberOfPetsReachedException when the owner already has a pet', async () => {
     // Arrange
     const ownerId = faker.string.uuid();
-    const pet = new Pet(
-      new UUID(faker.string.uuid()),
-      Species.Cat,
-      new StringValueObject('Neko'),
-      Gender.fromPrimitives('Female'),
-      new BooleanValueObject(true),
-      new DateValueObject(new Date()),
-      new DateValueObject(new Date()),
-      new UUID(ownerId),
-    );
+    const pet = new Pet({
+      id: new UUID(faker.string.uuid()),
+      species: Species.Cat,
+      name: new StringValueObject('Neko'),
+      gender: Gender.fromPrimitives('Female'),
+      sterilized: new BooleanValueObject(true),
+      anniversaryDate: new DateValueObject(new Date()),
+      createdAt: new DateValueObject(new Date()),
+      ownerId: new UUID(ownerId),
+    });
     await repository.save(pet);
 
     const petId = faker.string.uuid();

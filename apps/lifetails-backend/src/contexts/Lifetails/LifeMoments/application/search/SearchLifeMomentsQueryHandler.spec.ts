@@ -22,31 +22,32 @@ describe('SearchLifeMomentsQueryHandler', () => {
       remove: jest.fn(),
     };
 
-    petId = UUID.create();
-    const createdBy = UUID.create();
-    const lifeMomentId1 = UUID.create();
-    const lifeMomentId2 = UUID.create();
-    const lifeMoment1 = new LifeMoment(
-      lifeMomentId1,
-      LifeMomentType.fromPrimitives('Arrival'),
-      LifeMomentTheme.fromPrimitives('Celebration'),
+    petId = UUID.generate();
+    const createdBy = UUID.generate();
+    const lifeMomentId1 = UUID.generate();
+    const lifeMomentId2 = UUID.generate();
+    const lifeMoment1 = new LifeMoment({
+      id: lifeMomentId1,
+      type: LifeMomentType.fromPrimitives('Arrival'),
+      theme: LifeMomentTheme.fromPrimitives('Celebration'),
       petId,
       createdBy,
-      new DateValueObject(new Date('2023-01-01')),
-      new StringValueObject('First vaccination'),
-      new DateValueObject(new Date('2023-01-01')),
-    );
+      occurredOn: new DateValueObject(new Date('2023-01-01')),
+      description: new StringValueObject('First vaccination'),
+      createdAt: new DateValueObject(new Date('2023-01-01')),
+    });
 
-    const lifeMoment2 = new LifeMoment(
-      lifeMomentId2,
-      LifeMomentType.fromPrimitives('Walk'),
-      LifeMomentTheme.fromPrimitives('Activity'),
+    const lifeMoment2 = new LifeMoment({
+      id: lifeMomentId2,
+      type: LifeMomentType.fromPrimitives('Walk'),
+      theme: LifeMomentTheme.fromPrimitives('Activity'),
       petId,
       createdBy,
-      new DateValueObject(new Date('2023-02-01')),
-      new StringValueObject('Regular check-up'),
-      new DateValueObject(new Date('2023-02-01')),
-    );
+      occurredOn: new DateValueObject(new Date('2023-02-01')),
+      description: new StringValueObject('Regular check-up'),
+      createdAt: new DateValueObject(new Date('2023-01-01')),
+      updatedAt: new DateValueObject(new Date('2023-01-01')),
+    });
 
     FIXTURE_LIFE_MOMENTS = [lifeMoment1, lifeMoment2];
 

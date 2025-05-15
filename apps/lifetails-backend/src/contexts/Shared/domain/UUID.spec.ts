@@ -8,7 +8,7 @@ describe('UUID', () => {
   });
 
   it('should create a valid but random UUID', () => {
-    const uuid = UUID.create();
+    const uuid = UUID.generate();
     expect(uuid).toBeDefined();
   });
 

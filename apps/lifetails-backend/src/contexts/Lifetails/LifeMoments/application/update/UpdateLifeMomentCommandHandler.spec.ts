@@ -27,14 +27,14 @@ describe('UpdateLifeMomentCommandHandler', () => {
     const occurredOn = faker.date.recent();
     const description = faker.lorem.sentence();
 
-    lifeMoment = LifeMoment.create(
+    lifeMoment = LifeMoment.create({
       id,
-      LifeMomentType.fromPrimitives(type),
-      new UUID(petId),
-      new UUID(createdBy),
-      new DateValueObject(occurredOn),
-      new StringValueObject(description),
-    );
+      type: LifeMomentType.fromPrimitives(type),
+      petId: new UUID(petId),
+      createdBy: new UUID(createdBy),
+      occurredOn: new DateValueObject(occurredOn),
+      description: new StringValueObject(description),
+    });
 
     await repository.save(lifeMoment);
   });

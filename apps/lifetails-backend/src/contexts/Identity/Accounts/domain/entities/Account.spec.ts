@@ -22,7 +22,7 @@ describe('Account', () => {
     const password = new PasswordHashValueObject(faker.internet.password());
     const createdAt = new DateValueObject(faker.date.recent());
 
-    const account = new Account(id, email, password, createdAt);
+    const account = new Account({ id, email, password, createdAt });
 
     // Assert
     expect(account).toBeInstanceOf(Account);
@@ -37,7 +37,7 @@ describe('Account', () => {
     const email = new EmailValueObject(faker.internet.email());
     const password = new PasswordHashValueObject(faker.internet.password());
 
-    const account = Account.create(email, password);
+    const account = Account.create({ email, password });
 
     // Assert
     expect(account.pullDomainEvents()).toEqual([
@@ -54,7 +54,7 @@ describe('Account', () => {
     const password = new PasswordHashValueObject(faker.internet.password());
 
     // Act
-    const account = Account.create(email, password);
+    const account = Account.create({ email, password });
 
     // Assert
     expect(account).toBeInstanceOf(Account);
@@ -73,7 +73,13 @@ describe('Account', () => {
     const deletedAt = faker.date.recent();
 
     // Act
-    const account = Account.fromPrimitives(id, email, password, createdAt, deletedAt);
+    const account = Account.fromPrimitives({
+      id,
+      email,
+      password,
+      createdAt,
+      deletedAt,
+    });
 
     // Assert
     expect(account).toBeInstanceOf(Account);
@@ -90,7 +96,7 @@ describe('Account', () => {
     const email = new EmailValueObject(faker.internet.email());
     const password = new PasswordHashValueObject(faker.internet.password());
     const createdAt = new DateValueObject(faker.date.recent());
-    const account = new Account(id, email, password, createdAt);
+    const account = new Account({ id, email, password, createdAt });
 
     // Act
     const primitives = account.toPrimitives();
@@ -111,7 +117,7 @@ describe('Account', () => {
     const email = new EmailValueObject(faker.internet.email());
     const password = new PasswordHashValueObject(faker.internet.password());
     const createdAt = new DateValueObject(faker.date.recent());
-    const account = new Account(id, email, password, createdAt);
+    const account = new Account({ id, email, password, createdAt });
 
     // Act
     account.markAsDeleted();

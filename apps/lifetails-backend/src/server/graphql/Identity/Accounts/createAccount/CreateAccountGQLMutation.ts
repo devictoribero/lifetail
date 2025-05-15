@@ -22,14 +22,14 @@ export class CreateAccountGQLMutation {
     try {
       // Create account
       const command = new CreateAccountCommand(
-        UUID.create().toString(),
+        UUID.generate().toString(),
         input.email,
         input.password,
       );
       const { id: accountId } = await this.createAccountCommandHandler.handle(command);
 
       // Create user for account
-      const userId = UUID.create().toString();
+      const userId = UUID.generate().toString();
       const createUserCommand = new CreateUserCommand(accountId, userId, input.nickname);
       await this.createUserCommandHandler.handle(createUserCommand);
 

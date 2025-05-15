@@ -36,7 +36,7 @@ describe('DeleteAccountCommandHandler', () => {
 
   it('should throw AccountNotFoundException when account does not exist', async () => {
     // Arrange
-    const accountId = UUID.create().toString();
+    const accountId = UUID.generate().toString();
     const command = new DeleteAccountCommand(accountId);
     mockRepository.find.mockResolvedValue(null);
 
@@ -49,15 +49,15 @@ describe('DeleteAccountCommandHandler', () => {
 
   it('should delete the account and publish events when account exists', async () => {
     // Arrange
-    const accountId = UUID.create();
+    const accountId = UUID.generate();
     const command = new DeleteAccountCommand(accountId.toString());
 
-    const account = new Account(
-      accountId,
-      new EmailValueObject('test@example.com'),
-      new PasswordHashValueObject('hashed_password'),
-      new DateValueObject(new Date()),
-    );
+    const account = new Account({
+      id: accountId,
+      email: new EmailValueObject('test@example.com'),
+      password: new PasswordHashValueObject('hashed_password'),
+      createdAt: new DateValueObject(new Date()),
+    });
 
     jest.spyOn(account, 'markAsDeleted');
     jest.spyOn(account, 'pullDomainEvents').mockReturnValue([]);

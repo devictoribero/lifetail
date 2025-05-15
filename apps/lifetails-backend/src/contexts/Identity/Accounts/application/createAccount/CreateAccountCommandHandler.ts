@@ -29,7 +29,7 @@ export class CreateAccountCommandHandler
     await this.ensureEmailIsUnique(email);
 
     const passwordHashed = await this.hasher.hash(password);
-    const account = Account.create(email, passwordHashed);
+    const account = Account.create({ email, password: passwordHashed });
 
     await this.repository.save(account);
     await this.eventBus.publish(account.pullDomainEvents());

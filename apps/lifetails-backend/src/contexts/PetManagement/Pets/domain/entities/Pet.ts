@@ -21,17 +21,27 @@ export class Pet extends AggregateRoot {
   private chipId: StringValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
-  constructor(
-    id: UUID,
-    species: Species,
-    name: StringValueObject,
-    gender: Gender,
-    sterilized: BooleanValueObject,
-    anniversaryDate: DateValueObject | null = null,
-    createdAt: DateValueObject,
-    ownerId: UUID | null = null,
-    chipId: StringValueObject | null = null,
-  ) {
+  constructor({
+    id,
+    species,
+    name,
+    gender,
+    sterilized,
+    anniversaryDate = null,
+    createdAt,
+    ownerId = null,
+    chipId = null,
+  }: {
+    id: UUID;
+    species: Species;
+    name: StringValueObject;
+    gender: Gender;
+    sterilized: BooleanValueObject;
+    anniversaryDate?: DateValueObject | null;
+    createdAt: DateValueObject;
+    ownerId?: UUID | null;
+    chipId?: StringValueObject | null;
+  }) {
     super();
     this.id = id;
     this.createdAt = createdAt;
@@ -45,17 +55,34 @@ export class Pet extends AggregateRoot {
   }
 
   // Use to create the entity from the domain
-  static create(
-    id: UUID,
-    species: Species,
-    name: StringValueObject,
-    gender: Gender,
-    sterilized: BooleanValueObject,
-    anniversaryDate: DateValueObject,
-    ownerId: UUID,
-  ) {
+  static create({
+    id,
+    species,
+    name,
+    gender,
+    sterilized,
+    anniversaryDate,
+    ownerId,
+  }: {
+    id: UUID;
+    species: Species;
+    name: StringValueObject;
+    gender: Gender;
+    sterilized: BooleanValueObject;
+    anniversaryDate: DateValueObject;
+    ownerId: UUID;
+  }) {
     const now = new DateValueObject(new Date());
-    const pet = new Pet(id, species, name, gender, sterilized, anniversaryDate, now, ownerId);
+    const pet = new Pet({
+      id,
+      species,
+      name,
+      gender,
+      sterilized,
+      anniversaryDate,
+      createdAt: now,
+      ownerId,
+    });
 
     pet.record(new PetAddedDomainEvent({ aggregateId: id.toString(), name: name.toString() }));
 
@@ -63,28 +90,38 @@ export class Pet extends AggregateRoot {
   }
 
   // Use to reconstruct the entity from the database
-  static fromPrimitives(
-    id: string,
-    species: string,
-    name: string,
-    gender: string,
-    sterilized: boolean,
-    anniversaryDate: Date,
-    createdAt: Date,
-    ownerId: string,
-    chipId: string | null = null,
-  ) {
-    return new Pet(
-      new UUID(id),
-      Species.fromPrimitives(species),
-      new StringValueObject(name),
-      Gender.fromPrimitives(gender),
-      new BooleanValueObject(sterilized),
-      anniversaryDate ? new DateValueObject(anniversaryDate) : null,
-      new DateValueObject(createdAt),
-      new UUID(ownerId),
-      chipId ? new StringValueObject(chipId) : null,
-    );
+  static fromPrimitives({
+    id,
+    species,
+    name,
+    gender,
+    sterilized,
+    anniversaryDate,
+    createdAt,
+    ownerId,
+    chipId = null,
+  }: {
+    id: string;
+    species: string;
+    name: string;
+    gender: string;
+    sterilized: boolean;
+    anniversaryDate: Date;
+    createdAt: Date;
+    ownerId: string;
+    chipId?: string | null;
+  }) {
+    return new Pet({
+      id: new UUID(id),
+      species: Species.fromPrimitives(species),
+      name: new StringValueObject(name),
+      gender: Gender.fromPrimitives(gender),
+      sterilized: new BooleanValueObject(sterilized),
+      anniversaryDate: anniversaryDate ? new DateValueObject(anniversaryDate) : null,
+      createdAt: new DateValueObject(createdAt),
+      ownerId: new UUID(ownerId),
+      chipId: chipId ? new StringValueObject(chipId) : null,
+    });
   }
 
   public getId(): UUID {

@@ -24,7 +24,7 @@ export class AddArrivalLifeMomentOnPetAdded {
       `Creating arrival life moment for new pet: ${event.attributes.name} (ID: ${event.aggregateId})`,
     );
 
-    const lifeMomentId = UUID.create().toString();
+    const lifeMomentId = UUID.generate().toString();
     const petId = event.aggregateId;
     // Assuming the creator is the same user who added the pet
     const createdBy = event.aggregateId; // This could be changed if needed

@@ -38,16 +38,16 @@ describe('RemovePetCommandHandler', () => {
     const anniversaryDate = faker.date.past();
     const createdAt = faker.date.recent();
     const ownerId = faker.string.uuid();
-    const pet = new Pet(
-      new UUID(id),
-      Species.Cat,
-      new StringValueObject(name),
-      Gender.fromPrimitives(gender),
-      new BooleanValueObject(sterilized),
-      new DateValueObject(anniversaryDate),
-      new DateValueObject(createdAt),
-      new UUID(ownerId),
-    );
+    const pet = new Pet({
+      id: new UUID(id),
+      species: Species.Cat,
+      name: new StringValueObject(name),
+      gender: Gender.fromPrimitives(gender),
+      sterilized: new BooleanValueObject(sterilized),
+      anniversaryDate: new DateValueObject(anniversaryDate),
+      createdAt: new DateValueObject(createdAt),
+      ownerId: new UUID(ownerId),
+    });
     await repository.save(pet);
     const petId = new UUID(id);
     const beforeRemoval = await repository.find(petId);

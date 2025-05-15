@@ -67,7 +67,7 @@ const createAccountAndUser = async (
   const createUserCommandHandler = app.get(CreateUserCommandHandler);
 
   const account = await createAccountCommandHandler.handle({
-    id: UUID.create().toString(),
+    id: UUID.generate().toString(),
     email: CREDENTIALS.email,
     password: CREDENTIALS.password,
   });
@@ -142,7 +142,7 @@ export const seedDatabase = async (app: INestApplication) => {
   await addVeterinaryCommandHandler.handle(addFontblancaVetCommand);
   logDomainEvent('Veterinary added', { id: fontblancaVetId, name: 'Fontblanca veterinary' });
 
-  const encampVetId = UUID.create().toString();
+  const encampVetId = UUID.generate().toString();
   const addEncampVetCommand = new AddVeterinaryCommand(encampVetId, 'Veterinary Encamp');
   await addVeterinaryCommandHandler.handle(addEncampVetCommand);
   logDomainEvent('Veterinary added', { id: encampVetId, name: 'Veterinary Encamp' });

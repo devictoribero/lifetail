@@ -36,8 +36,8 @@ describe('AddArrivalLifeMomentOnPetAdded', () => {
 
   it('should create an Arrival life moment when pet is added', async () => {
     // Arrange
-    const aggregateId = UUID.create().toString();
-    const eventId = UUID.create().toString();
+    const aggregateId = UUID.generate().toString();
+    const eventId = UUID.generate().toString();
     const petName = faker.person.firstName();
     const eventDate = new Date();
     const event = {

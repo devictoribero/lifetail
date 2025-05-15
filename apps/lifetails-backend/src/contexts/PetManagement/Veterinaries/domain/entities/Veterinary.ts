@@ -18,18 +18,29 @@ export class Veterinary extends AggregateRoot {
   private deletedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
-  constructor(
-    id: UUID,
-    name: StringValueObject,
-    address: StringValueObject | null,
-    email: EmailValueObject | null,
-    primaryPhone: StringValueObject | null,
-    emergencyPhone: StringValueObject | null,
-    notes: StringValueObject | null,
-    createdAt: DateValueObject,
-    updatedAt: DateValueObject | null = null,
-    deletedAt: DateValueObject | null = null,
-  ) {
+  constructor({
+    id,
+    name,
+    address = null,
+    email = null,
+    primaryPhone = null,
+    emergencyPhone = null,
+    notes = null,
+    createdAt,
+    updatedAt = null,
+    deletedAt = null,
+  }: {
+    id: UUID;
+    name: StringValueObject;
+    address?: StringValueObject | null;
+    email?: EmailValueObject | null;
+    primaryPhone?: StringValueObject | null;
+    emergencyPhone?: StringValueObject | null;
+    notes?: StringValueObject | null;
+    createdAt: DateValueObject;
+    updatedAt?: DateValueObject | null;
+    deletedAt?: DateValueObject | null;
+  }) {
     super();
     this.ensureValidName(name);
 
@@ -52,44 +63,72 @@ export class Veterinary extends AggregateRoot {
   }
 
   // Use to create the entity from the domain
-  static create(
-    id: UUID,
-    name: StringValueObject,
-    address: StringValueObject | null = null,
-    email: EmailValueObject | null = null,
-    primaryPhone: StringValueObject | null = null,
-    emergencyPhone: StringValueObject | null = null,
-    notes: StringValueObject | null = null,
-  ) {
+  static create({
+    id,
+    name,
+    address = null,
+    email = null,
+    primaryPhone = null,
+    emergencyPhone = null,
+    notes = null,
+  }: {
+    id: UUID;
+    name: StringValueObject;
+    address?: StringValueObject | null;
+    email?: EmailValueObject | null;
+    primaryPhone?: StringValueObject | null;
+    emergencyPhone?: StringValueObject | null;
+    notes?: StringValueObject | null;
+  }) {
     const now = new DateValueObject(new Date());
-    return new Veterinary(id, name, address, email, primaryPhone, emergencyPhone, notes, now);
+    return new Veterinary({
+      id,
+      name,
+      address,
+      email,
+      primaryPhone,
+      emergencyPhone,
+      notes,
+      createdAt: now,
+    });
   }
 
   // Use to reconstruct the entity from the database
-  static fromPrimitives(
-    id: string,
-    name: string,
-    address: string | null,
-    email: string | null,
-    primaryPhone: string | null,
-    emergencyPhone: string | null,
-    notes: string | null,
-    createdAt: Date,
-    updatedAt: Date | null = null,
-    deletedAt: Date | null = null,
-  ) {
-    return new Veterinary(
-      new UUID(id),
-      new StringValueObject(name),
-      address ? new StringValueObject(address) : null,
-      email ? new EmailValueObject(email) : null,
-      primaryPhone ? new StringValueObject(primaryPhone) : null,
-      emergencyPhone ? new StringValueObject(emergencyPhone) : null,
-      notes ? new StringValueObject(notes) : null,
-      new DateValueObject(createdAt),
-      updatedAt ? new DateValueObject(updatedAt) : null,
-      deletedAt ? new DateValueObject(deletedAt) : null,
-    );
+  static fromPrimitives({
+    id,
+    name,
+    address,
+    email,
+    primaryPhone,
+    emergencyPhone,
+    notes,
+    createdAt,
+    updatedAt = null,
+    deletedAt = null,
+  }: {
+    id: string;
+    name: string;
+    address: string | null;
+    email: string | null;
+    primaryPhone: string | null;
+    emergencyPhone: string | null;
+    notes: string | null;
+    createdAt: Date;
+    updatedAt?: Date | null;
+    deletedAt?: Date | null;
+  }) {
+    return new Veterinary({
+      id: new UUID(id),
+      name: new StringValueObject(name),
+      address: address ? new StringValueObject(address) : null,
+      email: email ? new EmailValueObject(email) : null,
+      primaryPhone: primaryPhone ? new StringValueObject(primaryPhone) : null,
+      emergencyPhone: emergencyPhone ? new StringValueObject(emergencyPhone) : null,
+      notes: notes ? new StringValueObject(notes) : null,
+      createdAt: new DateValueObject(createdAt),
+      updatedAt: updatedAt ? new DateValueObject(updatedAt) : null,
+      deletedAt: deletedAt ? new DateValueObject(deletedAt) : null,
+    });
   }
 
   public getId(): UUID {

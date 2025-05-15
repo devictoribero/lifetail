@@ -28,15 +28,15 @@ describe('UpdateVeterinaryCommandHandler', () => {
     commandHandler = new UpdateVeterinaryCommandHandler(repository);
 
     // Create a mock veterinary that will be returned by the repository
-    mockVeterinary = Veterinary.create(
-      new UUID(id),
-      new StringValueObject(faker.company.name()),
-      new StringValueObject(faker.location.streetAddress()),
-      new EmailValueObject(faker.internet.email()),
-      new StringValueObject(faker.phone.number()),
-      new StringValueObject(faker.phone.number()),
-      new StringValueObject(faker.lorem.paragraph()),
-    );
+    mockVeterinary = Veterinary.create({
+      id: new UUID(id),
+      name: new StringValueObject(faker.company.name()),
+      address: new StringValueObject(faker.location.streetAddress()),
+      email: new EmailValueObject(faker.internet.email()),
+      primaryPhone: new StringValueObject(faker.phone.number()),
+      emergencyPhone: new StringValueObject(faker.phone.number()),
+      notes: new StringValueObject(faker.lorem.paragraph()),
+    });
 
     // Setup repository.find to return our mock veterinary
     repository.find.mockResolvedValue(mockVeterinary);

@@ -4,7 +4,6 @@ import { LifeMomentType } from './LifeMomentType';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import { LifeMomentTheme } from './LifeMomentTheme';
 
 // Array of all valid moment types for random selection
 const validMomentTypes = [
@@ -51,7 +50,7 @@ const createLifeMoment = () => {
   const createdAt = new DateValueObject(faker.date.recent());
   const updatedAt = new DateValueObject(faker.date.recent());
 
-  return new LifeMoment(
+  return new LifeMoment({
     id,
     type,
     theme,
@@ -61,7 +60,7 @@ const createLifeMoment = () => {
     description,
     createdAt,
     updatedAt,
-  );
+  });
 };
 
 describe('LifeMoment Domain Entity', () => {
@@ -75,17 +74,17 @@ describe('LifeMoment Domain Entity', () => {
     const lifeMoment = createLifeMoment();
     const primitives = lifeMoment.toPrimitives();
     const type = new LifeMomentType(primitives.type);
-    const reconstructedLifeMoment = new LifeMoment(
-      new UUID(primitives.id),
+    const reconstructedLifeMoment = new LifeMoment({
+      id: new UUID(primitives.id),
       type,
-      type.getTheme(),
-      new UUID(primitives.petId),
-      new UUID(primitives.createdBy),
-      new DateValueObject(primitives.occurredOn),
-      new StringValueObject(primitives.description),
-      new DateValueObject(primitives.createdAt),
-      primitives.updatedAt ? new DateValueObject(primitives.updatedAt) : null,
-    );
+      theme: type.getTheme(),
+      petId: new UUID(primitives.petId),
+      createdBy: new UUID(primitives.createdBy),
+      occurredOn: new DateValueObject(primitives.occurredOn),
+      description: new StringValueObject(primitives.description),
+      createdAt: new DateValueObject(primitives.createdAt),
+      updatedAt: primitives.updatedAt ? new DateValueObject(primitives.updatedAt) : null,
+    });
     expect(reconstructedLifeMoment).toBeDefined();
     expect(reconstructedLifeMoment).toBeInstanceOf(LifeMoment);
   });
@@ -99,7 +98,14 @@ describe('LifeMoment Domain Entity', () => {
     const occurredOn = new DateValueObject(faker.date.recent());
     const description = new StringValueObject(faker.lorem.sentence());
 
-    const lifeMoment = LifeMoment.create(id, type, petId, createdBy, occurredOn, description);
+    const lifeMoment = LifeMoment.create({
+      id,
+      type,
+      petId,
+      createdBy,
+      occurredOn,
+      description,
+    });
 
     expect(lifeMoment).toBeDefined();
     expect(lifeMoment).toBeInstanceOf(LifeMoment);
@@ -116,17 +122,17 @@ describe('LifeMoment Domain Entity', () => {
     const lifeMoment = createLifeMoment();
     const primitives = lifeMoment.toPrimitives();
 
-    const reconstructedLifeMoment = LifeMoment.fromPrimitives(
-      primitives.id,
-      primitives.type,
-      primitives.theme,
-      primitives.petId,
-      primitives.createdBy,
-      primitives.occurredOn,
-      primitives.description,
-      primitives.createdAt,
-      primitives.updatedAt,
-    );
+    const reconstructedLifeMoment = LifeMoment.fromPrimitives({
+      id: primitives.id,
+      type: primitives.type,
+      theme: primitives.theme,
+      petId: primitives.petId,
+      createdBy: primitives.createdBy,
+      occurredOn: primitives.occurredOn,
+      description: primitives.description,
+      createdAt: primitives.createdAt,
+      updatedAt: primitives.updatedAt,
+    });
 
     expect(reconstructedLifeMoment).toBeDefined();
     expect(reconstructedLifeMoment).toBeInstanceOf(LifeMoment);

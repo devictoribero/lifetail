@@ -35,13 +35,13 @@ describe('CreateUserCommandHandler', () => {
     const id = faker.string.uuid();
     const nickname = faker.person.firstName();
     getUserService.execute.mockResolvedValue(
-      new User(
-        new UUID(id),
-        new UUID(accountId),
-        new StringValueObject(nickname),
-        new DateValueObject(new Date()),
-        LanguageCode.English,
-      ),
+      new User({
+        id: new UUID(id),
+        accountId: new UUID(accountId),
+        nickname: new StringValueObject(nickname),
+        createdAt: new DateValueObject(new Date()),
+        preferredLanguage: LanguageCode.English,
+      }),
     );
 
     // Act

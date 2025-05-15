@@ -4,13 +4,14 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { VeterinaryNameTooShortException } from '../exceptions/VeterinaryNameTooShortException';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { faker } from '@faker-js/faker';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 describe('Veterinary', () => {
   it('can create the most basic instance of Veterinary using the named constructor', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = new StringValueObject('Animal Hospital');
 
-    const veterinary = Veterinary.create(id, name);
+    const veterinary = Veterinary.create({ id, name });
 
     expect(veterinary.getId()).toBe(id);
     expect(veterinary.getName()).toBe(name);
@@ -22,7 +23,7 @@ describe('Veterinary', () => {
   });
 
   it('can create an instance of Veterinary using the named constructor', () => {
-    const id = UUID.create().toString();
+    const id = UUID.generate().toString();
     const name = faker.company.name();
     const address = faker.location.streetAddress();
     const email = faker.internet.email();
@@ -30,15 +31,15 @@ describe('Veterinary', () => {
     const emergencyPhone = faker.phone.number();
     const notes = faker.lorem.paragraph();
 
-    const veterinary = Veterinary.create(
-      new UUID(id),
-      new StringValueObject(name),
-      new StringValueObject(address),
-      new EmailValueObject(email),
-      new StringValueObject(primaryPhone),
-      new StringValueObject(emergencyPhone),
-      new StringValueObject(notes),
-    );
+    const veterinary = Veterinary.create({
+      id: new UUID(id),
+      name: new StringValueObject(name),
+      address: new StringValueObject(address),
+      email: new EmailValueObject(email),
+      primaryPhone: new StringValueObject(primaryPhone),
+      emergencyPhone: new StringValueObject(emergencyPhone),
+      notes: new StringValueObject(notes),
+    });
 
     expect(veterinary.getId().toString()).toBe(id);
     expect(veterinary.getName().toString()).toBe(name);
@@ -50,14 +51,17 @@ describe('Veterinary', () => {
   });
 
   it('should throw VeterinaryNameTooShortException when name has less than too short', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const tooShortName = new StringValueObject('AB');
 
     expect(() => {
-      Veterinary.create(id, tooShortName);
+      Veterinary.create({ id, name: tooShortName });
     }).toThrow(VeterinaryNameTooShortException);
 
-    const veterinary = Veterinary.create(id, new StringValueObject('Font Blanca veterinary'));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject('Font Blanca veterinary'),
+    });
 
     expect(veterinary.getName().toString()).toBe('Font Blanca veterinary');
 
@@ -67,7 +71,7 @@ describe('Veterinary', () => {
   });
 
   it('can create a new instance of Veterinary using the fromPrimitives method', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const address = faker.location.streetAddress();
     const email = faker.internet.email();
@@ -75,17 +79,17 @@ describe('Veterinary', () => {
     const emergencyPhone = faker.phone.number();
     const notes = faker.lorem.paragraph();
 
-    const veterinary = Veterinary.fromPrimitives(
-      id.toString(),
+    const veterinary = Veterinary.fromPrimitives({
+      id: id.toString(),
       name,
       address,
       email,
       primaryPhone,
       emergencyPhone,
       notes,
-      new Date(),
-      null,
-    );
+      createdAt: new Date(),
+      updatedAt: null,
+    });
 
     expect(veterinary.getId().toString()).toBe(id.toString());
     expect(veterinary.getName().toString()).toBe(name);
@@ -97,10 +101,13 @@ describe('Veterinary', () => {
   });
 
   it('can serialize the most basic Veterinary instance to a primitive object', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
 
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     expect(veterinary.toPrimitives()).toEqual({
       id: id.toString(),
@@ -117,7 +124,7 @@ describe('Veterinary', () => {
   });
 
   it('can serialize a Veterinary instance with all fields to a primitive object', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const address = faker.location.streetAddress();
     const email = faker.internet.email();
@@ -125,15 +132,18 @@ describe('Veterinary', () => {
     const emergencyPhone = faker.phone.number();
     const notes = faker.lorem.paragraph();
 
-    const veterinary = Veterinary.create(
+    const veterinary = new Veterinary({
       id,
-      new StringValueObject(name),
-      new StringValueObject(address),
-      new EmailValueObject(email),
-      new StringValueObject(primaryPhone),
-      new StringValueObject(emergencyPhone),
-      new StringValueObject(notes),
-    );
+      name: new StringValueObject(name),
+      address: new StringValueObject(address),
+      email: new EmailValueObject(email),
+      primaryPhone: new StringValueObject(primaryPhone),
+      emergencyPhone: new StringValueObject(emergencyPhone),
+      notes: new StringValueObject(notes),
+      createdAt: new DateValueObject(new Date()),
+      updatedAt: null,
+      deletedAt: null,
+    });
 
     expect(veterinary.toPrimitives()).toEqual({
       id: id.toString(),
@@ -150,11 +160,14 @@ describe('Veterinary', () => {
   });
 
   it('can rename a veterinary', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const newName = faker.company.name();
 
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     veterinary.rename(new StringValueObject(newName));
 
@@ -163,10 +176,13 @@ describe('Veterinary', () => {
   });
 
   it('can relocate a veterinary', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const newAddress = faker.location.streetAddress();
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     expect(veterinary.getUpdatedAt()).toBeNull();
     veterinary.relocate(new StringValueObject(newAddress));
@@ -176,11 +192,14 @@ describe('Veterinary', () => {
   });
 
   it('can change the contact email of a veterinary', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const newEmail = faker.internet.email();
 
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     veterinary.changeContactEmail(new EmailValueObject(newEmail));
 
@@ -189,11 +208,14 @@ describe('Veterinary', () => {
   });
 
   it('can add a primary phone to a veterinary', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const newPrimaryPhone = faker.phone.number();
 
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     veterinary.addPrimaryPhone(new StringValueObject(newPrimaryPhone));
 
@@ -202,11 +224,14 @@ describe('Veterinary', () => {
   });
 
   it('can add an emergency phone to a veterinary', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const newEmergencyPhone = faker.phone.number();
 
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     veterinary.addEmergencyPhone(new StringValueObject(newEmergencyPhone));
 
@@ -215,11 +240,14 @@ describe('Veterinary', () => {
   });
 
   it('can add additional information to a veterinary', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
     const newAdditionalInfo = faker.lorem.paragraph();
 
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     veterinary.documentAdditionalInfo(new StringValueObject(newAdditionalInfo));
 
@@ -228,9 +256,12 @@ describe('Veterinary', () => {
   });
 
   it('can mark a veterinary as deleted', () => {
-    const id = UUID.create();
+    const id = UUID.generate();
     const name = faker.company.name();
-    const veterinary = Veterinary.create(id, new StringValueObject(name));
+    const veterinary = Veterinary.create({
+      id,
+      name: new StringValueObject(name),
+    });
 
     veterinary.markAsDeleted();
 
