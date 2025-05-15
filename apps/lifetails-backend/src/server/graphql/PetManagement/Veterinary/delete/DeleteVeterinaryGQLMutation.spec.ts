@@ -6,27 +6,17 @@ import { DeleteVeterinaryInput } from './DeleteVeterinaryInput';
 import { VeterinaryNotFoundException } from 'src/contexts/PetManagement/Veterinaries/domain/exceptions/VeterinaryNotFoundException';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { Reflector } from '@nestjs/core';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 describe('DeleteVeterinaryGQLMutation', () => {
   let mutation: DeleteVeterinaryGQLMutation;
   let commandHandler: jest.Mocked<DeleteVeterinaryCommandHandler>;
-  let mockContext: any;
-  let userId: string;
 
   beforeEach(async () => {
     // Mock the command handler
     commandHandler = {
       handle: jest.fn(),
     } as unknown as jest.Mocked<DeleteVeterinaryCommandHandler>;
-
-    // Mock user context
-    userId = faker.string.uuid();
-    mockContext = {
-      req: {
-        user: { id: userId, accountId: faker.string.uuid() },
-        headers: { authorization: 'Bearer some-token' },
-      },
-    };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -71,7 +61,7 @@ describe('DeleteVeterinaryGQLMutation', () => {
         id: input.id,
       }),
     );
-    expect(result).toEqual({ id: input.id, success: true });
+    expect(result).toEqual({ id: input.id });
   });
 
   it('should throw a specific error when veterinary is not found', async () => {
@@ -79,7 +69,7 @@ describe('DeleteVeterinaryGQLMutation', () => {
     const input: DeleteVeterinaryInput = {
       id: faker.string.uuid(),
     };
-    commandHandler.handle.mockRejectedValue(new VeterinaryNotFoundException(input.id));
+    commandHandler.handle.mockRejectedValue(new VeterinaryNotFoundException(new UUID(input.id)));
 
     // Act & Assert
     await expect(mutation.deleteVeterinary(input)).rejects.toThrow(

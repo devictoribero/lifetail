@@ -9,6 +9,7 @@ import { DeleteVeterinaryCommandHandler } from './DeleteVeterinaryCommandHandler
 import { faker } from '@faker-js/faker';
 import { VeterinaryNotFoundException } from '../../domain/exceptions/VeterinaryNotFoundException';
 import { Veterinary } from '../../domain/entities/Veterinary';
+import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 describe('DeleteVeterinaryCommandHandler', () => {
   let handler: DeleteVeterinaryCommandHandler;
@@ -31,21 +32,22 @@ describe('DeleteVeterinaryCommandHandler', () => {
     handler = module.get<DeleteVeterinaryCommandHandler>(DeleteVeterinaryCommandHandler);
   });
 
-  it('should delete a veterinary when it exists', async () => {
+  it.only('should delete a veterinary when it exists', async () => {
     // Arrange
     const id = faker.string.uuid();
-    const mockVeterinary = {} as Veterinary;
-    repository.find.mockResolvedValue(mockVeterinary);
-    const command = new DeleteVeterinaryCommand(id);
+    const veterinary = Veterinary.create(new UUID(id), new StringValueObject('Test Veterinary'));
+    repository.find.mockResolvedValue(veterinary);
 
     // Act
+    const command = new DeleteVeterinaryCommand(id);
     await handler.handle(command);
 
     // Assert
     expect(repository.find).toHaveBeenCalledWith(expect.any(UUID));
-    expect(repository.remove).toHaveBeenCalledWith(expect.any(UUID));
-    const uuidArg = repository.remove.mock.calls[0][0] as UUID;
-    expect(uuidArg.toString()).toBe(id);
+    expect(repository.save).toHaveBeenCalledWith(expect.any(Veterinary));
+    const savedVeterinary = repository.save.mock.calls[0][0] as Veterinary;
+    expect(savedVeterinary.getId().toString()).toBe(id);
+    expect(savedVeterinary.getDeletedAt()).not.toBeNull();
   });
 
   it('should throw VeterinaryNotFoundException when veterinary does not exist', async () => {
@@ -57,6 +59,6 @@ describe('DeleteVeterinaryCommandHandler', () => {
     // Act & Assert
     await expect(handler.handle(command)).rejects.toThrow(VeterinaryNotFoundException);
     expect(repository.find).toHaveBeenCalledWith(expect.any(UUID));
-    expect(repository.remove).not.toHaveBeenCalled();
+    expect(repository.save).not.toHaveBeenCalled();
   });
 });

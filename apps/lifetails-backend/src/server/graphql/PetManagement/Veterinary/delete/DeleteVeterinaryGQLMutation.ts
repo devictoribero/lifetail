@@ -20,7 +20,7 @@ export class DeleteVeterinaryGQLMutation {
       const command = new DeleteVeterinaryCommand(input.id);
       await this.commandHandler.handle(command);
 
-      return { id: input.id, success: true };
+      return { id: input.id };
     } catch (error) {
       if (error instanceof VeterinaryNotFoundException) {
         throw new Error(`Veterinary not found: ${input.id}`);

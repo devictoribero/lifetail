@@ -22,7 +22,7 @@ describe('CreateAccountCommandHandler', () => {
     repository = {
       findByEmail: jest.fn(),
       save: jest.fn(),
-      get: jest.fn(),
+      find: jest.fn(),
       delete: jest.fn(),
     } as jest.Mocked<AccountRepository>;
 

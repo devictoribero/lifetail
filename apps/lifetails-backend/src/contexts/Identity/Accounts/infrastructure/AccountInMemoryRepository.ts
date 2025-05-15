@@ -41,7 +41,7 @@ export class AccountInMemoryRepository implements AccountRepository {
     );
   }
 
-  async get(id: UUID): Promise<Account | null> {
+  async find(id: UUID): Promise<Account | null> {
     const account = this.accounts.get(id.toString());
     if (!account) {
       return null;

@@ -7,6 +7,6 @@ export const ACCOUNT_REPOSITORY = 'ACCOUNT_REPOSITORY';
 export interface AccountRepository {
   save(account: Account): Promise<void>;
   findByEmail(email: EmailValueObject): Promise<Account | null>;
-  get(id: UUID): Promise<Account | null>;
+  find(id: UUID): Promise<Account | null>;
   delete(account: Account): Promise<void>;
 }

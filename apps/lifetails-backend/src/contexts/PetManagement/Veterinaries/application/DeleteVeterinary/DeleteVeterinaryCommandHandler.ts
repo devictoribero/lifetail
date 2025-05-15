@@ -18,15 +18,16 @@ export class DeleteVeterinaryCommandHandler implements CommandHandler<DeleteVete
 
   async handle(command: DeleteVeterinaryCommand): Promise<void> {
     const id = new UUID(command.id);
-    await this.getVeterinary(id);
+    const veterinary = await this.getVeterinary(id);
+    veterinary.markAsDeleted();
 
-    await this.repository.remove(id);
+    await this.repository.save(veterinary);
   }
 
   private async getVeterinary(id: UUID): Promise<Veterinary> {
     const veterinary = await this.repository.find(id);
     if (!veterinary) {
-      throw new VeterinaryNotFoundException(id.toString());
+      throw new VeterinaryNotFoundException(id);
     }
 
     return veterinary;

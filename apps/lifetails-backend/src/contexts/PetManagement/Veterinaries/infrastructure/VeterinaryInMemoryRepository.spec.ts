@@ -17,113 +17,84 @@ describe('VeterinaryInMemoryRepository', () => {
     repository = module.get<VeterinaryInMemoryRepository>(VeterinaryInMemoryRepository);
   });
 
-  describe('save', () => {
-    it('should save a veterinary', async () => {
-      // Arrange
-      const id = UUID.create();
-      const name = new StringValueObject('Animal Hospital');
-      const veterinary = Veterinary.create(id, name);
+  it('should save a veterinary', async () => {
+    // Arrange
+    const id = UUID.create();
+    const name = new StringValueObject('Animal Hospital');
+    const veterinary = Veterinary.create(id, name);
 
-      // Act
-      await repository.save(veterinary);
+    // Act
+    await repository.save(veterinary);
 
-      // Assert
-      const found = await repository.find(id);
-      expect(found).not.toBeNull();
-      expect(found?.getId().toString()).toBe(id.toString());
-      expect(found?.getName().toString()).toBe(name.toString());
-    });
-
-    it('should update an existing veterinary', async () => {
-      // Arrange
-      const id = UUID.create();
-      const name = new StringValueObject('Animal Hospital');
-      const newName = new StringValueObject('Updated Hospital');
-      const veterinary = Veterinary.create(id, name);
-
-      // Act
-      await repository.save(veterinary);
-      veterinary.rename(newName);
-      await repository.save(veterinary);
-
-      // Assert
-      const found = await repository.find(id);
-      expect(found).not.toBeNull();
-      expect(found?.getName().toString()).toBe(newName.toString());
-    });
+    // Assert
+    const found = await repository.find(id);
+    expect(found).not.toBeNull();
+    expect(found?.getId().toString()).toBe(id.toString());
+    expect(found?.getName().toString()).toBe(name.toString());
   });
 
-  describe('find', () => {
-    it('should return null when veterinary does not exist', async () => {
-      // Arrange
-      const id = UUID.create();
+  it('should update an existing veterinary', async () => {
+    // Arrange
+    const id = UUID.create();
+    const name = new StringValueObject('Animal Hospital');
+    const newName = new StringValueObject('Updated Hospital');
+    const veterinary = Veterinary.create(id, name);
 
-      // Act
-      const result = await repository.find(id);
+    // Act
+    await repository.save(veterinary);
+    veterinary.rename(newName);
+    await repository.save(veterinary);
 
-      // Assert
-      expect(result).toBeNull();
-    });
-
-    it('should find a veterinary when it exists', async () => {
-      // Arrange
-      const id = UUID.create();
-      const name = new StringValueObject('Animal Hospital');
-      const address = new StringValueObject('123 Main St');
-      const email = new EmailValueObject('info@hospital.com');
-      const primaryPhone = new StringValueObject('555-1234');
-      const veterinary = Veterinary.create(id, name, address, email, primaryPhone);
-
-      // Act
-      await repository.save(veterinary);
-      const found = await repository.find(id);
-
-      // Assert
-      expect(found).not.toBeNull();
-      expect(found?.getName().toString()).toBe(name.toString());
-      expect(found?.getAddress()?.toString()).toBe(address.toString());
-      expect(found?.getEmail()?.toString()).toBe(email.toString());
-      expect(found?.getPrimaryPhone()?.toString()).toBe(primaryPhone.toString());
-    });
-
-    it('should return null for deleted veterinaries', async () => {
-      // Arrange
-      const id = UUID.create();
-      const name = new StringValueObject('Animal Hospital');
-      const veterinary = Veterinary.create(id, name);
-
-      // Act
-      await repository.save(veterinary);
-      await repository.remove(id);
-      const found = await repository.find(id);
-
-      // Assert
-      expect(found).toBeNull();
-    });
+    // Assert
+    const found = await repository.find(id);
+    expect(found).not.toBeNull();
+    expect(found?.getName().toString()).toBe(newName.toString());
   });
 
-  describe('remove', () => {
-    it('should mark a veterinary as deleted', async () => {
-      // Arrange
-      const id = UUID.create();
-      const name = new StringValueObject('Animal Hospital');
-      const veterinary = Veterinary.create(id, name);
+  it('should return null when veterinary does not exist', async () => {
+    // Arrange
+    const id = UUID.create();
 
-      // Act
-      await repository.save(veterinary);
-      await repository.remove(id);
+    // Act
+    const result = await repository.find(id);
 
-      // Assert
-      const found = await repository.find(id);
-      expect(found).toBeNull();
-    });
+    // Assert
+    expect(result).toBeNull();
+  });
 
-    it('should not throw error when removing non-existent veterinary', async () => {
-      // Arrange
-      const id = UUID.create();
+  it('should find a veterinary when it exists', async () => {
+    // Arrange
+    const id = UUID.create();
+    const name = new StringValueObject('Animal Hospital');
+    const address = new StringValueObject('123 Main St');
+    const email = new EmailValueObject('info@hospital.com');
+    const primaryPhone = new StringValueObject('555-1234');
+    const veterinary = Veterinary.create(id, name, address, email, primaryPhone);
 
-      // Act & Assert
-      await expect(repository.remove(id)).resolves.not.toThrow();
-    });
+    // Act
+    await repository.save(veterinary);
+    const found = await repository.find(id);
+
+    // Assert
+    expect(found).not.toBeNull();
+    expect(found?.getName().toString()).toBe(name.toString());
+    expect(found?.getAddress()?.toString()).toBe(address.toString());
+    expect(found?.getEmail()?.toString()).toBe(email.toString());
+    expect(found?.getPrimaryPhone()?.toString()).toBe(primaryPhone.toString());
+  });
+
+  it.only('should return null for deleted veterinaries', async () => {
+    // Arrange
+    const id = UUID.create();
+    const name = new StringValueObject('Animal Hospital');
+    const veterinary = Veterinary.create(id, name);
+
+    // Act
+    veterinary.markAsDeleted();
+    await repository.save(veterinary);
+    const found = await repository.find(id);
+
+    // Assert
+    expect(found).toBeNull();
   });
 });

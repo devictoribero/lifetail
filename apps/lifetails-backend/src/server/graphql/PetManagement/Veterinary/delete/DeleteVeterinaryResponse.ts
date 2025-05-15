@@ -4,7 +4,4 @@ import { Field, ObjectType } from '@nestjs/graphql';
 export class DeleteVeterinaryResponse {
   @Field()
   id: string;
-
-  @Field()
-  success: boolean;
 }

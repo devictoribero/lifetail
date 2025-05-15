@@ -16,7 +16,7 @@ describe('DeleteAccountCommandHandler', () => {
 
   beforeEach(() => {
     mockRepository = {
-      get: jest.fn(),
+      find: jest.fn(),
       delete: jest.fn(),
       save: jest.fn(),
       findByEmail: jest.fn(),
@@ -38,11 +38,11 @@ describe('DeleteAccountCommandHandler', () => {
     // Arrange
     const accountId = UUID.create().toString();
     const command = new DeleteAccountCommand(accountId);
-    mockRepository.get.mockResolvedValue(null);
+    mockRepository.find.mockResolvedValue(null);
 
     // Act & Assert
     await expect(commandHandler.handle(command)).rejects.toThrow(AccountNotFoundException);
-    expect(mockRepository.get).toHaveBeenCalledWith(expect.any(UUID));
+    expect(mockRepository.find).toHaveBeenCalledWith(expect.any(UUID));
     expect(mockRepository.delete).not.toHaveBeenCalled();
     expect(mockEventBus.publish).not.toHaveBeenCalled();
   });
@@ -62,13 +62,13 @@ describe('DeleteAccountCommandHandler', () => {
     jest.spyOn(account, 'markAsDeleted');
     jest.spyOn(account, 'pullDomainEvents').mockReturnValue([]);
 
-    mockRepository.get.mockResolvedValue(account);
+    mockRepository.find.mockResolvedValue(account);
 
     // Act
     await commandHandler.handle(command);
 
     // Assert
-    expect(mockRepository.get).toHaveBeenCalledWith(accountId);
+    expect(mockRepository.find).toHaveBeenCalledWith(accountId);
     expect(account.markAsDeleted).toHaveBeenCalled();
     expect(mockRepository.delete).toHaveBeenCalledWith(account);
     expect(mockEventBus.publish).toHaveBeenCalled();

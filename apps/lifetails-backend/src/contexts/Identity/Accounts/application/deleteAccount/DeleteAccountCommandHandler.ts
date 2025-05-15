@@ -18,8 +18,8 @@ export class DeleteAccountCommandHandler implements CommandHandler<DeleteAccount
 
   async handle(command: DeleteAccountCommand): Promise<void> {
     const accountId = new UUID(command.accountId);
-
     const account = await this.getAccount(accountId);
+
     account.markAsDeleted();
 
     await this.repository.delete(account);
@@ -27,7 +27,7 @@ export class DeleteAccountCommandHandler implements CommandHandler<DeleteAccount
   }
 
   private async getAccount(accountId: UUID): Promise<Account> {
-    const account = await this.repository.get(accountId);
+    const account = await this.repository.find(accountId);
     if (!account) {
       throw new AccountNotFoundException();
     }

@@ -112,6 +112,7 @@ describe('Veterinary', () => {
       notes: null,
       createdAt: expect.any(String),
       updatedAt: null,
+      deletedAt: null,
     });
   });
 
@@ -144,6 +145,7 @@ describe('Veterinary', () => {
       notes: notes,
       createdAt: expect.any(String),
       updatedAt: null,
+      deletedAt: null,
     });
   });
 
@@ -223,5 +225,15 @@ describe('Veterinary', () => {
 
     expect(veterinary.getNotes()?.toString()).toBe(newAdditionalInfo);
     expect(veterinary.getUpdatedAt()).not.toBeNull();
+  });
+
+  it('can mark a veterinary as deleted', () => {
+    const id = UUID.create();
+    const name = faker.company.name();
+    const veterinary = Veterinary.create(id, new StringValueObject(name));
+
+    veterinary.markAsDeleted();
+
+    expect(veterinary.getDeletedAt()).not.toBeNull();
   });
 });

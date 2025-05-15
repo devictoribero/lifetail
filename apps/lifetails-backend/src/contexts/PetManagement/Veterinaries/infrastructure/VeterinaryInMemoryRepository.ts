@@ -4,7 +4,6 @@ import { VeterinaryRepository } from '../domain/repositories/VeterinaryRepositor
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 interface InMemoryVeterinary {
-  isDeleted: boolean;
   id: string;
   name: string;
   address: string | null;
@@ -14,6 +13,7 @@ interface InMemoryVeterinary {
   notes: string | null;
   createdAt: string;
   updatedAt: string | null;
+  deletedAt: string | null;
 }
 
 @Injectable()
@@ -24,21 +24,13 @@ export class VeterinaryInMemoryRepository implements VeterinaryRepository {
     const primitives = veterinary.toPrimitives();
     this.veterinaries.set(veterinary.getId().toString(), {
       ...primitives,
-      isDeleted: false,
     } as InMemoryVeterinary);
-  }
-
-  async remove(id: UUID): Promise<void> {
-    const veterinary = this.veterinaries.get(id.toString());
-    if (veterinary) {
-      veterinary.isDeleted = true;
-    }
   }
 
   async find(id: UUID): Promise<Veterinary | null> {
     const veterinary = this.veterinaries.get(id.toString());
 
-    if (!veterinary || veterinary.isDeleted) {
+    if (!veterinary || veterinary.deletedAt) {
       return null;
     }
 
@@ -52,6 +44,7 @@ export class VeterinaryInMemoryRepository implements VeterinaryRepository {
       veterinary.notes,
       new Date(veterinary.createdAt),
       veterinary.updatedAt ? new Date(veterinary.updatedAt) : null,
+      veterinary.deletedAt ? new Date(veterinary.deletedAt) : null,
     );
   }
 }

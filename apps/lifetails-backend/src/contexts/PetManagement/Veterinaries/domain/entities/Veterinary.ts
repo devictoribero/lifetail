@@ -15,6 +15,7 @@ export class Veterinary extends AggregateRoot {
   private notes: StringValueObject | null;
   private createdAt: DateValueObject;
   private updatedAt: DateValueObject | null;
+  private deletedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(
@@ -27,6 +28,7 @@ export class Veterinary extends AggregateRoot {
     notes: StringValueObject | null,
     createdAt: DateValueObject,
     updatedAt: DateValueObject | null = null,
+    deletedAt: DateValueObject | null = null,
   ) {
     super();
     this.ensureValidName(name);
@@ -40,6 +42,7 @@ export class Veterinary extends AggregateRoot {
     this.notes = notes;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.deletedAt = deletedAt;
   }
 
   private ensureValidName(name: StringValueObject): void {
@@ -73,6 +76,7 @@ export class Veterinary extends AggregateRoot {
     notes: string | null,
     createdAt: Date,
     updatedAt: Date | null = null,
+    deletedAt: Date | null = null,
   ) {
     return new Veterinary(
       new UUID(id),
@@ -84,6 +88,7 @@ export class Veterinary extends AggregateRoot {
       notes ? new StringValueObject(notes) : null,
       new DateValueObject(createdAt),
       updatedAt ? new DateValueObject(updatedAt) : null,
+      deletedAt ? new DateValueObject(deletedAt) : null,
     );
   }
 
@@ -123,6 +128,10 @@ export class Veterinary extends AggregateRoot {
     return this.updatedAt;
   }
 
+  public getDeletedAt(): DateValueObject | null {
+    return this.deletedAt;
+  }
+
   public rename(name: StringValueObject): void {
     this.ensureValidName(name);
     this.name = name;
@@ -154,6 +163,10 @@ export class Veterinary extends AggregateRoot {
     this.updatedAt = new DateValueObject(new Date());
   }
 
+  public markAsDeleted(): void {
+    this.deletedAt = new DateValueObject(new Date());
+  }
+
   public toPrimitives(): any {
     return {
       id: this.id.toString(),
@@ -165,6 +178,7 @@ export class Veterinary extends AggregateRoot {
       notes: this.notes?.toString() || null,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt?.toISOString() || null,
+      deletedAt: this.deletedAt?.toISOString() || null,
     };
   }
 }
