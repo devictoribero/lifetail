@@ -49,4 +49,4 @@ import { IdentityModule } from './Identity.module';
     SearchAllPetsGQLQuery,
   ],
 })
-export class PetsModule {}
+export class PetManagementModule {}

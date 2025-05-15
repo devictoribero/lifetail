@@ -5,7 +5,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 
 // Module imports
-import { PetsModule } from './Pets.module';
+import { PetManagementModule } from './PetManagement.module';
 import { LifetailsModule } from './Lifetails.module';
 import { SharedModule } from './Shared.module';
 import { IdentityModule } from './Identity.module';
@@ -27,7 +27,7 @@ import { HealthCheckGQLQuery } from '../graphql/HealthCheckGQLQuery';
     }),
     SharedModule,
     IdentityModule,
-    PetsModule,
+    PetManagementModule,
     LifetailsModule,
   ],
   controllers: [],

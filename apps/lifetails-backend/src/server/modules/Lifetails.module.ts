@@ -18,11 +18,10 @@ import { UpdateLifeMomentGQLMutation } from '../graphql/Lifetail/LifeMoments/upd
 import { SearchLifeMomentsGQLQuery } from '../graphql/Lifetail/LifeMoments/search/SearchLifeMomentsGQLQuery';
 import { GetLifeMomentGQLQuery } from '../graphql/Lifetail/LifeMoments/find/GetLifeMomentGQLQuery';
 import { SharedModule } from './Shared.module';
-import { PetsModule } from './Pets.module';
 import { IdentityModule } from './Identity.module';
 
 @Module({
-  imports: [SharedModule, IdentityModule, PetsModule],
+  imports: [SharedModule, IdentityModule],
   controllers: [],
   providers: [
     {
