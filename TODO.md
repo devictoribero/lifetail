@@ -3,6 +3,7 @@
 
 ## High Priority
 
+- Change default and named constructors to use object parameters
 - Review the error handling and follow best practices
   - Error handling in graphql apis work differently than in rest APIs.
   - I need to return anyhow the code, the error, reason, message, etc. as part of the response.
