@@ -3,7 +3,6 @@ import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pets/applicatio
 import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pets/application/get/GetPetQueryHandler';
 import { GetPetQuery } from 'src/contexts/PetManagement/Pets/application/get/GetPetQuery';
 import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommandHandler';
-import { AddLifeMomentCommand } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommand';
 import { Species } from 'src/contexts/PetManagement/Pets/domain/entities/PetSpecies';
 import { AddPetCommand } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommand';
 import { INestApplication, Logger } from '@nestjs/common';
@@ -15,6 +14,8 @@ import { AuthenticateAccountCommand } from 'src/contexts/Identity/Authentication
 import { CreateUserCommand } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommand';
 import { CreateUserCommandHandler } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommandHandler';
 import { CreateAccountCommandHandler } from 'src/contexts/Identity/Accounts/application/createAccount/CreateAccountCommandHandler';
+import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommandHandler';
+import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommand';
 
 const logger = new Logger('seed-db');
 
@@ -34,9 +35,9 @@ const getCommandHandlers = (app: INestApplication) => {
   const authenticateAccountCommandHandler = app.get(AuthenticateAccountCommandHandler);
   const getUserQueryHandler = app.get(GetUserQueryHandler);
   const addPetCommandHandler = app.get(AddPetCommandHandler);
-
   const getPetQueryHandler = app.get(GetPetQueryHandler);
   const addLifeMomentCommandHandler = app.get(AddLifeMomentCommandHandler);
+  const addVeterinaryCommandHandler = app.get(AddVeterinaryCommandHandler);
 
   return {
     authenticateAccountCommandHandler,
@@ -44,6 +45,7 @@ const getCommandHandlers = (app: INestApplication) => {
     addPetCommandHandler,
     getPetQueryHandler,
     addLifeMomentCommandHandler,
+    addVeterinaryCommandHandler,
   };
 };
 
@@ -81,6 +83,7 @@ export const seedDatabase = async (app: INestApplication) => {
     addPetCommandHandler,
     getPetQueryHandler,
     addLifeMomentCommandHandler,
+    addVeterinaryCommandHandler,
   } = getCommandHandlers(app);
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +126,21 @@ export const seedDatabase = async (app: INestApplication) => {
   await addPetCommandHandler.handle(addPetCommand);
   const pet = await getPetQueryHandler.handle(new GetPetQuery(petId));
   logDomainEvent('Pet added', pet);
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // Add veterinaries
+  const fontblancaVetId = UUID.create().toString();
+  const addFontblancaVetCommand = new AddVeterinaryCommand(
+    fontblancaVetId,
+    'Fontblanca veterinary',
+  );
+  await addVeterinaryCommandHandler.handle(addFontblancaVetCommand);
+  logDomainEvent('Veterinary added', { id: fontblancaVetId, name: 'Fontblanca' });
+
+  const encampVetId = UUID.create().toString();
+  const addEncampVetCommand = new AddVeterinaryCommand(encampVetId, 'Veterinary Encamp');
+  await addVeterinaryCommandHandler.handle(addEncampVetCommand);
+  logDomainEvent('Veterinary added', { id: encampVetId, name: 'Veterinary Encamp' });
 
   // Add life moment for pet
 
