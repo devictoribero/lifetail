@@ -167,6 +167,7 @@ type Mutation {
   removePet(input: RemovePetInput!): RemovePetResponse!
   updateLifeMoment(input: UpdateLifeMomentInput!): UpdateLifeMomentResponse!
   updatePet(input: UpdatePetInput!): UpdatePetResponse!
+  updateVeterinary(input: UpdateVeterinaryInput!): UpdateVeterinaryResponse!
 }
 
 type Pet {
@@ -245,6 +246,20 @@ input UpdatePetInput {
 }
 
 type UpdatePetResponse {
+  id: String!
+}
+
+input UpdateVeterinaryInput {
+  address: String
+  email: String
+  emergencyPhone: String
+  id: String!
+  name: String
+  notes: String
+  primaryPhone: String
+}
+
+type UpdateVeterinaryResponse {
   id: String!
 }
 
