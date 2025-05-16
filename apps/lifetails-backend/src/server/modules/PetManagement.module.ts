@@ -1,30 +1,30 @@
 import { Module } from '@nestjs/common';
 // Application imports
-import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommandHandler';
-import { RemovePetCommandHandler } from 'src/contexts/PetManagement/Pets/application/remove/RemovePetCommandHandler';
-import { UpdatePetCommandHandler } from 'src/contexts/PetManagement/Pets/application/update/UpdatePetCommandHandler';
-import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pets/application/get/GetPetQueryHandler';
-import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommandHandler';
-import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/DeleteVeterinary/DeleteVeterinaryCommandHandler';
-import { UpdateVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/UpdateVeterinary/UpdateVeterinaryCommandHandler';
+import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pet/application/add/AddPetCommandHandler';
+import { RemovePetCommandHandler } from 'src/contexts/PetManagement/Pet/application/remove/RemovePetCommandHandler';
+import { UpdatePetCommandHandler } from 'src/contexts/PetManagement/Pet/application/update/UpdatePetCommandHandler';
+import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pet/application/get/GetPetQueryHandler';
+import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommandHandler';
+import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/DeleteVeterinary/DeleteVeterinaryCommandHandler';
+import { UpdateVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/UpdateVeterinary/UpdateVeterinaryCommandHandler';
 // Infrastructure imports
-import { PetInMemoryRepository } from 'src/contexts/PetManagement/Pets/infrastructure/PetInMemoryRepository';
-import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterinaries/infrastructure/VeterinaryInMemoryRepository';
+import { PetInMemoryRepository } from 'src/contexts/PetManagement/Pet/infrastructure/PetInMemoryRepository';
+import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterinary/infrastructure/VeterinaryInMemoryRepository';
 // Domain imports
-import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pets/application/searchAll/SearchAllPetsQueryHandler';
-import { PET_REPOSITORY } from 'src/contexts/PetManagement/Pets/domain/repositories/PetRepository';
-import { VETERINARY_REPOSITORY } from 'src/contexts/PetManagement/Veterinaries/domain/repositories/VeterinaryRepository';
-import { AddPetGQLMutation } from '../graphql/PetManagement/Pets/add/AddPetGQLMutation';
-import { RemovePetGQLMutation } from '../graphql/PetManagement/Pets/remove/RemovePetGQLMutation';
-import { UpdatePetGQLMutation } from '../graphql/PetManagement/Pets/update/UpdatePetGQLMutation';
-import { GetPetGQLQuery } from '../graphql/PetManagement/Pets/find/GetPetGQLQuery';
-import { SearchAllPetsGQLQuery } from '../graphql/PetManagement/Pets/searchAll/SearchAllPetsGQLQuery';
+import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pet/application/searchAll/SearchAllPetsQueryHandler';
+import { PET_REPOSITORY } from 'src/contexts/PetManagement/Pet/domain/repositories/PetRepository';
+import { VETERINARY_REPOSITORY } from 'src/contexts/PetManagement/Veterinary/domain/repositories/VeterinaryRepository';
+import { AddPetGQLMutation } from '../graphql/PetManagement/Pet/add/AddPetGQLMutation';
+import { RemovePetGQLMutation } from '../graphql/PetManagement/Pet/remove/RemovePetGQLMutation';
+import { UpdatePetGQLMutation } from '../graphql/PetManagement/Pet/update/UpdatePetGQLMutation';
+import { GetPetGQLQuery } from '../graphql/PetManagement/Pet/find/GetPetGQLQuery';
+import { SearchAllPetsGQLQuery } from '../graphql/PetManagement/Pet/searchAll/SearchAllPetsGQLQuery';
 import { AddVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary/add/AddVeterinaryGQLMutation';
 import { DeleteVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary/delete/DeleteVeterinaryGQLMutation';
 import { UpdateVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary/update/UpdateVeterinaryGQLMutation';
 import { SharedModule } from './Shared.module';
 import { IdentityModule } from './Identity.module';
-import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinaries/application/GetVeterinary/GetVeterinaryQueryHandler';
+import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQueryHandler';
 import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/GetVeterinaryGQLQuery';
 
 @Module({

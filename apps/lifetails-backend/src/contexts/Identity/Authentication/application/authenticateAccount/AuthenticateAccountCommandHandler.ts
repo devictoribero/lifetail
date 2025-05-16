@@ -1,12 +1,12 @@
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
-import { Account } from '../../../Accounts/domain/entities/Account';
+import { Account } from '../../../Account/domain/entities/Account';
 import { InvalidCredentialsException } from '../../domain/exceptions/InvalidCredentialsException';
-import { AccountRepository } from '../../../Accounts/domain/repositories/AccountRepository';
+import { AccountRepository } from '../../../Account/domain/repositories/AccountRepository';
 import { PasswordHasher } from '../../domain/services/PasswordHasher';
 import { AuthenticateAccountCommand } from './AuthenticateAccountCommand';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { Injectable, Inject } from '@nestjs/common';
-import { ACCOUNT_REPOSITORY } from '../../../Accounts/domain/repositories/AccountRepository';
+import { ACCOUNT_REPOSITORY } from '../../../Account/domain/repositories/AccountRepository';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
 

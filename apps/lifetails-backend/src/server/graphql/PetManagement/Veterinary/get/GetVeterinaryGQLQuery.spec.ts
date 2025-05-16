@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
 import { GetVeterinaryGQLQuery } from './GetVeterinaryGQLQuery';
-import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinaries/application/GetVeterinary/GetVeterinaryQueryHandler';
+import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQueryHandler';
 import { GetVeterinaryInput } from './GetVeterinaryInput';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { Veterinary } from 'src/contexts/PetManagement/Veterinaries/domain/entities/Veterinary';
-import { VeterinaryNotFoundException } from 'src/contexts/PetManagement/Veterinaries/domain/exceptions/VeterinaryNotFoundException';
+import { Veterinary } from 'src/contexts/PetManagement/Veterinary/domain/entities/Veterinary';
+import { VeterinaryNotFoundException } from 'src/contexts/PetManagement/Veterinary/domain/exceptions/VeterinaryNotFoundException';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { Reflector } from '@nestjs/core';
 

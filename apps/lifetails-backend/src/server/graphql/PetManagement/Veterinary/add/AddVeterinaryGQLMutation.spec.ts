@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
 import { AddVeterinaryGQLMutation } from './AddVeterinaryGQLMutation';
-import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommandHandler';
+import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommandHandler';
 import { AddVeterinaryInput } from './AddVeterinaryInput';
-import { VeterinaryNameTooShortException } from 'src/contexts/PetManagement/Veterinaries/domain/exceptions/VeterinaryNameTooShortException';
+import { VeterinaryNameTooShortException } from 'src/contexts/PetManagement/Veterinary/domain/exceptions/VeterinaryNameTooShortException';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { Reflector } from '@nestjs/core';
 

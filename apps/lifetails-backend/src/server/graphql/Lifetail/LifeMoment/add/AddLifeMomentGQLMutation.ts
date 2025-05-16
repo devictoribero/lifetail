@@ -1,0 +1,37 @@
+import { Args, Mutation, Resolver, Context } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
+import { AddLifeMomentResponse } from './AddLifeMomentResponse';
+import { AddLifeMomentInput } from './AddLifeMomentInput';
+import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoment/application/add/AddLifeMomentCommandHandler';
+import { AddLifeMomentCommand } from 'src/contexts/Lifetails/LifeMoment/application/add/AddLifeMomentCommand';
+import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
+
+@Resolver()
+@UseGuards(AuthenticationRequired)
+export class AddLifeMomentGQLMutation {
+  constructor(private readonly commandHandler: AddLifeMomentCommandHandler) {}
+
+  @Mutation(() => AddLifeMomentResponse)
+  async addLifeMoment(
+    @Args('input') input: AddLifeMomentInput,
+    @Context() context: any,
+  ): Promise<AddLifeMomentResponse> {
+    try {
+      const createdBy = context.req.user.id;
+      const now = input.occurredOn ? new Date(input.occurredOn) : new Date();
+      const command = new AddLifeMomentCommand(
+        input.id,
+        input.type,
+        input.petId,
+        createdBy,
+        now,
+        input.description,
+      );
+      await this.commandHandler.handle(command);
+
+      return { id: input.id };
+    } catch (error) {
+      throw new Error(error.message ?? 'Error adding life moment');
+    }
+  }
+}

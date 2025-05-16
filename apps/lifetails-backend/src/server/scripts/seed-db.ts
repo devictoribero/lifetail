@@ -1,23 +1,23 @@
 import { faker } from '@faker-js/faker';
-import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommandHandler';
-import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pets/application/get/GetPetQueryHandler';
-import { GetPetQuery } from 'src/contexts/PetManagement/Pets/application/get/GetPetQuery';
-import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoments/application/add/AddLifeMomentCommandHandler';
-import { Species } from 'src/contexts/PetManagement/Pets/domain/entities/PetSpecies';
-import { AddPetCommand } from 'src/contexts/PetManagement/Pets/application/add/AddPetCommand';
+import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pet/application/add/AddPetCommandHandler';
+import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pet/application/get/GetPetQueryHandler';
+import { GetPetQuery } from 'src/contexts/PetManagement/Pet/application/get/GetPetQuery';
+import { AddLifeMomentCommandHandler } from 'src/contexts/Lifetails/LifeMoment/application/add/AddLifeMomentCommandHandler';
+import { Species } from 'src/contexts/PetManagement/Pet/domain/entities/PetSpecies';
+import { AddPetCommand } from 'src/contexts/PetManagement/Pet/application/add/AddPetCommand';
 import { INestApplication, Logger } from '@nestjs/common';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
-import { GetUserQuery } from 'src/contexts/Identity/Users/application/getUser/GetUserQuery';
-import { GetUserQueryHandler } from 'src/contexts/Identity/Users/application/getUser/GetUserQueryHandler';
+import { GetUserQuery } from 'src/contexts/Identity/User/application/getUser/GetUserQuery';
+import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/getUser/GetUserQueryHandler';
 import { AuthenticateAccountCommand } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
-import { CreateUserCommand } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommand';
-import { CreateUserCommandHandler } from 'src/contexts/Identity/Users/application/createUser/CreateUserCommandHandler';
-import { CreateAccountCommandHandler } from 'src/contexts/Identity/Accounts/application/createAccount/CreateAccountCommandHandler';
-import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommandHandler';
-import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinaries/application/AddVeterinary/AddVeterinaryCommand';
-import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinaries/application/GetVeterinary/GetVeterinaryQueryHandler';
-import { GetVeterinaryQuery } from 'src/contexts/PetManagement/Veterinaries/application/GetVeterinary/GetVeterinaryQuery';
+import { CreateUserCommand } from 'src/contexts/Identity/User/application/createUser/CreateUserCommand';
+import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/createUser/CreateUserCommandHandler';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/application/createAccount/CreateAccountCommandHandler';
+import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommandHandler';
+import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommand';
+import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQueryHandler';
+import { GetVeterinaryQuery } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQuery';
 
 const logger = new Logger('seed-db');
 
