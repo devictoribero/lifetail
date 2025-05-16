@@ -1,7 +1,7 @@
 import { DomainException } from './DomainException';
 
 export class UnsupportedGenderException extends DomainException {
-  readonly code = 'INVALID_GENDER';
+  readonly code = 'UNSUPPORTED_GENDER';
 
   constructor(gender: string) {
     super(`${gender} is not a valid gender.`);

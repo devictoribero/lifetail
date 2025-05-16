@@ -1,12 +1,12 @@
-import { InvalidGenderException } from './InvalidGenderException';
+import { UnsupportedGenderException } from './UnsupportedGenderException';
 
-describe('InvalidGenderException', () => {
-  it('should be an instance of InvalidGenderException', () => {
-    const error = new InvalidGenderException('invalid-gender');
+describe('UnsupportedGenderException', () => {
+  it('should be an instance of UnsupportedGenderException', () => {
+    const error = new UnsupportedGenderException('invalid-gender');
 
-    expect(error).toBeInstanceOf(InvalidGenderException);
-    expect(error.name).toBe('InvalidGenderException');
-    expect(error.code).toBe('INVALID_GENDER');
+    expect(error).toBeInstanceOf(UnsupportedGenderException);
+    expect(error.name).toBe('UnsupportedGenderException');
+    expect(error.code).toBe('UNSUPPORTED_GENDER');
     expect(error.message).toBe('invalid-gender is not a valid gender.');
   });
 });

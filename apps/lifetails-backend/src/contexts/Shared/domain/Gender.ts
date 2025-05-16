@@ -1,4 +1,4 @@
-import { InvalidGenderException } from './exceptions/InvalidGenderException';
+import { UnsupportedGenderException } from './exceptions/UnsupportedGenderException';
 
 export enum GenderEnum {
   Male = 'Male',
@@ -16,7 +16,7 @@ export class Gender {
     const gender = this.fromPrimitives(value);
 
     if (!gender) {
-      throw new InvalidGenderException(value);
+      throw new UnsupportedGenderException(value);
     }
 
     return gender;
@@ -26,7 +26,7 @@ export class Gender {
     const gender = this.types.find((gender) => gender.value === value);
 
     if (!gender) {
-      throw new InvalidGenderException(value);
+      throw new UnsupportedGenderException(value);
     }
 
     return gender;

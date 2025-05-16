@@ -1,4 +1,4 @@
-import { InvalidGenderException } from './exceptions/InvalidGenderException';
+import { UnsupportedGenderException } from './exceptions/UnsupportedGenderException';
 import { Gender, GenderEnum } from './Gender';
 
 const SUPPORTED_GENDERS = [
@@ -9,10 +9,10 @@ const SUPPORTED_GENDERS = [
 describe('Gender', () => {
   SUPPORTED_GENDERS.forEach((gender) => {
     describe(`${gender.name} gender`, () => {
-      it('should throw an InvalidGenderException when creating from invalid code', () => {
+      it('should throw an UnsupportedGenderException when creating from invalid code', () => {
         expect(() => {
           Gender.fromPrimitives('invalid-gender');
-        }).toThrow(InvalidGenderException);
+        }).toThrow(UnsupportedGenderException);
       });
 
       it(`should define ${gender.name} with code "${gender.code}"`, () => {
