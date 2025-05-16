@@ -73,7 +73,7 @@ describe('DeleteVeterinaryGQLMutation', () => {
 
     // Act & Assert
     await expect(mutation.deleteVeterinary(input)).rejects.toThrow(
-      `Veterinary not found: ${input.id}`,
+      new VeterinaryNotFoundException().message,
     );
   });
 

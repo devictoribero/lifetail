@@ -6,7 +6,7 @@ describe('InvalidCredentialsException', () => {
 
     expect(exception).toBeInstanceOf(InvalidCredentialsException);
     expect(exception.name).toBe('InvalidCredentialsException');
-    expect(exception.reason).toBe('INVALID_CREDENTIALS');
+    expect(exception.code).toBe('INVALID_CREDENTIALS');
     expect(exception.message).toBe('Invalid email or password');
   });
 });

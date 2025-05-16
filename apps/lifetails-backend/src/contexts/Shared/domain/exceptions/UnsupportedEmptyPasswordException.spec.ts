@@ -6,7 +6,7 @@ describe('UnsupportedEmptyPasswordException', () => {
 
     expect(error).toBeInstanceOf(UnsupportedEmptyPasswordException);
     expect(error.name).toBe('UnsupportedEmptyPasswordException');
-    expect(error.reason).toBe('UNSUPPORTED_EMPTY_PASSWORD');
+    expect(error.code).toBe('UNSUPPORTED_EMPTY_PASSWORD');
     expect(error.message).toBe('Unsupported empty password.');
   });
 });

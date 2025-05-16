@@ -6,7 +6,7 @@ describe('UnsupportedEmptyStringException', () => {
 
     expect(exception).toBeInstanceOf(Error);
     expect(exception.name).toBe('UnsupportedEmptyStringException');
-    expect(exception.reason).toBe('UNSUPPORTED_EMPTY_STRING');
+    expect(exception.code).toBe('UNSUPPORTED_EMPTY_STRING');
     expect(exception.message).toBe('Unsupported empty string');
   });
 });

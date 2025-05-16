@@ -9,7 +9,7 @@ describe('UnsupportedLifeThemeException', () => {
 
     expect(exception).toBeInstanceOf(UnsupportedLifeThemeException);
     expect(exception.name).toBe('UnsupportedLifeThemeException');
-    expect(exception.reason).toBe('UNSUPPORTED_LIFE_THEME');
+    expect(exception.code).toBe('UNSUPPORTED_LIFE_THEME');
     expect(exception.message).toBe('Unsupported life theme: invalid-theme-value');
   });
 });

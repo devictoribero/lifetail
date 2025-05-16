@@ -6,7 +6,7 @@ describe('PasswordTooShortException', () => {
 
     expect(error).toBeInstanceOf(PasswordTooShortException);
     expect(error.name).toBe('PasswordTooShortException');
-    expect(error.reason).toBe('PASSWORD_TOO_SHORT');
+    expect(error.code).toBe('PASSWORD_TOO_SHORT');
     expect(error.message).toBe('Password too short. Minimum length is 8.');
   });
 });

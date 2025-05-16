@@ -6,7 +6,7 @@ describe('UserAlreadyExistsException', () => {
 
     expect(exception).toBeInstanceOf(UserAlreadyExistsException);
     expect(exception.name).toBe('UserAlreadyExistsException');
-    expect(exception.reason).toBe('USER_ALREADY_EXISTS');
+    expect(exception.code).toBe('USER_ALREADY_EXISTS');
     expect(exception.message).toBe('User already exists');
   });
 });

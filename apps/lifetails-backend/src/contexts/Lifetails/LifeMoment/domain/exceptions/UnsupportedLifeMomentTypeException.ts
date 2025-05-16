@@ -2,7 +2,7 @@ import { DomainException } from 'src/contexts/Shared/domain/exceptions/DomainExc
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 export class UnsupportedLifeMomentTypeException extends DomainException {
-  readonly reason = 'UNSUPPORTED_LIFE_MOMENT_TYPE';
+  readonly code = 'UNSUPPORTED_LIFE_MOMENT_TYPE';
 
   constructor(lifeMomentType: StringValueObject) {
     super(`Unsupported life moment type: ${lifeMomentType.toString()}`);

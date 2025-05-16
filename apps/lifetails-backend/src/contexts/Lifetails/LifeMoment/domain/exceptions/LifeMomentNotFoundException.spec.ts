@@ -7,7 +7,7 @@ describe('LifeMomentNotFoundException', () => {
 
     expect(exception).toBeInstanceOf(LifeMomentNotFoundException);
     expect(exception.name).toBe('LifeMomentNotFoundException');
-    expect(exception.reason).toBe('LIFE_MOMENT_NOT_FOUND');
+    expect(exception.code).toBe('LIFE_MOMENT_NOT_FOUND');
     expect(exception.message).toBe('Life moment not found');
   });
 });

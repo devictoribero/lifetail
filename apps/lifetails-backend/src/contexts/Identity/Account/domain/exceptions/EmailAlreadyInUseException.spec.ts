@@ -6,7 +6,7 @@ describe('EmailAlreadyInUseException', () => {
 
     expect(exception).toBeInstanceOf(EmailAlreadyInUseException);
     expect(exception.name).toBe('EmailAlreadyInUseException');
-    expect(exception.reason).toBe('EMAIL_ALREADY_IN_USE');
+    expect(exception.code).toBe('EMAIL_ALREADY_IN_USE');
     expect(exception.message).toBe('Email is already in use');
   });
 });

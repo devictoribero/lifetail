@@ -5,7 +5,7 @@ describe('MaxNumberOfPetsReachedException', () => {
     const exception = new MaxNumberOfPetsReachedException();
 
     expect(exception).toBeInstanceOf(MaxNumberOfPetsReachedException);
-    expect(exception.reason).toBe('MAX_NUMBER_OF_PETS_REACHED');
+    expect(exception.code).toBe('MAX_NUMBER_OF_PETS_REACHED');
     expect(exception.message).toBe('Max number of pets reached');
     expect(exception.name).toBe('MaxNumberOfPetsReachedException');
   });

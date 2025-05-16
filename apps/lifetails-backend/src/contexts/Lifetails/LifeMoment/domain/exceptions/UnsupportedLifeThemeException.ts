@@ -2,7 +2,7 @@ import { DomainException } from 'src/contexts/Shared/domain/exceptions/DomainExc
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 export class UnsupportedLifeThemeException extends DomainException {
-  readonly reason = 'UNSUPPORTED_LIFE_THEME';
+  readonly code = 'UNSUPPORTED_LIFE_THEME';
 
   constructor(theme: StringValueObject) {
     super(`Unsupported life theme: ${theme.toString()}`);

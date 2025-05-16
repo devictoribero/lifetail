@@ -59,7 +59,9 @@ describe('CreateAccountGQLMutation', () => {
     commandHandler.handle = jest.fn().mockRejectedValue(new EmailAlreadyInUseException());
 
     // Act & Assert
-    await expect(mutation.createAccount(input)).rejects.toThrow('Email already in use');
+    await expect(mutation.createAccount(input)).rejects.toThrow(
+      new EmailAlreadyInUseException().message,
+    );
     expect(commandHandler.handle).toHaveBeenCalledWith(
       expect.objectContaining({
         email: input.email,

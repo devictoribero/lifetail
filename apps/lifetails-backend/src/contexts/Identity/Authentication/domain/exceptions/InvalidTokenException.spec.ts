@@ -6,7 +6,7 @@ describe('InvalidTokenException', () => {
 
     expect(exception).toBeInstanceOf(InvalidTokenException);
     expect(exception.name).toBe('InvalidTokenException');
-    expect(exception.reason).toBe('INVALID_TOKEN');
+    expect(exception.code).toBe('INVALID_TOKEN');
     expect(exception.message).toBe('Invalid token');
   });
 });

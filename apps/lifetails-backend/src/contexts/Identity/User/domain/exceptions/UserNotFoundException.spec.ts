@@ -6,7 +6,7 @@ describe('UserNotFoundException', () => {
 
     expect(exception).toBeInstanceOf(UserNotFoundException);
     expect(exception.name).toBe('UserNotFoundException');
-    expect(exception.reason).toBe('USER_NOT_FOUND');
+    expect(exception.code).toBe('USER_NOT_FOUND');
     expect(exception.message).toBe('User not found');
   });
 });

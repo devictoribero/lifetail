@@ -6,7 +6,7 @@ describe('AccountNotFoundException', () => {
 
     expect(exception).toBeInstanceOf(AccountNotFoundException);
     expect(exception.name).toBe('AccountNotFoundException');
-    expect(exception.reason).toBe('ACCOUNT_NOT_FOUND');
+    expect(exception.code).toBe('ACCOUNT_NOT_FOUND');
     expect(exception.message).toBe('Account not found');
   });
 });

@@ -7,7 +7,7 @@ describe('UnsupportedPetSpeciesException', () => {
     const exception = new UnsupportedPetSpeciesException(new StringValueObject('InvalidSpecies'));
 
     expect(exception).toBeInstanceOf(UnsupportedPetSpeciesException);
-    expect(exception.reason).toBe('UNSUPPORTED_PET_SPECIES');
+    expect(exception.code).toBe('UNSUPPORTED_PET_SPECIES');
     expect(exception.message).toBe('Unsupported pet species: InvalidSpecies');
   });
 });

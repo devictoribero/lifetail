@@ -95,7 +95,9 @@ describe('GetVeterinaryGQLQuery', () => {
     queryHandler.handle.mockRejectedValue(new VeterinaryNotFoundException());
 
     // Act & Assert
-    await expect(query.getVeterinary(input)).rejects.toThrow(`Veterinary not found: ${id}`);
+    await expect(query.getVeterinary(input)).rejects.toThrow(
+      new VeterinaryNotFoundException().message,
+    );
   });
 
   it('should propagate unexpected errors', async () => {

@@ -10,11 +10,10 @@ export class GraphQLExceptionFilter implements ExceptionFilter {
     const gqlHost = GqlArgumentsHost.create(host);
 
     // 1. Handle domain exceptions
-    if (exception?.reason) {
+    if (exception?.code) {
       return new GraphQLError(exception.message, {
         extensions: {
           code: exception.code,
-          reason: exception.reason,
           name: exception.name ?? exception.constructor.name,
         },
       });

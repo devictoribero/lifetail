@@ -7,7 +7,7 @@ describe('UnsupportedLifeMomentTypeException', () => {
 
     expect(exception).toBeInstanceOf(UnsupportedLifeMomentTypeException);
     expect(exception.name).toBe('UnsupportedLifeMomentTypeException');
-    expect(exception.reason).toBe('UNSUPPORTED_LIFE_MOMENT_TYPE');
+    expect(exception.code).toBe('UNSUPPORTED_LIFE_MOMENT_TYPE');
     expect(exception.message).toBe('Unsupported life moment type: InvalidType');
   });
 });

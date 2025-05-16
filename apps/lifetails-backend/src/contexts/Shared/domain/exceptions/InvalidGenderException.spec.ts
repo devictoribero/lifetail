@@ -6,7 +6,7 @@ describe('InvalidGenderException', () => {
 
     expect(error).toBeInstanceOf(InvalidGenderException);
     expect(error.name).toBe('InvalidGenderException');
-    expect(error.reason).toBe('INVALID_GENDER');
+    expect(error.code).toBe('INVALID_GENDER');
     expect(error.message).toBe('invalid-gender is not a valid gender.');
   });
 });
