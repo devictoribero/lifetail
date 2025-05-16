@@ -32,3 +32,4 @@ This set of rules enforces a clean architecture aligned with Domain-Driven Desig
 - Protect entity invariants within the domain model
 - Use domain-specific terminology in your code
 - No direct database access from domain layer
+- Use Exception over Error.

@@ -1,0 +1,86 @@
+---
+description:
+globs: *.spec.ts
+alwaysApply: false
+---
+# Testing Guidelines
+
+## Rationale
+
+This rule ensures tests follow consistent guidelines, improving code quality and making it easier to write reliable, meaningful tests. Standardized practices also help reduce bugs and simplify maintenance.
+
+---
+
+## Test Types
+
+### Unit Tests
+
+#### Purpose
+
+Validate logic in isolation, with no side effects or framework dependencies. These tests should cover:
+
+- Aggregate roots, entities, value objects and exceptions in the domain
+- Command and query handlers, with repositories mocked.
+
+#### Constraints
+
+- Test files should follow `*.spec.ts` naming convention
+- Must not rely on NestJS, decorators, or framework-level helpers
+- All dependencies (e.g., repositories) must be instantiated manually
+- Use the `faker` library to generate realistic and varied test values
+- One `describe` block per unit (e.g., per handler or aggregate)
+- Mocks must simulate meaningful domain behaviors (not just dummy data)
+- Prefer using the named constructor `create` over `new` unless it's necessary.
+- Prefer using domain methods (e.g., entity methods) over directly manipulating primitives
+  - Treat entities and value objects as first-class citizens
+  - Avoid setting internal state directly — test through commands or method calls that reflect domain behavior
+
+#### Structure
+
+- Use `Given/When/Then` format
+- Always test in the following order:
+  1. Errors (e.g., domain violations, missing entities)
+  2. Edge cases (e.g., boundary values)
+  3. Happy paths
+
+#### Example
+
+```ts
+describe('User', () => {
+  it('can be renamed', () => {
+    const id = UUID.generate();
+    const accountId = UUID.generate();
+    const nickname = new StringValueObject(faker.person.firstName());
+    const user = User.create({ id, accountId, nickname });
+
+    const newNickname = new StringValueObject(faker.person.firstName());
+    user.rename(newNickname);
+
+    expect(user).toBeDefined();
+    expect(user).toBeInstanceOf(User);
+    expect(user.getId()).toBe(id);
+    expect(user.getNickname().equals(newNickname)).toBe(true);
+  });
+});
+```
+
+## Consistency Rules
+
+### Order of Assertions
+
+- Always test in the following order:
+  1. Errors
+  2. Edge cases
+  3. Happy paths
+
+### Behavior Over Data
+
+- Focus tests on **domain behavior**, not raw data
+- Avoid testing implementation details or direct property values unless they represent domain outcomes
+- Prefer:
+  ✅ `expect(user.isActive()).toBe(true)`
+  ❌ `expect(user.status).toBe('ACTIVE')` (unless status is a core domain concept)
+- Use domain language in test descriptions and assertions
+- Test names should be descriptive, not generic
+  ✅ `should throw when user already exists`
+  ❌ `should throw`

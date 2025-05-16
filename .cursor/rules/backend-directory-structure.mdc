@@ -14,7 +14,7 @@ The application must follow the layered architecture pattern and organize its co
 - src/ (Root source directory containing all application code)
   - contexts/ (Organizes code by business domains/bounded contexts)
     - Lifetails/ (Main bounded context for the pet lifecycle application)
-      - [module]/ (Domain-specific module, e.g., Authentication, Pets, Users)
+      - [module]/ (Domain-specific module, e.g., Authentication, Pet, User)
         - application/ (Use cases and application services for this module)
           - [commandHandler]/ (Specific use case implementation)
             - [commandHandler]Command.ts (DTO defining the data needed for the write operation)
@@ -42,6 +42,7 @@ Each directory must be present if it is relevant to the application's scope.
 
 ## Best Practices
 - Each module represents an aggregate root.
+- The name of the module should always be in singular
 - Keep layers **independent**. The domain layer should not depend on application or infrastructure.
 - Avoid mixing concerns (e.g., no business logic inside controllers).
 - Place shared code (e.g., types, constants) in clearly named `shared/` folders at the layer-appropriate level.
