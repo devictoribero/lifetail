@@ -1,14 +1,12 @@
 import { InvalidLanguageException } from './InvalidLanguageException';
 
 describe('InvalidLanguageException', () => {
-  it('should be defined', () => {
-    expect(InvalidLanguageException).toBeDefined();
-  });
-
   it('should be an instance of InvalidLanguageException', () => {
     const error = new InvalidLanguageException('invalid-language');
 
     expect(error).toBeInstanceOf(InvalidLanguageException);
-    expect(error.message).toBe('The language <invalid-language> is not supported.');
+    expect(error.name).toBe('InvalidLanguageException');
+    expect(error.reason).toBe('INVALID_LANGUAGE');
+    expect(error.message).toBe('invalid-language is not a valid language.');
   });
 });

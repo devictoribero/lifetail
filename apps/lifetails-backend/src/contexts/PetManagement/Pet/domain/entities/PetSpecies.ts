@@ -1,4 +1,4 @@
-import { InvalidPetSpeciesException } from 'src/contexts/PetManagement/Pet/domain/exceptions/InvalidSpeciesException';
+import { UnsupportedPetSpeciesException } from 'src/contexts/PetManagement/Pet/domain/exceptions/UnsupportedPetSpeciesException';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 export class Species extends StringValueObject {
@@ -17,7 +17,7 @@ export class Species extends StringValueObject {
     const species = Species.All.find((species) => species.equals(petSpecies));
 
     if (!species) {
-      throw new InvalidPetSpeciesException(new StringValueObject(value));
+      throw new UnsupportedPetSpeciesException(new StringValueObject(value));
     }
 
     return species;

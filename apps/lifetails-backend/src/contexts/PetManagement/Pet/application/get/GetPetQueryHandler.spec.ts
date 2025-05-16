@@ -28,9 +28,7 @@ describe('GetPetQueryHandler', () => {
     const query = new GetPetQuery(nonExistentId);
 
     // Act & Assert
-    await expect(queryHandler.handle(query)).rejects.toThrow(
-      new PetNotFoundException(new UUID(nonExistentId)),
-    );
+    await expect(queryHandler.handle(query)).rejects.toThrow(new PetNotFoundException());
   });
 
   it('should get a pet', async () => {

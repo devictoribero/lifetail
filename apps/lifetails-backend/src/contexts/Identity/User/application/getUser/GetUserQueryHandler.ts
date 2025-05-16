@@ -15,7 +15,7 @@ export class GetUserQueryHandler implements QueryHandler<GetUserQuery, User> {
     const user = await this.getUserService.execute(accountId);
 
     if (!user) {
-      throw new UserNotFoundException(accountId.toString());
+      throw new UserNotFoundException();
     }
 
     return user;

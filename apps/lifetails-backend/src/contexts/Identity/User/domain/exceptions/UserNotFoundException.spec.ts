@@ -2,10 +2,11 @@ import { UserNotFoundException } from './UserNotFoundException';
 
 describe('UserNotFoundException', () => {
   it('should create an instance of UserNotFoundException', () => {
-    const accountId = '1';
-    const exception = new UserNotFoundException(accountId);
+    const exception = new UserNotFoundException();
 
-    expect(exception).toBeInstanceOf(Error);
-    expect(exception.message).toBe(`User of account ID ${accountId} not found`);
+    expect(exception).toBeInstanceOf(UserNotFoundException);
+    expect(exception.name).toBe('UserNotFoundException');
+    expect(exception.reason).toBe('USER_NOT_FOUND');
+    expect(exception.message).toBe('User not found');
   });
 });

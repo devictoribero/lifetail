@@ -30,7 +30,7 @@ export class ChangeUserPreferredLanguageCommandHandler
     const user = await this.userRepository.getById(userId);
 
     if (!user) {
-      throw new UserNotFoundException(userId.toString());
+      throw new UserNotFoundException();
     }
 
     return user;

@@ -8,9 +8,7 @@ describe('PasswordHashValueObject', () => {
   });
 
   it('should throw PasswordTooShortException if the password hash is too short', () => {
-    expect(() => new PasswordHashValueObject('short')).toThrow(
-      new PasswordTooShortException('short'),
-    );
+    expect(() => new PasswordHashValueObject('short')).toThrow(new PasswordTooShortException(8));
   });
 
   it('should create a value object from a string', () => {

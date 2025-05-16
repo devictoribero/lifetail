@@ -2,10 +2,11 @@ import { UserAlreadyExistsException } from './UserAlreadyExistsException';
 
 describe('UserAlreadyExistsException', () => {
   it('should create an instance of UserAlreadyExistsException', () => {
-    const accountId = '1';
-    const exception = new UserAlreadyExistsException(accountId);
+    const exception = new UserAlreadyExistsException();
 
-    expect(exception).toBeInstanceOf(Error);
-    expect(exception.message).toBe(`User of account ID ${accountId} already exists`);
+    expect(exception).toBeInstanceOf(UserAlreadyExistsException);
+    expect(exception.name).toBe('UserAlreadyExistsException');
+    expect(exception.reason).toBe('USER_ALREADY_EXISTS');
+    expect(exception.message).toBe('User already exists');
   });
 });

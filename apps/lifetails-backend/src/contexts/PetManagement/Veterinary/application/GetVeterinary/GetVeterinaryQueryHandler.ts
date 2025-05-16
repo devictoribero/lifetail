@@ -21,7 +21,7 @@ export class GetVeterinaryQueryHandler implements QueryHandler<GetVeterinaryQuer
     const veterinary = await this.repository.find(id);
 
     if (!veterinary) {
-      throw new VeterinaryNotFoundException(id);
+      throw new VeterinaryNotFoundException();
     }
 
     return veterinary;

@@ -36,7 +36,7 @@ export class CreateUserCommandHandler implements CommandHandler<CreateUserComman
     const existingUser = await this.getUserService.execute(accountId);
 
     if (existingUser) {
-      throw new UserAlreadyExistsException(accountId.toString());
+      throw new UserAlreadyExistsException();
     }
   }
 }

@@ -50,7 +50,7 @@ export class UpdatePetCommandHandler implements CommandHandler<UpdatePetCommand>
   private async getPet(petId: UUID): Promise<Pet> {
     const pet = await this.repository.find(petId);
     if (!pet) {
-      throw new PetNotFoundException(petId);
+      throw new PetNotFoundException();
     }
 
     return pet;

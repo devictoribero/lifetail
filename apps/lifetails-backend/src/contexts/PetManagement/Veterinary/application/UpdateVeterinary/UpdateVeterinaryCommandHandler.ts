@@ -61,7 +61,7 @@ export class UpdateVeterinaryCommandHandler implements CommandHandler<UpdateVete
   private async getVeterinary(id: UUID): Promise<Veterinary> {
     const veterinary = await this.repository.find(id);
     if (!veterinary) {
-      throw new VeterinaryNotFoundException(id);
+      throw new VeterinaryNotFoundException();
     }
     return veterinary;
   }

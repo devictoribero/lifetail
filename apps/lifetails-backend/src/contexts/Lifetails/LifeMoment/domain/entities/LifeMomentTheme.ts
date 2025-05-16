@@ -1,4 +1,4 @@
-import { InvalidLifeThemeException } from '../exceptions/InvalidLifeThemeException';
+import { UnsupportedLifeThemeException } from '../exceptions/UnsupportedLifeThemeException';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 
 export class LifeMomentTheme extends StringValueObject {
@@ -9,7 +9,7 @@ export class LifeMomentTheme extends StringValueObject {
   public static fromPrimitives(value: string): LifeMomentTheme {
     const theme = LifeMomentTheme.types.find((type) => type.value === value);
     if (!theme) {
-      throw new InvalidLifeThemeException(new StringValueObject(value));
+      throw new UnsupportedLifeThemeException(new StringValueObject(value));
     }
     return theme;
   }

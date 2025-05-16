@@ -19,7 +19,7 @@ export class GetPetQueryHandler implements QueryHandler<GetPetQuery, Pet> {
     const pet = await this.repository.find(id);
 
     if (!pet) {
-      throw new PetNotFoundException(id);
+      throw new PetNotFoundException();
     }
 
     return pet;

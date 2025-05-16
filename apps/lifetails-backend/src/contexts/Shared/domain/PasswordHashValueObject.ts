@@ -3,6 +3,8 @@ import { UnsupportedEmptyPasswordException } from './exceptions/UnsupportedEmpty
 import { ValueObject } from './ValueObject';
 
 export class PasswordHashValueObject extends ValueObject<string> {
+  static readonly MIN_LENGTH = 8;
+
   constructor(value: string) {
     super(value);
     this.ensureValidPasswordHash(value);
@@ -13,8 +15,8 @@ export class PasswordHashValueObject extends ValueObject<string> {
       throw new UnsupportedEmptyPasswordException();
     }
 
-    if (value.length < 8) {
-      throw new PasswordTooShortException(value);
+    if (value.length < PasswordHashValueObject.MIN_LENGTH) {
+      throw new PasswordTooShortException(PasswordHashValueObject.MIN_LENGTH);
     }
   }
 

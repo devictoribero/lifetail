@@ -1,5 +1,10 @@
-export class InvalidGenderException extends Error {
+import { DomainException } from './DomainException';
+
+export class InvalidGenderException extends DomainException {
+  readonly reason = 'INVALID_GENDER';
+
   constructor(gender: string) {
-    super(`The gender <${gender}> is invalid.`);
+    super(`${gender} is not a valid gender.`);
+    this.name = 'InvalidGenderException';
   }
 }

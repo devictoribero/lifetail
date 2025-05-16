@@ -25,9 +25,7 @@ describe('GetLifeMomentQueryHandler', () => {
     const query = new GetLifeMomentQuery(nonExistentId);
 
     // Act & Assert
-    await expect(queryHandler.handle(query)).rejects.toThrow(
-      new LifeMomentNotFoundException(new UUID(nonExistentId)),
-    );
+    await expect(queryHandler.handle(query)).rejects.toThrow(new LifeMomentNotFoundException());
   });
 
   it('should get a life moment', async () => {

@@ -34,7 +34,7 @@ export class UpdateLifeMomentCommandHandler implements CommandHandler<UpdateLife
   private async getLifeMoment(id: UUID): Promise<LifeMoment> {
     const lifeMoment = await this.repository.find(id);
     if (!lifeMoment) {
-      throw new LifeMomentNotFoundException(id);
+      throw new LifeMomentNotFoundException();
     }
     return lifeMoment;
   }

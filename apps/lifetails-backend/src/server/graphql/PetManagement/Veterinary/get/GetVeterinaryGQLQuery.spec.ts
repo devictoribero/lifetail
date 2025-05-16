@@ -92,7 +92,7 @@ describe('GetVeterinaryGQLQuery', () => {
     // Arrange
     const id = faker.string.uuid();
     const input: GetVeterinaryInput = { id };
-    queryHandler.handle.mockRejectedValue(new VeterinaryNotFoundException(new UUID(id)));
+    queryHandler.handle.mockRejectedValue(new VeterinaryNotFoundException());
 
     // Act & Assert
     await expect(query.getVeterinary(input)).rejects.toThrow(`Veterinary not found: ${id}`);

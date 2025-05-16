@@ -1,8 +1,10 @@
-import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { DomainException } from 'src/contexts/Shared/domain/exceptions/DomainException';
 
-export class LifeMomentNotFoundException extends Error {
-  constructor(id: UUID) {
-    super(`Life moment not found: ${id.toString()}`);
+export class LifeMomentNotFoundException extends DomainException {
+  readonly reason = 'LIFE_MOMENT_NOT_FOUND';
+
+  constructor() {
+    super(`Life moment not found`);
     this.name = 'LifeMomentNotFoundException';
   }
 }

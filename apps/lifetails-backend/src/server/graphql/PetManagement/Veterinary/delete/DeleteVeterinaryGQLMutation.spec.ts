@@ -69,7 +69,7 @@ describe('DeleteVeterinaryGQLMutation', () => {
     const input: DeleteVeterinaryInput = {
       id: faker.string.uuid(),
     };
-    commandHandler.handle.mockRejectedValue(new VeterinaryNotFoundException(new UUID(input.id)));
+    commandHandler.handle.mockRejectedValue(new VeterinaryNotFoundException());
 
     // Act & Assert
     await expect(mutation.deleteVeterinary(input)).rejects.toThrow(

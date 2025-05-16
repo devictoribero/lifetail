@@ -97,7 +97,7 @@ describe('ChangeUserPreferredLanguageGQLMutation', () => {
     const input: ChangeUserPreferredLanguageInput = {
       languageCode: LanguageCodeGraphqlEnum.es,
     };
-    commandHandler.handle.mockRejectedValue(new UserNotFoundException(userId));
+    commandHandler.handle.mockRejectedValue(new UserNotFoundException());
 
     // Act & Assert
     await expect(mutation.changeUserPreferredLanguage(input, mockContext)).rejects.toThrow();

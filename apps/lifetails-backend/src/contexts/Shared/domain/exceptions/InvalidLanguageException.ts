@@ -1,5 +1,10 @@
-export class InvalidLanguageException extends Error {
+import { DomainException } from './DomainException';
+
+export class InvalidLanguageException extends DomainException {
+  readonly reason = 'INVALID_LANGUAGE';
+
   constructor(language: string) {
-    super(`The language <${language}> is not supported.`);
+    super(`${language} is not a valid language.`);
+    this.name = 'InvalidLanguageException';
   }
 }

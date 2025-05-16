@@ -1,8 +1,10 @@
-import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { DomainException } from 'src/contexts/Shared/domain/exceptions/DomainException';
 
-export class VeterinaryNotFoundException extends Error {
-  constructor(id: UUID) {
-    super(`Veterinary not found: ${id.toString()}`);
+export class VeterinaryNotFoundException extends DomainException {
+  readonly reason = 'VETERINARY_NOT_FOUND';
+
+  constructor() {
+    super(`Veterinary not found`);
     this.name = 'VeterinaryNotFoundException';
   }
 }

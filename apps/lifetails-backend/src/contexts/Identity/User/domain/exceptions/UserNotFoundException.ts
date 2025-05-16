@@ -1,6 +1,10 @@
-export class UserNotFoundException extends Error {
-  constructor(accountId: string) {
-    super(`User of account ID ${accountId} not found`);
+import { DomainException } from 'src/contexts/Shared/domain/exceptions/DomainException';
+
+export class UserNotFoundException extends DomainException {
+  readonly reason = 'USER_NOT_FOUND';
+
+  constructor() {
+    super('User not found');
     this.name = 'UserNotFoundException';
   }
 }

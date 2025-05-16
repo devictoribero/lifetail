@@ -45,9 +45,7 @@ describe('UpdateLifeMomentCommandHandler', () => {
     const command = new UpdateLifeMomentCommand(nonExistentId, faker.lorem.sentence());
 
     // Act & Assert
-    await expect(commandHandler.handle(command)).rejects.toThrow(
-      new LifeMomentNotFoundException(new UUID(nonExistentId)),
-    );
+    await expect(commandHandler.handle(command)).rejects.toThrow(new LifeMomentNotFoundException());
   });
 
   it('should update description when provided', async () => {

@@ -1,14 +1,12 @@
 import { PasswordTooShortException } from './PasswordTooShortException';
 
 describe('PasswordTooShortException', () => {
-  it('should be defined', () => {
-    expect(PasswordTooShortException).toBeDefined();
-  });
-
   it('should be an instance of PasswordTooShortException', () => {
-    const error = new PasswordTooShortException('short');
+    const error = new PasswordTooShortException(8);
 
     expect(error).toBeInstanceOf(PasswordTooShortException);
-    expect(error.message).toBe('The password <short> is too short.');
+    expect(error.name).toBe('PasswordTooShortException');
+    expect(error.reason).toBe('PASSWORD_TOO_SHORT');
+    expect(error.message).toBe('Password too short. Minimum length is 8.');
   });
 });

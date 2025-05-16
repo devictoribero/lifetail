@@ -4,7 +4,9 @@ describe('EmailAlreadyInUseException', () => {
   it('should create an instance of EmailAlreadyInUseException', () => {
     const exception = new EmailAlreadyInUseException();
 
-    expect(exception).toBeInstanceOf(Error);
+    expect(exception).toBeInstanceOf(EmailAlreadyInUseException);
+    expect(exception.name).toBe('EmailAlreadyInUseException');
+    expect(exception.reason).toBe('EMAIL_ALREADY_IN_USE');
     expect(exception.message).toBe('Email is already in use');
   });
 });
