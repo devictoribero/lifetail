@@ -14,28 +14,21 @@ export class GetPetGQLQuery {
 
   @Query(() => Pet)
   async getPet(@Args('input') input: GetPetInput, @Context() context: any): Promise<Pet> {
-    try {
-      const userId = context.req.user.id;
-      const query = new GetPetQueryHandlerQuery(input.id);
-      const pet = await this.queryHandler.handle(query);
+    const userId = context.req.user.id;
+    const query = new GetPetQueryHandlerQuery(input.id);
+    const pet = await this.queryHandler.handle(query);
 
-      const petPrimitives = pet.toPrimitives();
-      return {
-        id: petPrimitives.id,
-        species: petPrimitives.species,
-        name: petPrimitives.name,
-        gender: petPrimitives.gender,
-        chipId: petPrimitives.chipId,
-        sterilized: petPrimitives.sterilized,
-        anniversaryDate: petPrimitives.anniversaryDate,
-        createdAt: petPrimitives.createdAt,
-        ownerId: userId,
-      };
-    } catch (error) {
-      if (error instanceof PetNotFoundException) {
-        throw new NotFoundException('Pet not found');
-      }
-      throw new Error(error.message ?? 'Error getting pet');
-    }
+    const petPrimitives = pet.toPrimitives();
+    return {
+      id: petPrimitives.id,
+      species: petPrimitives.species,
+      name: petPrimitives.name,
+      gender: petPrimitives.gender,
+      chipId: petPrimitives.chipId,
+      sterilized: petPrimitives.sterilized,
+      anniversaryDate: petPrimitives.anniversaryDate,
+      createdAt: petPrimitives.createdAt,
+      ownerId: userId,
+    };
   }
 }

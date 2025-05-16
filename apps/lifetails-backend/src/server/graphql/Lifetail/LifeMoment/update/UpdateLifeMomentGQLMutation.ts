@@ -12,13 +12,9 @@ export class UpdateLifeMomentGQLMutation {
   async updateLifeMoment(
     @Args('input') input: UpdateLifeMomentInput,
   ): Promise<UpdateLifeMomentResponse> {
-    try {
-      const command = new UpdateLifeMomentCommand(input.id, input.description, input.occurredOn);
-      await this.commandHandler.handle(command);
+    const command = new UpdateLifeMomentCommand(input.id, input.description, input.occurredOn);
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      throw new Error(error.message ?? 'Error updating life moment');
-    }
+    return { id: input.id };
   }
 }

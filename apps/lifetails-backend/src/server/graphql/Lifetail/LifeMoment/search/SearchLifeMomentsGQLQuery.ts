@@ -13,24 +13,20 @@ export class SearchLifeMomentsGQLQuery {
   @UseGuards(AuthenticationRequired)
   @Query(() => [LifeMoment])
   async searchLifeMoments(@Args('input') input: SearchLifeMomentsInput): Promise<LifeMoment[]> {
-    try {
-      const query = new SearchLifeMomentsQuery(input.petId);
-      const lifeMoments = await this.queryHandler.handle(query);
+    const query = new SearchLifeMomentsQuery(input.petId);
+    const lifeMoments = await this.queryHandler.handle(query);
 
-      return lifeMoments.map((lifeMoment) => {
-        const lifeMomentPrimitive = lifeMoment.toPrimitives();
-        return {
-          id: lifeMomentPrimitive.id,
-          theme: lifeMomentPrimitive.theme,
-          type: lifeMomentPrimitive.type,
-          petId: lifeMomentPrimitive.petId,
-          createdBy: lifeMomentPrimitive.createdBy,
-          occurredOn: lifeMomentPrimitive.occurredOn,
-          description: lifeMomentPrimitive.description,
-        };
-      });
-    } catch (error) {
-      throw new Error(error.message ?? 'Error searching life moments');
-    }
+    return lifeMoments.map((lifeMoment) => {
+      const lifeMomentPrimitive = lifeMoment.toPrimitives();
+      return {
+        id: lifeMomentPrimitive.id,
+        theme: lifeMomentPrimitive.theme,
+        type: lifeMomentPrimitive.type,
+        petId: lifeMomentPrimitive.petId,
+        createdBy: lifeMomentPrimitive.createdBy,
+        occurredOn: lifeMomentPrimitive.occurredOn,
+        description: lifeMomentPrimitive.description,
+      };
+    });
   }
 }

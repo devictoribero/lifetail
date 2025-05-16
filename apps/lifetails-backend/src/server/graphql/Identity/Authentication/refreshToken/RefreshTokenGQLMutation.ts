@@ -13,19 +13,12 @@ export class RefreshTokenGQLMutation {
   @Public()
   @Mutation(() => RefreshTokenResponse)
   async refreshToken(@Args('input') input: RefreshTokenInput): Promise<RefreshTokenResponse> {
-    try {
-      const command = new RefreshTokenCommand(input.refreshToken);
-      const result = await this.commandHandler.handle(command);
+    const command = new RefreshTokenCommand(input.refreshToken);
+    const result = await this.commandHandler.handle(command);
 
-      return {
-        token: result.token,
-        refreshToken: result.refreshToken,
-      };
-    } catch (error) {
-      if (error instanceof InvalidTokenException) {
-        throw new Error('Invalid or expired refresh token');
-      }
-      throw new Error(error.message ?? 'Error refreshing token');
-    }
+    return {
+      token: result.token,
+      refreshToken: result.refreshToken,
+    };
   }
 }

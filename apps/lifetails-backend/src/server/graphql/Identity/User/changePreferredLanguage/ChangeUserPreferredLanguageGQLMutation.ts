@@ -20,23 +20,11 @@ export class ChangeUserPreferredLanguageGQLMutation {
     @Args('input') input: ChangeUserPreferredLanguageInput,
     @Context() context: any,
   ): Promise<ChangeUserPreferredLanguageResponse> {
-    try {
-      const userId = context.req.user.id;
+    const userId = context.req.user.id;
 
-      const command = new ChangeUserPreferredLanguageCommand(userId, input.languageCode);
-      await this.changeUserPreferredLanguageCommandHandler.handle(command);
+    const command = new ChangeUserPreferredLanguageCommand(userId, input.languageCode);
+    await this.changeUserPreferredLanguageCommandHandler.handle(command);
 
-      return { success: true };
-    } catch (error) {
-      if (error instanceof UserNotFoundException) {
-        throw new Error(`User not found: ${error.message}`);
-      }
-
-      if (error instanceof InvalidLanguageException) {
-        throw new Error(`Invalid language: ${error.message}`);
-      }
-
-      throw new Error(error.message ?? 'Error changing user preferred language');
-    }
+    return { success: true };
   }
 }

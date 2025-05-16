@@ -20,18 +20,11 @@ export class DeleteAccountGQLMutation {
     @Args('input') input: DeleteAccountInput,
     @Context() context: any,
   ): Promise<DeleteAccountResponse> {
-    try {
-      const accountId = this.getUserFromContext(context).accountId;
-      const command = new DeleteAccountCommand(accountId);
-      await this.deleteAccountCommandHandler.handle(command);
+    const accountId = this.getUserFromContext(context).accountId;
+    const command = new DeleteAccountCommand(accountId);
+    await this.deleteAccountCommandHandler.handle(command);
 
-      return { success: true };
-    } catch (error) {
-      if (error instanceof AccountNotFoundException) {
-        throw new Error('Account not found');
-      }
-      throw new Error(error.message ?? 'Error deleting account');
-    }
+    return { success: true };
   }
 
   private getUserFromContext(context: any): UserInContext {

@@ -12,13 +12,9 @@ export class RemoveLifeMomentGQLMutation {
   async removeLifeMoment(
     @Args('input') input: RemoveLifeMomentInput,
   ): Promise<RemoveLifeMomentResponse> {
-    try {
-      const command = new RemoveLifeMomentCommand(input.id);
-      await this.commandHandler.handle(command);
+    const command = new RemoveLifeMomentCommand(input.id);
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      throw new Error(error.message ?? 'Error removing life moment');
-    }
+    return { id: input.id };
   }
 }

@@ -14,16 +14,9 @@ export class GetVeterinaryGQLQuery {
 
   @Query(() => Veterinary)
   async getVeterinary(@Args('input') input: GetVeterinaryInput): Promise<Veterinary> {
-    try {
-      const query = new GetVeterinaryQuery(input.id);
-      const veterinary = await this.queryHandler.handle(query);
+    const query = new GetVeterinaryQuery(input.id);
+    const veterinary = await this.queryHandler.handle(query);
 
-      return veterinary.toPrimitives();
-    } catch (error) {
-      if (error instanceof VeterinaryNotFoundException) {
-        throw new Error(`Veterinary not found: ${input.id}`);
-      }
-      throw error;
-    }
+    return veterinary.toPrimitives();
   }
 }

@@ -13,20 +13,10 @@ export class AddVeterinaryGQLMutation {
   constructor(private readonly commandHandler: AddVeterinaryCommandHandler) {}
 
   @Mutation(() => AddVeterinaryResponse)
-  async addVeterinary(
-    @Args('input') input: AddVeterinaryInput,
-    @Context() context: any,
-  ): Promise<AddVeterinaryResponse> {
-    try {
-      const command = new AddVeterinaryCommand(input.id, input.name);
-      await this.commandHandler.handle(command);
+  async addVeterinary(@Args('input') input: AddVeterinaryInput): Promise<AddVeterinaryResponse> {
+    const command = new AddVeterinaryCommand(input.id, input.name);
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      if (error instanceof VeterinaryNameTooShortException) {
-        throw new Error('Veterinary name must have at least 3 characters');
-      }
-      throw error;
-    }
+    return { id: input.id };
   }
 }

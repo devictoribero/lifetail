@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { DeleteVeterinaryResponse } from './DeleteVeterinaryResponse';
 import { DeleteVeterinaryInput } from './DeleteVeterinaryInput';
@@ -16,16 +16,9 @@ export class DeleteVeterinaryGQLMutation {
   async deleteVeterinary(
     @Args('input') input: DeleteVeterinaryInput,
   ): Promise<DeleteVeterinaryResponse> {
-    try {
-      const command = new DeleteVeterinaryCommand(input.id);
-      await this.commandHandler.handle(command);
+    const command = new DeleteVeterinaryCommand(input.id);
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      if (error instanceof VeterinaryNotFoundException) {
-        throw new Error(`Veterinary not found: ${input.id}`);
-      }
-      throw error;
-    }
+    return { id: input.id };
   }
 }

@@ -10,22 +10,18 @@ export class GetLifeMomentGQLQuery {
 
   @Query(() => LifeMoment)
   async getLifeMoment(@Args('input') input: GetLifeMomentInput): Promise<LifeMoment> {
-    try {
-      const query = new GetLifeMomentQuery(input.id);
-      const lifeMoment = await this.queryHandler.handle(query);
+    const query = new GetLifeMomentQuery(input.id);
+    const lifeMoment = await this.queryHandler.handle(query);
 
-      const lifeMomentPrimitive = lifeMoment.toPrimitives();
-      return {
-        id: lifeMomentPrimitive.id,
-        theme: lifeMomentPrimitive.theme,
-        type: lifeMomentPrimitive.type,
-        petId: lifeMomentPrimitive.petId,
-        createdBy: lifeMomentPrimitive.createdBy,
-        occurredOn: lifeMomentPrimitive.occurredOn,
-        description: lifeMomentPrimitive.description,
-      };
-    } catch (error) {
-      throw new Error(error.message ?? 'Error getting life moment');
-    }
+    const lifeMomentPrimitive = lifeMoment.toPrimitives();
+    return {
+      id: lifeMomentPrimitive.id,
+      theme: lifeMomentPrimitive.theme,
+      type: lifeMomentPrimitive.type,
+      petId: lifeMomentPrimitive.petId,
+      createdBy: lifeMomentPrimitive.createdBy,
+      occurredOn: lifeMomentPrimitive.occurredOn,
+      description: lifeMomentPrimitive.description,
+    };
   }
 }

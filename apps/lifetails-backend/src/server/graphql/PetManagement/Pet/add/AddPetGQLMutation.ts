@@ -19,27 +19,20 @@ export class AddPetGQLMutation {
   ): Promise<AddPetResponse> {
     const userId = context.req.user.id;
 
-    try {
-      // We could validate that the userId in the request matches the authenticated user
-      // For now, we'll just pass along the userId from the input
+    // We could validate that the userId in the request matches the authenticated user
+    // For now, we'll just pass along the userId from the input
 
-      const command = new AddPetCommand(
-        input.id,
-        input.species.toString(),
-        input.name,
-        input.gender.toString(),
-        input.sterilized,
-        input.anniversaryDate,
-        userId,
-      );
-      await this.commandHandler.handle(command);
+    const command = new AddPetCommand(
+      input.id,
+      input.species.toString(),
+      input.name,
+      input.gender.toString(),
+      input.sterilized,
+      input.anniversaryDate,
+      userId,
+    );
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      if (error instanceof MaxNumberOfPetsReachedException) {
-        throw new Error('Maximum number of pets reached for this user');
-      }
-      throw error;
-    }
+    return { id: input.id };
   }
 }

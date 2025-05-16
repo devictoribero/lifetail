@@ -22,33 +22,26 @@ export class AuthenticateAccountGQLMutation {
   async authenticateAccount(
     @Args('input') input: AuthenticateAccountInput,
   ): Promise<AuthenticateAccountResponse> {
-    try {
-      const command = new AuthenticateAccountCommand(input.email, input.password);
-      const accountId = await this.commandHandler.handle(command);
+    const command = new AuthenticateAccountCommand(input.email, input.password);
+    const accountId = await this.commandHandler.handle(command);
 
-      const getUserQuery = new GetUserQuery(accountId);
-      const user = await this.getUserQueryHandler.handle(getUserQuery);
+    const getUserQuery = new GetUserQuery(accountId);
+    const user = await this.getUserQueryHandler.handle(getUserQuery);
 
-      const payload = {
-        accountId,
-        userId: user.getId().toString(),
-        email: input.email,
-      };
+    const payload = {
+      accountId,
+      userId: user.getId().toString(),
+      email: input.email,
+    };
 
-      const token = await this.tokenGenerator.generateToken(payload);
-      const refreshToken = await this.tokenGenerator.generateRefreshToken(payload);
+    const token = await this.tokenGenerator.generateToken(payload);
+    const refreshToken = await this.tokenGenerator.generateRefreshToken(payload);
 
-      return {
-        accountId,
-        userId: user.getId().toString(),
-        token,
-        refreshToken,
-      };
-    } catch (error) {
-      if (error instanceof InvalidCredentialsException) {
-        throw new Error('Invalid email or password');
-      }
-      throw new Error(error.message ?? 'Error authenticating account');
-    }
+    return {
+      accountId,
+      userId: user.getId().toString(),
+      token,
+      refreshToken,
+    };
   }
 }

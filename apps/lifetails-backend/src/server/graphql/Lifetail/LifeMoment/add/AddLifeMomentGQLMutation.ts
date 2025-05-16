@@ -16,22 +16,18 @@ export class AddLifeMomentGQLMutation {
     @Args('input') input: AddLifeMomentInput,
     @Context() context: any,
   ): Promise<AddLifeMomentResponse> {
-    try {
-      const createdBy = context.req.user.id;
-      const now = input.occurredOn ? new Date(input.occurredOn) : new Date();
-      const command = new AddLifeMomentCommand(
-        input.id,
-        input.type,
-        input.petId,
-        createdBy,
-        now,
-        input.description,
-      );
-      await this.commandHandler.handle(command);
+    const createdBy = context.req.user.id;
+    const now = input.occurredOn ? new Date(input.occurredOn) : new Date();
+    const command = new AddLifeMomentCommand(
+      input.id,
+      input.type,
+      input.petId,
+      createdBy,
+      now,
+      input.description,
+    );
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      throw new Error(error.message ?? 'Error adding life moment');
-    }
+    return { id: input.id };
   }
 }

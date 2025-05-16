@@ -10,13 +10,9 @@ export class RemovePetGQLMutation {
 
   @Mutation(() => RemovePetResponse)
   async removePet(@Args('input') input: RemovePetInput): Promise<RemovePetResponse> {
-    try {
-      const command = new RemovePetCommand(input.id);
-      await this.commandHandler.handle(command);
+    const command = new RemovePetCommand(input.id);
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      throw new Error(error.message ?? 'Error removing pet');
-    }
+    return { id: input.id };
   }
 }

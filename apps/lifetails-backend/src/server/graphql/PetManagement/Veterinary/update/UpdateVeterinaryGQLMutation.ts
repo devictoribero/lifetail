@@ -17,27 +17,17 @@ export class UpdateVeterinaryGQLMutation {
   async updateVeterinary(
     @Args('input') input: UpdateVeterinaryInput,
   ): Promise<UpdateVeterinaryResponse> {
-    try {
-      const command = new UpdateVeterinaryCommand(
-        input.id,
-        input.name,
-        input.address,
-        input.email,
-        input.primaryPhone,
-        input.emergencyPhone,
-        input.notes,
-      );
-      await this.commandHandler.handle(command);
+    const command = new UpdateVeterinaryCommand(
+      input.id,
+      input.name,
+      input.address,
+      input.email,
+      input.primaryPhone,
+      input.emergencyPhone,
+      input.notes,
+    );
+    await this.commandHandler.handle(command);
 
-      return { id: input.id };
-    } catch (error) {
-      if (error instanceof VeterinaryNotFoundException) {
-        throw new Error(`Veterinary not found: ${input.id}`);
-      }
-      if (error instanceof VeterinaryNameTooShortException) {
-        throw new Error('Veterinary name must have at least 3 characters');
-      }
-      throw error;
-    }
+    return { id: input.id };
   }
 }

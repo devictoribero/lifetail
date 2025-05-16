@@ -64,7 +64,7 @@ describe('AddVeterinaryGQLMutation', () => {
     };
 
     // Act
-    const result = await mutation.addVeterinary(input, mockContext);
+    const result = await mutation.addVeterinary(input);
 
     // Assert
     expect(commandHandler.handle).toHaveBeenCalledWith(
@@ -85,7 +85,7 @@ describe('AddVeterinaryGQLMutation', () => {
     commandHandler.handle.mockRejectedValue(new VeterinaryNameTooShortException());
 
     // Act & Assert
-    await expect(mutation.addVeterinary(input, mockContext)).rejects.toThrow(
+    await expect(mutation.addVeterinary(input)).rejects.toThrow(
       'Veterinary name must have at least 3 characters',
     );
   });
@@ -100,6 +100,6 @@ describe('AddVeterinaryGQLMutation', () => {
     commandHandler.handle.mockRejectedValue(new Error(errorMessage));
 
     // Act & Assert
-    await expect(mutation.addVeterinary(input, mockContext)).rejects.toThrow(errorMessage);
+    await expect(mutation.addVeterinary(input)).rejects.toThrow(errorMessage);
   });
 });
