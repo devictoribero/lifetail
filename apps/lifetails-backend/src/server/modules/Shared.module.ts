@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
-import { NestEventBus } from 'src/contexts/Shared/infrastructure/EventBus/NestEventBus';
+import { NestEventBus } from 'src/contexts/Shared/infrastructure/event-bus/NestEventBus';
+import { PrismaService } from 'src/contexts/Shared/infrastructure/prisma/PrismaService';
 
 const EventBusProvider = {
   provide: EVENT_BUS,
@@ -25,7 +26,7 @@ const EventBusProvider = {
       verboseMemoryLeak: true,
     }),
   ],
-  providers: [EventBusProvider],
-  exports: [EventBusProvider],
+  providers: [EventBusProvider, PrismaService],
+  exports: [EventBusProvider, PrismaService],
 })
 export class SharedModule {}
