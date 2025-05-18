@@ -38,6 +38,7 @@ import { AuthenticateAccountGQLMutation } from '../graphql/Identity/Authenticati
 import { RefreshTokenGQLMutation } from '../graphql/Identity/Authentication/refreshToken/RefreshTokenGQLMutation';
 import { CreateAccountGQLMutation } from '../graphql/Identity/Account/createAccount/CreateAccountGQLMutation';
 import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/User/changePreferredLanguage/ChangeUserPreferredLanguageGQLMutation';
+import { PostgresqlAccountRepository } from 'src/contexts/Identity/Account/infrastructure/PostgresqlAccountRepository';
 
 @Module({
   imports: [
@@ -68,7 +69,7 @@ import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/User
     AuthenticationRequired,
     {
       provide: ACCOUNT_REPOSITORY,
-      useClass: AccountInMemoryRepository,
+      useClass: PostgresqlAccountRepository,
     },
 
     // User providers

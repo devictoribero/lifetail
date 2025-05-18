@@ -22,7 +22,7 @@ export class DeleteAccountCommandHandler implements CommandHandler<DeleteAccount
 
     account.markAsDeleted();
 
-    await this.repository.delete(account);
+    await this.repository.save(account);
     await this.eventBus.publish(account.pullDomainEvents());
   }
 

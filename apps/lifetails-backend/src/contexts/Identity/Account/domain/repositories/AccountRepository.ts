@@ -8,5 +8,4 @@ export interface AccountRepository {
   save(account: Account): Promise<void>;
   findByEmail(email: EmailValueObject): Promise<Account | null>;
   find(id: UUID): Promise<Account | null>;
-  delete(account: Account): Promise<void>;
 }
