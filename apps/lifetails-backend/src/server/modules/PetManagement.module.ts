@@ -8,7 +8,7 @@ import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterina
 import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/DeleteVeterinary/DeleteVeterinaryCommandHandler';
 import { UpdateVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/UpdateVeterinary/UpdateVeterinaryCommandHandler';
 // Infrastructure imports
-import { PetInMemoryRepository } from 'src/contexts/PetManagement/Pet/infrastructure/PetInMemoryRepository';
+import { PostgresqlPetRepository } from 'src/contexts/PetManagement/Pet/infrastructure/PostgresqlPetRepository';
 import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterinary/infrastructure/VeterinaryInMemoryRepository';
 // Domain imports
 import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pet/application/searchAll/SearchAllPetsQueryHandler';
@@ -33,7 +33,7 @@ import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/G
   providers: [
     {
       provide: PET_REPOSITORY,
-      useClass: PetInMemoryRepository,
+      useClass: PostgresqlPetRepository,
     },
     {
       provide: VETERINARY_REPOSITORY,
