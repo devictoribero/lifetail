@@ -6,28 +6,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   private readonly logger = new Logger(PrismaService.name);
 
   constructor() {
-    super({
-      log: [
-        { emit: 'event', level: 'query' },
-        { emit: 'event', level: 'error' },
-        { emit: 'event', level: 'warn' },
-      ],
-    });
-
-    this.$on('error', (event) => {
-      this.logger.error(`Prisma Error: ${event.message}`);
-    });
-
-    this.$on('warn', (event) => {
-      this.logger.warn(`Prisma Warning: ${event.message}`);
-    });
-
-    if (process.env.NODE_ENV === 'development') {
-      this.$on('query', (event) => {
-        this.logger.debug(`Query: ${event.query}`);
-        this.logger.debug(`Duration: ${event.duration}ms`);
-      });
-    }
+    super();
   }
 
   async onModuleInit() {

@@ -10,11 +10,8 @@ export async function initializePrisma(app: INestApplication): Promise<void> {
   try {
     const prismaService = app.get(PrismaService);
 
-    // Add shutdown hooks for proper cleanup
-    prismaService.$on('beforeExit', async () => {
-      logger.log('Prisma is shutting down');
-      await app.close();
-    });
+    // Enable shutdown hooks to ensure proper cleanup
+    app.enableShutdownHooks();
 
     logger.log('Prisma successfully initialized');
   } catch (error) {
