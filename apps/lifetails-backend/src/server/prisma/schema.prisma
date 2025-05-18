@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id        String    @id
+  email     String    @unique
+  password  String
+  createdAt DateTime  @map("created_at")
+  deletedAt DateTime? @map("deleted_at")
+}
+
+enum LanguageCode {
+  EN @map("en")
+  ES @map("es")
+}
+
+model User {
+  id               String @id
+  accountId        String @unique @map("account_id")
+  name             String
+  preferredLanguage LanguageCode @default(EN) @map("preferred_language")
+  createdAt        DateTime  @default(now()) @map("created_at")
+}
+
+enum Species {
+  DOG @map("Dog")
+  CAT @map("Cat")
+}
+
+enum Gender {
+  MALE @map("Male")
+  FEMALE @map("Female")
+}
+
+// Pet Management context models
+model Pet {
+  id               String    @id
+  species          Species
+  name             String
+  gender           Gender
+  sterilized       Boolean @default(false)
+  createdAt        DateTime  @map("created_at")
+  anniversaryDate  DateTime? @map("anniversary_date")
+  ownerId          String?   @map("owner_id")
+  chipId           String?   @map("chip_id")
+}
+
+model Veterinary {
+  id             String    @id
+  name           String
+  createdAt      DateTime  @map("created_at")
+  address        String?
+  email          String?
+  primaryPhone   String?   @map("primary_phone")
+  emergencyPhone String?   @map("emergency_phone")
+  notes          String?
+  updatedAt      DateTime? @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+}
+
+enum LifeMomentType {
+  ACHIEVEMENT @map("Achievement")
+  ANNIVERSARY @map("Anniversary")
+  ARRIVAL @map("Arrival")
+  BATH @map("Bath")
+  DEATH @map("Death")
+  DIET_CHANGE @map("DietChange")
+  DISCOMFORT @map("Discomfort")
+  EXCURSION @map("Excursion")
+  EXERCISE @map("Exercise")
+  GIFT @map("Gift")
+  GOODBYE @map("Goodbye")
+  GROOMING_VISIT @map("GroomingVisit")
+  HYDRATION @map("Hydration")
+  ILLNESS @map("Illness")
+  INJURY @map("Injury")
+  MEDICATION @map("Medication")
+  MOVE @map("Move")
+  NAIL_CUT @map("NailCut")
+  PLAY @map("Play")
+  SOCIALIZATION @map("Socialization")
+  SPECIAL_MEAL @map("SpecialMeal")
+  SURGERY @map("Surgery")
+  TRAINING @map("Training")
+  VACCINATION @map("Vaccination")
+  VETERINARY_VISIT @map("VeterinaryVisit")
+  WALK @map("Walk")
+}
+
+enum LifeMomentTheme {
+  CELEBRATION @map("Celebration")
+  MEMORIES @map("Memories")
+  ACTIVITY @map("Activity")
+  DELICIOUS_MOMENTS @map("DeliciousMoments")
+  GROOMING_AND_CARE @map("GroomingAndCare")
+  WELLNESS @map("Wellness")
+  FAREWELL @map("Farewell")
+}
+
+model LifeMoment {
+  id          String   @id
+  type        LifeMomentType
+  theme       LifeMomentTheme
+  petId       String   @map("pet_id")
+  occurredOn  DateTime @map("occurred_on")
+  description String?
+  createdBy   String   @map("created_by")
+  createdAt   DateTime  @map("created_at")
+  updatedAt   DateTime? @map("updated_at")
+}

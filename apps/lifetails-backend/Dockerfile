@@ -8,7 +8,13 @@ RUN npm install
 
 COPY . .
 
+# Generate Prisma client
+RUN npm run prisma:generate
+
 RUN npm run build
+
+# Development stage executable
+CMD ["npm", "run", "start:dev"]
 
 FROM node:18-alpine AS production
 
@@ -23,6 +29,8 @@ RUN npm ci --only=production
 
 COPY --from=development /usr/src/app/dist ./dist
 COPY --from=development /usr/src/app/generated ./generated
+# Copy Prisma schema and client
+COPY --from=development /usr/src/app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 3000
 
