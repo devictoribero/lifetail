@@ -9,7 +9,6 @@ import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veter
 import { UpdateVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/UpdateVeterinary/UpdateVeterinaryCommandHandler';
 // Infrastructure imports
 import { PostgresqlPetRepository } from 'src/contexts/PetManagement/Pet/infrastructure/PostgresqlPetRepository';
-import { VeterinaryInMemoryRepository } from 'src/contexts/PetManagement/Veterinary/infrastructure/VeterinaryInMemoryRepository';
 import { PostgresqlVeterinaryRepository } from 'src/contexts/PetManagement/Veterinary/infrastructure/PostgresqlVeterinaryRepository';
 // Domain imports
 import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pet/application/searchAll/SearchAllPetsQueryHandler';

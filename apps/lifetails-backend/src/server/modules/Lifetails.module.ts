@@ -10,7 +10,6 @@ import { SearchLifeMomentsQueryHandler } from 'src/contexts/Lifetails/LifeMoment
 // Event handlers
 import { AddArrivalLifeMomentOnPetAdded } from 'src/contexts/Lifetails/LifeMoment/application/domain-event-handlers/AddArrivalLifeMomentOnPetAdded';
 // Infrastructure imports
-import { LifeMomentInMemoryRepository } from 'src/contexts/Lifetails/LifeMoment/infrastructure/LifeMomentInMemoryRepository';
 import { PostgresqlLifeMomentRepository } from 'src/contexts/Lifetails/LifeMoment/infrastructure/PostgresqlLifeMomentRepository';
 // GraphQL imports
 import { AddLifeMomentGQLMutation } from '../graphql/Lifetail/LifeMoment/add/AddLifeMomentGQLMutation';
