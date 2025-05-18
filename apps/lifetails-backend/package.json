@@ -18,7 +18,9 @@
     "prisma:generate": "ts-node prisma.ts generate",
     "prisma:migrate:dev": "ts-node prisma.ts migrate",
     "prisma:migrate:deploy": "ts-node prisma.ts deploy",
-    "prisma:studio": "ts-node prisma.ts studio"
+    "prisma:studio": "ts-node prisma.ts studio",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
   },
   "keywords": [],
   "author": "",
