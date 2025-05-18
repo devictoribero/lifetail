@@ -1,4 +1,11 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { GqlArgumentsHost } from '@nestjs/graphql';
 import { GraphQLError } from 'graphql';
 
@@ -9,7 +16,17 @@ export class GraphQLExceptionFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const gqlHost = GqlArgumentsHost.create(host);
 
-    // 1. Handle domain exceptions
+    // 1. Handle unauthorized exceptions
+    if (exception instanceof UnauthorizedException) {
+      return new GraphQLError(exception.message || 'Authentication required', {
+        extensions: {
+          code: 'UNAUTHORIZED',
+          status: exception.getStatus(),
+        },
+      });
+    }
+
+    // 2. Handle domain exceptions
     if (exception?.code) {
       return new GraphQLError(exception.message, {
         extensions: {
@@ -19,7 +36,7 @@ export class GraphQLExceptionFilter implements ExceptionFilter {
       });
     }
 
-    // 2. Handle validation errors (e.g. from ValidationPipe)
+    // 3. Handle validation errors (e.g. from ValidationPipe)
     if (exception instanceof HttpException) {
       const response: any = exception.getResponse();
       if (Array.isArray(response?.message)) {
@@ -41,7 +58,7 @@ export class GraphQLExceptionFilter implements ExceptionFilter {
       });
     }
 
-    // 3. Fallback for internal/unexpected errors
+    // 4. Fallback for internal/unexpected errors
     logger.error('Unhandled exception', exception);
 
     return new GraphQLError('Internal server error', {
