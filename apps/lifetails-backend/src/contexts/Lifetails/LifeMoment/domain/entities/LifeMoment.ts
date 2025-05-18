@@ -8,13 +8,13 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 export class LifeMoment extends AggregateRoot {
   private id: UUID;
   private createdAt: DateValueObject;
-  private updatedAt: DateValueObject | null;
   private type: LifeMomentType;
   private theme: LifeMomentTheme;
   private petId: UUID;
-  private createdBy: UUID;
   private occurredOn: DateValueObject;
   private description: StringValueObject;
+  private createdBy: UUID;
+  private updatedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(params: {

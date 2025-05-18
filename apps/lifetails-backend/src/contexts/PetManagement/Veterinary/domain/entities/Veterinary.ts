@@ -8,12 +8,12 @@ import { VeterinaryNameTooShortException } from '../exceptions/VeterinaryNameToo
 export class Veterinary extends AggregateRoot {
   private id: UUID;
   private name: StringValueObject;
+  private createdAt: DateValueObject;
   private address: StringValueObject | null;
   private email: EmailValueObject | null;
   private primaryPhone: StringValueObject | null;
   private emergencyPhone: StringValueObject | null;
   private notes: StringValueObject | null;
-  private createdAt: DateValueObject;
   private updatedAt: DateValueObject | null;
   private deletedAt: DateValueObject | null;
 

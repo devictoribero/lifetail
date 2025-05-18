@@ -13,10 +13,10 @@ export class Pet extends AggregateRoot {
   private name: StringValueObject;
   private gender: Gender;
   private sterilized: BooleanValueObject;
+  private createdAt: DateValueObject;
   // Represents the date of birth or arrival date.
   // This is the date used to celebrate the pet's birthday.
   private anniversaryDate: DateValueObject | null;
-  private createdAt: DateValueObject;
   private ownerId: UUID | null;
   private chipId: StringValueObject | null;
 
