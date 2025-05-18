@@ -19,9 +19,9 @@ import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application
 import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
 
 // Infrastructure imports
-import { AccountInMemoryRepository } from 'src/contexts/Identity/Account/infrastructure/AccountInMemoryRepository';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
-import { UserInMemoryRepository } from 'src/contexts/Identity/User/infrastructure/UserInMemoryRepository';
+import { PostgresqlAccountRepository } from 'src/contexts/Identity/Account/infrastructure/PostgresqlAccountRepository';
+import { PostgresqlUserRepository } from 'src/contexts/Identity/User/infrastructure/PostgresqlUserRepository';
 
 // Constants
 import { ACCOUNT_REPOSITORY } from 'src/contexts/Identity/Account/domain/repositories/AccountRepository';
@@ -38,8 +38,6 @@ import { AuthenticateAccountGQLMutation } from '../graphql/Identity/Authenticati
 import { RefreshTokenGQLMutation } from '../graphql/Identity/Authentication/refreshToken/RefreshTokenGQLMutation';
 import { CreateAccountGQLMutation } from '../graphql/Identity/Account/createAccount/CreateAccountGQLMutation';
 import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/User/changePreferredLanguage/ChangeUserPreferredLanguageGQLMutation';
-import { PostgresqlAccountRepository } from 'src/contexts/Identity/Account/infrastructure/PostgresqlAccountRepository';
-import { PostgresqlUserRepository } from 'src/contexts/Identity/User/infrastructure/PostgresqlUserRepository';
 
 @Module({
   imports: [
@@ -72,7 +70,6 @@ import { PostgresqlUserRepository } from 'src/contexts/Identity/User/infrastruct
       provide: ACCOUNT_REPOSITORY,
       useClass: PostgresqlAccountRepository,
     },
-
     // User providers
     {
       provide: USER_REPOSITORY,

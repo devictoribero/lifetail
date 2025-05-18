@@ -3,6 +3,7 @@ import { PrismaService } from 'src/contexts/Shared/infrastructure/prisma/PrismaS
 import { User } from '../domain/entities/User';
 import { UserRepository } from '../domain/repositories/UserRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { LanguageCodeEnum } from 'src/contexts/Shared/domain/LanguageCode';
 
 @Injectable()
 export class PostgresqlUserRepository implements UserRepository {
@@ -15,14 +16,14 @@ export class PostgresqlUserRepository implements UserRepository {
       where: { id },
       update: {
         nickname: nickname,
-        preferredLanguage: preferredLanguage,
+        preferredLanguage: this.mapToPrismaLanguageCode(preferredLanguage),
       },
       create: {
         id,
         accountId,
         nickname: nickname,
         createdAt: new Date(createdAt),
-        preferredLanguage: preferredLanguage,
+        preferredLanguage: this.mapToPrismaLanguageCode(preferredLanguage),
       },
     });
   }
@@ -41,7 +42,7 @@ export class PostgresqlUserRepository implements UserRepository {
       accountId: user.accountId,
       nickname: user.nickname,
       createdAt: user.createdAt,
-      preferredLanguage: user.preferredLanguage,
+      preferredLanguage: this.mapToDomainLanguageCode(user.preferredLanguage),
     });
   }
 
@@ -59,7 +60,31 @@ export class PostgresqlUserRepository implements UserRepository {
       accountId: user.accountId,
       nickname: user.nickname,
       createdAt: user.createdAt,
-      preferredLanguage: user.preferredLanguage,
+      preferredLanguage: this.mapToDomainLanguageCode(user.preferredLanguage),
     });
+  }
+
+  // Map domain language code to Prisma enum format
+  private mapToPrismaLanguageCode(code: string): 'EN' | 'ES' {
+    switch (code) {
+      case LanguageCodeEnum.English:
+        return 'EN';
+      case LanguageCodeEnum.Spanish:
+        return 'ES';
+      default:
+        return 'EN'; // Default fallback
+    }
+  }
+
+  // Map Prisma enum format to domain language code
+  private mapToDomainLanguageCode(code: string): string {
+    switch (code) {
+      case 'EN':
+        return LanguageCodeEnum.English;
+      case 'ES':
+        return LanguageCodeEnum.Spanish;
+      default:
+        return LanguageCodeEnum.English; // Default fallback
+    }
   }
 }

@@ -19,7 +19,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    command: sh -c "sleep 3 && npm run start:dev"
+    command: sh -c "sleep 3 && npx prisma generate --schema=src/server/prisma/schema.prisma && npm run start:dev"
     depends_on:
       postgres:
         condition: service_healthy

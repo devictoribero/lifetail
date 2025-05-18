@@ -17,7 +17,6 @@ describe('DeleteAccountCommandHandler', () => {
   beforeEach(() => {
     mockRepository = {
       find: jest.fn(),
-      delete: jest.fn(),
       save: jest.fn(),
       findByEmail: jest.fn(),
     } as jest.Mocked<AccountRepository>;
@@ -43,7 +42,7 @@ describe('DeleteAccountCommandHandler', () => {
     // Act & Assert
     await expect(commandHandler.handle(command)).rejects.toThrow(AccountNotFoundException);
     expect(mockRepository.find).toHaveBeenCalledWith(expect.any(UUID));
-    expect(mockRepository.delete).not.toHaveBeenCalled();
+    expect(mockRepository.save).not.toHaveBeenCalled();
     expect(mockEventBus.publish).not.toHaveBeenCalled();
   });
 
@@ -70,7 +69,7 @@ describe('DeleteAccountCommandHandler', () => {
     // Assert
     expect(mockRepository.find).toHaveBeenCalledWith(accountId);
     expect(account.markAsDeleted).toHaveBeenCalled();
-    expect(mockRepository.delete).toHaveBeenCalledWith(account);
+    expect(mockRepository.save).toHaveBeenCalledWith(account);
     expect(mockEventBus.publish).toHaveBeenCalled();
   });
 });
