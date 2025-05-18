@@ -18,7 +18,7 @@ export class Pet extends AggregateRoot {
   // This is the date used to celebrate the pet's birthday.
   private anniversaryDate: DateValueObject | null;
   private ownerId: UUID | null;
-  private chipId: StringValueObject | null;
+  private microchipNumber: StringValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor({
@@ -30,7 +30,7 @@ export class Pet extends AggregateRoot {
     anniversaryDate = null,
     createdAt,
     ownerId = null,
-    chipId = null,
+    microchipNumber = null,
   }: {
     id: UUID;
     species: Species;
@@ -40,7 +40,7 @@ export class Pet extends AggregateRoot {
     anniversaryDate?: DateValueObject | null;
     createdAt: DateValueObject;
     ownerId?: UUID | null;
-    chipId?: StringValueObject | null;
+    microchipNumber?: StringValueObject | null;
   }) {
     super();
     this.id = id;
@@ -51,7 +51,7 @@ export class Pet extends AggregateRoot {
     this.sterilized = sterilized;
     this.anniversaryDate = anniversaryDate;
     this.ownerId = ownerId;
-    this.chipId = chipId;
+    this.microchipNumber = microchipNumber;
   }
 
   // Use to create the entity from the domain
@@ -99,7 +99,7 @@ export class Pet extends AggregateRoot {
     anniversaryDate,
     createdAt,
     ownerId,
-    chipId = null,
+    microchipNumber = null,
   }: {
     id: string;
     species: string;
@@ -109,7 +109,7 @@ export class Pet extends AggregateRoot {
     anniversaryDate: Date;
     createdAt: Date;
     ownerId: string;
-    chipId?: string | null;
+    microchipNumber?: string | null;
   }) {
     return new Pet({
       id: new UUID(id),
@@ -120,7 +120,7 @@ export class Pet extends AggregateRoot {
       anniversaryDate: anniversaryDate ? new DateValueObject(anniversaryDate) : null,
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
-      chipId: chipId ? new StringValueObject(chipId) : null,
+      microchipNumber: microchipNumber ? new StringValueObject(microchipNumber) : null,
     });
   }
 
@@ -156,8 +156,8 @@ export class Pet extends AggregateRoot {
     return this.ownerId;
   }
 
-  public getChipId(): StringValueObject | null {
-    return this.chipId ?? null;
+  public getMicrochipNumber(): StringValueObject | null {
+    return this.microchipNumber ?? null;
   }
 
   public toPrimitives(): any {
@@ -170,7 +170,7 @@ export class Pet extends AggregateRoot {
       anniversaryDate: this.anniversaryDate?.toISOString() ?? null,
       createdAt: this.createdAt.toISOString(),
       ownerId: this.ownerId?.toString() ?? null,
-      chipId: this.chipId?.toString() ?? null,
+      microchipNumber: this.microchipNumber?.toString() ?? null,
     };
   }
 
@@ -194,7 +194,7 @@ export class Pet extends AggregateRoot {
     this.anniversaryDate = anniversaryDate;
   }
 
-  public changeChipIdTo(chipId: StringValueObject): void {
-    this.chipId = chipId;
+  public changeMicrochipNumberTo(microchipNumber: StringValueObject): void {
+    this.microchipNumber = microchipNumber;
   }
 }

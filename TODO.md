@@ -2,11 +2,11 @@
 
 ## High Priority
 
-- Setup Postgresql locally with Prisma
+- Rename chipId to microchipNumber
+- Make sure all the request work with Postgresql
 
 ## Medium Priority
 
-- Run Lifetails using postgres DB in DEVELOPMENT
 - Add current weight to pet.
   - Create LifeMoment type="weight_meaured" or similar after current weight is updated.
 - Review all the tests

@@ -40,7 +40,7 @@ describe('Pet', () => {
     expect(pet.getAnniversaryDate()).toBe(anniversaryDate);
     expect(pet.getCreatedAt()).toBe(createdAt);
     expect(pet.getOwnerId()).toBe(ownerId);
-    expect(pet.getChipId()).toBeNull();
+    expect(pet.getMicrochipNumber()).toBeNull();
   });
 
   it('should create a Pet instance from primitives', () => {
@@ -109,7 +109,7 @@ describe('Pet', () => {
       anniversaryDate: anniversaryDate.toISOString(),
       createdAt: createdAt.toISOString(),
       ownerId: ownerId.toString(),
-      chipId: null,
+      microchipNumber: null,
     });
   });
 
@@ -181,7 +181,7 @@ describe('Pet', () => {
     expect(pet.isSterilized().getValue()).toBe(true);
   });
 
-  it('can change the chipId', () => {
+  it('can change the microchipNumber', () => {
     // Arrange
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
@@ -193,13 +193,13 @@ describe('Pet', () => {
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
     });
-    expect(pet.getChipId()).toBeNull();
+    expect(pet.getMicrochipNumberhipNumber()).toBeNull();
 
     // Act
-    const chipId = new StringValueObject(faker.string.alphanumeric(9));
-    pet.changeChipIdTo(chipId);
+    const microchipNumber = new StringValueObject(faker.string.alphanumeric(9));
+    pet.changeMicrochipNumberTo(microchipNumber);
 
     // Assert
-    expect(pet.getChipId()).toBe(chipId);
+    expect(pet.getMicrochipNumberhipNumber()).toBe(microchipNumber);
   });
 });

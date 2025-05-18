@@ -51,7 +51,7 @@ describe('GetPetQueryHandler', () => {
       anniversaryDate: new DateValueObject(anniversaryDate),
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
-      chipId: new StringValueObject(chipId),
+      microchipNumber: new StringValueObject(chipId),
     });
 
     await repository.save(pet);
@@ -69,7 +69,7 @@ describe('GetPetQueryHandler', () => {
     expect(foundPet.getId().toString()).toBe(id);
     expect(foundPet.getName().toString()).toBe(name);
     expect(foundPet.getGender().toString()).toBe(gender);
-    expect(foundPet.getChipId().toString()).toBe(chipId);
+    expect(foundPet.getMicrochipNumber().toString()).toBe(chipId);
     expect(foundPet.isSterilized().getValue()).toBe(sterilized);
     expect(foundPet.getAnniversaryDate().toISOString()).toBe(anniversaryDate.toISOString());
   });
