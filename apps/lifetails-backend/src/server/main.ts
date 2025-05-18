@@ -22,7 +22,7 @@ async function bootstrap() {
 
   await app.listen(port).then(async () => {
     console.info(`LifeTail API is running on port ${port}`);
-    await seedDatabase(app);
+    // await seedDatabase(app);
   });
 }
 
