@@ -19,6 +19,9 @@ export class Pet extends AggregateRoot {
   private anniversaryDate: DateValueObject | null;
   private ownerId: UUID | null;
   private microchipNumber: StringValueObject | null;
+  private color: StringValueObject;
+  private updatedAt: DateValueObject | null;
+  private deletedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor({
@@ -31,6 +34,9 @@ export class Pet extends AggregateRoot {
     createdAt,
     ownerId = null,
     microchipNumber = null,
+    color,
+    updatedAt = null,
+    deletedAt = null,
   }: {
     id: UUID;
     species: Species;
@@ -41,6 +47,9 @@ export class Pet extends AggregateRoot {
     createdAt: DateValueObject;
     ownerId?: UUID | null;
     microchipNumber?: StringValueObject | null;
+    color: StringValueObject;
+    updatedAt?: DateValueObject | null;
+    deletedAt?: DateValueObject | null;
   }) {
     super();
     this.id = id;
@@ -52,6 +61,9 @@ export class Pet extends AggregateRoot {
     this.anniversaryDate = anniversaryDate;
     this.ownerId = ownerId;
     this.microchipNumber = microchipNumber;
+    this.color = color;
+    this.updatedAt = updatedAt;
+    this.deletedAt = deletedAt;
   }
 
   // Use to create the entity from the domain
@@ -63,6 +75,7 @@ export class Pet extends AggregateRoot {
     sterilized,
     anniversaryDate,
     ownerId,
+    color,
   }: {
     id: UUID;
     species: Species;
@@ -71,6 +84,7 @@ export class Pet extends AggregateRoot {
     sterilized: BooleanValueObject;
     anniversaryDate: DateValueObject;
     ownerId: UUID;
+    color: StringValueObject;
   }) {
     const now = new DateValueObject(new Date());
     const pet = new Pet({
@@ -82,6 +96,7 @@ export class Pet extends AggregateRoot {
       anniversaryDate,
       createdAt: now,
       ownerId,
+      color,
     });
 
     pet.record(new PetAddedDomainEvent({ aggregateId: id.toString(), name: name.toString() }));
@@ -100,6 +115,9 @@ export class Pet extends AggregateRoot {
     createdAt,
     ownerId,
     microchipNumber = null,
+    color,
+    updatedAt = null,
+    deletedAt = null,
   }: {
     id: string;
     species: string;
@@ -110,6 +128,9 @@ export class Pet extends AggregateRoot {
     createdAt: Date;
     ownerId: string;
     microchipNumber?: string | null;
+    color: string;
+    updatedAt?: Date | null;
+    deletedAt?: Date | null;
   }) {
     return new Pet({
       id: new UUID(id),
@@ -121,6 +142,9 @@ export class Pet extends AggregateRoot {
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
       microchipNumber: microchipNumber ? new StringValueObject(microchipNumber) : null,
+      color: new StringValueObject(color),
+      updatedAt: updatedAt ? new DateValueObject(updatedAt) : null,
+      deletedAt: deletedAt ? new DateValueObject(deletedAt) : null,
     });
   }
 
@@ -130,6 +154,14 @@ export class Pet extends AggregateRoot {
 
   public getCreatedAt(): DateValueObject {
     return this.createdAt;
+  }
+
+  public getUpdatedAt(): DateValueObject | null {
+    return this.updatedAt;
+  }
+
+  public getDeletedAt(): DateValueObject | null {
+    return this.deletedAt;
   }
 
   public getSpecies(): Species {
@@ -160,6 +192,10 @@ export class Pet extends AggregateRoot {
     return this.microchipNumber ?? null;
   }
 
+  public getColor(): StringValueObject {
+    return this.color;
+  }
+
   public toPrimitives(): any {
     return {
       id: this.id.toString(),
@@ -171,30 +207,53 @@ export class Pet extends AggregateRoot {
       createdAt: this.createdAt.toISOString(),
       ownerId: this.ownerId?.toString() ?? null,
       microchipNumber: this.microchipNumber?.toString() ?? null,
+      color: this.color.toString(),
+      updatedAt: this.updatedAt?.toISOString() ?? null,
+      deletedAt: this.deletedAt?.toISOString() ?? null,
     };
+  }
+
+  private updateLastModified(): void {
+    this.updatedAt = new DateValueObject(new Date());
   }
 
   public renameTo(name: StringValueObject): void {
     this.name = name;
+    this.updateLastModified();
   }
 
   public changeGenderTo(gender: Gender): void {
     this.gender = gender;
+    this.updateLastModified();
   }
 
   public sterilize(): void {
     this.sterilized = new BooleanValueObject(true);
+    this.updateLastModified();
   }
 
   public unsterilize(): void {
     this.sterilized = new BooleanValueObject(false);
+    this.updateLastModified();
   }
 
   public changeBirthdateTo(anniversaryDate: DateValueObject): void {
     this.anniversaryDate = anniversaryDate;
+    this.updateLastModified();
   }
 
   public changeMicrochipNumberTo(microchipNumber: StringValueObject): void {
     this.microchipNumber = microchipNumber;
+    this.updateLastModified();
+  }
+
+  public changeColorTo(color: StringValueObject): void {
+    this.color = color;
+    this.updateLastModified();
+  }
+
+  public markAsDeleted(): void {
+    this.deletedAt = new DateValueObject(new Date());
+    this.updateLastModified();
   }
 }

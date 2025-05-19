@@ -7,5 +7,6 @@ export class AddPetCommand {
     public readonly sterilized: boolean,
     public readonly anniversaryDate: Date,
     public readonly userId: string,
+    public readonly color: string,
   ) {}
 }

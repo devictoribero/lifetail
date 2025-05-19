@@ -30,7 +30,11 @@ export class AddPetInput {
   @IsNotEmpty()
   sterilized: boolean;
 
-  @Field(() => Date, { nullable: true })
-  @IsOptional()
-  anniversaryDate?: Date;
+  @Field(() => Date)
+  @IsNotEmpty()
+  anniversaryDate: Date;
+
+  @Field()
+  @IsNotEmpty()
+  color: string;
 }

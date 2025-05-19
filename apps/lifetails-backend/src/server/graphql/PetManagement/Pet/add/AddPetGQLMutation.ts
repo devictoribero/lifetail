@@ -19,9 +19,6 @@ export class AddPetGQLMutation {
   ): Promise<AddPetResponse> {
     const userId = context.req.user.id;
 
-    // We could validate that the userId in the request matches the authenticated user
-    // For now, we'll just pass along the userId from the input
-
     const command = new AddPetCommand(
       input.id,
       input.species.toString(),
@@ -30,6 +27,7 @@ export class AddPetGQLMutation {
       input.sterilized,
       input.anniversaryDate,
       userId,
+      input.color,
     );
     await this.commandHandler.handle(command);
 

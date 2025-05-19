@@ -36,6 +36,7 @@ export class AddPetCommandHandler implements CommandHandler<AddPetCommand> {
       sterilized: new BooleanValueObject(command.sterilized),
       anniversaryDate: new DateValueObject(command.anniversaryDate),
       ownerId: new UUID(command.userId),
+      color: new StringValueObject(command.color),
     });
 
     await this.repository.save(newPet);

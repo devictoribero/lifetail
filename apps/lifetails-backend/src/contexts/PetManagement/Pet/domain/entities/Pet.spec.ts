@@ -9,7 +9,7 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 describe('Pet', () => {
   it('should create a Pet instance', () => {
-    // Arrange
+    // Given
     const id = new UUID(faker.string.uuid());
     const species = Species.Cat;
     const name = new StringValueObject(faker.animal.cat());
@@ -18,8 +18,9 @@ describe('Pet', () => {
     const anniversaryDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
+    const color = new StringValueObject('Orange Tabby');
 
-    // Act
+    // When
     const pet = new Pet({
       id,
       species,
@@ -29,9 +30,10 @@ describe('Pet', () => {
       anniversaryDate,
       createdAt,
       ownerId,
+      color,
     });
 
-    // Assert
+    // Then
     expect(pet).toBeInstanceOf(Pet);
     expect(pet.getId()).toBe(id);
     expect(pet.getName()).toBe(name);
@@ -41,10 +43,13 @@ describe('Pet', () => {
     expect(pet.getCreatedAt()).toBe(createdAt);
     expect(pet.getOwnerId()).toBe(ownerId);
     expect(pet.getMicrochipNumber()).toBeNull();
+    expect(pet.getColor()).toBe(color);
+    expect(pet.getUpdatedAt()).toBeNull();
+    expect(pet.getDeletedAt()).toBeNull();
   });
 
   it('should create a Pet instance from primitives', () => {
-    // Arrange
+    // Given
     const id = faker.string.uuid();
     const species = Species.Cat.toString();
     const name = faker.animal.cat();
@@ -53,8 +58,9 @@ describe('Pet', () => {
     const anniversaryDate = faker.date.past();
     const createdAt = faker.date.recent();
     const ownerId = faker.string.uuid();
+    const color = 'Black and White';
 
-    // Act
+    // When
     const pet = Pet.fromPrimitives({
       id,
       species,
@@ -64,9 +70,10 @@ describe('Pet', () => {
       anniversaryDate,
       createdAt,
       ownerId,
+      color,
     });
 
-    // Assert
+    // Then
     expect(pet).toBeInstanceOf(Pet);
     expect(pet.getId().toString()).toBe(id);
     expect(pet.getName().toString()).toBe(name);
@@ -74,10 +81,11 @@ describe('Pet', () => {
     expect(pet.isSterilized().getValue()).toBe(sterilized);
     expect(pet.getAnniversaryDate().toDate()).toEqual(anniversaryDate);
     expect(pet.getCreatedAt().toDate()).toEqual(createdAt);
+    expect(pet.getColor().toString()).toBe(color);
   });
 
   it('should convert Pet instance to primitives', () => {
-    // Arrange
+    // Given
     const id = new UUID(faker.string.uuid());
     const species = Species.Cat;
     const name = new StringValueObject(faker.animal.cat());
@@ -86,6 +94,7 @@ describe('Pet', () => {
     const anniversaryDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
+    const color = new StringValueObject('Calico');
     const pet = new Pet({
       id,
       species,
@@ -95,11 +104,13 @@ describe('Pet', () => {
       anniversaryDate,
       createdAt,
       ownerId,
+      color,
     });
-    // Act
+
+    // When
     const primitives = pet.toPrimitives();
 
-    // Assert
+    // Then
     expect(primitives).toEqual({
       id: id.toString(),
       species: species.toString(),
@@ -110,11 +121,14 @@ describe('Pet', () => {
       createdAt: createdAt.toISOString(),
       ownerId: ownerId.toString(),
       microchipNumber: null,
+      color: color.toString(),
+      updatedAt: null,
+      deletedAt: null,
     });
   });
 
-  it('can be renamed', () => {
-    // Arrange
+  it('can be renamed and updates the updatedAt field', () => {
+    // Given
     const id = new UUID(faker.string.uuid());
     const initialName = new StringValueObject(faker.animal.cat());
     const species = Species.Cat;
@@ -123,6 +137,7 @@ describe('Pet', () => {
     const anniversaryDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
+    const color = new StringValueObject('Brown');
     const pet = new Pet({
       id,
       species,
@@ -132,17 +147,20 @@ describe('Pet', () => {
       anniversaryDate,
       createdAt,
       ownerId,
+      color,
     });
+    expect(pet.getUpdatedAt()).toBeNull();
 
-    // Act
+    // When
     pet.renameTo(new StringValueObject(faker.animal.cat()));
 
-    // Assert
+    // Then
     expect(pet.getName().equals(initialName)).toBe(false);
+    expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can change gender', () => {
-    // Arrange
+  it('can change gender and updates the updatedAt field', () => {
+    // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
       species: Species.Cat,
@@ -152,17 +170,20 @@ describe('Pet', () => {
       anniversaryDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
+      color: new StringValueObject('Gray'),
     });
+    expect(pet.getUpdatedAt()).toBeNull();
 
-    // Act
+    // When
     pet.changeGenderTo(Gender.Female);
 
-    // Assert
+    // Then
     expect(pet.getGender().equals(Gender.Female)).toBe(true);
+    expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can be sterilized', () => {
-    // Arrange
+  it('can be sterilized and updates the updatedAt field', () => {
+    // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
       species: Species.Cat,
@@ -172,17 +193,20 @@ describe('Pet', () => {
       anniversaryDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
+      color: new StringValueObject('White'),
     });
+    expect(pet.getUpdatedAt()).toBeNull();
 
-    // Act
+    // When
     pet.sterilize();
 
-    // Assert
+    // Then
     expect(pet.isSterilized().getValue()).toBe(true);
+    expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can change the microchipNumber', () => {
-    // Arrange
+  it('can change the microchipNumber and updates the updatedAt field', () => {
+    // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
       species: Species.Cat,
@@ -192,14 +216,67 @@ describe('Pet', () => {
       anniversaryDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
+      color: new StringValueObject('Tabby'),
     });
     expect(pet.getMicrochipNumber()).toBeNull();
+    expect(pet.getUpdatedAt()).toBeNull();
 
-    // Act
+    // When
     const microchipNumber = new StringValueObject(faker.string.alphanumeric(9));
     pet.changeMicrochipNumberTo(microchipNumber);
 
-    // Assert
+    // Then
     expect(pet.getMicrochipNumber().equals(microchipNumber)).toBe(true);
+    expect(pet.getUpdatedAt()).not.toBeNull();
+  });
+
+  it('can change the color and updates the updatedAt field', () => {
+    // Given
+    const initialColor = new StringValueObject('Black');
+    const pet = new Pet({
+      id: new UUID(faker.string.uuid()),
+      species: Species.Cat,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Gender.Male,
+      sterilized: new BooleanValueObject(false),
+      anniversaryDate: new DateValueObject(faker.date.past()),
+      createdAt: new DateValueObject(faker.date.recent()),
+      ownerId: new UUID(faker.string.uuid()),
+      color: initialColor,
+    });
+    expect(pet.getUpdatedAt()).toBeNull();
+
+    // When
+    const newColor = new StringValueObject('White and Brown');
+    pet.changeColorTo(newColor);
+
+    // Then
+    expect(pet.getColor().equals(newColor)).toBe(true);
+    expect(pet.getColor().equals(initialColor)).toBe(false);
+    expect(pet.getUpdatedAt()).not.toBeNull();
+  });
+
+  it('can be marked as deleted and updates both deletedAt and updatedAt fields', () => {
+    // Given
+    const pet = new Pet({
+      id: new UUID(faker.string.uuid()),
+      species: Species.Cat,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Gender.Male,
+      sterilized: new BooleanValueObject(false),
+      anniversaryDate: new DateValueObject(faker.date.past()),
+      createdAt: new DateValueObject(faker.date.recent()),
+      ownerId: new UUID(faker.string.uuid()),
+      color: new StringValueObject('Orange'),
+    });
+    expect(pet.getDeletedAt()).toBeNull();
+    expect(pet.getUpdatedAt()).toBeNull();
+
+    // When
+    pet.markAsDeleted();
+
+    // Then
+    expect(pet.getDeletedAt()).not.toBeNull();
+    expect(pet.getUpdatedAt()).not.toBeNull();
   });
 });
