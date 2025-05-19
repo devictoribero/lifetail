@@ -193,13 +193,13 @@ describe('Pet', () => {
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
     });
-    expect(pet.getMicrochipNumberhipNumber()).toBeNull();
+    expect(pet.getMicrochipNumber()).toBeNull();
 
     // Act
     const microchipNumber = new StringValueObject(faker.string.alphanumeric(9));
     pet.changeMicrochipNumberTo(microchipNumber);
 
     // Assert
-    expect(pet.getMicrochipNumberhipNumber()).toBe(microchipNumber);
+    expect(pet.getMicrochipNumber().equals(microchipNumber)).toBe(true);
   });
 });

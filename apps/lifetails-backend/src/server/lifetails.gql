@@ -159,7 +159,9 @@ type Mutation {
   addPet(input: AddPetInput!): AddPetResponse!
   addVeterinary(input: AddVeterinaryInput!): AddVeterinaryResponse!
   authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
-  changeUserPreferredLanguage(input: ChangeUserPreferredLanguageInput!): ChangeUserPreferredLanguageResponse!
+  changeUserPreferredLanguage(
+    input: ChangeUserPreferredLanguageInput!
+  ): ChangeUserPreferredLanguageResponse!
   createAccount(input: CreateAccountInput!): CreateAccountResponse!
   deleteVeterinary(input: DeleteVeterinaryInput!): DeleteVeterinaryResponse!
   refreshToken(input: RefreshTokenInput!): RefreshTokenResponse!
@@ -238,7 +240,7 @@ type UpdateLifeMomentResponse {
 
 input UpdatePetInput {
   anniversaryDate: DateTime
-  chipId: String
+  microchipNumber: String
   gender: Gender
   id: String!
   name: String

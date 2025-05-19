@@ -31,5 +31,5 @@ export class UpdatePetInput {
   @Field({ nullable: true })
   @IsString()
   @IsOptional()
-  chipId?: string;
+  microchipNumber?: string;
 }

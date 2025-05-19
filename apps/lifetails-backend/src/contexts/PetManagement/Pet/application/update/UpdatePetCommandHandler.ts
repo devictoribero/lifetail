@@ -28,8 +28,8 @@ export class UpdatePetCommandHandler implements CommandHandler<UpdatePetCommand>
       pet.changeGenderTo(Gender.fromPrimitives(command.gender));
     }
 
-    if (this.hasValue(command.chipId)) {
-      pet.changeChipIdTo(new StringValueObject(command.chipId));
+    if (this.hasValue(command.microchipNumber)) {
+      pet.changeMicrochipNumberTo(new StringValueObject(command.microchipNumber));
     }
 
     if (this.hasValue(command.sterilized)) {

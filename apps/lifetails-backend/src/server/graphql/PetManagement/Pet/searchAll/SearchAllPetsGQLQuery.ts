@@ -3,7 +3,6 @@ import { Pet } from '../find/Pet';
 import { SearchAllPetsQueryHandler } from 'src/contexts/PetManagement/Pet/application/searchAll/SearchAllPetsQueryHandler';
 import { SearchAllPetsQuery as SearchAllPetsQueryDomain } from 'src/contexts/PetManagement/Pet/application/searchAll/SearchAllPetsQuery';
 import { SearchAllPetsInput } from './SearchAllPetsInput';
-import { UseGuards } from '@nestjs/common';
 
 @Resolver()
 export class SearchAllPetsGQLQuery {
@@ -23,7 +22,7 @@ export class SearchAllPetsGQLQuery {
         gender: petPrimitives.gender,
         sterilized: petPrimitives.sterilized,
         anniversaryDate: petPrimitives.anniversaryDate,
-        chipId: petPrimitives.chipId,
+        microchipNumber: petPrimitives.microchipNumber,
         createdAt: petPrimitives.createdAt,
         ownerId: petPrimitives.ownerId,
       };

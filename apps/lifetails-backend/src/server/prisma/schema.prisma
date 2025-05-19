@@ -48,7 +48,7 @@ model Pet {
   createdAt        DateTime  @map("created_at")
   anniversaryDate  DateTime? @map("anniversary_date")
   ownerId          String?   @map("owner_id")
-  chipId           String?   @map("chip_id")
+  microchipNumber  String?   @map("microchip_number")
 }
 
 model Veterinary {

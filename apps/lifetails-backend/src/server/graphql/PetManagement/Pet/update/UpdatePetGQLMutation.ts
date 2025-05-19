@@ -14,7 +14,7 @@ export class UpdatePetGQLMutation {
       input.id,
       input.name,
       input?.gender?.toString(),
-      input.chipId,
+      input.microchipNumber,
       input.sterilized,
       input.anniversaryDate,
     );

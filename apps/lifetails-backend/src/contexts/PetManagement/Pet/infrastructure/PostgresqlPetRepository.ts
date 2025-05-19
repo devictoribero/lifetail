@@ -3,19 +3,23 @@ import { PrismaService } from 'src/contexts/Shared/infrastructure/prisma/PrismaS
 import { Pet } from '../domain/entities/Pet';
 import { PetRepository } from '../domain/repositories/PetRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { Gender } from 'src/contexts/Shared/domain/Gender';
-import { Species } from '../domain/entities/PetSpecies';
 
 @Injectable()
 export class PostgresqlPetRepository implements PetRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async save(pet: Pet): Promise<void> {
-    const { id, species, name, gender, sterilized, anniversaryDate, createdAt, ownerId, chipId } =
-      pet.toPrimitives();
+    const {
+      id,
+      species,
+      name,
+      gender,
+      sterilized,
+      anniversaryDate,
+      createdAt,
+      ownerId,
+      microchipNumber,
+    } = pet.toPrimitives();
 
     await this.prisma.pet.upsert({
       where: { id },
@@ -26,7 +30,7 @@ export class PostgresqlPetRepository implements PetRepository {
         sterilized,
         anniversaryDate: anniversaryDate ? new Date(anniversaryDate) : null,
         ownerId,
-        chipId,
+        microchipNumber,
       },
       create: {
         id,
@@ -37,7 +41,7 @@ export class PostgresqlPetRepository implements PetRepository {
         anniversaryDate: anniversaryDate ? new Date(anniversaryDate) : null,
         createdAt: new Date(createdAt),
         ownerId,
-        chipId,
+        microchipNumber,
       },
     });
   }
@@ -78,7 +82,7 @@ export class PostgresqlPetRepository implements PetRepository {
       anniversaryDate: pet.anniversaryDate ?? new Date(),
       createdAt: pet.createdAt,
       ownerId: pet.ownerId,
-      chipId: pet.chipId,
+      microchipNumber: pet.microchipNumber,
     });
   }
 

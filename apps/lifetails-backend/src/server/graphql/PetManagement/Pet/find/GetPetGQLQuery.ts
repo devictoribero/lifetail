@@ -24,7 +24,7 @@ export class GetPetGQLQuery {
       species: petPrimitives.species,
       name: petPrimitives.name,
       gender: petPrimitives.gender,
-      chipId: petPrimitives.chipId,
+      microchipNumber: petPrimitives.microchipNumber,
       sterilized: petPrimitives.sterilized,
       anniversaryDate: petPrimitives.anniversaryDate,
       createdAt: petPrimitives.createdAt,
