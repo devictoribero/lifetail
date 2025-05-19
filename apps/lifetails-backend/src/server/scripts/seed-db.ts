@@ -127,6 +127,7 @@ export const seedDatabase = async (app: INestApplication) => {
     true,
     new Date('2020-01-01'),
     USER_ID,
+    'White',
   );
   await addPetCommandHandler.handle(addPetCommand);
   const pet = await getPetQueryHandler.handle(new GetPetQuery(petId));
