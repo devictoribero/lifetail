@@ -2,7 +2,10 @@
 
 ## High Priority
 
-- Rename chipId to microchipNumber
+- Add color to pet (open string)
+- Add arrival date
+- Create repository mocks for unit tests
+- Rename microchipNumber to microchipNumber
 - Make sure all the request work with Postgresql
 
 ## Medium Priority
