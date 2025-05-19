@@ -1,5 +1,4 @@
 import { Pet } from '../../domain/entities/Pet';
-import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 import { UpdatePetCommandHandler } from './UpdatePetCommandHandler';
 import { UpdatePetCommand } from './UpdatePetCommand';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
@@ -10,6 +9,7 @@ import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundExcepti
 import { faker } from '@faker-js/faker';
 import { Species } from '../../domain/entities/PetSpecies';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 
 describe('UpdatePetCommandHandler', () => {
   let repository: PetInMemoryRepository;
@@ -32,7 +32,7 @@ describe('UpdatePetCommandHandler', () => {
       anniversaryDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.past()),
       ownerId: new UUID(faker.string.uuid()),
-      chipId: new StringValueObject(faker.string.numeric(9)),
+      microchipNumber: new StringValueObject(faker.string.numeric(9)),
     });
 
     await repository.save(originalPet);
@@ -68,7 +68,7 @@ describe('UpdatePetCommandHandler', () => {
     expect(updatedPetPrimitives.id).toBe(petId);
     expect(updatedPetPrimitives.name).toBe(newName);
     expect(updatedPetPrimitives.gender).toBe(newGender);
-    expect(updatedPetPrimitives.chipId).toBe(newChipId);
+    expect(updatedPetPrimitives.microchipNumber).toBe(newChipId);
     expect(updatedPetPrimitives.sterilized).toBe(newSterilized);
     expect(updatedPetPrimitives.anniversaryDate).toBe(
       new DateValueObject(newBirthdate).toISOString(),
@@ -95,7 +95,23 @@ describe('UpdatePetCommandHandler', () => {
   });
 
   it('should update only sterilized status when only that is provided', async () => {
-    const newSterilized = !originalPet.isSterilized().getValue();
+    // Recreate pet with known sterilized status
+    const knownSterilizedStatus = true;
+    originalPet = new Pet({
+      id: new UUID(petId),
+      species: Species.Cat,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Gender.fromPrimitives('Male'),
+      sterilized: new BooleanValueObject(knownSterilizedStatus),
+      anniversaryDate: new DateValueObject(faker.date.past()),
+      createdAt: new DateValueObject(faker.date.past()),
+      ownerId: new UUID(faker.string.uuid()),
+      microchipNumber: new StringValueObject(faker.string.numeric(9)),
+    });
+    await repository.save(originalPet);
+
+    // Set to opposite of current value
+    const newSterilized = !knownSterilizedStatus;
     const command = new UpdatePetCommand(petId, undefined, undefined, undefined, newSterilized);
 
     await commandHandler.handle(command);
@@ -107,7 +123,7 @@ describe('UpdatePetCommandHandler', () => {
     expect(updatedPet?.getMicrochipNumber().toString()).toBe(
       originalPet.getMicrochipNumber().toString(),
     ); // Unchanged
-    expect(updatedPet?.isSterilized().getValue()).not.toBe(originalPet.isSterilized().getValue()); // Changed
+    expect(updatedPet?.isSterilized().getValue()).toBe(newSterilized); // Changed to the opposite
     expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
       originalPet.getAnniversaryDate().toISOString(),
     ); // Unchanged

@@ -1,4 +1,3 @@
-import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 import { GetPetQueryHandler } from './GetPetQueryHandler';
 import { GetPetQuery } from './GetPetQuery';
 import { Pet } from '../../domain/entities/Pet';
@@ -10,6 +9,7 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { Species } from '../../domain/entities/PetSpecies';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 
 describe('GetPetQueryHandler', () => {
   let repository: PetInMemoryRepository;

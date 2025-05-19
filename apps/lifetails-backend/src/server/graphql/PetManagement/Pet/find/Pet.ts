@@ -28,5 +28,5 @@ export class Pet {
   ownerId: string;
 
   @Field({ nullable: true })
-  chipId: string | null;
+  microchipNumber: string | null;
 }

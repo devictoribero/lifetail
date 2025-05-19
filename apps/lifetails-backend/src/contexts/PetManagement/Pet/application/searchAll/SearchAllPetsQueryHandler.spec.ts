@@ -8,26 +8,22 @@ import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObjec
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { Species } from '../../domain/entities/PetSpecies';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
+import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
 
 describe('SearchAllPetsQueryHandler', () => {
   let queryHandler: SearchAllPetsQueryHandler;
-  let repository: jest.Mocked<PetRepository>;
+  let repository: PetRepository;
   let ownerId: UUID;
 
   beforeEach(() => {
-    repository = {
-      findByOwner: jest.fn(),
-      find: jest.fn(),
-      save: jest.fn(),
-      remove: jest.fn(),
-    };
+    repository = new PetInMemoryRepository();
     queryHandler = new SearchAllPetsQueryHandler(repository);
     ownerId = UUID.generate();
   });
 
   it('should return an empty array when no pets found', async () => {
     // Arrange
-    repository.findByOwner.mockResolvedValue([]);
+    repository.findByOwner = jest.fn().mockResolvedValue([]);
 
     // Act
     const query = new SearchAllPetsQuery(ownerId.toString());
@@ -65,7 +61,7 @@ describe('SearchAllPetsQueryHandler', () => {
     });
 
     const pets = [pet1, pet2];
-    repository.findByOwner.mockResolvedValue(pets);
+    repository.findByOwner = jest.fn().mockResolvedValue(pets);
 
     // Act
     const query = new SearchAllPetsQuery(ownerId.toString());

@@ -11,8 +11,6 @@ import { Pet } from '../../domain/entities/Pet';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { EventBus } from 'src/contexts/Shared/domain/EventBus';
-import { DomainEvent } from 'src/contexts/Shared/domain/DomainEvent';
-import { PetAddedDomainEvent } from '../../domain/PetAddedDomainEvent';
 
 describe('AddPetCommandHandler', () => {
   let repository: PetInMemoryRepository;

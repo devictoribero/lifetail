@@ -1,67 +1,53 @@
-import { Test } from '@nestjs/testing';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import {
-  VETERINARY_REPOSITORY,
-  VeterinaryRepository,
-} from '../../domain/repositories/VeterinaryRepository';
+import { VeterinaryRepository } from '../../domain/repositories/VeterinaryRepository';
 import { DeleteVeterinaryCommand } from './DeleteVeterinaryCommand';
 import { DeleteVeterinaryCommandHandler } from './DeleteVeterinaryCommandHandler';
 import { faker } from '@faker-js/faker';
 import { VeterinaryNotFoundException } from '../../domain/exceptions/VeterinaryNotFoundException';
 import { Veterinary } from '../../domain/entities/Veterinary';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
+import { VeterinaryInMemoryRepository } from '../../infrastructure/VeterinaryInMemoryRepository';
 
 describe('DeleteVeterinaryCommandHandler', () => {
   let handler: DeleteVeterinaryCommandHandler;
-  let repository: jest.Mocked<VeterinaryRepository>;
+  let repository: VeterinaryRepository;
 
-  beforeEach(async () => {
-    repository = {
-      save: jest.fn(),
-      find: jest.fn(),
-      remove: jest.fn(),
-    } as jest.Mocked<VeterinaryRepository>;
-
-    const module = await Test.createTestingModule({
-      providers: [
-        DeleteVeterinaryCommandHandler,
-        { provide: VETERINARY_REPOSITORY, useValue: repository },
-      ],
-    }).compile();
-
-    handler = module.get<DeleteVeterinaryCommandHandler>(DeleteVeterinaryCommandHandler);
+  beforeEach(() => {
+    repository = new VeterinaryInMemoryRepository();
+    handler = new DeleteVeterinaryCommandHandler(repository);
   });
 
+  it('should throw VeterinaryNotFoundException when veterinary does not exist', async () => {
+    // Given
+    const id = faker.string.uuid();
+    const command = new DeleteVeterinaryCommand(id);
+
+    // When/Then
+    await expect(handler.handle(command)).rejects.toThrow(VeterinaryNotFoundException);
+  });
+
+  it('should set fields to null when provided with empty values', async () => {
+    // TODO: Implement this test
+  });
+
+  // Happy paths
   it('should delete a veterinary when it exists', async () => {
-    // Arrange
+    // Given
     const id = faker.string.uuid();
     const veterinary = Veterinary.create({
       id: new UUID(id),
       name: new StringValueObject('Test Veterinary'),
     });
-    repository.find.mockResolvedValue(veterinary);
-
-    // Act
+    await repository.save(veterinary);
     const command = new DeleteVeterinaryCommand(id);
+
+    // When
     await handler.handle(command);
 
-    // Assert
-    expect(repository.find).toHaveBeenCalledWith(expect.any(UUID));
-    expect(repository.save).toHaveBeenCalledWith(expect.any(Veterinary));
-    const savedVeterinary = repository.save.mock.calls[0][0] as Veterinary;
-    expect(savedVeterinary.getId().toString()).toBe(id);
-    expect(savedVeterinary.getDeletedAt()).not.toBeNull();
-  });
-
-  it('should throw VeterinaryNotFoundException when veterinary does not exist', async () => {
-    // Arrange
-    const id = faker.string.uuid();
-    repository.find.mockResolvedValue(null);
-    const command = new DeleteVeterinaryCommand(id);
-
-    // Act & Assert
-    await expect(handler.handle(command)).rejects.toThrow(VeterinaryNotFoundException);
-    expect(repository.find).toHaveBeenCalledWith(expect.any(UUID));
-    expect(repository.save).not.toHaveBeenCalled();
+    // Then
+    const deletedVeterinary = await repository.find(new UUID(id));
+    expect(deletedVeterinary).not.toBeNull();
+    expect(deletedVeterinary?.getId().toString()).toBe(id);
+    expect(deletedVeterinary?.getDeletedAt()).not.toBeNull();
   });
 });
