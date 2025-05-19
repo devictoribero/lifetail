@@ -16,6 +16,7 @@ export class AddPetInput {
   id: string;
 
   @Field(() => DomainPetSpecies)
+  @IsNotEmpty()
   species: DomainPetSpecies;
 
   @Field()
