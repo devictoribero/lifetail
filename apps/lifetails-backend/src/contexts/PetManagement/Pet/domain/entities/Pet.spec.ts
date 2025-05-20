@@ -6,6 +6,7 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { Species } from './PetSpecies';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { PetAddedDomainEvent } from '../PetAddedDomainEvent';
 
 describe('Pet', () => {
   it('should create a Pet instance', () => {
@@ -46,6 +47,35 @@ describe('Pet', () => {
     expect(pet.getColor()).toBe(color);
     expect(pet.getUpdatedAt()).toBeNull();
     expect(pet.getDeletedAt()).toBeNull();
+  });
+
+  it('should record a PetCreatedDomainEvent when a Pet is created', () => {
+    // Given
+    const pet = Pet.create({
+      id: new UUID(faker.string.uuid()),
+      species: Species.CAT,
+      name: new StringValueObject(faker.animal.cat()),
+      gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
+      sterilized: new BooleanValueObject(faker.datatype.boolean()),
+      birthDate: new DateValueObject(faker.date.past()),
+      arrivalDate: new DateValueObject(faker.date.past()),
+      ownerId: new UUID(faker.string.uuid()),
+      color: new StringValueObject(faker.color.human()),
+    });
+
+    // When
+    const events = pet.pullDomainEvents();
+
+    // Then
+    expect(events).toHaveLength(1);
+    expect(events[0]).toBeInstanceOf(PetAddedDomainEvent);
+    expect(events[0]).toEqual({
+      eventName: 'pet.added',
+      aggregateId: pet.getId().toString(),
+      eventId: events[0].eventId,
+      occurredOn: events[0].occurredOn,
+      name: pet.getName().toString(),
+    });
   });
 
   it('should create a Pet instance from primitives', () => {
