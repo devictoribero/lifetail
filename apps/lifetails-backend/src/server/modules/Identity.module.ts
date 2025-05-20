@@ -38,6 +38,7 @@ import { AuthenticateAccountGQLMutation } from '../graphql/Identity/Authenticati
 import { RefreshTokenGQLMutation } from '../graphql/Identity/Authentication/refreshToken/RefreshTokenGQLMutation';
 import { CreateAccountGQLMutation } from '../graphql/Identity/Account/createAccount/CreateAccountGQLMutation';
 import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/User/changePreferredLanguage/ChangeUserPreferredLanguageGQLMutation';
+import { MeGQLQuery } from '../graphql/Identity/User/me/MeGQLQuery';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/User
     CreateAccountGQLMutation,
     AuthenticateAccountGQLMutation,
     AuthenticateAccountCommandHandler,
+    MeGQLQuery,
     PasswordHasher,
     RefreshTokenCommandHandler,
     RefreshTokenGQLMutation,
@@ -104,6 +106,7 @@ import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/User
     ChangeUserPreferredLanguageCommandHandler,
     USER_REPOSITORY,
     ChangeUserPreferredLanguageGQLMutation,
+    MeGQLQuery,
   ],
 })
 export class IdentityModule {}

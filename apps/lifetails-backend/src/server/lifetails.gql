@@ -197,6 +197,7 @@ type Query {
   getPet(input: GetPetInput!): Pet!
   getVeterinary(input: GetVeterinaryInput!): Veterinary!
   healthCheck: HealthCheckResponse!
+  me: User!
   searchAllPets(input: SearchAllPetsInput!): [Pet!]!
   searchLifeMoments(input: SearchLifeMomentsInput!): [LifeMoment!]!
 }
@@ -267,6 +268,14 @@ input UpdateVeterinaryInput {
 
 type UpdateVeterinaryResponse {
   id: String!
+}
+
+type User {
+  accountId: String!
+  createdAt: String!
+  id: String!
+  nickname: String!
+  preferredLanguage: String!
 }
 
 type Veterinary {

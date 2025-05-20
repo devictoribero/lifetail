@@ -20,8 +20,8 @@ export class User extends AggregateRoot {
     id: UUID;
     accountId: UUID;
     nickname: StringValueObject;
-    createdAt: DateValueObject;
     preferredLanguage?: LanguageCode;
+    createdAt: DateValueObject;
     updatedAt?: DateValueObject | null;
     deletedAt?: DateValueObject | null;
   }) {
@@ -117,8 +117,8 @@ export class User extends AggregateRoot {
       nickname: this.getNickname().toString(),
       preferredLanguage: this.getPreferredLanguage().toString(),
       createdAt: this.getCreatedAt().toISOString(),
-      updatedAt: this.getUpdatedAt()?.toISOString(),
-      deletedAt: this.getDeletedAt()?.toISOString(),
+      updatedAt: this.getUpdatedAt()?.toISOString() ?? null,
+      deletedAt: this.getDeletedAt()?.toISOString() ?? null,
     };
   }
 }
