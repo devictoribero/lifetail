@@ -17,6 +17,8 @@ import { RefreshTokenCommandHandler } from 'src/contexts/Identity/Authentication
 import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/getUser/GetUserQueryHandler';
 import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/createUser/CreateUserCommandHandler';
 import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
+import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Account/application/deleteAccount/DeleteAccountCommandHandler';
+import { GetAccountQueryHandler } from 'src/contexts/Identity/Account/application/getAccount/GetAccountQueryHandler';
 
 // Infrastructure imports
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
@@ -39,6 +41,7 @@ import { RefreshTokenGQLMutation } from '../graphql/Identity/Authentication/refr
 import { CreateAccountGQLMutation } from '../graphql/Identity/Account/createAccount/CreateAccountGQLMutation';
 import { ChangeUserPreferredLanguageGQLMutation } from '../graphql/Identity/User/changePreferredLanguage/ChangeUserPreferredLanguageGQLMutation';
 import { MeGQLQuery } from '../graphql/Identity/User/me/MeGQLQuery';
+import { DeleteMyAccountGQLMutation } from '../graphql/Identity/Account/deleteMyAccount/DeleteMyAccountGQLMutation';
 
 @Module({
   imports: [
@@ -88,6 +91,10 @@ import { MeGQLQuery } from '../graphql/Identity/User/me/MeGQLQuery';
     CreateUserCommandHandler,
     ChangeUserPreferredLanguageCommandHandler,
     ChangeUserPreferredLanguageGQLMutation,
+    // Account providers
+    DeleteAccountCommandHandler,
+    GetAccountQueryHandler,
+    DeleteMyAccountGQLMutation,
   ],
   exports: [
     // Authentication exports
@@ -107,6 +114,9 @@ import { MeGQLQuery } from '../graphql/Identity/User/me/MeGQLQuery';
     USER_REPOSITORY,
     ChangeUserPreferredLanguageGQLMutation,
     MeGQLQuery,
+
+    // Account exports
+    DeleteMyAccountGQLMutation,
   ],
 })
 export class IdentityModule {}

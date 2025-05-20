@@ -1,27 +1,27 @@
-import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { DeleteAccountInput } from './DeleteAccountInput';
-import { DeleteAccountResponse } from './DeleteAccountResponse';
+import { Context, Mutation, Resolver } from '@nestjs/graphql';
 import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Account/application/deleteAccount/DeleteAccountCommandHandler';
 import { DeleteAccountCommand } from 'src/contexts/Identity/Account/application/deleteAccount/DeleteAccountCommand';
 import { UseGuards } from '@nestjs/common';
-import { AccountNotFoundException } from 'src/contexts/Identity/Account/domain/exceptions/AccountNotFoundException';
 import {
   AuthenticationRequired,
   UserInContext,
 } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
+import { DeleteMyAccountResponse } from './DeleteMyAccountResponse';
+import { GetAccountQueryHandler } from 'src/contexts/Identity/Account/application/getAccount/GetAccountQueryHandler';
 
 @Resolver()
-export class DeleteAccountGQLMutation {
-  constructor(private readonly deleteAccountCommandHandler: DeleteAccountCommandHandler) {}
+export class DeleteMyAccountGQLMutation {
+  constructor(
+    private readonly deleteAccountCommandHandler: DeleteAccountCommandHandler,
+    private readonly getAccountQueryHandler: GetAccountQueryHandler,
+  ) {}
 
   @UseGuards(AuthenticationRequired)
-  @Mutation(() => DeleteAccountResponse)
-  async deleteAccount(
-    @Args('input') input: DeleteAccountInput,
-    @Context() context: any,
-  ): Promise<DeleteAccountResponse> {
+  @Mutation(() => DeleteMyAccountResponse)
+  async deleteMyAccount(@Context() context: any): Promise<DeleteMyAccountResponse> {
     const accountId = this.getUserFromContext(context).accountId;
     const command = new DeleteAccountCommand(accountId);
+
     await this.deleteAccountCommandHandler.handle(command);
 
     return { success: true };

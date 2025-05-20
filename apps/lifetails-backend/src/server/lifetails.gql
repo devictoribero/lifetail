@@ -73,6 +73,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type DeleteMyAccountResponse {
+  success: Boolean!
+}
+
 input DeleteVeterinaryInput {
   id: String!
 }
@@ -163,6 +167,7 @@ type Mutation {
   authenticateAccount(input: AuthenticateAccountInput!): AuthenticateAccountResponse!
   changeUserPreferredLanguage(input: ChangeUserPreferredLanguageInput!): ChangeUserPreferredLanguageResponse!
   createAccount(input: CreateAccountInput!): CreateAccountResponse!
+  deleteMyAccount: DeleteMyAccountResponse!
   deleteVeterinary(input: DeleteVeterinaryInput!): DeleteVeterinaryResponse!
   refreshToken(input: RefreshTokenInput!): RefreshTokenResponse!
   removeLifeMoment(input: RemoveLifeMomentInput!): Boolean!

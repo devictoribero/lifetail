@@ -12,9 +12,10 @@ export class MeGQLQuery {
 
   @Query(() => User)
   async me(@Context() context: any): Promise<User> {
-    const userId = context.req.user.id;
+    const accountId = context.req.user.accountId;
+    console.log(context.req.user);
 
-    const query = new GetUserQuery(userId);
+    const query = new GetUserQuery(accountId);
     const user = await this.getUserQueryHandler.handle(query);
 
     const userPrimitives = user.toPrimitives();

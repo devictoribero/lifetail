@@ -3,8 +3,6 @@
 ## High Priority
 
 - Create repository mocks for unit tests
-- Rename microchipNumber to microchipNumber
-- Make sure all the request work with Postgresql
 
 ## Medium Priority
 
@@ -24,10 +22,12 @@
   - private createdAt: DateValueObject;
   - private updatedAt: DateValueObject | null;
 - Add more info to the pet information
-  - color ?
   - pattern ?????
   - distinctions (campo abierto para escribir)
 - Add images capability
 - Add weight records for of the pet
+
+## Low priority
+
 - Hard delete accounts and related data after 30d of being deleted
 - A user can log out
