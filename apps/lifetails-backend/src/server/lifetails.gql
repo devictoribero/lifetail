@@ -82,8 +82,8 @@ type DeleteVeterinaryResponse {
 }
 
 enum Gender {
-  Female
-  Male
+  FEMALE
+  MALE
 }
 
 input GetLifeMomentInput {
@@ -103,8 +103,8 @@ type HealthCheckResponse {
 }
 
 enum LanguageCode {
-  en
-  es
+  EN
+  ES
 }
 
 type LifeMoment {
@@ -187,9 +187,9 @@ type Pet {
 }
 
 enum PetSpecies {
-  All
-  Cat
-  Dog
+  CAT
+  DOG
+  types
 }
 
 type Query {

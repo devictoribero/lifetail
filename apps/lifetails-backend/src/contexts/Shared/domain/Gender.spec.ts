@@ -2,8 +2,8 @@ import { UnsupportedGenderException } from './exceptions/UnsupportedGenderExcept
 import { Gender, GenderEnum } from './Gender';
 
 const SUPPORTED_GENDERS = [
-  { name: 'Male', constant: Gender.Male, code: GenderEnum.Male },
-  { name: 'Female', constant: Gender.Female, code: GenderEnum.Female },
+  { name: 'MALE', constant: Gender.MALE, code: GenderEnum.MALE },
+  { name: 'FEMALE', constant: Gender.FEMALE, code: GenderEnum.FEMALE },
 ];
 
 describe('Gender', () => {

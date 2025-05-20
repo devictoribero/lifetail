@@ -35,7 +35,7 @@ describe('GetPetQueryHandler', () => {
     // Arrange
     const id = faker.string.uuid();
     const name = faker.animal.cat();
-    const gender = 'Female';
+    const gender = 'FEMALE';
     const chipId = faker.string.numeric(9);
     const sterilized = true;
     const birthDate = faker.date.past();
@@ -44,7 +44,7 @@ describe('GetPetQueryHandler', () => {
     // Create and save a pet
     const pet = new Pet({
       id: new UUID(id),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(name),
       gender: Gender.fromPrimitives(gender),
       sterilized: new BooleanValueObject(sterilized),

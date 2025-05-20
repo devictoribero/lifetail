@@ -11,39 +11,49 @@ export class PostgresqlPetRepository implements PetRepository {
   async save(pet: Pet): Promise<void> {
     const {
       id,
+      ownerId,
       species,
-      name,
       gender,
+      name,
       sterilized,
       birthDate,
       arrivalDate,
-      createdAt,
-      ownerId,
+      color,
       microchipNumber,
+      createdAt,
+      updatedAt,
+      deletedAt,
     } = pet.toPrimitives();
 
     await this.prisma.pet.upsert({
       where: { id },
       update: {
-        species: this.mapToPrismaSpecies(species),
-        name,
-        gender: this.mapToPrismaGender(gender),
-        sterilized,
-        birthDate: birthDate ? new Date(birthDate) : null,
         ownerId,
-        microchipNumber,
-      },
-      create: {
-        id,
-        species: this.mapToPrismaSpecies(species),
+        species,
+        gender,
         name,
-        gender: this.mapToPrismaGender(gender),
         sterilized,
         birthDate: birthDate ? new Date(birthDate) : null,
         arrivalDate: arrivalDate ? new Date(arrivalDate) : null,
-        createdAt: new Date(createdAt),
-        ownerId,
+        color,
         microchipNumber,
+        updatedAt: updatedAt ? new Date(updatedAt) : null,
+        deletedAt: deletedAt ? new Date(deletedAt) : null,
+      },
+      create: {
+        id,
+        ownerId,
+        species,
+        gender,
+        name,
+        sterilized,
+        birthDate: birthDate ? new Date(birthDate) : null,
+        arrivalDate: arrivalDate ? new Date(arrivalDate) : null,
+        color,
+        microchipNumber,
+        createdAt: new Date(createdAt),
+        updatedAt: updatedAt ? new Date(updatedAt) : null,
+        deletedAt: deletedAt ? new Date(deletedAt) : null,
       },
     });
   }
@@ -59,9 +69,7 @@ export class PostgresqlPetRepository implements PetRepository {
       where: { id: id.toString() },
     });
 
-    if (!pet) {
-      return null;
-    }
+    if (!pet) return null;
 
     return this.mapToDomainPet(pet);
   }
@@ -77,64 +85,18 @@ export class PostgresqlPetRepository implements PetRepository {
   private mapToDomainPet(pet: any): Pet {
     return Pet.fromPrimitives({
       id: pet.id,
-      species: this.mapToDomainSpecies(pet.species),
+      ownerId: pet.ownerId,
+      species: pet.species,
+      gender: pet.gender,
       name: pet.name,
-      gender: this.mapToDomainGender(pet.gender),
       sterilized: pet.sterilized,
       birthDate: pet.birthDate ?? new Date(),
       arrivalDate: pet.arrivalDate ?? new Date(),
       color: pet.color,
-      createdAt: pet.createdAt,
-      ownerId: pet.ownerId,
       microchipNumber: pet.microchipNumber,
+      createdAt: pet.createdAt,
+      updatedAt: pet.updatedAt,
+      deletedAt: pet.deletedAt,
     });
-  }
-
-  // Map domain species to Prisma enum format
-  private mapToPrismaSpecies(species: string): 'DOG' | 'CAT' {
-    switch (species) {
-      case 'Dog':
-        return 'DOG';
-      case 'Cat':
-        return 'CAT';
-      default:
-        throw new Error(`Unsupported species: ${species}`);
-    }
-  }
-
-  // Map Prisma enum format to domain species
-  private mapToDomainSpecies(species: string): string {
-    switch (species) {
-      case 'DOG':
-        return 'Dog';
-      case 'CAT':
-        return 'Cat';
-      default:
-        return 'Dog'; // Default fallback
-    }
-  }
-
-  // Map domain gender to Prisma enum format
-  private mapToPrismaGender(gender: string): 'MALE' | 'FEMALE' {
-    switch (gender) {
-      case 'Male':
-        return 'MALE';
-      case 'Female':
-        return 'FEMALE';
-      default:
-        throw new Error(`Unsupported gender: ${gender}`);
-    }
-  }
-
-  // Map Prisma enum format to domain gender
-  private mapToDomainGender(gender: string): string {
-    switch (gender) {
-      case 'MALE':
-        return 'Male';
-      case 'FEMALE':
-        return 'Female';
-      default:
-        return 'Male'; // Default fallback
-    }
   }
 }

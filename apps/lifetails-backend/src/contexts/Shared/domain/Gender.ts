@@ -1,14 +1,14 @@
 import { UnsupportedGenderException } from './exceptions/UnsupportedGenderException';
 
 export enum GenderEnum {
-  Male = 'Male',
-  Female = 'Female',
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }
 
 export class Gender {
-  static readonly Male = new Gender(GenderEnum.Male);
-  static readonly Female = new Gender(GenderEnum.Female);
-  private static readonly types = [Gender.Male, Gender.Female];
+  static readonly MALE = new Gender(GenderEnum.MALE);
+  static readonly FEMALE = new Gender(GenderEnum.FEMALE);
+  private static readonly types = [Gender.MALE, Gender.FEMALE];
 
   private constructor(private readonly value: string) {}
 

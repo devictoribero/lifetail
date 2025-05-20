@@ -76,7 +76,7 @@ describe('ChangeUserPreferredLanguageGQLMutation', () => {
   it('should call command handler and return success response', async () => {
     // Arrange
     const input: ChangeUserPreferredLanguageInput = {
-      languageCode: LanguageCodeGraphqlEnum.es,
+      languageCode: LanguageCodeGraphqlEnum.ES,
     };
 
     // Act
@@ -95,7 +95,7 @@ describe('ChangeUserPreferredLanguageGQLMutation', () => {
   it('should throw a specific error when user is not found', async () => {
     // Arrange
     const input: ChangeUserPreferredLanguageInput = {
-      languageCode: LanguageCodeGraphqlEnum.es,
+      languageCode: LanguageCodeGraphqlEnum.ES,
     };
     commandHandler.handle.mockRejectedValue(new UserNotFoundException());
 

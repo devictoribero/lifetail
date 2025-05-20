@@ -30,9 +30,9 @@ describe('AddPetCommandHandler', () => {
     const ownerId = faker.string.uuid();
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject('Neko'),
-      gender: Gender.fromPrimitives('Female'),
+      gender: Gender.fromPrimitives('FEMALE'),
       sterilized: new BooleanValueObject(true),
       birthDate: new DateValueObject(new Date()),
       arrivalDate: new DateValueObject(new Date()),
@@ -43,9 +43,9 @@ describe('AddPetCommandHandler', () => {
     await repository.save(pet);
 
     const petId = faker.string.uuid();
-    const species = Species.Cat.toString();
+    const species = Species.CAT.toString();
     const catName = faker.person.firstName();
-    const gender = Gender.Male.toString();
+    const gender = Gender.MALE.toString();
     const sterilized = true;
     const birthDate = new Date();
     const arrivalDate = new Date();
@@ -69,9 +69,9 @@ describe('AddPetCommandHandler', () => {
     // Arrange
     const id = faker.string.uuid();
     const ownerId = faker.string.uuid();
-    const species = Species.Cat.toString();
+    const species = Species.CAT.toString();
     const catName = faker.person.firstName();
-    const gender = Gender.Male.toString();
+    const gender = Gender.MALE.toString();
     const sterilized = true;
     const birthDate = new Date('2025-01-01');
     const arrivalDate = new Date('2025-01-01');

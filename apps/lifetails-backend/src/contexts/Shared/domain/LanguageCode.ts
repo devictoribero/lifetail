@@ -2,8 +2,8 @@ import { StringValueObject } from './StringValueObject';
 import { InvalidLanguageException } from './exceptions/InvalidLanguageException';
 
 export enum LanguageCodeEnum {
-  English = 'en',
-  Spanish = 'es',
+  English = 'EN',
+  Spanish = 'ES',
 }
 
 export class LanguageCode extends StringValueObject {

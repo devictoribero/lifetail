@@ -46,7 +46,7 @@ describe('ChangeUserPreferredLanguageCommandHandler', () => {
   it('should throw UserNotFoundException when the user does not exist', async () => {
     // Arrange
     repository.getById.mockResolvedValue(null);
-    const command = new ChangeUserPreferredLanguageCommand(userId, 'es');
+    const command = new ChangeUserPreferredLanguageCommand(userId, 'ES');
 
     // Act & Assert
     await expect(commandHandler.handle(command)).rejects.toThrow(UserNotFoundException);
@@ -55,7 +55,7 @@ describe('ChangeUserPreferredLanguageCommandHandler', () => {
 
   it('should change the user preferred language to Spanish', async () => {
     // Arrange
-    const command = new ChangeUserPreferredLanguageCommand(userId, 'es');
+    const command = new ChangeUserPreferredLanguageCommand(userId, 'ES');
 
     // Act
     await commandHandler.handle(command);

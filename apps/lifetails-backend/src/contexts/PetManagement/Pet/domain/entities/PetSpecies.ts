@@ -14,7 +14,7 @@ export class Species extends StringValueObject {
   // Use to reconstruct the entity from the database
   public static fromPrimitives(value: string): Species {
     const petSpecies = new Species(value);
-    const species = Species.All.find((species) => species.equals(petSpecies));
+    const species = Species.types.find((species) => species.equals(petSpecies));
 
     if (!species) {
       throw new UnsupportedPetSpeciesException(new StringValueObject(value));
@@ -23,7 +23,7 @@ export class Species extends StringValueObject {
     return species;
   }
 
-  public static readonly Dog = new Species('Dog');
-  public static readonly Cat = new Species('Cat');
-  public static readonly All = [Species.Dog, Species.Cat];
+  public static readonly DOG = new Species('DOG');
+  public static readonly CAT = new Species('CAT');
+  public static readonly types = [Species.DOG, Species.CAT];
 }

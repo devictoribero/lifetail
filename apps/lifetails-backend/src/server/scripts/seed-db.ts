@@ -120,9 +120,9 @@ export const seedDatabase = async (app: INestApplication) => {
   const petId = '550e8400-e29b-41d4-a716-446655440000';
   const addPetCommand = new AddPetCommand(
     petId,
-    Species.Cat.toString(),
+    Species.CAT.toString(),
     'Neko',
-    'Male',
+    'MALE',
     true,
     new Date('2020-01-01'),
     new Date('2020-01-01'),

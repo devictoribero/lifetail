@@ -3,6 +3,7 @@ import { PrismaService } from 'src/contexts/Shared/infrastructure/prisma/PrismaS
 import { LifeMoment } from '../domain/entities/LifeMoment';
 import { LifeMomentRepository } from '../domain/repositories/LifeMomentRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { LifeMomentTheme } from '@prisma/client';
 
 @Injectable()
 export class PostgresqlLifeMomentRepository implements LifeMomentRepository {
@@ -76,5 +77,12 @@ export class PostgresqlLifeMomentRepository implements LifeMomentRepository {
       createdAt: lifeMoment.createdAt,
       updatedAt: lifeMoment.updatedAt,
     });
+  }
+
+  private mapThemeToPrisma(theme: LifeMomentTheme): LifeMomentTheme {
+    switch (theme) {
+      case LifeMomentTheme.CELEBRATION:
+        return LifeMomentTheme.CELEBRATION;
+    }
   }
 }

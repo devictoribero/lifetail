@@ -25,9 +25,9 @@ describe('UpdatePetCommandHandler', () => {
     petId = faker.string.uuid();
     originalPet = new Pet({
       id: new UUID(petId),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.fromPrimitives('Male'),
+      gender: Gender.fromPrimitives('MALE'),
       sterilized: new BooleanValueObject(faker.datatype.boolean()),
       birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
@@ -48,7 +48,7 @@ describe('UpdatePetCommandHandler', () => {
 
   it('should update all pet fields when all are provided', async () => {
     const newName = faker.animal.cat();
-    const newGender = 'Female';
+    const newGender = 'FEMALE';
     const newChipId = faker.string.numeric(9);
     const newSterilized = faker.datatype.boolean();
     const newBirthdate = faker.date.past();
@@ -76,9 +76,7 @@ describe('UpdatePetCommandHandler', () => {
     expect(updatedPetPrimitives.gender).toBe(newGender);
     expect(updatedPetPrimitives.microchipNumber).toBe(newChipId);
     expect(updatedPetPrimitives.sterilized).toBe(newSterilized);
-    expect(updatedPetPrimitives.birthDate).toBe(
-      new DateValueObject(newBirthdate).toISOString(),
-    );
+    expect(updatedPetPrimitives.birthDate).toBe(new DateValueObject(newBirthdate).toISOString());
     expect(updatedPetPrimitives.arrivalDate).toBe(
       new DateValueObject(newArrivalDate).toISOString(),
     );
@@ -99,13 +97,11 @@ describe('UpdatePetCommandHandler', () => {
       originalPet.getMicrochipNumber().toString(),
     ); // Unchanged
     expect(updatedPet?.isSterilized().getValue()).toBe(originalPet.isSterilized().getValue()); // Unchanged
-    expect(updatedPet?.getBirthDate().toISOString()).toBe(
-      originalPet.getBirthDate().toISOString(),
-    ); // Unchanged
+    expect(updatedPet?.getBirthDate().toISOString()).toBe(originalPet.getBirthDate().toISOString()); // Unchanged
   });
 
   it('should update only gender when only that is provided', async () => {
-    const newGender = 'Female';
+    const newGender = 'FEMALE';
     const command = new UpdatePetCommand(
       petId,
       undefined,
@@ -129,9 +125,9 @@ describe('UpdatePetCommandHandler', () => {
     const knownSterilizedStatus = true;
     originalPet = new Pet({
       id: new UUID(petId),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.fromPrimitives('Male'),
+      gender: Gender.fromPrimitives('MALE'),
       sterilized: new BooleanValueObject(knownSterilizedStatus),
       birthDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.past()),
@@ -155,9 +151,7 @@ describe('UpdatePetCommandHandler', () => {
       originalPet.getMicrochipNumber().toString(),
     ); // Unchanged
     expect(updatedPet?.isSterilized().getValue()).toBe(newSterilized); // Changed to the opposite
-    expect(updatedPet?.getBirthDate().toISOString()).toBe(
-      originalPet.getBirthDate().toISOString(),
-    ); // Unchanged
+    expect(updatedPet?.getBirthDate().toISOString()).toBe(originalPet.getBirthDate().toISOString()); // Unchanged
   });
 
   it('should update the birth date when provided', async () => {

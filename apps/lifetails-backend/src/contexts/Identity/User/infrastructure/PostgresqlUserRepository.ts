@@ -3,27 +3,29 @@ import { PrismaService } from 'src/contexts/Shared/infrastructure/prisma/PrismaS
 import { User } from '../domain/entities/User';
 import { UserRepository } from '../domain/repositories/UserRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import { LanguageCodeEnum } from 'src/contexts/Shared/domain/LanguageCode';
 
 @Injectable()
 export class PostgresqlUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async save(user: User): Promise<void> {
-    const { id, accountId, nickname, createdAt, preferredLanguage } = user.toPrimitives();
+    const { id, accountId, nickname, createdAt, preferredLanguage, updatedAt, deletedAt } =
+      user.toPrimitives();
 
     await this.prisma.user.upsert({
       where: { id },
       update: {
         nickname: nickname,
-        preferredLanguage: this.mapToPrismaLanguageCode(preferredLanguage),
+        preferredLanguage,
       },
       create: {
         id,
         accountId,
         nickname: nickname,
+        preferredLanguage,
         createdAt: new Date(createdAt),
-        preferredLanguage: this.mapToPrismaLanguageCode(preferredLanguage),
+        updatedAt: updatedAt ? new Date(updatedAt) : null,
+        deletedAt: deletedAt ? new Date(deletedAt) : null,
       },
     });
   }
@@ -33,16 +35,16 @@ export class PostgresqlUserRepository implements UserRepository {
       where: { accountId: accountId.toString() },
     });
 
-    if (!user) {
-      return null;
-    }
+    if (!user) return null;
 
     return User.fromPrimitives({
       id: user.id,
       accountId: user.accountId,
       nickname: user.nickname,
+      preferredLanguage: user.preferredLanguage,
       createdAt: user.createdAt,
-      preferredLanguage: this.mapToDomainLanguageCode(user.preferredLanguage),
+      updatedAt: user.updatedAt,
+      deletedAt: user.deletedAt,
     });
   }
 
@@ -59,32 +61,10 @@ export class PostgresqlUserRepository implements UserRepository {
       id: user.id,
       accountId: user.accountId,
       nickname: user.nickname,
+      preferredLanguage: user.preferredLanguage,
       createdAt: user.createdAt,
-      preferredLanguage: this.mapToDomainLanguageCode(user.preferredLanguage),
+      updatedAt: user.updatedAt,
+      deletedAt: user.deletedAt,
     });
-  }
-
-  // Map domain language code to Prisma enum format
-  private mapToPrismaLanguageCode(code: string): 'EN' | 'ES' {
-    switch (code) {
-      case LanguageCodeEnum.English:
-        return 'EN';
-      case LanguageCodeEnum.Spanish:
-        return 'ES';
-      default:
-        return 'EN'; // Default fallback
-    }
-  }
-
-  // Map Prisma enum format to domain language code
-  private mapToDomainLanguageCode(code: string): string {
-    switch (code) {
-      case 'EN':
-        return LanguageCodeEnum.English;
-      case 'ES':
-        return LanguageCodeEnum.Spanish;
-      default:
-        return LanguageCodeEnum.English; // Default fallback
-    }
   }
 }

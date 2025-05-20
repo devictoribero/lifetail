@@ -42,9 +42,9 @@ describe('SearchAllPetsQueryHandler', () => {
     // Create two pets
     const pet1 = Pet.create({
       id: petId1,
-      species: Species.fromPrimitives('Dog'),
+      species: Species.fromPrimitives('DOG'),
       name: new StringValueObject('Max'),
-      gender: Gender.fromPrimitives('Male'),
+      gender: Gender.fromPrimitives('MALE'),
       sterilized: new BooleanValueObject(true),
       birthDate: new DateValueObject(new Date('2020-01-01')),
       arrivalDate: new DateValueObject(new Date('2020-01-01')),
@@ -54,9 +54,9 @@ describe('SearchAllPetsQueryHandler', () => {
 
     const pet2 = Pet.create({
       id: petId2,
-      species: Species.fromPrimitives('Cat'),
+      species: Species.fromPrimitives('CAT'),
       name: new StringValueObject('Lucy'),
-      gender: Gender.fromPrimitives('Female'),
+      gender: Gender.fromPrimitives('FEMALE'),
       sterilized: new BooleanValueObject(false),
       birthDate: new DateValueObject(new Date('2021-05-15')),
       arrivalDate: new DateValueObject(new Date('2021-05-15')),

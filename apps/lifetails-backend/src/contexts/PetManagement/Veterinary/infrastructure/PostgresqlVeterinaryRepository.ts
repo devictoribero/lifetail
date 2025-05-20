@@ -31,6 +31,7 @@ export class PostgresqlVeterinaryRepository implements VeterinaryRepository {
         primaryPhone,
         emergencyPhone,
         notes,
+        createdAt: new Date(createdAt),
         updatedAt: updatedAt ? new Date(updatedAt) : null,
         deletedAt: deletedAt ? new Date(deletedAt) : null,
       },
@@ -54,9 +55,7 @@ export class PostgresqlVeterinaryRepository implements VeterinaryRepository {
       where: { id: id.toString() },
     });
 
-    if (!veterinary || veterinary.deletedAt) {
-      return null;
-    }
+    if (!veterinary || veterinary.deletedAt) return null;
 
     return Veterinary.fromPrimitives({
       id: veterinary.id,

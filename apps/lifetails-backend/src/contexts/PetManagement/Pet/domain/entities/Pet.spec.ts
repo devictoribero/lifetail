@@ -11,9 +11,9 @@ describe('Pet', () => {
   it('should create a Pet instance', () => {
     // Given
     const id = new UUID(faker.string.uuid());
-    const species = Species.Cat;
+    const species = Species.CAT;
     const name = new StringValueObject(faker.animal.cat());
-    const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
+    const gender = Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE;
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
     const birthDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
@@ -51,9 +51,9 @@ describe('Pet', () => {
   it('should create a Pet instance from primitives', () => {
     // Given
     const id = faker.string.uuid();
-    const species = Species.Cat.toString();
+    const species = Species.CAT.toString();
     const name = faker.animal.cat();
-    const gender = Math.random() > 0.5 ? 'Male' : 'Female';
+    const gender = Math.random() > 0.5 ? 'MALE' : 'FEMALE';
     const sterilized = faker.datatype.boolean();
     const birthDate = faker.date.past();
     const arrivalDate = faker.date.past();
@@ -89,9 +89,9 @@ describe('Pet', () => {
   it('should convert Pet instance to primitives', () => {
     // Given
     const id = new UUID(faker.string.uuid());
-    const species = Species.Cat;
+    const species = Species.CAT;
     const name = new StringValueObject(faker.animal.cat());
-    const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
+    const gender = Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE;
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
     const birthDate = new DateValueObject(faker.date.past());
     const arrivalDate = new DateValueObject(faker.date.past());
@@ -136,8 +136,8 @@ describe('Pet', () => {
     // Given
     const id = new UUID(faker.string.uuid());
     const initialName = new StringValueObject(faker.animal.cat());
-    const species = Species.Cat;
-    const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
+    const species = Species.CAT;
+    const gender = Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE;
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
     const birthDate = new DateValueObject(faker.date.past());
     const arrivalDate = new DateValueObject(faker.date.past());
@@ -170,9 +170,9 @@ describe('Pet', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.Male,
+      gender: Gender.MALE,
       sterilized: new BooleanValueObject(faker.datatype.boolean()),
       birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
@@ -183,10 +183,10 @@ describe('Pet', () => {
     expect(pet.getUpdatedAt()).toBeNull();
 
     // When
-    pet.changeGenderTo(Gender.Female);
+    pet.changeGenderTo(Gender.FEMALE);
 
     // Then
-    expect(pet.getGender().equals(Gender.Female)).toBe(true);
+    expect(pet.getGender().equals(Gender.FEMALE)).toBe(true);
     expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
@@ -194,9 +194,9 @@ describe('Pet', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.Male,
+      gender: Gender.MALE,
       sterilized: new BooleanValueObject(false),
       birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
@@ -218,9 +218,9 @@ describe('Pet', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.Male,
+      gender: Gender.MALE,
       sterilized: new BooleanValueObject(false),
       birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
@@ -245,9 +245,9 @@ describe('Pet', () => {
     const initialColor = new StringValueObject('Black');
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.Male,
+      gender: Gender.MALE,
       sterilized: new BooleanValueObject(false),
       birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
@@ -273,9 +273,9 @@ describe('Pet', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.Male,
+      gender: Gender.MALE,
       sterilized: new BooleanValueObject(false),
       birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),

@@ -7,9 +7,13 @@ import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 export class User extends AggregateRoot {
   private readonly id: UUID;
   private readonly accountId: UUID;
+
   private readonly nickname: StringValueObject;
-  private readonly createdAt: DateValueObject;
   private preferredLanguage: LanguageCode;
+
+  private readonly createdAt: DateValueObject;
+  private readonly updatedAt: DateValueObject | null;
+  private readonly deletedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(params: {
@@ -18,13 +22,19 @@ export class User extends AggregateRoot {
     nickname: StringValueObject;
     createdAt: DateValueObject;
     preferredLanguage?: LanguageCode;
+    updatedAt?: DateValueObject | null;
+    deletedAt?: DateValueObject | null;
   }) {
     super();
     this.id = params.id;
     this.accountId = params.accountId;
+
     this.nickname = params.nickname;
-    this.createdAt = params.createdAt;
     this.preferredLanguage = params.preferredLanguage || LanguageCode.English;
+
+    this.createdAt = params.createdAt;
+    this.updatedAt = params.updatedAt;
+    this.deletedAt = params.deletedAt;
   }
 
   static create({
@@ -44,21 +54,27 @@ export class User extends AggregateRoot {
     id,
     accountId,
     nickname,
-    createdAt,
     preferredLanguage,
+    createdAt,
+    updatedAt,
+    deletedAt,
   }: {
     id: string;
     accountId: string;
     nickname: string;
-    createdAt: Date;
     preferredLanguage: string;
+    createdAt: Date;
+    updatedAt?: Date | null;
+    deletedAt?: Date | null;
   }): User {
     return new User({
       id: new UUID(id),
       accountId: new UUID(accountId),
       nickname: new StringValueObject(nickname),
-      createdAt: new DateValueObject(createdAt),
       preferredLanguage: LanguageCode.fromPrimitives(preferredLanguage),
+      createdAt: new DateValueObject(createdAt),
+      updatedAt: updatedAt ? new DateValueObject(updatedAt) : null,
+      deletedAt: deletedAt ? new DateValueObject(deletedAt) : null,
     });
   }
 
@@ -74,10 +90,6 @@ export class User extends AggregateRoot {
     return this.nickname;
   }
 
-  getCreatedAt(): DateValueObject {
-    return this.createdAt;
-  }
-
   getPreferredLanguage(): LanguageCode {
     return this.preferredLanguage;
   }
@@ -86,13 +98,27 @@ export class User extends AggregateRoot {
     this.preferredLanguage = language;
   }
 
+  getCreatedAt(): DateValueObject {
+    return this.createdAt;
+  }
+
+  getUpdatedAt(): DateValueObject | null {
+    return this.updatedAt;
+  }
+
+  getDeletedAt(): DateValueObject | null {
+    return this.deletedAt;
+  }
+
   toPrimitives(): any {
     return {
       id: this.getId().toString(),
       accountId: this.getAccountId().toString(),
       nickname: this.getNickname().toString(),
-      createdAt: this.getCreatedAt().toISOString(),
       preferredLanguage: this.getPreferredLanguage().toString(),
+      createdAt: this.getCreatedAt().toISOString(),
+      updatedAt: this.getUpdatedAt()?.toISOString(),
+      deletedAt: this.getDeletedAt()?.toISOString(),
     };
   }
 }

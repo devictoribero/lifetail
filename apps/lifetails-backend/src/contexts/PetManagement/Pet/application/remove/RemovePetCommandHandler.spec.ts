@@ -33,14 +33,14 @@ describe('RemovePetCommandHandler', () => {
     // Arrange
     const id = faker.string.uuid();
     const name = faker.animal.cat();
-    const gender = 'Female';
+    const gender = 'FEMALE';
     const sterilized = faker.datatype.boolean();
     const birthDate = faker.date.past();
     const createdAt = faker.date.recent();
     const ownerId = faker.string.uuid();
     const pet = new Pet({
       id: new UUID(id),
-      species: Species.Cat,
+      species: Species.CAT,
       name: new StringValueObject(name),
       gender: Gender.fromPrimitives(gender),
       sterilized: new BooleanValueObject(sterilized),
