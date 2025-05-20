@@ -35,6 +35,7 @@ describe('AddPetCommandHandler', () => {
       gender: Gender.fromPrimitives('Female'),
       sterilized: new BooleanValueObject(true),
       anniversaryDate: new DateValueObject(new Date()),
+      arrivalDate: new DateValueObject(new Date()),
       createdAt: new DateValueObject(new Date()),
       color: new StringValueObject('White'),
       ownerId: new UUID(ownerId),
@@ -47,6 +48,7 @@ describe('AddPetCommandHandler', () => {
     const gender = Gender.Male.toString();
     const sterilized = true;
     const anniversaryDate = new Date();
+    const arrivalDate = new Date();
     const color = 'White';
     const command = new AddPetCommand(
       petId,
@@ -55,6 +57,7 @@ describe('AddPetCommandHandler', () => {
       gender,
       sterilized,
       anniversaryDate,
+      arrivalDate,
       color,
       ownerId,
     );
@@ -71,6 +74,7 @@ describe('AddPetCommandHandler', () => {
     const gender = Gender.Male.toString();
     const sterilized = true;
     const anniversaryDate = new Date('2025-01-01');
+    const arrivalDate = new Date('2025-01-01');
     const color = 'White';
     const command = new AddPetCommand(
       id,
@@ -79,6 +83,7 @@ describe('AddPetCommandHandler', () => {
       gender,
       sterilized,
       anniversaryDate,
+      arrivalDate,
       color,
       ownerId,
     );

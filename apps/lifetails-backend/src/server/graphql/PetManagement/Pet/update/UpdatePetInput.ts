@@ -28,6 +28,11 @@ export class UpdatePetInput {
   @IsOptional()
   anniversaryDate?: Date;
 
+  @Field(() => Date, { nullable: true })
+  @IsDate()
+  @IsOptional()
+  arrivalDate?: Date;
+
   @Field({ nullable: true })
   @IsString()
   @IsOptional()

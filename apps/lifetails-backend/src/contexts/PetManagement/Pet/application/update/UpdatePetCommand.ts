@@ -3,9 +3,10 @@ export class UpdatePetCommand {
     public readonly id: string,
     public readonly name?: string,
     public readonly gender?: string,
-    public readonly microchipNumber?: string,
     public readonly sterilized?: boolean,
     public readonly anniversaryDate?: Date,
+    public readonly arrivalDate?: Date,
+    public readonly microchipNumber?: string,
     public readonly color?: string,
   ) {}
 }

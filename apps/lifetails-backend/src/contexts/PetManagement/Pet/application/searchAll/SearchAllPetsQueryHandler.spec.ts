@@ -47,6 +47,7 @@ describe('SearchAllPetsQueryHandler', () => {
       gender: Gender.fromPrimitives('Male'),
       sterilized: new BooleanValueObject(true),
       anniversaryDate: new DateValueObject(new Date('2020-01-01')),
+      arrivalDate: new DateValueObject(new Date('2020-01-01')),
       ownerId,
       color: new StringValueObject('Black'),
     });
@@ -58,6 +59,7 @@ describe('SearchAllPetsQueryHandler', () => {
       gender: Gender.fromPrimitives('Female'),
       sterilized: new BooleanValueObject(false),
       anniversaryDate: new DateValueObject(new Date('2021-05-15')),
+      arrivalDate: new DateValueObject(new Date('2021-05-15')),
       ownerId,
       color: new StringValueObject('White'),
     });

@@ -44,6 +44,10 @@ export class UpdatePetCommandHandler implements CommandHandler<UpdatePetCommand>
       pet.changeBirthdateTo(new DateValueObject(command.anniversaryDate));
     }
 
+    if (this.hasValue(command.arrivalDate)) {
+      pet.changeArrivalDateTo(new DateValueObject(command.arrivalDate));
+    }
+
     if (this.hasValue(command.color)) {
       pet.changeColorTo(new StringValueObject(command.color));
     }

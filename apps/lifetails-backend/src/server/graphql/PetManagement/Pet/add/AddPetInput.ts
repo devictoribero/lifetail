@@ -1,6 +1,6 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql';
 import { Species as DomainPetSpecies } from 'src/contexts/PetManagement/Pet/domain/entities/PetSpecies';
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 import { IsUUID } from 'class-validator';
 import { GenderGraphqlEnum } from 'src/server/graphql/Shared/Gender';
 
@@ -34,6 +34,10 @@ export class AddPetInput {
   @Field(() => Date)
   @IsNotEmpty()
   anniversaryDate: Date;
+
+  @Field(() => Date)
+  @IsNotEmpty()
+  arrivalDate: Date;
 
   @Field()
   @IsNotEmpty()

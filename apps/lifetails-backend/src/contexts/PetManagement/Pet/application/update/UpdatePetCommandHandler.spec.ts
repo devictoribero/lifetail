@@ -30,6 +30,7 @@ describe('UpdatePetCommandHandler', () => {
       gender: Gender.fromPrimitives('Male'),
       sterilized: new BooleanValueObject(faker.datatype.boolean()),
       anniversaryDate: new DateValueObject(faker.date.past()),
+      arrivalDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.past()),
       ownerId: new UUID(faker.string.uuid()),
       microchipNumber: new StringValueObject(faker.string.numeric(9)),
@@ -51,13 +52,17 @@ describe('UpdatePetCommandHandler', () => {
     const newChipId = faker.string.numeric(9);
     const newSterilized = faker.datatype.boolean();
     const newBirthdate = faker.date.past();
+    const newArrivalDate = faker.date.past();
+    const newColor = faker.color.human();
     const command = new UpdatePetCommand(
       petId,
       newName,
       newGender,
-      newChipId,
       newSterilized,
       newBirthdate,
+      newArrivalDate,
+      newChipId,
+      newColor,
     );
 
     await commandHandler.handle(command);
@@ -74,6 +79,10 @@ describe('UpdatePetCommandHandler', () => {
     expect(updatedPetPrimitives.anniversaryDate).toBe(
       new DateValueObject(newBirthdate).toISOString(),
     );
+    expect(updatedPetPrimitives.arrivalDate).toBe(
+      new DateValueObject(newArrivalDate).toISOString(),
+    );
+    expect(updatedPetPrimitives.color).toBe(newColor);
   });
 
   it('should update only name when only name is provided', async () => {
@@ -95,6 +104,26 @@ describe('UpdatePetCommandHandler', () => {
     ); // Unchanged
   });
 
+  it('should update only gender when only that is provided', async () => {
+    const newGender = 'Female';
+    const command = new UpdatePetCommand(
+      petId,
+      undefined,
+      newGender,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    );
+
+    await commandHandler.handle(command);
+
+    const updatedPet = await repository.find(new UUID(petId));
+    expect(updatedPet).not.toBeNull();
+    expect(updatedPet?.getGender().toString()).toBe(newGender);
+  });
+
   it('should update only sterilized status when only that is provided', async () => {
     // Recreate pet with known sterilized status
     const knownSterilizedStatus = true;
@@ -114,7 +143,7 @@ describe('UpdatePetCommandHandler', () => {
 
     // Set to opposite of current value
     const newSterilized = !knownSterilizedStatus;
-    const command = new UpdatePetCommand(petId, undefined, undefined, undefined, newSterilized);
+    const command = new UpdatePetCommand(petId, undefined, undefined, newSterilized, undefined);
 
     await commandHandler.handle(command);
 
@@ -131,31 +160,47 @@ describe('UpdatePetCommandHandler', () => {
     ); // Unchanged
   });
 
-  it('should update multiple fields when multiple are provided', async () => {
-    const newGender = 'Female';
-    const newBirthdate = faker.date.past();
-
+  it('should update the anniversary date when provided', async () => {
+    const newAnniversaryDate = faker.date.past();
     const command = new UpdatePetCommand(
       petId,
       undefined,
-      newGender,
       undefined,
       undefined,
-      newBirthdate,
+      newAnniversaryDate,
+      undefined,
+      undefined,
+      undefined,
     );
 
     await commandHandler.handle(command);
 
     const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getName().toString()).toBe(originalPet.getName().toString()); // Unchanged
-    expect(updatedPet?.getGender().toString()).toBe(newGender); // Changed
-    expect(updatedPet?.getMicrochipNumber().toString()).toBe(
-      originalPet.getMicrochipNumber().toString(),
-    ); // Unchanged
-    expect(updatedPet?.isSterilized().getValue()).toBe(originalPet.isSterilized().getValue()); // Unchanged
     expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
-      new DateValueObject(newBirthdate).toISOString(),
-    ); // Changed
+      new DateValueObject(newAnniversaryDate).toISOString(),
+    );
+  });
+
+  it('should update the arrival date when provided', async () => {
+    const newArrivalDate = faker.date.past();
+    const command = new UpdatePetCommand(
+      petId,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      newArrivalDate,
+      undefined,
+      undefined,
+    );
+
+    await commandHandler.handle(command);
+
+    const updatedPet = await repository.find(new UUID(petId));
+    expect(updatedPet).not.toBeNull();
+    expect(updatedPet?.getArrivalDate().toISOString()).toBe(
+      new DateValueObject(newArrivalDate).toISOString(),
+    );
   });
 });

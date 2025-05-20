@@ -13,13 +13,16 @@ export class Pet extends AggregateRoot {
   private name: StringValueObject;
   private gender: Gender;
   private sterilized: BooleanValueObject;
-  private createdAt: DateValueObject;
-  // Represents the date of birth or arrival date.
   // This is the date used to celebrate the pet's birthday.
-  private anniversaryDate: DateValueObject | null;
-  private ownerId: UUID | null;
+  private anniversaryDate: DateValueObject;
+  // Represents the date of arrival to the owner.
+  private arrivalDate: DateValueObject;
   private microchipNumber: StringValueObject | null;
   private color: StringValueObject;
+
+  private ownerId: UUID | null;
+
+  private createdAt: DateValueObject;
   private updatedAt: DateValueObject | null;
   private deletedAt: DateValueObject | null;
 
@@ -30,7 +33,8 @@ export class Pet extends AggregateRoot {
     name,
     gender,
     sterilized,
-    anniversaryDate = null,
+    anniversaryDate,
+    arrivalDate,
     createdAt,
     ownerId = null,
     microchipNumber = null,
@@ -43,7 +47,8 @@ export class Pet extends AggregateRoot {
     name: StringValueObject;
     gender: Gender;
     sterilized: BooleanValueObject;
-    anniversaryDate?: DateValueObject | null;
+    anniversaryDate?: DateValueObject;
+    arrivalDate?: DateValueObject;
     createdAt: DateValueObject;
     ownerId?: UUID | null;
     microchipNumber?: StringValueObject | null;
@@ -59,6 +64,7 @@ export class Pet extends AggregateRoot {
     this.gender = gender;
     this.sterilized = sterilized;
     this.anniversaryDate = anniversaryDate;
+    this.arrivalDate = arrivalDate;
     this.ownerId = ownerId;
     this.microchipNumber = microchipNumber;
     this.color = color;
@@ -74,6 +80,7 @@ export class Pet extends AggregateRoot {
     gender,
     sterilized,
     anniversaryDate,
+    arrivalDate,
     ownerId,
     color,
   }: {
@@ -83,6 +90,7 @@ export class Pet extends AggregateRoot {
     gender: Gender;
     sterilized: BooleanValueObject;
     anniversaryDate: DateValueObject;
+    arrivalDate: DateValueObject;
     ownerId: UUID;
     color: StringValueObject;
   }) {
@@ -94,6 +102,7 @@ export class Pet extends AggregateRoot {
       gender,
       sterilized,
       anniversaryDate,
+      arrivalDate,
       createdAt: now,
       ownerId,
       color,
@@ -112,6 +121,7 @@ export class Pet extends AggregateRoot {
     gender,
     sterilized,
     anniversaryDate,
+    arrivalDate,
     createdAt,
     ownerId,
     microchipNumber = null,
@@ -125,6 +135,7 @@ export class Pet extends AggregateRoot {
     gender: string;
     sterilized: boolean;
     anniversaryDate: Date;
+    arrivalDate: Date;
     createdAt: Date;
     ownerId: string;
     microchipNumber?: string | null;
@@ -138,7 +149,8 @@ export class Pet extends AggregateRoot {
       name: new StringValueObject(name),
       gender: Gender.fromPrimitives(gender),
       sterilized: new BooleanValueObject(sterilized),
-      anniversaryDate: anniversaryDate ? new DateValueObject(anniversaryDate) : null,
+      anniversaryDate: new DateValueObject(anniversaryDate),
+      arrivalDate: new DateValueObject(arrivalDate),
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
       microchipNumber: microchipNumber ? new StringValueObject(microchipNumber) : null,
@@ -184,6 +196,10 @@ export class Pet extends AggregateRoot {
     return this.anniversaryDate;
   }
 
+  public getArrivalDate(): DateValueObject {
+    return this.arrivalDate;
+  }
+
   public getOwnerId(): UUID | null {
     return this.ownerId;
   }
@@ -203,7 +219,8 @@ export class Pet extends AggregateRoot {
       name: this.name.toString(),
       gender: this.gender.toString(),
       sterilized: this.sterilized.getValue(),
-      anniversaryDate: this.anniversaryDate?.toISOString() ?? null,
+      anniversaryDate: this.anniversaryDate?.toISOString(),
+      arrivalDate: this.arrivalDate?.toISOString(),
       createdAt: this.createdAt.toISOString(),
       ownerId: this.ownerId?.toString() ?? null,
       microchipNumber: this.microchipNumber?.toString() ?? null,
@@ -239,6 +256,11 @@ export class Pet extends AggregateRoot {
 
   public changeBirthdateTo(anniversaryDate: DateValueObject): void {
     this.anniversaryDate = anniversaryDate;
+    this.updateLastModified();
+  }
+
+  public changeArrivalDateTo(arrivalDate: DateValueObject): void {
+    this.arrivalDate = arrivalDate;
     this.updateLastModified();
   }
 
