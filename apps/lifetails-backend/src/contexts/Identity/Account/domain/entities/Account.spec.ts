@@ -5,6 +5,7 @@ import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHash
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { AccountDeletedDomainEvent } from '../events/AccountDeletedDomainEvent';
+import { AccountCreatedDomainEvent } from '../events/AccountCreatedDomainEvent';
 
 describe('Account', () => {
   beforeEach(() => {
@@ -40,12 +41,18 @@ describe('Account', () => {
     const account = Account.create({ email, password });
 
     // Assert
-    expect(account.pullDomainEvents()).toEqual([
+    const events = account.pullDomainEvents();
+    expect(events).toHaveLength(1);
+    expect(events[0]).toBeInstanceOf(AccountCreatedDomainEvent);
+    expect(events[0]).toEqual(
       expect.objectContaining({
+        eventName: 'account.created',
         aggregateId: account.getId().toString(),
-        email: account.getEmail().toString(),
+        eventId: events[0].eventId,
+        occurredOn: events[0].occurredOn,
+        email: email.toString(),
       }),
-    ]);
+    );
   });
 
   it('should create an Account instance with named constructor method', () => {
@@ -127,11 +134,12 @@ describe('Account', () => {
     const events = account.pullDomainEvents();
     expect(events).toHaveLength(1);
     expect(events[0]).toBeInstanceOf(AccountDeletedDomainEvent);
-    expect(events[0]).toEqual(
-      expect.objectContaining({
-        aggregateId: account.getId().toString(),
-        email: account.getEmail().toString(),
-      }),
-    );
+    expect(events[0]).toEqual({
+      eventName: 'account.deleted',
+      aggregateId: account.getId().toString(),
+      eventId: events[0].eventId,
+      occurredOn: events[0].occurredOn,
+      email: account.getEmail().toString(),
+    });
   });
 });
