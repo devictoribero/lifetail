@@ -31,7 +31,6 @@ export class PostgresqlUserRepository implements UserRepository {
   }
 
   async getByAccountId(accountId: UUID): Promise<User | null> {
-    console.log(accountId.toString());
     const user = await this.prisma.user.findUnique({
       where: { accountId: accountId.toString() },
     });
