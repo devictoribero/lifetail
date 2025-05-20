@@ -173,6 +173,7 @@ type Mutation {
 
 type Pet {
   anniversaryDate: String
+  color: String!
   createdAt: String!
   gender: Gender!
   id: String!
@@ -239,6 +240,7 @@ type UpdateLifeMomentResponse {
 
 input UpdatePetInput {
   anniversaryDate: DateTime
+  color: String
   gender: Gender
   id: String!
   microchipNumber: String

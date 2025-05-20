@@ -36,6 +36,7 @@ describe('AddPetCommandHandler', () => {
       sterilized: new BooleanValueObject(true),
       anniversaryDate: new DateValueObject(new Date()),
       createdAt: new DateValueObject(new Date()),
+      color: new StringValueObject('White'),
       ownerId: new UUID(ownerId),
     });
     await repository.save(pet);
@@ -46,6 +47,7 @@ describe('AddPetCommandHandler', () => {
     const gender = Gender.Male.toString();
     const sterilized = true;
     const anniversaryDate = new Date();
+    const color = 'White';
     const command = new AddPetCommand(
       petId,
       species,
@@ -53,6 +55,7 @@ describe('AddPetCommandHandler', () => {
       gender,
       sterilized,
       anniversaryDate,
+      color,
       ownerId,
     );
 
@@ -68,6 +71,7 @@ describe('AddPetCommandHandler', () => {
     const gender = Gender.Male.toString();
     const sterilized = true;
     const anniversaryDate = new Date('2025-01-01');
+    const color = 'White';
     const command = new AddPetCommand(
       id,
       species,
@@ -75,6 +79,7 @@ describe('AddPetCommandHandler', () => {
       gender,
       sterilized,
       anniversaryDate,
+      color,
       ownerId,
     );
 

@@ -47,6 +47,7 @@ describe('RemovePetCommandHandler', () => {
       anniversaryDate: new DateValueObject(anniversaryDate),
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
+      color: new StringValueObject('White'),
     });
     await repository.save(pet);
     const petId = new UUID(id);

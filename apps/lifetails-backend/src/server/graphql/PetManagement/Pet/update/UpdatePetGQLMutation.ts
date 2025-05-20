@@ -17,6 +17,7 @@ export class UpdatePetGQLMutation {
       input.microchipNumber,
       input.sterilized,
       input.anniversaryDate,
+      input.color,
     );
     await this.commandHandler.handle(command);
 

@@ -29,4 +29,7 @@ export class Pet {
 
   @Field({ nullable: true })
   microchipNumber: string | null;
+
+  @Field()
+  color: string;
 }

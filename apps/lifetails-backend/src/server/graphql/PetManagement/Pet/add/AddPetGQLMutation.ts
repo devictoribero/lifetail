@@ -4,7 +4,6 @@ import { AddPetResponse } from './AddPetResponse';
 import { AddPetInput } from './AddPetInput';
 import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pet/application/add/AddPetCommandHandler';
 import { AddPetCommand } from 'src/contexts/PetManagement/Pet/application/add/AddPetCommand';
-import { MaxNumberOfPetsReachedException } from 'src/contexts/PetManagement/Pet/domain/exceptions/MaxNumberOfPetsReachedException';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 
 @Resolver()
@@ -26,8 +25,8 @@ export class AddPetGQLMutation {
       input.gender.toString(),
       input.sterilized,
       input.anniversaryDate,
-      userId,
       input.color,
+      userId,
     );
     await this.commandHandler.handle(command);
 

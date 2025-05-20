@@ -25,7 +25,7 @@ export class AddPetCommandHandler implements CommandHandler<AddPetCommand> {
   ) {}
 
   async handle(command: AddPetCommand): Promise<void> {
-    const ownerId = new UUID(command.userId);
+    const ownerId = new UUID(command.ownerId);
     await this.ensureOwnerCanAddPet(ownerId);
 
     const newPet = Pet.create({
@@ -35,8 +35,8 @@ export class AddPetCommandHandler implements CommandHandler<AddPetCommand> {
       gender: Gender.fromPrimitives(command.gender),
       sterilized: new BooleanValueObject(command.sterilized),
       anniversaryDate: new DateValueObject(command.anniversaryDate),
-      ownerId: new UUID(command.userId),
       color: new StringValueObject(command.color),
+      ownerId: new UUID(command.ownerId),
     });
 
     await this.repository.save(newPet);

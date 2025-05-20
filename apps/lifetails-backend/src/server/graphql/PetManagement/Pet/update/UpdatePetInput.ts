@@ -32,4 +32,9 @@ export class UpdatePetInput {
   @IsString()
   @IsOptional()
   microchipNumber?: string;
+
+  @Field({ nullable: true })
+  @IsString()
+  @IsOptional()
+  color?: string;
 }

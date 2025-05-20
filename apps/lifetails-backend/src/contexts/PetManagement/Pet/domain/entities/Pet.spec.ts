@@ -243,6 +243,8 @@ describe('Pet', () => {
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
       color: initialColor,
+      updatedAt: null,
+      deletedAt: null,
     });
     expect(pet.getUpdatedAt()).toBeNull();
 

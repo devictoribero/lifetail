@@ -29,6 +29,7 @@ export class GetPetGQLQuery {
       anniversaryDate: petPrimitives.anniversaryDate,
       createdAt: petPrimitives.createdAt,
       ownerId: userId,
+      color: petPrimitives.color,
     };
   }
 }

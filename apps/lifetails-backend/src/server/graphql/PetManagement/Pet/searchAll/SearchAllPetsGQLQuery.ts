@@ -25,6 +25,9 @@ export class SearchAllPetsGQLQuery {
         microchipNumber: petPrimitives.microchipNumber,
         createdAt: petPrimitives.createdAt,
         ownerId: petPrimitives.ownerId,
+        color: petPrimitives.color,
+        updatedAt: petPrimitives.updatedAt,
+        deletedAt: petPrimitives.deletedAt,
       };
     });
   }

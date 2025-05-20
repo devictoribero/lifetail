@@ -6,5 +6,6 @@ export class UpdatePetCommand {
     public readonly microchipNumber?: string,
     public readonly sterilized?: boolean,
     public readonly anniversaryDate?: Date,
+    public readonly color?: string,
   ) {}
 }

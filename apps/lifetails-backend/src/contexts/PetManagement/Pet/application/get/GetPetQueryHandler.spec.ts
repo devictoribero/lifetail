@@ -52,6 +52,7 @@ describe('GetPetQueryHandler', () => {
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
       microchipNumber: new StringValueObject(chipId),
+      color: new StringValueObject('White'),
     });
 
     await repository.save(pet);

@@ -33,6 +33,7 @@ describe('UpdatePetCommandHandler', () => {
       createdAt: new DateValueObject(faker.date.past()),
       ownerId: new UUID(faker.string.uuid()),
       microchipNumber: new StringValueObject(faker.string.numeric(9)),
+      color: new StringValueObject('White'),
     });
 
     await repository.save(originalPet);
@@ -107,6 +108,7 @@ describe('UpdatePetCommandHandler', () => {
       createdAt: new DateValueObject(faker.date.past()),
       ownerId: new UUID(faker.string.uuid()),
       microchipNumber: new StringValueObject(faker.string.numeric(9)),
+      color: new StringValueObject('White'),
     });
     await repository.save(originalPet);
 
