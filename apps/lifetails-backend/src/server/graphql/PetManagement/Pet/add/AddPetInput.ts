@@ -33,7 +33,7 @@ export class AddPetInput {
 
   @Field(() => Date)
   @IsNotEmpty()
-  anniversaryDate: Date;
+  birthDate: Date;
 
   @Field(() => Date)
   @IsNotEmpty()

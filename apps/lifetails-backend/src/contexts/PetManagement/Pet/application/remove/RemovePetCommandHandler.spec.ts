@@ -35,7 +35,7 @@ describe('RemovePetCommandHandler', () => {
     const name = faker.animal.cat();
     const gender = 'Female';
     const sterilized = faker.datatype.boolean();
-    const anniversaryDate = faker.date.past();
+    const birthDate = faker.date.past();
     const createdAt = faker.date.recent();
     const ownerId = faker.string.uuid();
     const pet = new Pet({
@@ -44,7 +44,7 @@ describe('RemovePetCommandHandler', () => {
       name: new StringValueObject(name),
       gender: Gender.fromPrimitives(gender),
       sterilized: new BooleanValueObject(sterilized),
-      anniversaryDate: new DateValueObject(anniversaryDate),
+      birthDate: new DateValueObject(birthDate),
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
       color: new StringValueObject('White'),

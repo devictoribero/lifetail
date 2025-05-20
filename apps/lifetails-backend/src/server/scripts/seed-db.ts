@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pet/application/add/AddPetCommandHandler';
 import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pet/application/get/GetPetQueryHandler';
 import { GetPetQuery } from 'src/contexts/PetManagement/Pet/application/get/GetPetQuery';
@@ -125,6 +124,7 @@ export const seedDatabase = async (app: INestApplication) => {
     'Neko',
     'Male',
     true,
+    new Date('2020-01-01'),
     new Date('2020-01-01'),
     USER_ID,
     'White',

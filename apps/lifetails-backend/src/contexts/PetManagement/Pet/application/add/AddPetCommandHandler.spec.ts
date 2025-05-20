@@ -34,7 +34,7 @@ describe('AddPetCommandHandler', () => {
       name: new StringValueObject('Neko'),
       gender: Gender.fromPrimitives('Female'),
       sterilized: new BooleanValueObject(true),
-      anniversaryDate: new DateValueObject(new Date()),
+      birthDate: new DateValueObject(new Date()),
       arrivalDate: new DateValueObject(new Date()),
       createdAt: new DateValueObject(new Date()),
       color: new StringValueObject('White'),
@@ -47,7 +47,7 @@ describe('AddPetCommandHandler', () => {
     const catName = faker.person.firstName();
     const gender = Gender.Male.toString();
     const sterilized = true;
-    const anniversaryDate = new Date();
+    const birthDate = new Date();
     const arrivalDate = new Date();
     const color = 'White';
     const command = new AddPetCommand(
@@ -56,7 +56,7 @@ describe('AddPetCommandHandler', () => {
       catName,
       gender,
       sterilized,
-      anniversaryDate,
+      birthDate,
       arrivalDate,
       color,
       ownerId,
@@ -73,7 +73,7 @@ describe('AddPetCommandHandler', () => {
     const catName = faker.person.firstName();
     const gender = Gender.Male.toString();
     const sterilized = true;
-    const anniversaryDate = new Date('2025-01-01');
+    const birthDate = new Date('2025-01-01');
     const arrivalDate = new Date('2025-01-01');
     const color = 'White';
     const command = new AddPetCommand(
@@ -82,7 +82,7 @@ describe('AddPetCommandHandler', () => {
       catName,
       gender,
       sterilized,
-      anniversaryDate,
+      birthDate,
       arrivalDate,
       color,
       ownerId,
@@ -101,7 +101,7 @@ describe('AddPetCommandHandler', () => {
     expect(savedPet.getName().toString()).toBe(catName);
     expect(savedPet.getGender().toString()).toBe(gender);
     expect(savedPet.isSterilized().getValue()).toBe(sterilized);
-    expect(savedPet.getAnniversaryDate().toISOString()).toBe(anniversaryDate.toISOString());
+    expect(savedPet.getBirthDate().toISOString()).toBe(birthDate.toISOString());
     expect(savedPet.getCreatedAt().toISOString()).toBeDefined();
     // check the event bus published the  expected events
     expect(eventBusMock.publish).toHaveBeenCalledWith(

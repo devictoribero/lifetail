@@ -15,7 +15,8 @@ type AddLifeMomentResponse {
 }
 
 input AddPetInput {
-  anniversaryDate: DateTime!
+  arrivalDate: DateTime!
+  birthDate: DateTime!
   color: String!
   gender: Gender!
   id: String!
@@ -172,7 +173,8 @@ type Mutation {
 }
 
 type Pet {
-  anniversaryDate: String
+  arrivalDate: String!
+  birthDate: String!
   color: String!
   createdAt: String!
   gender: Gender!
@@ -239,7 +241,8 @@ type UpdateLifeMomentResponse {
 }
 
 input UpdatePetInput {
-  anniversaryDate: DateTime
+  arrivalDate: DateTime
+  birthDate: DateTime
   color: String
   gender: Gender
   id: String!

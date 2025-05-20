@@ -29,7 +29,7 @@ describe('UpdatePetCommandHandler', () => {
       name: new StringValueObject(faker.animal.cat()),
       gender: Gender.fromPrimitives('Male'),
       sterilized: new BooleanValueObject(faker.datatype.boolean()),
-      anniversaryDate: new DateValueObject(faker.date.past()),
+      birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.past()),
       ownerId: new UUID(faker.string.uuid()),
@@ -76,7 +76,7 @@ describe('UpdatePetCommandHandler', () => {
     expect(updatedPetPrimitives.gender).toBe(newGender);
     expect(updatedPetPrimitives.microchipNumber).toBe(newChipId);
     expect(updatedPetPrimitives.sterilized).toBe(newSterilized);
-    expect(updatedPetPrimitives.anniversaryDate).toBe(
+    expect(updatedPetPrimitives.birthDate).toBe(
       new DateValueObject(newBirthdate).toISOString(),
     );
     expect(updatedPetPrimitives.arrivalDate).toBe(
@@ -99,8 +99,8 @@ describe('UpdatePetCommandHandler', () => {
       originalPet.getMicrochipNumber().toString(),
     ); // Unchanged
     expect(updatedPet?.isSterilized().getValue()).toBe(originalPet.isSterilized().getValue()); // Unchanged
-    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
-      originalPet.getAnniversaryDate().toISOString(),
+    expect(updatedPet?.getBirthDate().toISOString()).toBe(
+      originalPet.getBirthDate().toISOString(),
     ); // Unchanged
   });
 
@@ -133,7 +133,7 @@ describe('UpdatePetCommandHandler', () => {
       name: new StringValueObject(faker.animal.cat()),
       gender: Gender.fromPrimitives('Male'),
       sterilized: new BooleanValueObject(knownSterilizedStatus),
-      anniversaryDate: new DateValueObject(faker.date.past()),
+      birthDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.past()),
       ownerId: new UUID(faker.string.uuid()),
       microchipNumber: new StringValueObject(faker.string.numeric(9)),
@@ -155,19 +155,19 @@ describe('UpdatePetCommandHandler', () => {
       originalPet.getMicrochipNumber().toString(),
     ); // Unchanged
     expect(updatedPet?.isSterilized().getValue()).toBe(newSterilized); // Changed to the opposite
-    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
-      originalPet.getAnniversaryDate().toISOString(),
+    expect(updatedPet?.getBirthDate().toISOString()).toBe(
+      originalPet.getBirthDate().toISOString(),
     ); // Unchanged
   });
 
-  it('should update the anniversary date when provided', async () => {
-    const newAnniversaryDate = faker.date.past();
+  it('should update the birth date when provided', async () => {
+    const newBirthdate = faker.date.past();
     const command = new UpdatePetCommand(
       petId,
       undefined,
       undefined,
       undefined,
-      newAnniversaryDate,
+      newBirthdate,
       undefined,
       undefined,
       undefined,
@@ -177,8 +177,8 @@ describe('UpdatePetCommandHandler', () => {
 
     const updatedPet = await repository.find(new UUID(petId));
     expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getAnniversaryDate().toISOString()).toBe(
-      new DateValueObject(newAnniversaryDate).toISOString(),
+    expect(updatedPet?.getBirthDate().toISOString()).toBe(
+      new DateValueObject(newBirthdate).toISOString(),
     );
   });
 

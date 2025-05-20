@@ -18,8 +18,14 @@ export class Pet {
   @Field()
   sterilized: boolean;
 
-  @Field({ nullable: true })
-  anniversaryDate: string | null;
+  @Field()
+  color: string;
+
+  @Field()
+  birthDate: string;
+
+  @Field()
+  arrivalDate: string;
 
   @Field()
   createdAt: string;
@@ -29,7 +35,4 @@ export class Pet {
 
   @Field({ nullable: true })
   microchipNumber: string | null;
-
-  @Field()
-  color: string;
 }

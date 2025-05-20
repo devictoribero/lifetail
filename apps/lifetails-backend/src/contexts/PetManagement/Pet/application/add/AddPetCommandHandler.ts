@@ -34,7 +34,7 @@ export class AddPetCommandHandler implements CommandHandler<AddPetCommand> {
       name: new StringValueObject(command.name),
       gender: Gender.fromPrimitives(command.gender),
       sterilized: new BooleanValueObject(command.sterilized),
-      anniversaryDate: new DateValueObject(command.anniversaryDate),
+      birthDate: new DateValueObject(command.birthDate),
       arrivalDate: new DateValueObject(command.arrivalDate),
       color: new StringValueObject(command.color),
       ownerId: new UUID(command.ownerId),

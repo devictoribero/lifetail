@@ -15,7 +15,7 @@ describe('Pet', () => {
     const name = new StringValueObject(faker.animal.cat());
     const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
-    const anniversaryDate = new DateValueObject(faker.date.past());
+    const birthDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
     const color = new StringValueObject('Orange Tabby');
@@ -27,7 +27,7 @@ describe('Pet', () => {
       name,
       gender,
       sterilized,
-      anniversaryDate,
+      birthDate,
       createdAt,
       ownerId,
       color,
@@ -39,7 +39,7 @@ describe('Pet', () => {
     expect(pet.getName()).toBe(name);
     expect(pet.getGender()).toBe(gender);
     expect(pet.isSterilized()).toBe(sterilized);
-    expect(pet.getAnniversaryDate()).toBe(anniversaryDate);
+    expect(pet.getBirthDate()).toBe(birthDate);
     expect(pet.getCreatedAt()).toBe(createdAt);
     expect(pet.getOwnerId()).toBe(ownerId);
     expect(pet.getMicrochipNumber()).toBeNull();
@@ -55,7 +55,7 @@ describe('Pet', () => {
     const name = faker.animal.cat();
     const gender = Math.random() > 0.5 ? 'Male' : 'Female';
     const sterilized = faker.datatype.boolean();
-    const anniversaryDate = faker.date.past();
+    const birthDate = faker.date.past();
     const arrivalDate = faker.date.past();
     const createdAt = faker.date.recent();
     const ownerId = faker.string.uuid();
@@ -67,7 +67,7 @@ describe('Pet', () => {
       name,
       gender,
       sterilized,
-      anniversaryDate,
+      birthDate,
       arrivalDate,
       createdAt,
       ownerId,
@@ -80,7 +80,7 @@ describe('Pet', () => {
     expect(pet.getName().toString()).toBe(name);
     expect(pet.getGender().toString()).toBe(gender);
     expect(pet.isSterilized().getValue()).toBe(sterilized);
-    expect(pet.getAnniversaryDate().toDate()).toEqual(anniversaryDate);
+    expect(pet.getBirthDate().toDate()).toEqual(birthDate);
     expect(pet.getArrivalDate().toDate()).toEqual(arrivalDate);
     expect(pet.getCreatedAt().toDate()).toEqual(createdAt);
     expect(pet.getColor().toString()).toBe(color);
@@ -93,7 +93,7 @@ describe('Pet', () => {
     const name = new StringValueObject(faker.animal.cat());
     const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
-    const anniversaryDate = new DateValueObject(faker.date.past());
+    const birthDate = new DateValueObject(faker.date.past());
     const arrivalDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
@@ -104,7 +104,7 @@ describe('Pet', () => {
       name,
       gender,
       sterilized,
-      anniversaryDate,
+      birthDate,
       arrivalDate,
       createdAt,
       ownerId,
@@ -121,7 +121,7 @@ describe('Pet', () => {
       name: name.toString(),
       gender: gender.toString(),
       sterilized: sterilized.getValue(),
-      anniversaryDate: anniversaryDate.toISOString(),
+      birthDate: birthDate.toISOString(),
       arrivalDate: arrivalDate.toISOString(),
       createdAt: createdAt.toISOString(),
       ownerId: ownerId.toString(),
@@ -139,7 +139,7 @@ describe('Pet', () => {
     const species = Species.Cat;
     const gender = Math.random() > 0.5 ? Gender.Male : Gender.Female;
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
-    const anniversaryDate = new DateValueObject(faker.date.past());
+    const birthDate = new DateValueObject(faker.date.past());
     const arrivalDate = new DateValueObject(faker.date.past());
     const createdAt = new DateValueObject(faker.date.recent());
     const ownerId = new UUID(faker.string.uuid());
@@ -150,7 +150,7 @@ describe('Pet', () => {
       name: initialName,
       gender,
       sterilized,
-      anniversaryDate,
+      birthDate,
       arrivalDate,
       createdAt,
       ownerId,
@@ -174,7 +174,7 @@ describe('Pet', () => {
       name: new StringValueObject(faker.animal.cat()),
       gender: Gender.Male,
       sterilized: new BooleanValueObject(faker.datatype.boolean()),
-      anniversaryDate: new DateValueObject(faker.date.past()),
+      birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
@@ -198,7 +198,7 @@ describe('Pet', () => {
       name: new StringValueObject(faker.animal.cat()),
       gender: Gender.Male,
       sterilized: new BooleanValueObject(false),
-      anniversaryDate: new DateValueObject(faker.date.past()),
+      birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
@@ -222,7 +222,7 @@ describe('Pet', () => {
       name: new StringValueObject(faker.animal.cat()),
       gender: Gender.Male,
       sterilized: new BooleanValueObject(false),
-      anniversaryDate: new DateValueObject(faker.date.past()),
+      birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
@@ -249,7 +249,7 @@ describe('Pet', () => {
       name: new StringValueObject(faker.animal.cat()),
       gender: Gender.Male,
       sterilized: new BooleanValueObject(false),
-      anniversaryDate: new DateValueObject(faker.date.past()),
+      birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),
@@ -277,7 +277,7 @@ describe('Pet', () => {
       name: new StringValueObject(faker.animal.cat()),
       gender: Gender.Male,
       sterilized: new BooleanValueObject(false),
-      anniversaryDate: new DateValueObject(faker.date.past()),
+      birthDate: new DateValueObject(faker.date.past()),
       arrivalDate: new DateValueObject(faker.date.past()),
       createdAt: new DateValueObject(faker.date.recent()),
       ownerId: new UUID(faker.string.uuid()),

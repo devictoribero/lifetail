@@ -26,7 +26,7 @@ export class UpdatePetInput {
   @Field(() => Date, { nullable: true })
   @IsDate()
   @IsOptional()
-  anniversaryDate?: Date;
+  birthDate?: Date;
 
   @Field(() => Date, { nullable: true })
   @IsDate()

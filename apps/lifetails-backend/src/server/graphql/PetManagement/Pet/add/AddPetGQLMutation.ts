@@ -24,7 +24,7 @@ export class AddPetGQLMutation {
       input.name,
       input.gender.toString(),
       input.sterilized,
-      input.anniversaryDate,
+      input.birthDate,
       input.arrivalDate,
       input.color,
       userId,

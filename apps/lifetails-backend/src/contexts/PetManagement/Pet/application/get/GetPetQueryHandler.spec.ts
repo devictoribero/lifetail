@@ -38,7 +38,7 @@ describe('GetPetQueryHandler', () => {
     const gender = 'Female';
     const chipId = faker.string.numeric(9);
     const sterilized = true;
-    const anniversaryDate = faker.date.past();
+    const birthDate = faker.date.past();
     const createdAt = faker.date.past();
 
     // Create and save a pet
@@ -48,7 +48,7 @@ describe('GetPetQueryHandler', () => {
       name: new StringValueObject(name),
       gender: Gender.fromPrimitives(gender),
       sterilized: new BooleanValueObject(sterilized),
-      anniversaryDate: new DateValueObject(anniversaryDate),
+      birthDate: new DateValueObject(birthDate),
       createdAt: new DateValueObject(createdAt),
       ownerId: new UUID(ownerId),
       microchipNumber: new StringValueObject(chipId),
@@ -72,6 +72,6 @@ describe('GetPetQueryHandler', () => {
     expect(foundPet.getGender().toString()).toBe(gender);
     expect(foundPet.getMicrochipNumber().toString()).toBe(chipId);
     expect(foundPet.isSterilized().getValue()).toBe(sterilized);
-    expect(foundPet.getAnniversaryDate().toISOString()).toBe(anniversaryDate.toISOString());
+    expect(foundPet.getBirthDate().toISOString()).toBe(birthDate.toISOString());
   });
 });
