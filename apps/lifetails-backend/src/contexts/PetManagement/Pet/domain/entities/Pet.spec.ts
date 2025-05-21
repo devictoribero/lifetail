@@ -9,7 +9,7 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { PetAddedDomainEvent } from '../PetAddedDomainEvent';
 
 describe('Pet', () => {
-  it('should create a Pet instance', () => {
+  it('can create a Pet instance and record a PetAddedDomainEvent', () => {
     // Given
     const id = new UUID(faker.string.uuid());
     const species = Species.CAT;
@@ -17,56 +17,38 @@ describe('Pet', () => {
     const gender = Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE;
     const sterilized = new BooleanValueObject(faker.datatype.boolean());
     const birthDate = new DateValueObject(faker.date.past());
-    const createdAt = new DateValueObject(faker.date.recent());
+    const arrivalDate = new DateValueObject(faker.date.past());
     const ownerId = new UUID(faker.string.uuid());
     const color = new StringValueObject('Orange Tabby');
 
     // When
-    const pet = new Pet({
+    const pet = Pet.create({
       id,
       species,
       name,
       gender,
       sterilized,
       birthDate,
-      createdAt,
+      arrivalDate,
       ownerId,
       color,
     });
 
     // Then
     expect(pet).toBeInstanceOf(Pet);
-    expect(pet.getId()).toBe(id);
-    expect(pet.getName()).toBe(name);
-    expect(pet.getGender()).toBe(gender);
-    expect(pet.isSterilized()).toBe(sterilized);
-    expect(pet.getBirthDate()).toBe(birthDate);
-    expect(pet.getCreatedAt()).toBe(createdAt);
-    expect(pet.getOwnerId()).toBe(ownerId);
+    expect(pet.getId().equals(id)).toBe(true);
+    expect(pet.getName().equals(name)).toBe(true);
+    expect(pet.getGender().equals(gender)).toBe(true);
+    expect(pet.isSterilized().equals(sterilized)).toBe(true);
+    expect(pet.getBirthDate().equals(birthDate)).toBe(true);
+    expect(pet.getArrivalDate().equals(arrivalDate)).toBe(true);
+    expect(pet.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(pet.getOwnerId().equals(ownerId)).toBe(true);
     expect(pet.getMicrochipNumber()).toBeNull();
-    expect(pet.getColor()).toBe(color);
+    expect(pet.getColor().equals(color)).toBe(true);
     expect(pet.getUpdatedAt()).toBeNull();
     expect(pet.getDeletedAt()).toBeNull();
-  });
-
-  it('should record a PetCreatedDomainEvent when a Pet is created', () => {
-    // Given
-    const pet = Pet.create({
-      id: new UUID(faker.string.uuid()),
-      species: Species.CAT,
-      name: new StringValueObject(faker.animal.cat()),
-      gender: Math.random() > 0.5 ? Gender.MALE : Gender.FEMALE,
-      sterilized: new BooleanValueObject(faker.datatype.boolean()),
-      birthDate: new DateValueObject(faker.date.past()),
-      arrivalDate: new DateValueObject(faker.date.past()),
-      ownerId: new UUID(faker.string.uuid()),
-      color: new StringValueObject(faker.color.human()),
-    });
-
-    // When
     const events = pet.pullDomainEvents();
-
-    // Then
     expect(events).toHaveLength(1);
     expect(events[0]).toBeInstanceOf(PetAddedDomainEvent);
     expect(events[0]).toEqual({
@@ -78,7 +60,7 @@ describe('Pet', () => {
     });
   });
 
-  it('should create a Pet instance from primitives', () => {
+  it('can create a Pet instance from primitives', () => {
     // Given
     const id = faker.string.uuid();
     const species = Species.CAT.toString();
@@ -106,17 +88,17 @@ describe('Pet', () => {
 
     // Then
     expect(pet).toBeInstanceOf(Pet);
-    expect(pet.getId().toString()).toBe(id);
-    expect(pet.getName().toString()).toBe(name);
-    expect(pet.getGender().toString()).toBe(gender);
-    expect(pet.isSterilized().getValue()).toBe(sterilized);
-    expect(pet.getBirthDate().toDate()).toEqual(birthDate);
-    expect(pet.getArrivalDate().toDate()).toEqual(arrivalDate);
-    expect(pet.getCreatedAt().toDate()).toEqual(createdAt);
-    expect(pet.getColor().toString()).toBe(color);
+    expect(pet.getId().equals(new UUID(id))).toBe(true);
+    expect(pet.getName().equals(new StringValueObject(name))).toBe(true);
+    expect(pet.getGender().equals(Gender.create(gender))).toBe(true);
+    expect(pet.isSterilized().equals(new BooleanValueObject(sterilized))).toBe(true);
+    expect(pet.getBirthDate().equals(new DateValueObject(birthDate))).toBe(true);
+    expect(pet.getArrivalDate().equals(new DateValueObject(arrivalDate))).toBe(true);
+    expect(pet.getCreatedAt().equals(new DateValueObject(createdAt))).toBe(true);
+    expect(pet.getColor().equals(new StringValueObject(color))).toBe(true);
   });
 
-  it('should convert Pet instance to primitives', () => {
+  it('can serialize to primitives a Pet instance', () => {
     // Given
     const id = new UUID(faker.string.uuid());
     const species = Species.CAT;
@@ -153,16 +135,16 @@ describe('Pet', () => {
       sterilized: sterilized.getValue(),
       birthDate: birthDate.toISOString(),
       arrivalDate: arrivalDate.toISOString(),
-      createdAt: createdAt.toISOString(),
       ownerId: ownerId.toString(),
-      microchipNumber: null,
       color: color.toString(),
+      microchipNumber: null,
+      createdAt: createdAt.toISOString(),
       updatedAt: null,
       deletedAt: null,
     });
   });
 
-  it('can be renamed and updates the updatedAt field', () => {
+  it('can be renamed and get marked as updated', () => {
     // Given
     const id = new UUID(faker.string.uuid());
     const initialName = new StringValueObject(faker.animal.cat());
@@ -189,14 +171,15 @@ describe('Pet', () => {
     expect(pet.getUpdatedAt()).toBeNull();
 
     // When
-    pet.renameTo(new StringValueObject(faker.animal.cat()));
+    const newName = new StringValueObject(faker.animal.cat());
+    pet.renameTo(newName);
 
     // Then
-    expect(pet.getName().equals(initialName)).toBe(false);
+    expect(pet.getName().equals(newName)).toBe(true);
     expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can change gender and updates the updatedAt field', () => {
+  it('can change gender and get marked as updated', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
@@ -220,7 +203,7 @@ describe('Pet', () => {
     expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can be sterilized and updates the updatedAt field', () => {
+  it('can be sterilized and get marked as updated', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
@@ -244,7 +227,7 @@ describe('Pet', () => {
     expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can change the microchipNumber and updates the updatedAt field', () => {
+  it('can change the microchipNumber and get marked as updated', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),
@@ -270,7 +253,7 @@ describe('Pet', () => {
     expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can change the color and updates the updatedAt field', () => {
+  it('can change the color and get marked as updated', () => {
     // Given
     const initialColor = new StringValueObject('Black');
     const pet = new Pet({
@@ -299,7 +282,7 @@ describe('Pet', () => {
     expect(pet.getUpdatedAt()).not.toBeNull();
   });
 
-  it('can be marked as deleted and updates both deletedAt and updatedAt fields', () => {
+  it('can be marked as deleted', () => {
     // Given
     const pet = new Pet({
       id: new UUID(faker.string.uuid()),

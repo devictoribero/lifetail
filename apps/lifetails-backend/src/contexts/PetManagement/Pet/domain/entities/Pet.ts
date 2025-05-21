@@ -221,10 +221,10 @@ export class Pet extends AggregateRoot {
       sterilized: this.sterilized.getValue(),
       birthDate: this.birthDate?.toISOString(),
       arrivalDate: this.arrivalDate?.toISOString(),
-      createdAt: this.createdAt.toISOString(),
-      ownerId: this.ownerId?.toString() ?? null,
       microchipNumber: this.microchipNumber?.toString() ?? null,
       color: this.color.toString(),
+      ownerId: this.ownerId?.toString() ?? null,
+      createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt?.toISOString() ?? null,
       deletedAt: this.deletedAt?.toISOString() ?? null,
     };

@@ -26,7 +26,7 @@ export class Account extends AggregateRoot {
     this.email = params.email;
     this.password = params.password;
     this.createdAt = params.createdAt;
-    this.deletedAt = params.deletedAt;
+    this.deletedAt = params.deletedAt ?? null;
   }
 
   // Use to create the entity from the domain

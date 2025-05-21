@@ -8,4 +8,8 @@ export class DateValueObject extends ValueObject<Date> {
   public toDate(): Date {
     return this.value;
   }
+
+  public equals(other: DateValueObject): boolean {
+    return this.value.toISOString() === other.value.toISOString();
+  }
 }

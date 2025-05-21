@@ -18,7 +18,11 @@ export class UUID extends ValueObject<string> {
     }
   }
 
-  toString(): string {
+  public toString(): string {
     return this.value;
+  }
+
+  public equals(other: UUID): boolean {
+    return this.value.toString() === other.value.toString();
   }
 }

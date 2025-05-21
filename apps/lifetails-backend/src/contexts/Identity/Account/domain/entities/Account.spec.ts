@@ -16,43 +16,32 @@ describe('Account', () => {
     jest.useRealTimers();
   });
 
-  it('should create an Account instance', () => {
+  it('should create an Account instance and record a AccountCreatedDomainEvent', () => {
     // Arrange & Act
-    const id = new UUID(faker.string.uuid());
-    const email = new EmailValueObject(faker.internet.email());
-    const password = new PasswordHashValueObject(faker.internet.password());
-    const createdAt = new DateValueObject(faker.date.recent());
-
-    const account = new Account({ id, email, password, createdAt });
-
-    // Assert
-    expect(account).toBeInstanceOf(Account);
-    expect(account.getId()).toBe(id);
-    expect(account.getEmail()).toBe(email);
-    expect(account.getPassword()).toBe(password);
-    expect(account.getCreatedAt()).toBe(createdAt);
-  });
-
-  it('should record an AccountCreatedDomainEvent when an Account is created', () => {
-    // Arrange
     const email = new EmailValueObject(faker.internet.email());
     const password = new PasswordHashValueObject(faker.internet.password());
 
     const account = Account.create({ email, password });
 
     // Assert
+    expect(account).toBeInstanceOf(Account);
+    expect(account.getId()).toBeInstanceOf(UUID);
+    expect(account.getEmail()).toBe(email);
+    expect(account.getPassword()).toBe(password);
+    expect(account.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(account.getDeletedAt()).toBeNull();
     const events = account.pullDomainEvents();
     expect(events).toHaveLength(1);
     expect(events[0]).toBeInstanceOf(AccountCreatedDomainEvent);
-    expect(events[0]).toEqual(
-      expect.objectContaining({
+    expect(events).toEqual([
+      {
         eventName: 'account.created',
         aggregateId: account.getId().toString(),
         eventId: events[0].eventId,
         occurredOn: events[0].occurredOn,
         email: email.toString(),
-      }),
-    );
+      },
+    ]);
   });
 
   it('should create an Account instance with named constructor method', () => {
@@ -69,6 +58,7 @@ describe('Account', () => {
     expect(account.getEmail()).toBe(email);
     expect(account.getPassword()).toBe(password);
     expect(account.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(account.getDeletedAt()).toBeNull();
   });
 
   it('should create an Account instance from primitives', () => {
@@ -93,8 +83,8 @@ describe('Account', () => {
     expect(account.getId().toString()).toBe(id.toString());
     expect(account.getEmail().toString()).toBe(email.toString());
     expect(account.getPassword().toString()).toBe(password.toString());
-    expect(account.getCreatedAt().toISOString()).toEqual(createdAt.toISOString());
-    expect(account.getDeletedAt().toISOString()).toEqual(deletedAt.toISOString());
+    expect(account.getCreatedAt().equals(new DateValueObject(createdAt))).toBe(true);
+    expect(account.getDeletedAt()?.equals(new DateValueObject(deletedAt))).toBe(true);
   });
 
   it('should convert Account instance to primitives', () => {

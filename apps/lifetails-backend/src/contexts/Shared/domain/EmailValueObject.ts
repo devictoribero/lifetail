@@ -1,6 +1,6 @@
-import { ValueObject } from './ValueObject';
+import { StringValueObject } from './StringValueObject';
 
-export class EmailValueObject extends ValueObject<string> {
+export class EmailValueObject extends StringValueObject {
   constructor(value: string) {
     super(value);
     this.ensureValidEmail(value);
@@ -11,9 +11,5 @@ export class EmailValueObject extends ValueObject<string> {
     if (!emailRegex.test(value)) {
       throw new Error(`The email <${value}> is not valid`);
     }
-  }
-
-  public toString(): string {
-    return this.value;
   }
 }

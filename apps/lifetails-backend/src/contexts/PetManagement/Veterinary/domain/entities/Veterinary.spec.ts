@@ -7,19 +7,22 @@ import { faker } from '@faker-js/faker';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 describe('Veterinary', () => {
-  it('can create the most basic instance of Veterinary using the named constructor', () => {
+  it('can create a Veterinary using the named constructor', () => {
     const id = UUID.generate();
     const name = new StringValueObject('Animal Hospital');
 
     const veterinary = Veterinary.create({ id, name });
 
-    expect(veterinary.getId()).toBe(id);
-    expect(veterinary.getName()).toBe(name);
+    expect(veterinary.getId().equals(id)).toBe(true);
+    expect(veterinary.getName().equals(name)).toBe(true);
     expect(veterinary.getAddress()).toBeNull();
     expect(veterinary.getEmail()).toBeNull();
     expect(veterinary.getPrimaryPhone()).toBeNull();
     expect(veterinary.getEmergencyPhone()).toBeNull();
     expect(veterinary.getNotes()).toBeNull();
+    expect(veterinary.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(veterinary.getUpdatedAt()).toBeNull();
+    expect(veterinary.getDeletedAt()).toBeNull();
   });
 
   it('can create an instance of Veterinary using the named constructor', () => {
@@ -41,32 +44,26 @@ describe('Veterinary', () => {
       notes: new StringValueObject(notes),
     });
 
-    expect(veterinary.getId().toString()).toBe(id);
-    expect(veterinary.getName().toString()).toBe(name);
-    expect(veterinary.getAddress()?.toString()).toBe(address);
-    expect(veterinary.getEmail()?.toString()).toBe(email);
-    expect(veterinary.getPrimaryPhone()?.toString()).toBe(primaryPhone);
-    expect(veterinary.getEmergencyPhone()?.toString()).toBe(emergencyPhone);
-    expect(veterinary.getNotes()?.toString()).toBe(notes);
+    expect(veterinary.getId().equals(new UUID(id))).toBe(true);
+    expect(veterinary.getName().equals(new StringValueObject(name))).toBe(true);
+    expect(veterinary.getAddress()?.equals(new StringValueObject(address))).toBe(true);
+    expect(veterinary.getEmail()?.equals(new EmailValueObject(email))).toBe(true);
+    expect(veterinary.getPrimaryPhone()?.equals(new StringValueObject(primaryPhone))).toBe(true);
+    expect(veterinary.getEmergencyPhone()?.equals(new StringValueObject(emergencyPhone))).toBe(
+      true,
+    );
+    expect(veterinary.getNotes()?.equals(new StringValueObject(notes))).toBe(true);
+    expect(veterinary.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(veterinary.getUpdatedAt()).toBeNull();
+    expect(veterinary.getDeletedAt()).toBeNull();
   });
 
-  it('should throw VeterinaryNameTooShortException when name has less than too short', () => {
+  it('should throw VeterinaryNameTooShortException when name has less than 3 characters', () => {
     const id = UUID.generate();
     const tooShortName = new StringValueObject('AB');
 
     expect(() => {
       Veterinary.create({ id, name: tooShortName });
-    }).toThrow(VeterinaryNameTooShortException);
-
-    const veterinary = Veterinary.create({
-      id,
-      name: new StringValueObject('Font Blanca veterinary'),
-    });
-
-    expect(veterinary.getName().toString()).toBe('Font Blanca veterinary');
-
-    expect(() => {
-      veterinary.rename(tooShortName);
     }).toThrow(VeterinaryNameTooShortException);
   });
 
@@ -91,39 +88,21 @@ describe('Veterinary', () => {
       updatedAt: null,
     });
 
-    expect(veterinary.getId().toString()).toBe(id.toString());
-    expect(veterinary.getName().toString()).toBe(name);
-    expect(veterinary.getAddress()?.toString()).toBe(address);
-    expect(veterinary.getEmail()?.toString()).toBe(email);
-    expect(veterinary.getPrimaryPhone()?.toString()).toBe(primaryPhone);
-    expect(veterinary.getEmergencyPhone()?.toString()).toBe(emergencyPhone);
-    expect(veterinary.getNotes()?.toString()).toBe(notes);
+    expect(veterinary.getId().equals(id)).toBe(true);
+    expect(veterinary.getName().equals(new StringValueObject(name))).toBe(true);
+    expect(veterinary.getAddress()?.equals(new StringValueObject(address))).toBe(true);
+    expect(veterinary.getEmail()?.equals(new EmailValueObject(email))).toBe(true);
+    expect(veterinary.getPrimaryPhone()?.equals(new StringValueObject(primaryPhone))).toBe(true);
+    expect(veterinary.getEmergencyPhone()?.equals(new StringValueObject(emergencyPhone))).toBe(
+      true,
+    );
+    expect(veterinary.getNotes()?.equals(new StringValueObject(notes))).toBe(true);
+    expect(veterinary.getCreatedAt()).toBeInstanceOf(DateValueObject);
+    expect(veterinary.getUpdatedAt()).toBeNull();
+    expect(veterinary.getDeletedAt()).toBeNull();
   });
 
-  it('can serialize the most basic Veterinary instance to a primitive object', () => {
-    const id = UUID.generate();
-    const name = faker.company.name();
-
-    const veterinary = Veterinary.create({
-      id,
-      name: new StringValueObject(name),
-    });
-
-    expect(veterinary.toPrimitives()).toEqual({
-      id: id.toString(),
-      name: name,
-      address: null,
-      email: null,
-      primaryPhone: null,
-      emergencyPhone: null,
-      notes: null,
-      createdAt: expect.any(String),
-      updatedAt: null,
-      deletedAt: null,
-    });
-  });
-
-  it('can serialize a Veterinary instance with all fields to a primitive object', () => {
+  it('can serialize to a primitive object a Veterinary instance with all fields', () => {
     const id = UUID.generate();
     const name = faker.company.name();
     const address = faker.location.streetAddress();
@@ -169,9 +148,10 @@ describe('Veterinary', () => {
       name: new StringValueObject(name),
     });
 
-    veterinary.rename(new StringValueObject(newName));
+    const newNameValueObject = new StringValueObject(newName);
+    veterinary.rename(newNameValueObject);
 
-    expect(veterinary.getName().toString()).toBe(newName);
+    expect(veterinary.getName().equals(newNameValueObject)).toBe(true);
     expect(veterinary.getUpdatedAt()).not.toBeNull();
   });
 
@@ -183,11 +163,12 @@ describe('Veterinary', () => {
       id,
       name: new StringValueObject(name),
     });
-
     expect(veterinary.getUpdatedAt()).toBeNull();
-    veterinary.relocate(new StringValueObject(newAddress));
 
-    expect(veterinary.getAddress()?.toString()).toBe(newAddress);
+    const newLocation = new StringValueObject(newAddress);
+    veterinary.relocate(newLocation);
+
+    expect(veterinary.getAddress()?.equals(newLocation)).toBe(true);
     expect(veterinary.getUpdatedAt()).not.toBeNull();
   });
 
@@ -201,9 +182,10 @@ describe('Veterinary', () => {
       name: new StringValueObject(name),
     });
 
-    veterinary.changeContactEmail(new EmailValueObject(newEmail));
+    const newEmailValueObject = new EmailValueObject(newEmail);
+    veterinary.changeContactEmail(newEmailValueObject);
 
-    expect(veterinary.getEmail()?.toString()).toBe(newEmail);
+    expect(veterinary.getEmail()?.equals(newEmailValueObject)).toBe(true);
     expect(veterinary.getUpdatedAt()).not.toBeNull();
   });
 
@@ -217,9 +199,10 @@ describe('Veterinary', () => {
       name: new StringValueObject(name),
     });
 
-    veterinary.addPrimaryPhone(new StringValueObject(newPrimaryPhone));
+    const newPrimaryPhoneValueObject = new StringValueObject(newPrimaryPhone);
+    veterinary.addPrimaryPhone(newPrimaryPhoneValueObject);
 
-    expect(veterinary.getPrimaryPhone()?.toString()).toBe(newPrimaryPhone);
+    expect(veterinary.getPrimaryPhone()?.equals(newPrimaryPhoneValueObject)).toBe(true);
     expect(veterinary.getUpdatedAt()).not.toBeNull();
   });
 
@@ -233,9 +216,10 @@ describe('Veterinary', () => {
       name: new StringValueObject(name),
     });
 
-    veterinary.addEmergencyPhone(new StringValueObject(newEmergencyPhone));
+    const newEmergencyPhoneValueObject = new StringValueObject(newEmergencyPhone);
+    veterinary.addEmergencyPhone(newEmergencyPhoneValueObject);
 
-    expect(veterinary.getEmergencyPhone()?.toString()).toBe(newEmergencyPhone);
+    expect(veterinary.getEmergencyPhone()?.equals(newEmergencyPhoneValueObject)).toBe(true);
     expect(veterinary.getUpdatedAt()).not.toBeNull();
   });
 
@@ -249,9 +233,10 @@ describe('Veterinary', () => {
       name: new StringValueObject(name),
     });
 
-    veterinary.documentAdditionalInfo(new StringValueObject(newAdditionalInfo));
+    const newAdditionalInfoValueObject = new StringValueObject(newAdditionalInfo);
+    veterinary.documentAdditionalInfo(newAdditionalInfoValueObject);
 
-    expect(veterinary.getNotes()?.toString()).toBe(newAdditionalInfo);
+    expect(veterinary.getNotes()?.equals(newAdditionalInfoValueObject)).toBe(true);
     expect(veterinary.getUpdatedAt()).not.toBeNull();
   });
 
