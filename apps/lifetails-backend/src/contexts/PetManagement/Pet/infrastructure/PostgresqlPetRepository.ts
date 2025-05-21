@@ -58,15 +58,12 @@ export class PostgresqlPetRepository implements PetRepository {
     });
   }
 
-  async remove(id: UUID): Promise<void> {
-    await this.prisma.pet.delete({
-      where: { id: id.toString() },
-    });
-  }
-
   async find(id: UUID): Promise<Pet | null> {
     const pet = await this.prisma.pet.findUnique({
-      where: { id: id.toString() },
+      where: {
+        id: id.toString(),
+        deletedAt: null,
+      },
     });
 
     if (!pet) return null;
@@ -76,7 +73,10 @@ export class PostgresqlPetRepository implements PetRepository {
 
   async findByOwner(ownerId: UUID): Promise<Pet[]> {
     const pets = await this.prisma.pet.findMany({
-      where: { ownerId: ownerId.toString() },
+      where: {
+        ownerId: ownerId.toString(),
+        deletedAt: null,
+      },
     });
 
     return pets.map((pet) => this.mapToDomainPet(pet));

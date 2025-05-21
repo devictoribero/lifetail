@@ -230,52 +230,52 @@ export class Pet extends AggregateRoot {
     };
   }
 
-  private updateLastModified(): void {
+  private markAsUpdated(): void {
     this.updatedAt = new DateValueObject(new Date());
   }
 
   public renameTo(name: StringValueObject): void {
     this.name = name;
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public changeGenderTo(gender: Gender): void {
     this.gender = gender;
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public sterilize(): void {
     this.sterilized = new BooleanValueObject(true);
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public unsterilize(): void {
     this.sterilized = new BooleanValueObject(false);
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public changeBirthdateTo(birthDate: DateValueObject): void {
     this.birthDate = birthDate;
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public changeArrivalDateTo(arrivalDate: DateValueObject): void {
     this.arrivalDate = arrivalDate;
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public changeMicrochipNumberTo(microchipNumber: StringValueObject): void {
     this.microchipNumber = microchipNumber;
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public changeColorTo(color: StringValueObject): void {
     this.color = color;
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 
   public markAsDeleted(): void {
     this.deletedAt = new DateValueObject(new Date());
-    this.updateLastModified();
+    this.markAsUpdated();
   }
 }

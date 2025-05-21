@@ -5,24 +5,28 @@ import { RemovePetCommand } from './RemovePetCommand';
 import { Inject, Injectable } from '@nestjs/common';
 import { PET_REPOSITORY } from '../../domain/repositories/PetRepository';
 import { CommandHandler } from 'src/contexts/Shared/domain/CommandHandler';
+import { EVENT_BUS } from 'src/contexts/Shared/domain/EventBus';
+import { EventBus } from 'src/contexts/Shared/domain/EventBus';
 
 @Injectable()
 export class RemovePetCommandHandler implements CommandHandler<RemovePetCommand> {
   constructor(
     @Inject(PET_REPOSITORY)
     private readonly repository: PetRepository,
+    @Inject(EVENT_BUS)
+    private readonly eventBus: EventBus,
   ) {}
 
   async handle(command: RemovePetCommand): Promise<void> {
-    const petId = new UUID(command.id);
-    await this.ensurePetExists(petId);
-    await this.repository.remove(petId);
-  }
+    const ud = new UUID(command.id);
+    const pet = await this.repository.find(ud);
 
-  private async ensurePetExists(id: UUID): Promise<void> {
-    const pet = await this.repository.find(id);
     if (!pet) {
       throw new PetNotFoundException();
     }
+
+    pet.markAsDeleted();
+    await this.repository.save(pet);
+    await this.eventBus.publish(pet.pullDomainEvents());
   }
 }

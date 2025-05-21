@@ -3,6 +3,9 @@
 ## High Priority
 
 - Create repository mocks for unit tests
+- Review all tests:
+  - On entiity: use entitity methods
+  - On query/command handlers use inmemory repos
 
 ## Medium Priority
 

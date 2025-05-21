@@ -322,5 +322,6 @@ describe('Pet', () => {
     // Then
     expect(pet.getDeletedAt()).not.toBeNull();
     expect(pet.getUpdatedAt()).not.toBeNull();
+    expect(pet.pullDomainEvents()).toEqual([]);
   });
 });

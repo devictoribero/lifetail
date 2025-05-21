@@ -33,8 +33,8 @@ export class User extends AggregateRoot {
     this.preferredLanguage = params.preferredLanguage || LanguageCode.English;
 
     this.createdAt = params.createdAt;
-    this.updatedAt = params.updatedAt;
-    this.deletedAt = params.deletedAt;
+    this.updatedAt = params.updatedAt || null;
+    this.deletedAt = params.deletedAt || null;
   }
 
   static create({

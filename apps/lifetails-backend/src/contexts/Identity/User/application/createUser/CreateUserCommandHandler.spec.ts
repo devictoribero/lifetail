@@ -71,6 +71,8 @@ describe('CreateUserCommandHandler', () => {
       nickname,
       preferredLanguage: LanguageCode.English.toString(),
       createdAt: expect.any(String),
+      updatedAt: null,
+      deletedAt: null,
     });
   });
 });

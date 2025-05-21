@@ -11,18 +11,17 @@ export class PetInMemoryRepository implements PetRepository {
     this.pets.set(pet.getId().toString(), pet);
   }
 
-  async remove(id: UUID): Promise<void> {
-    this.pets.delete(id.toString());
-  }
-
   async find(id: UUID): Promise<Pet | null> {
     const pet = this.pets.get(id.toString());
-    return pet || null;
+
+    if (!pet || pet.getDeletedAt() !== null) return null;
+
+    return pet;
   }
 
   async findByOwner(ownerId: UUID): Promise<Pet[]> {
     return Array.from(this.pets.values()).filter(
-      (pet) => pet.getOwnerId()?.toString() === ownerId.toString(),
+      (pet) => pet.getOwnerId()?.toString() === ownerId.toString() && pet.getDeletedAt() === null,
     );
   }
 }

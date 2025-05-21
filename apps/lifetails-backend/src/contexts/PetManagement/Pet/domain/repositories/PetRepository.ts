@@ -5,7 +5,6 @@ export const PET_REPOSITORY = 'PET_REPOSITORY';
 
 export interface PetRepository {
   save(pet: Pet): Promise<void>;
-  remove(id: UUID): Promise<void>;
   find(id: UUID): Promise<Pet | null>;
   findByOwner(ownerId: UUID): Promise<Pet[]>;
 }

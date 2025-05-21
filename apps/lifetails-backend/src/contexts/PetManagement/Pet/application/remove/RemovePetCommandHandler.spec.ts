@@ -11,14 +11,19 @@ import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundExcepti
 import { Species } from '../../domain/entities/PetSpecies';
 import { PetRepository } from '../../domain/repositories/PetRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { EventBus } from 'src/contexts/Shared/domain/EventBus';
 
 describe('RemovePetCommandHandler', () => {
   let repository: PetRepository;
   let commandHandler: RemovePetCommandHandler;
+  let mockEventBus: jest.Mocked<EventBus>;
 
   beforeEach(() => {
     repository = new PetInMemoryRepository();
-    commandHandler = new RemovePetCommandHandler(repository);
+    mockEventBus = {
+      publish: jest.fn(),
+    } as jest.Mocked<EventBus>;
+    commandHandler = new RemovePetCommandHandler(repository, mockEventBus);
   });
 
   it('should throw a PetNotFoundException when the pet does not exist', async () => {
@@ -53,15 +58,15 @@ describe('RemovePetCommandHandler', () => {
     const petId = new UUID(id);
     const beforeRemoval = await repository.find(petId);
     expect(beforeRemoval).toBeInstanceOf(Pet);
-    const removeSpy = jest.spyOn(repository, 'remove');
+    const saveSpy = jest.spyOn(repository, 'save');
 
     // Act
     const command = new RemovePetCommand(id);
     await commandHandler.handle(command);
 
     // Assert
-    expect(removeSpy).toHaveBeenCalledTimes(1);
-    expect(removeSpy).toHaveBeenCalledWith(petId);
+    expect(saveSpy).toHaveBeenCalledTimes(1);
+    expect(saveSpy).toHaveBeenCalledWith(pet);
     const afterRemoval = await repository.find(petId);
     expect(afterRemoval).toBeNull();
   });

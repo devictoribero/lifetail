@@ -44,24 +44,26 @@ describe('User', () => {
     expect(user.getNickname()).toBe(nickname);
     expect(user.getCreatedAt()).toBeInstanceOf(DateValueObject);
     expect(user.getPreferredLanguage()).toBe(LanguageCode.English);
+    expect(user.getUpdatedAt()).toBeNull();
+    expect(user.getDeletedAt()).toBeNull();
   });
 
   it('should convert the User to primitive values', () => {
     const id = UUID.generate();
     const accountId = UUID.generate();
     const nickname = new StringValueObject(faker.person.firstName());
-    const createdAt = new DateValueObject(faker.date.past());
-    const preferredLanguage = LanguageCode.English;
 
-    const user = new User({ id, accountId, nickname, createdAt, preferredLanguage });
+    const user = User.create({ id, accountId, nickname });
 
     const primitives = user.toPrimitives();
     expect(primitives).toEqual({
       id: id.toString(),
       accountId: accountId.toString(),
       nickname: nickname.toString(),
-      createdAt: createdAt.toISOString(),
-      preferredLanguage: preferredLanguage.toString(),
+      preferredLanguage: 'EN',
+      createdAt: expect.any(String),
+      updatedAt: null,
+      deletedAt: null,
     });
   });
 });
