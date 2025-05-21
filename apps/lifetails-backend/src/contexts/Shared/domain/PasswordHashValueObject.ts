@@ -7,11 +7,11 @@ export class PasswordHashValueObject extends StringValueObject {
   static readonly MIN_LENGTH = 8;
 
   constructor(value: string) {
+    PasswordHashValueObject.ensureValidPasswordHash(value);
     super(value);
-    this.ensureValidPasswordHash(value);
   }
 
-  private ensureValidPasswordHash(value: string): void {
+  private static ensureValidPasswordHash(value: string): void {
     if (!value || value.length === 0) {
       throw new UnsupportedEmptyPasswordException();
     }

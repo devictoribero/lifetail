@@ -5,197 +5,135 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMomentTheme } from './LifeMomentTheme';
-import { Pet } from 'src/contexts/PetManagement/Pet/domain/entities/Pet';
-
-// Array of all valid moment types for random selection
-const validMomentTypes = [
-  'Arrival',
-  'Anniversary',
-  'Achievement',
-  'Move',
-  'Gift',
-  'Walk',
-  'Exercise',
-  'Play',
-  'Training',
-  'Socialization',
-  'Excursion',
-  'DietChange',
-  'SpecialMeal',
-  'Hydration',
-  'GroomingVisit',
-  'NailCut',
-  'Bath',
-  'VeterinaryVisit',
-  'Vaccination',
-  'Medication',
-  'Surgery',
-  'Illness',
-  'Discomfort',
-  'Injury',
-  'Goodbye',
-  'Death',
-];
-
-const getRandomMomentType = () => {
-  return validMomentTypes[Math.floor(Math.random() * validMomentTypes.length)];
-};
-
-const createLifeMoment = () => {
-  const id = new UUID(faker.string.uuid());
-  const type = new LifeMomentType(getRandomMomentType());
-  const theme = type.getTheme();
-  const petId = new UUID(faker.string.uuid());
-  const createdBy = new UUID(faker.string.uuid());
-  const occurredOn = new DateValueObject(faker.date.recent());
-  const description = new StringValueObject(faker.lorem.sentence());
-  const createdAt = new DateValueObject(faker.date.recent());
-  const updatedAt = new DateValueObject(faker.date.recent());
-
-  return new LifeMoment({
-    id,
-    type,
-    theme,
-    petId,
-    createdBy,
-    occurredOn,
-    description,
-    createdAt,
-    updatedAt,
-  });
-};
+import { LifeMomentObjectMother, LifeMomentTypeObjectMother } from './LifeMomentObjectMother.spec';
 
 describe('LifeMoment Domain Entity', () => {
-  it('can create a LifeMoment using the named constructor', () => {
-    const id = new UUID(faker.string.uuid());
-    const type = new LifeMomentType(getRandomMomentType());
-    const theme = type.getTheme();
-    const petId = new UUID(faker.string.uuid());
-    const createdBy = new UUID(faker.string.uuid());
-    const occurredOn = new DateValueObject(faker.date.recent());
-    const description = new StringValueObject(faker.lorem.sentence());
+  describe('Creation', () => {
+    it('can create a LifeMoment instance and no events should be recorded', () => {
+      const id = new UUID(faker.string.uuid());
+      const type = LifeMomentTypeObjectMother.create('Arrival');
+      const petId = new UUID(faker.string.uuid());
+      const createdBy = new UUID(faker.string.uuid());
+      const occurredOn = new DateValueObject(faker.date.recent());
+      const description = new StringValueObject(faker.lorem.sentence());
 
-    const lifeMoment = LifeMoment.create({
-      id,
-      type,
-      petId,
-      createdBy,
-      occurredOn,
-      description,
-    });
+      const lifeMoment = LifeMomentObjectMother.create({
+        id,
+        type,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
+      });
 
-    expect(lifeMoment.getId().equals(id)).toBe(true);
-    expect(lifeMoment.getType().equals(type)).toBe(true);
-    expect(lifeMoment.getTheme().equals(theme)).toBe(true);
-    expect(lifeMoment.getPetId().equals(petId)).toBe(true);
-    expect(lifeMoment.getCreatedBy().equals(createdBy)).toBe(true);
-    expect(lifeMoment.getOccurredOn().equals(occurredOn)).toBe(true);
-    expect(lifeMoment.getDescription().equals(description)).toBe(true);
-    expect(lifeMoment.getCreatedAt()).not.toBeNull();
-    expect(lifeMoment.getUpdatedAt()).toBeNull();
-    expect(lifeMoment.getDeletedAt()).toBeNull();
-  });
-
-  it('can serialize to primitives a LifeMoment instance', () => {
-    const id = new UUID(faker.string.uuid());
-    const type = new LifeMomentType(getRandomMomentType());
-    const petId = new UUID(faker.string.uuid());
-    const createdBy = new UUID(faker.string.uuid());
-    const occurredOn = new DateValueObject(faker.date.recent());
-    const description = new StringValueObject(faker.lorem.sentence());
-    const lifeMoment = LifeMoment.create({
-      id,
-      type,
-      petId,
-      createdBy,
-      occurredOn,
-      description,
-    });
-
-    const primitives = lifeMoment.toPrimitives();
-    expect(primitives).toEqual({
-      id: id.toString(),
-      type: type.toString(),
-      theme: type.getTheme().toString(),
-      petId: petId.toString(),
-      createdBy: createdBy.toString(),
-      occurredOn: occurredOn.toISOString(),
-      description: description.toString(),
-      createdAt: expect.any(String),
-      updatedAt: null,
-      deletedAt: null,
+      expect(lifeMoment.getId().equals(id)).toBe(true);
+      expect(lifeMoment.getType().equals(type)).toBe(true);
+      expect(lifeMoment.getTheme().equals(type.getTheme())).toBe(true);
+      expect(lifeMoment.getPetId().equals(petId)).toBe(true);
+      expect(lifeMoment.getCreatedBy().equals(createdBy)).toBe(true);
+      expect(lifeMoment.getOccurredOn().equals(occurredOn)).toBe(true);
+      expect(lifeMoment.getDescription().equals(description)).toBe(true);
+      expect(lifeMoment.getCreatedAt()).not.toBeNull();
+      expect(lifeMoment.getUpdatedAt()).toBeNull();
+      expect(lifeMoment.getDeletedAt()).toBeNull();
     });
   });
 
-  it('can unserialize from primitives a LifeMoment instance', () => {
-    const id = faker.string.uuid();
-    const type = 'Arrival';
-    const theme = 'Celebration';
-    const petId = faker.string.uuid();
-    const createdBy = faker.string.uuid();
-    const occurredOn = faker.date.recent();
-    const description = faker.lorem.sentence();
-    const createdAt = faker.date.recent();
-    const updatedAt = faker.date.recent();
+  describe('Serialization', () => {
+    it('should serialize to primitives a LifeMoment instance', () => {
+      const id = new UUID(faker.string.uuid());
+      const type = new LifeMomentType('Arrival');
+      const petId = new UUID(faker.string.uuid());
+      const createdBy = new UUID(faker.string.uuid());
+      const occurredOn = new DateValueObject(faker.date.recent());
+      const description = new StringValueObject(faker.lorem.sentence());
+      const lifeMoment = LifeMomentObjectMother.create({
+        id,
+        type,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
+      });
 
-    const lifeMoment = LifeMoment.fromPrimitives({
-      id,
-      type,
-      theme,
-      petId,
-      createdBy,
-      occurredOn,
-      description,
-      createdAt,
-      updatedAt,
+      const primitives = lifeMoment.toPrimitives();
+      expect(primitives).toEqual({
+        id: id.toString(),
+        type: type.toString(),
+        theme: type.getTheme().toString(),
+        petId: petId.toString(),
+        createdBy: createdBy.toString(),
+        occurredOn: occurredOn.toISOString(),
+        description: description.toString(),
+        createdAt: expect.any(String),
+        updatedAt: null,
+        deletedAt: null,
+      });
     });
 
-    expect(lifeMoment).toBeDefined();
-    expect(lifeMoment.getId().equals(new UUID(id))).toBe(true);
-    expect(lifeMoment.getType().equals(new LifeMomentType(type))).toBe(true);
-    expect(lifeMoment.getTheme().equals(LifeMomentTheme.fromPrimitives(theme))).toBe(true);
-    expect(lifeMoment.getPetId().equals(new UUID(petId))).toBe(true);
-    expect(lifeMoment.getCreatedBy().equals(new UUID(createdBy))).toBe(true);
-    expect(lifeMoment.getOccurredOn().equals(new DateValueObject(occurredOn))).toBe(true);
-    expect(lifeMoment.getDescription().equals(new StringValueObject(description))).toBe(true);
-    expect(lifeMoment.getCreatedAt().equals(new DateValueObject(createdAt))).toBe(true);
-    expect(lifeMoment.getUpdatedAt()?.equals(new DateValueObject(updatedAt))).toBe(true);
-    expect(lifeMoment.getDeletedAt()).toBeNull();
+    it('should unserialize from primitives a LifeMoment instance', () => {
+      const id = faker.string.uuid();
+      const type = 'Arrival';
+      const theme = 'Celebration';
+      const petId = faker.string.uuid();
+      const createdBy = faker.string.uuid();
+      const occurredOn = faker.date.recent();
+      const description = faker.lorem.sentence();
+      const createdAt = faker.date.recent();
+      const updatedAt = faker.date.recent();
+
+      const lifeMoment = LifeMomentObjectMother.fromPrimitives({
+        id,
+        type,
+        theme,
+        petId,
+        createdBy,
+        occurredOn,
+        description,
+        createdAt,
+        updatedAt,
+        deletedAt: null,
+      });
+
+      expect(lifeMoment).toBeDefined();
+      expect(lifeMoment.getId().equals(new UUID(id))).toBe(true);
+      expect(lifeMoment.getType().equals(new LifeMomentType(type))).toBe(true);
+      expect(lifeMoment.getTheme().equals(LifeMomentTheme.fromPrimitives(theme))).toBe(true);
+      expect(lifeMoment.getPetId().equals(new UUID(petId))).toBe(true);
+      expect(lifeMoment.getCreatedBy().equals(new UUID(createdBy))).toBe(true);
+      expect(lifeMoment.getOccurredOn().equals(new DateValueObject(occurredOn))).toBe(true);
+      expect(lifeMoment.getDescription().equals(new StringValueObject(description))).toBe(true);
+      expect(lifeMoment.getCreatedAt().equals(new DateValueObject(createdAt))).toBe(true);
+      expect(lifeMoment.getUpdatedAt()?.equals(new DateValueObject(updatedAt))).toBe(true);
+      expect(lifeMoment.getDeletedAt()).toBeNull();
+    });
   });
 
-  it('can update the description', () => {
-    const lifeMoment = createLifeMoment();
-    const newDescription = new StringValueObject(faker.lorem.sentence());
+  describe('Interaction', () => {
+    it('can update the description', () => {
+      const lifeMoment = LifeMomentObjectMother.create();
+      const newDescription = new StringValueObject(faker.lorem.sentence());
 
-    lifeMoment.updateDescription(newDescription);
+      lifeMoment.updateDescription(newDescription);
 
-    expect(lifeMoment.getDescription()).toEqual(newDescription);
-  });
+      expect(lifeMoment.getDescription()).toEqual(newDescription);
+    });
 
-  it('can reschedule the moment', () => {
-    const lifeMoment = createLifeMoment();
-    const newOccurredOn = new DateValueObject(faker.date.recent());
+    it('can reschedule the moment', () => {
+      const lifeMoment = LifeMomentObjectMother.create();
+      const newOccurredOn = new DateValueObject(faker.date.recent());
 
-    lifeMoment.reschedule(newOccurredOn);
+      lifeMoment.reschedule(newOccurredOn);
 
-    expect(lifeMoment.getOccurredOn()).toEqual(newOccurredOn);
-  });
+      expect(lifeMoment.getOccurredOn()).toEqual(newOccurredOn);
+    });
 
-  it('can be serialized to primitives', () => {
-    const lifeMoment = createLifeMoment();
+    it('can mark the moment as deleted', () => {
+      const lifeMoment = LifeMomentObjectMother.create();
 
-    const primitives = lifeMoment.toPrimitives();
+      lifeMoment.markAsDeleted();
 
-    expect(primitives).toBeDefined();
-    expect(primitives).toBeInstanceOf(Object);
-    expect(primitives.id).toBe(lifeMoment.getId().toString());
-    expect(primitives.type).toBe(lifeMoment.getType().toString());
-    expect(primitives.theme).toBe(lifeMoment.getTheme().toString());
-    expect(primitives.petId).toBe(lifeMoment.getPetId().toString());
-    expect(primitives.createdBy).toBe(lifeMoment.getCreatedBy().toString());
-    expect(primitives.occurredOn).toBe(lifeMoment.getOccurredOn().toISOString());
-    expect(primitives.description).toBe(lifeMoment.getDescription().toString());
-    expect(primitives.createdAt).toBe(lifeMoment.getCreatedAt().toISOString());
-    expect(primitives.updatedAt).toBe(lifeMoment.getUpdatedAt()?.toISOString());
+      expect(lifeMoment.getDeletedAt()).not.toBeNull();
+    });
   });
 });
