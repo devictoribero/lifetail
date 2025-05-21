@@ -6,6 +6,7 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { AccountDeletedDomainEvent } from '../events/AccountDeletedDomainEvent';
 import { AccountCreatedDomainEvent } from '../events/AccountCreatedDomainEvent';
+import { AccountObjectMother } from './AccountObjectMother.spec';
 
 describe('Account', () => {
   beforeEach(() => {
@@ -21,13 +22,13 @@ describe('Account', () => {
     const email = new EmailValueObject(faker.internet.email());
     const password = new PasswordHashValueObject(faker.internet.password());
 
-    const account = Account.create({ email, password });
+    const account = AccountObjectMother.create({ email, password });
 
     // Assert
     expect(account).toBeInstanceOf(Account);
     expect(account.getId()).toBeInstanceOf(UUID);
-    expect(account.getEmail()).toBe(email);
-    expect(account.getPassword()).toBe(password);
+    expect(account.getEmail().equals(email)).toBe(true);
+    expect(account.getPassword().equals(password)).toBe(true);
     expect(account.getCreatedAt()).toBeInstanceOf(DateValueObject);
     expect(account.getDeletedAt()).toBeNull();
     const events = account.pullDomainEvents();
@@ -44,23 +45,6 @@ describe('Account', () => {
     ]);
   });
 
-  it('should create an Account instance with named constructor method', () => {
-    // Arrange
-    const email = new EmailValueObject(faker.internet.email());
-    const password = new PasswordHashValueObject(faker.internet.password());
-
-    // Act
-    const account = Account.create({ email, password });
-
-    // Assert
-    expect(account).toBeInstanceOf(Account);
-    expect(account.getId()).toBeInstanceOf(UUID);
-    expect(account.getEmail()).toBe(email);
-    expect(account.getPassword()).toBe(password);
-    expect(account.getCreatedAt()).toBeInstanceOf(DateValueObject);
-    expect(account.getDeletedAt()).toBeNull();
-  });
-
   it('should create an Account instance from primitives', () => {
     // Arrange
     const id = faker.string.uuid();
@@ -70,7 +54,7 @@ describe('Account', () => {
     const deletedAt = faker.date.recent();
 
     // Act
-    const account = Account.fromPrimitives({
+    const account = AccountObjectMother.fromPrimitives({
       id,
       email,
       password,
@@ -89,32 +73,26 @@ describe('Account', () => {
 
   it('should convert Account instance to primitives', () => {
     // Arrange
-    const id = new UUID(faker.string.uuid());
-    const email = new EmailValueObject(faker.internet.email());
-    const password = new PasswordHashValueObject(faker.internet.password());
-    const createdAt = new DateValueObject(faker.date.recent());
-    const account = new Account({ id, email, password, createdAt });
+    const account = AccountObjectMother.create();
 
     // Act
     const primitives = account.toPrimitives();
 
     // Assert
     expect(primitives).toEqual({
-      id: id.toString(),
-      email: email.toString(),
-      password: password.toString(),
-      createdAt: createdAt.toISOString(),
+      id: account.getId().toString(),
+      email: account.getEmail().toString(),
+      password: account.getPassword().toString(),
+      createdAt: account.getCreatedAt().toISOString(),
       deletedAt: null,
     });
   });
 
   it('should record an AccountDeletedDomainEvent when markAsDeleted is called', () => {
     // Arrange
-    const id = new UUID(faker.string.uuid());
-    const email = new EmailValueObject(faker.internet.email());
-    const password = new PasswordHashValueObject(faker.internet.password());
-    const createdAt = new DateValueObject(faker.date.recent());
-    const account = new Account({ id, email, password, createdAt });
+    const account = AccountObjectMother.create();
+    // Pulling domain events to clean up the events prev. to mark the instance as deleted
+    account.pullDomainEvents();
 
     // Act
     account.markAsDeleted();
