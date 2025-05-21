@@ -8,7 +8,6 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
-import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 
 describe('RemoveLifeMomentCommandHandler', () => {
@@ -50,15 +49,15 @@ describe('RemoveLifeMomentCommandHandler', () => {
     const lifeMomentId = new UUID(id);
     const beforeRemoval = await repository.find(lifeMomentId);
     expect(beforeRemoval).not.toBeNull();
-    const removeSpy = jest.spyOn(repository, 'remove');
+    const saveSpy = jest.spyOn(repository, 'save');
     const command = new RemoveLifeMomentCommand(lifeMomentId.toString());
 
     // Act
     await commandHandler.handle(command);
 
     // Assert
-    expect(removeSpy).toHaveBeenCalledTimes(1);
-    expect(removeSpy).toHaveBeenCalledWith(lifeMomentId);
+    expect(saveSpy).toHaveBeenCalledTimes(1);
+    expect(saveSpy).toHaveBeenCalledWith(lifeMoment);
     // Verify the life moment no longer exists
     const afterRemoval = await repository.find(lifeMomentId);
     expect(afterRemoval).toBeNull();

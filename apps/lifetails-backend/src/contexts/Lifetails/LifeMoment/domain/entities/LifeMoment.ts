@@ -15,6 +15,7 @@ export class LifeMoment extends AggregateRoot {
   private description: StringValueObject;
   private createdBy: UUID;
   private updatedAt: DateValueObject | null;
+  private deletedAt: DateValueObject | null;
 
   // Use for testing purposes only. It should not be used in the domain.
   constructor(params: {
@@ -27,6 +28,7 @@ export class LifeMoment extends AggregateRoot {
     description: StringValueObject;
     createdAt: DateValueObject;
     updatedAt?: DateValueObject | null;
+    deletedAt?: DateValueObject | null;
   }) {
     super();
     this.id = params.id;
@@ -38,6 +40,7 @@ export class LifeMoment extends AggregateRoot {
     this.description = params.description;
     this.createdAt = params.createdAt;
     this.updatedAt = params.updatedAt ?? null;
+    this.deletedAt = params.deletedAt ?? null;
   }
 
   // Use to create the entity from the domain
@@ -67,6 +70,7 @@ export class LifeMoment extends AggregateRoot {
       description,
       createdAt: now,
       updatedAt: null,
+      deletedAt: null,
     });
   }
 
@@ -81,6 +85,7 @@ export class LifeMoment extends AggregateRoot {
     description,
     createdAt = new Date(),
     updatedAt = null,
+    deletedAt = null,
   }: {
     id: string;
     type: string;
@@ -91,6 +96,7 @@ export class LifeMoment extends AggregateRoot {
     description: string;
     createdAt?: Date;
     updatedAt?: Date | null;
+    deletedAt?: Date | null;
   }) {
     return new LifeMoment({
       id: new UUID(id),
@@ -102,6 +108,7 @@ export class LifeMoment extends AggregateRoot {
       description: new StringValueObject(description),
       createdAt: new DateValueObject(createdAt),
       updatedAt: updatedAt ? new DateValueObject(updatedAt) : null,
+      deletedAt: deletedAt ? new DateValueObject(deletedAt) : null,
     });
   }
 
@@ -115,6 +122,10 @@ export class LifeMoment extends AggregateRoot {
 
   public getUpdatedAt(): DateValueObject | null {
     return this.updatedAt;
+  }
+
+  public getDeletedAt(): DateValueObject | null {
+    return this.deletedAt;
   }
 
   public getType(): LifeMomentType {
@@ -141,6 +152,11 @@ export class LifeMoment extends AggregateRoot {
     return this.description;
   }
 
+  public markAsDeleted(): void {
+    this.deletedAt = new DateValueObject(new Date());
+    this.updatedAt = new DateValueObject(new Date());
+  }
+
   public updateDescription(description: StringValueObject): void {
     this.description = description;
     this.updatedAt = new DateValueObject(new Date());
@@ -162,6 +178,7 @@ export class LifeMoment extends AggregateRoot {
       description: this.description.toString(),
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt?.toISOString() || null,
+      deletedAt: this.deletedAt?.toISOString() || null,
     };
   }
 }

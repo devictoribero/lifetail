@@ -8,11 +8,11 @@ export class LifeMomentInMemoryRepository implements LifeMomentRepository {
   private moments: Map<string, LifeMoment> = new Map();
 
   async save(moment: LifeMoment): Promise<void> {
+    if (moment.getDeletedAt() !== null) {
+      this.moments.delete(moment.getId().toString());
+      return;
+    }
     this.moments.set(moment.getId().toString(), moment);
-  }
-
-  async remove(id: UUID): Promise<void> {
-    this.moments.delete(id.toString());
   }
 
   async find(id: UUID): Promise<LifeMoment | null> {

@@ -13,6 +13,11 @@ export class PostgresqlLifeMomentRepository implements LifeMomentRepository {
     const { id, type, theme, petId, occurredOn, description, createdBy, createdAt, updatedAt } =
       moment.toPrimitives();
 
+    if (moment.getDeletedAt() !== null) {
+      await this.prisma.lifeMoment.delete({ where: { id } });
+      return;
+    }
+
     await this.prisma.lifeMoment.upsert({
       where: { id },
       update: {
@@ -32,14 +37,6 @@ export class PostgresqlLifeMomentRepository implements LifeMomentRepository {
         createdAt: new Date(createdAt),
         updatedAt: updatedAt ? new Date(updatedAt) : undefined,
       },
-    });
-  }
-
-  async remove(id: UUID): Promise<void> {
-    // Since this is a soft delete per the interface comment, we could mark it as deleted
-    // However, the Prisma schema doesn't show a deletedAt field, so we'll do a hard delete
-    await this.prisma.lifeMoment.delete({
-      where: { id: id.toString() },
     });
   }
 

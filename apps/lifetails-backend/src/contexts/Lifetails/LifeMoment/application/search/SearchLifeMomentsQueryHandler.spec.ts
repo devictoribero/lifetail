@@ -19,7 +19,6 @@ describe('SearchLifeMomentsQueryHandler', () => {
       search: jest.fn(),
       find: jest.fn(),
       save: jest.fn(),
-      remove: jest.fn(),
     };
 
     petId = UUID.generate();

@@ -15,15 +15,13 @@ export class RemoveLifeMomentCommandHandler implements CommandHandler<RemoveLife
 
   async handle(command: RemoveLifeMomentCommand): Promise<void> {
     const lifeMomentId = new UUID(command.id);
-    await this.ensureLifeMomentExists(lifeMomentId);
+    const lifeMoment = await this.repository.find(lifeMomentId);
 
-    await this.repository.remove(lifeMomentId);
-  }
-
-  private async ensureLifeMomentExists(id: UUID): Promise<void> {
-    const lifeMoment = await this.repository.find(id);
     if (!lifeMoment) {
       throw new LifeMomentNotFoundException();
     }
+
+    lifeMoment.markAsDeleted();
+    await this.repository.save(lifeMoment);
   }
 }
