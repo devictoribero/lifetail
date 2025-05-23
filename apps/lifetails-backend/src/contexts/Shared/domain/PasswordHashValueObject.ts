@@ -12,8 +12,8 @@ export class PasswordHashValueObject extends StringValueObject {
   }
 
   private static ensureValidPasswordHash(value: string): void {
-    if (!value || value.length === 0) {
-      throw new UnsupportedEmptyPasswordException();
+    if (!value || value.trim().length === 0) {
+      throw new PasswordTooShortException(PasswordHashValueObject.MIN_LENGTH);
     }
 
     if (value.length < PasswordHashValueObject.MIN_LENGTH) {

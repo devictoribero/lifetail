@@ -1,31 +1,58 @@
-import { PasswordTooShortException } from './exceptions/PasswordTooShortException';
-import { UnsupportedEmptyPasswordException } from './exceptions/UnsupportedEmptyPasswordException';
 import { PasswordHashValueObject } from './PasswordHashValueObject';
+import { ValueObject } from './ValueObject';
+import { UnsupportedEmptyPasswordException } from './exceptions/UnsupportedEmptyPasswordException';
+import { PasswordTooShortException } from './exceptions/PasswordTooShortException';
 
 describe('PasswordHashValueObject', () => {
-  describe('Validation', () => {
-    it('should throw UnsupportedEmptyPasswordException if the password hash is empty', () => {
-      expect(() => new PasswordHashValueObject('')).toThrow(
-        new UnsupportedEmptyPasswordException(),
-      );
-    });
-
-    it('should throw PasswordTooShortException if the password hash is too short', () => {
-      expect(() => new PasswordHashValueObject('short')).toThrow(new PasswordTooShortException(8));
-    });
-  });
-
   describe('Creation', () => {
-    it('should create a value object from a string', () => {
-      const passwordHashValueObject = new PasswordHashValueObject('really-long-password');
-      expect(passwordHashValueObject).toBeDefined();
+    it('should throw an error if the password is empty', () => {
+      expect(() => new PasswordHashValueObject('')).toThrow(PasswordTooShortException);
+    });
+
+    it('should throw an error if the password is whitespace', () => {
+      expect(() => new PasswordHashValueObject('   ')).toThrow(PasswordTooShortException);
+    });
+
+    it('should throw an error if the password is too short', () => {
+      expect(() => new PasswordHashValueObject('short')).toThrow(PasswordTooShortException);
+    });
+
+    it('should create a value object from a valid password', () => {
+      const password = 'valid-password';
+      const passwordValueObject = new PasswordHashValueObject(password);
+
+      expect(passwordValueObject).toBeDefined();
+      expect(passwordValueObject).toBeInstanceOf(ValueObject);
     });
   });
 
   describe('Transformation', () => {
-    it('can convert the value of a password hash value object to a string', () => {
-      const passwordHashValueObject = new PasswordHashValueObject('really-long-password');
-      expect(passwordHashValueObject.toString()).toBe('really-long-password');
+    it('can transform the value to a string', () => {
+      const password = 'valid-password';
+      const passwordValueObject = new PasswordHashValueObject(password);
+
+      const passwordString = passwordValueObject.toString();
+      expect(typeof passwordString).toBe('string');
+      expect(passwordString).toEqual(password);
+    });
+  });
+
+  describe('Comparison', () => {
+    it('can determine when two password value objects are equal', () => {
+      const password = 'valid-password';
+      const passwordValueObject1 = new PasswordHashValueObject(password);
+      const passwordValueObject2 = new PasswordHashValueObject(password);
+
+      expect(passwordValueObject1.equals(passwordValueObject2)).toBe(true);
+    });
+
+    it('can determine when two password value objects are different', () => {
+      const password1 = 'valid-password-1';
+      const password2 = 'valid-password-2';
+      const passwordValueObject1 = new PasswordHashValueObject(password1);
+      const passwordValueObject2 = new PasswordHashValueObject(password2);
+
+      expect(passwordValueObject1.equals(passwordValueObject2)).toBe(false);
     });
   });
 });

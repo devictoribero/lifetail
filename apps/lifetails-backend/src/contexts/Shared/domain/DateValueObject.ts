@@ -1,8 +1,16 @@
 import { ValueObject } from './ValueObject';
+import { InvalidDateException } from './exceptions/InvalidDateException';
 
 export class DateValueObject extends ValueObject<Date> {
+  constructor(value: Date) {
+    if (isNaN(value.getTime())) {
+      throw new InvalidDateException(value.toString());
+    }
+    super(value);
+  }
+
   public toISOString(): string {
-    return new Date(this.value).toISOString();
+    return this.value.toISOString();
   }
 
   public toDate(): Date {

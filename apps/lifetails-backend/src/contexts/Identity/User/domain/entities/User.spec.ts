@@ -26,7 +26,7 @@ describe('User', () => {
       expect(user.getAccountId()).not.toBeNull();
       expect(user.getNickname().equals(nickname)).toBe(true);
       expect(user.getCreatedAt()).not.toBeNull();
-      expect(user.getPreferredLanguage()).toBe(LanguageCode.English);
+      expect(user.getPreferredLanguage().equals(LanguageCode.English)).toBe(true);
       expect(user.getUpdatedAt()).toBeNull();
       expect(user.getDeletedAt()).toBeNull();
       const events = user.pullDomainEvents();
@@ -74,9 +74,7 @@ describe('User', () => {
       expect(user.getId().toString()).toBe(id.toString());
       expect(user.getAccountId().toString()).toBe(accountId.toString());
       expect(user.getNickname().toString()).toBe(nickname.toString());
-      expect(user.getPreferredLanguage().equals(new StringValueObject(preferredLanguage))).toBe(
-        true,
-      );
+      expect(user.getPreferredLanguage().equals(LanguageCode.English)).toBe(true);
       expect(user.getCreatedAt().equals(new DateValueObject(createdAt))).toBe(true);
       expect(user.getUpdatedAt()?.equals(new DateValueObject(updatedAt))).toBe(true);
     });
@@ -90,7 +88,7 @@ describe('User', () => {
 
       user.changePreferredLanguageTo(LanguageCode.Spanish);
 
-      expect(user.getPreferredLanguage()).toBe(LanguageCode.Spanish);
+      expect(user.getPreferredLanguage().equals(LanguageCode.Spanish)).toBe(true);
     });
   });
 });

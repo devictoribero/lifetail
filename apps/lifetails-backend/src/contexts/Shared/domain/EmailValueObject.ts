@@ -1,15 +1,31 @@
 import { StringValueObject } from './StringValueObject';
+import { InvalidEmailException } from './exceptions/InvalidEmailException';
 
 export class EmailValueObject extends StringValueObject {
   constructor(value: string) {
-    super(value);
-    this.ensureValidEmail(value);
+    EmailValueObject.ensureValidEmail(value);
+    super(value.trim());
   }
 
-  private ensureValidEmail(value: string): void {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(value)) {
-      throw new Error(`The email <${value}> is not valid`);
+  private static ensureValidEmail(value: string): void {
+    const trimmedValue = value.trim();
+
+    if (!trimmedValue) {
+      throw new InvalidEmailException(value);
+    }
+
+    if (!trimmedValue.includes('@')) {
+      throw new InvalidEmailException(value);
+    }
+
+    const [localPart, domain] = trimmedValue.split('@');
+
+    if (!localPart || !domain) {
+      throw new InvalidEmailException(value);
+    }
+
+    if (domain.split('.').length < 2) {
+      throw new InvalidEmailException(value);
     }
   }
 }

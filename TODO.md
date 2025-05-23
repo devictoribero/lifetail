@@ -2,7 +2,6 @@
 
 ## High Priority
 
-- Ask IA to generate Validation, Creation, Transformation to value objects
 - Create repository mocks for unit tests
 - Review all tests:
   - On query/command handlers use inmemory repos

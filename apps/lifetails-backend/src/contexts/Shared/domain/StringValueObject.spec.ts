@@ -1,25 +1,43 @@
 import { StringValueObject } from './StringValueObject';
+import { UnsupportedEmptyStringException } from './exceptions/UnsupportedEmptyStringException';
 
 describe('StringValueObject', () => {
-  it('should create a value object from a string', () => {
-    const stringValueObject = new StringValueObject('test');
-    expect(stringValueObject).toBeDefined();
+  describe('Validation', () => {
+    it('should throw UnsupportedEmptyStringException if the string is empty', () => {
+      expect(() => new StringValueObject('')).toThrow(UnsupportedEmptyStringException);
+    });
+
+    it('should throw UnsupportedEmptyStringException if the string only contains whitespace', () => {
+      expect(() => new StringValueObject('   ')).toThrow(UnsupportedEmptyStringException);
+    });
   });
 
-  it('can convert the value of a string value object to a string', () => {
-    const stringValueObject = new StringValueObject('test');
-    expect(stringValueObject.toString()).toBe('test');
+  describe('Creation', () => {
+    it('should create a value object from a non-empty string', () => {
+      const stringValueObject = new StringValueObject('test');
+      expect(stringValueObject).toBeDefined();
+      expect(stringValueObject).toBeInstanceOf(StringValueObject);
+    });
   });
 
-  it('can determine when the value of two string value objects is the same', () => {
-    const stringValueObject1 = new StringValueObject('test');
-    const stringValueObject2 = new StringValueObject('test');
-    expect(stringValueObject1.equals(stringValueObject2)).toBe(true);
+  describe('Transformation', () => {
+    it('can convert the value to a string', () => {
+      const stringValueObject = new StringValueObject('test');
+      expect(stringValueObject.toString()).toBe('test');
+    });
   });
 
-  it('can determine when the value of two string value objects is different', () => {
-    const stringValueObject1 = new StringValueObject('test');
-    const stringValueObject2 = new StringValueObject('test2');
-    expect(stringValueObject1.equals(stringValueObject2)).toBe(false);
+  describe('Comparison', () => {
+    it('can determine when two string value objects are equal', () => {
+      const stringValueObject1 = new StringValueObject('test');
+      const stringValueObject2 = new StringValueObject('test');
+      expect(stringValueObject1.equals(stringValueObject2)).toBe(true);
+    });
+
+    it('can determine when two string value objects are different', () => {
+      const stringValueObject1 = new StringValueObject('test');
+      const stringValueObject2 = new StringValueObject('test2');
+      expect(stringValueObject1.equals(stringValueObject2)).toBe(false);
+    });
   });
 });

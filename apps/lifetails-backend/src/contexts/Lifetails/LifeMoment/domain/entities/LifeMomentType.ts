@@ -1,6 +1,7 @@
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { LifeMomentTheme } from './LifeMomentTheme';
 import { UnsupportedLifeMomentTypeException } from '../exceptions/UnsupportedLifeMomentTypeException';
+import { UnsupportedEmptyStringException } from 'src/contexts/Shared/domain/exceptions/UnsupportedEmptyStringException';
 
 export class LifeMomentType extends StringValueObject {
   // Use for testing purposes only. It should not be used in the domain.
@@ -10,6 +11,7 @@ export class LifeMomentType extends StringValueObject {
 
   // Use to create the entity from the domain
   public static create(value: string): LifeMomentType {
+    LifeMomentType.ensureValidType(value);
     return new LifeMomentType(value);
   }
 
@@ -21,6 +23,18 @@ export class LifeMomentType extends StringValueObject {
     }
 
     return type;
+  }
+
+  private static ensureValidType(value: string): void {
+    const trimmedValue = value.trim();
+
+    if (!trimmedValue) {
+      throw new UnsupportedEmptyStringException();
+    }
+
+    if (!LifeMomentType.types.some((type) => type.value === trimmedValue)) {
+      throw new UnsupportedLifeMomentTypeException(new StringValueObject(trimmedValue));
+    }
   }
 
   public getTheme(): LifeMomentTheme {

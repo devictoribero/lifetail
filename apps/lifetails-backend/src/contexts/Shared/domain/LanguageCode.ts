@@ -1,5 +1,6 @@
 import { StringValueObject } from './StringValueObject';
 import { InvalidLanguageException } from './exceptions/InvalidLanguageException';
+import { UnsupportedEmptyLanguageException } from './exceptions/UnsupportedEmptyLanguageException';
 
 export enum LanguageCodeEnum {
   English = 'EN',
@@ -12,6 +13,14 @@ export class LanguageCode extends StringValueObject {
   private static readonly types = [LanguageCode.English, LanguageCode.Spanish];
 
   private constructor(value: string) {
+    if (value.trim().length === 0) {
+      throw new UnsupportedEmptyLanguageException();
+    }
+
+    if (!Object.values(LanguageCodeEnum).includes(value as LanguageCodeEnum)) {
+      throw new InvalidLanguageException(value);
+    }
+
     super(value);
   }
 
