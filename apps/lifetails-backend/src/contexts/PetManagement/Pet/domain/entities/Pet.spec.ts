@@ -16,8 +16,8 @@ describe('Pet', () => {
   });
 
   afterEach(() => {
+    jest.clearAllTimers();
     jest.useRealTimers();
-    jest.setSystemTime(undefined);
   });
 
   describe('Creation', () => {
@@ -62,7 +62,9 @@ describe('Pet', () => {
 
   describe('Serialization', () => {
     it('should serialize to primitives a Pet instance', () => {
-      const pet = PetObjectMother.create();
+      const pet = PetObjectMother.createWith({
+        birthDate: new DateValueObject(new Date('2020-03-20')),
+      });
 
       const primitives = pet.toPrimitives();
 
@@ -80,6 +82,7 @@ describe('Pet', () => {
         createdAt: expect.any(String),
         updatedAt: null,
         deletedAt: null,
+        age: 5,
       });
     });
 
