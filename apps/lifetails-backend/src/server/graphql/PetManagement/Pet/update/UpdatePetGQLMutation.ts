@@ -19,6 +19,8 @@ export class UpdatePetGQLMutation {
       input.arrivalDate,
       input.microchipNumber,
       input.color,
+      input.image?.key,
+      input.image?.uploadedAt,
     );
     await this.commandHandler.handle(command);
 

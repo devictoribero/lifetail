@@ -4,6 +4,7 @@ import { PetNotFoundException } from '../../domain/exceptions/PetNotFoundExcepti
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { ImageValueObject } from 'src/contexts/Shared/domain/ImageValueObject/ImageValueObject';
 import { Pet } from '../../domain/entities/Pet';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { Inject, Injectable } from '@nestjs/common';
@@ -50,6 +51,11 @@ export class UpdatePetCommandHandler implements CommandHandler<UpdatePetCommand>
 
     if (this.hasValue(command.color)) {
       pet.changeColorTo(new StringValueObject(command.color));
+    }
+
+    if (this.hasValue(command.imageKey) && this.hasValue(command.imageUploadedAt)) {
+      const image = new ImageValueObject(command.imageKey, command.imageUploadedAt);
+      pet.changeImageTo(image);
     }
 
     await this.repository.save(pet);

@@ -32,6 +32,7 @@ export class GetPetGQLQuery {
       ownerId: userId,
       color: petPrimitives.color,
       age: petPrimitives.age,
+      image: petPrimitives.image,
     };
   }
 }

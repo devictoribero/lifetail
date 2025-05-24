@@ -247,6 +247,18 @@ describe('Pet', () => {
       expect(pet.getUpdatedAt()).not.toBeNull();
     });
 
+    it('can remove image', () => {
+      const pet = PetObjectMother.createWith({
+        image: new ImageValueObject('images/pets/initial.jpg', new Date('2023-12-01T10:30:00Z')),
+      });
+
+      expect(pet.getImage()).not.toBeNull();
+      pet.removeImage();
+
+      expect(pet.getImage()).toBeNull();
+      expect(pet.getUpdatedAt()).not.toBeNull();
+    });
+
     it('can be marked as deleted', () => {
       const pet = PetObjectMother.create();
 

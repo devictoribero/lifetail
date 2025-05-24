@@ -8,5 +8,7 @@ export class UpdatePetCommand {
     public readonly arrivalDate?: Date,
     public readonly microchipNumber?: string,
     public readonly color?: string,
+    public readonly imageKey?: string,
+    public readonly imageUploadedAt?: Date,
   ) {}
 }

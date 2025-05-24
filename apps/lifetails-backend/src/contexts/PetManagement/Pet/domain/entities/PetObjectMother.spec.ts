@@ -7,6 +7,7 @@ import { Gender } from 'src/contexts/Shared/domain/Gender';
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { Species } from './PetSpecies';
 import { PetAddedDomainEvent } from '../PetAddedDomainEvent';
+import { ImageValueObject } from 'src/contexts/Shared/domain/ImageValueObject/ImageValueObject';
 
 export class PetObjectMother {
   static create({
@@ -54,6 +55,7 @@ export class PetObjectMother {
     ownerId = null,
     microchipNumber = null,
     color = new StringValueObject(faker.color.human()),
+    image = null,
     updatedAt = null,
     deletedAt = null,
   }: {
@@ -68,6 +70,7 @@ export class PetObjectMother {
     ownerId?: UUID | null;
     microchipNumber?: StringValueObject | null;
     color?: StringValueObject;
+    image?: ImageValueObject | null;
     updatedAt?: DateValueObject | null;
     deletedAt?: DateValueObject | null;
   } = {}): Pet {
@@ -83,6 +86,7 @@ export class PetObjectMother {
       ownerId,
       microchipNumber,
       color,
+      image,
       updatedAt,
       deletedAt,
     });

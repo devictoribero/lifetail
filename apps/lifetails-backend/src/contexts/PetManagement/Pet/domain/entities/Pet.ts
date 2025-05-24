@@ -341,6 +341,11 @@ export class Pet extends AggregateRoot {
     this.markAsUpdated();
   }
 
+  public removeImage(): void {
+    this.image = null;
+    this.markAsUpdated();
+  }
+
   public markAsDeleted(): void {
     this.deletedAt = new DateValueObject(new Date());
     this.markAsUpdated();

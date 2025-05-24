@@ -101,6 +101,7 @@ describe('AddPetCommandHandler', () => {
       color: pet.getColor(),
       createdAt: expect.any(DateValueObject),
       microchipNumber: null,
+      image: null,
       updatedAt: null,
       deletedAt: null,
       domainEvents: [],

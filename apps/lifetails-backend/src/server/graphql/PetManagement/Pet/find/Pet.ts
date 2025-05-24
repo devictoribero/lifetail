@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { GenderGraphqlEnum } from 'src/server/graphql/Shared/Gender';
+import { Image } from 'src/server/graphql/Shared/Image';
 
 @ObjectType()
 export class Pet {
@@ -38,4 +39,7 @@ export class Pet {
 
   @Field({ nullable: true })
   microchipNumber: string | null;
+
+  @Field(() => Image, { nullable: true })
+  image: Image | null;
 }

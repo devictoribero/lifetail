@@ -3,6 +3,8 @@ import { Module } from '@nestjs/common';
 import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pet/application/add/AddPetCommandHandler';
 import { RemovePetCommandHandler } from 'src/contexts/PetManagement/Pet/application/remove/RemovePetCommandHandler';
 import { UpdatePetCommandHandler } from 'src/contexts/PetManagement/Pet/application/update/UpdatePetCommandHandler';
+import { ChangePetImageCommandHandler } from 'src/contexts/PetManagement/Pet/application/change-image/ChangePetImageCommandHandler';
+import { RemovePetImageCommandHandler } from 'src/contexts/PetManagement/Pet/application/remove-image/RemovePetImageCommandHandler';
 import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pet/application/get/GetPetQueryHandler';
 import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommandHandler';
 import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/delete/DeleteVeterinaryCommandHandler';
@@ -17,6 +19,8 @@ import { VETERINARY_REPOSITORY } from 'src/contexts/PetManagement/Veterinary/dom
 import { AddPetGQLMutation } from '../graphql/PetManagement/Pet/add/AddPetGQLMutation';
 import { RemovePetGQLMutation } from '../graphql/PetManagement/Pet/remove/RemovePetGQLMutation';
 import { UpdatePetGQLMutation } from '../graphql/PetManagement/Pet/update/UpdatePetGQLMutation';
+import { ChangePetImageGQLMutation } from '../graphql/PetManagement/Pet/changeImage/ChangePetImageGQLMutation';
+import { RemovePetImageGQLMutation } from '../graphql/PetManagement/Pet/removeImage/RemovePetImageGQLMutation';
 import { GetPetGQLQuery } from '../graphql/PetManagement/Pet/find/GetPetGQLQuery';
 import { SearchAllPetsGQLQuery } from '../graphql/PetManagement/Pet/searchAll/SearchAllPetsGQLQuery';
 import { AddVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary/add/AddVeterinaryGQLMutation';
@@ -42,6 +46,8 @@ import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/G
     AddPetCommandHandler,
     RemovePetCommandHandler,
     UpdatePetCommandHandler,
+    ChangePetImageCommandHandler,
+    RemovePetImageCommandHandler,
     GetPetQueryHandler,
     SearchAllPetsQueryHandler,
     AddVeterinaryCommandHandler,
@@ -51,6 +57,8 @@ import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/G
     AddPetGQLMutation,
     RemovePetGQLMutation,
     UpdatePetGQLMutation,
+    ChangePetImageGQLMutation,
+    RemovePetImageGQLMutation,
     GetPetGQLQuery,
     GetVeterinaryGQLQuery,
     SearchAllPetsGQLQuery,
@@ -62,6 +70,8 @@ import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/G
     AddPetCommandHandler,
     RemovePetCommandHandler,
     UpdatePetCommandHandler,
+    ChangePetImageCommandHandler,
+    RemovePetImageCommandHandler,
     GetPetQueryHandler,
     SearchAllPetsQueryHandler,
     AddVeterinaryCommandHandler,
@@ -70,6 +80,8 @@ import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/G
     AddPetGQLMutation,
     RemovePetGQLMutation,
     UpdatePetGQLMutation,
+    ChangePetImageGQLMutation,
+    RemovePetImageGQLMutation,
     GetPetGQLQuery,
     SearchAllPetsGQLQuery,
     AddVeterinaryGQLMutation,

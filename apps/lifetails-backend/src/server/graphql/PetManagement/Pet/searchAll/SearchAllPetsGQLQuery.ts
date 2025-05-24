@@ -28,6 +28,7 @@ export class SearchAllPetsGQLQuery {
         ownerId: petPrimitives.ownerId,
         color: petPrimitives.color,
         age: petPrimitives.age,
+        image: petPrimitives.image,
         updatedAt: petPrimitives.updatedAt,
         deletedAt: petPrimitives.deletedAt,
       };
