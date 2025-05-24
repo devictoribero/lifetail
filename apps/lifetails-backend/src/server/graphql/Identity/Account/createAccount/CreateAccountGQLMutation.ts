@@ -1,13 +1,13 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { CreateAccountResponse } from './CreateAccountResponse';
 import { CreateAccountInput } from './CreateAccountInput';
-import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/application/createAccount/CreateAccountCommandHandler';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/application/create/CreateAccountCommandHandler';
 import { EmailAlreadyInUseException } from 'src/contexts/Identity/Account/domain/exceptions/EmailAlreadyInUseException';
-import { CreateAccountCommand } from 'src/contexts/Identity/Account/application/createAccount/CreateAccountCommand';
+import { CreateAccountCommand } from 'src/contexts/Identity/Account/application/create/CreateAccountCommand';
 import { Public } from 'src/server/graphql/Shared/decorators/Public';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import { CreateUserCommand } from 'src/contexts/Identity/User/application/createUser/CreateUserCommand';
-import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/createUser/CreateUserCommandHandler';
+import { CreateUserCommand } from 'src/contexts/Identity/User/application/create/CreateUserCommand';
+import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/create/CreateUserCommandHandler';
 
 @Resolver()
 export class CreateAccountGQLMutation {

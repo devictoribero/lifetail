@@ -4,9 +4,9 @@ import { AddPetCommandHandler } from 'src/contexts/PetManagement/Pet/application
 import { RemovePetCommandHandler } from 'src/contexts/PetManagement/Pet/application/remove/RemovePetCommandHandler';
 import { UpdatePetCommandHandler } from 'src/contexts/PetManagement/Pet/application/update/UpdatePetCommandHandler';
 import { GetPetQueryHandler } from 'src/contexts/PetManagement/Pet/application/get/GetPetQueryHandler';
-import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommandHandler';
-import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/DeleteVeterinary/DeleteVeterinaryCommandHandler';
-import { UpdateVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/UpdateVeterinary/UpdateVeterinaryCommandHandler';
+import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommandHandler';
+import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/delete/DeleteVeterinaryCommandHandler';
+import { UpdateVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/update/UpdateVeterinaryCommandHandler';
 // Infrastructure imports
 import { PostgresqlPetRepository } from 'src/contexts/PetManagement/Pet/infrastructure/PostgresqlPetRepository';
 import { PostgresqlVeterinaryRepository } from 'src/contexts/PetManagement/Veterinary/infrastructure/PostgresqlVeterinaryRepository';
@@ -24,7 +24,7 @@ import { DeleteVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary
 import { UpdateVeterinaryGQLMutation } from '../graphql/PetManagement/Veterinary/update/UpdateVeterinaryGQLMutation';
 import { SharedModule } from './Shared.module';
 import { IdentityModule } from './Identity.module';
-import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQueryHandler';
+import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQueryHandler';
 import { GetVeterinaryGQLQuery } from '../graphql/PetManagement/Veterinary/get/GetVeterinaryGQLQuery';
 
 @Module({

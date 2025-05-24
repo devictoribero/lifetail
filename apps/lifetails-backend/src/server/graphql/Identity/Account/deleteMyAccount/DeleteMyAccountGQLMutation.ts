@@ -1,13 +1,13 @@
 import { Context, Mutation, Resolver } from '@nestjs/graphql';
-import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Account/application/deleteAccount/DeleteAccountCommandHandler';
-import { DeleteAccountCommand } from 'src/contexts/Identity/Account/application/deleteAccount/DeleteAccountCommand';
+import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Account/application/delete/DeleteAccountCommandHandler';
+import { DeleteAccountCommand } from 'src/contexts/Identity/Account/application/delete/DeleteAccountCommand';
 import { UseGuards } from '@nestjs/common';
 import {
   AuthenticationRequired,
   UserInContext,
 } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { DeleteMyAccountResponse } from './DeleteMyAccountResponse';
-import { GetAccountQueryHandler } from 'src/contexts/Identity/Account/application/getAccount/GetAccountQueryHandler';
+import { GetAccountQueryHandler } from 'src/contexts/Identity/Account/application/get/GetAccountQueryHandler';
 
 @Resolver()
 export class DeleteMyAccountGQLMutation {

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
 import { DeleteVeterinaryGQLMutation } from './DeleteVeterinaryGQLMutation';
-import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/DeleteVeterinary/DeleteVeterinaryCommandHandler';
+import { DeleteVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/delete/DeleteVeterinaryCommandHandler';
 import { DeleteVeterinaryInput } from './DeleteVeterinaryInput';
 import { VeterinaryNotFoundException } from 'src/contexts/PetManagement/Veterinary/domain/exceptions/VeterinaryNotFoundException';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';

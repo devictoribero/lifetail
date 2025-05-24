@@ -11,14 +11,14 @@ import {
 } from 'src/contexts/Identity/User/domain/repositories/UserRepository';
 
 // Application imports
-import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/application/createAccount/CreateAccountCommandHandler';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/application/create/CreateAccountCommandHandler';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { RefreshTokenCommandHandler } from 'src/contexts/Identity/Authentication/application/refreshToken/RefreshTokenCommandHandler';
-import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/getUser/GetUserQueryHandler';
-import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/createUser/CreateUserCommandHandler';
-import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
-import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Account/application/deleteAccount/DeleteAccountCommandHandler';
-import { GetAccountQueryHandler } from 'src/contexts/Identity/Account/application/getAccount/GetAccountQueryHandler';
+import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/get/GetUserQueryHandler';
+import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/create/CreateUserCommandHandler';
+import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/change-preferred-language/ChangeUserPreferredLanguageCommandHandler';
+import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Account/application/delete/DeleteAccountCommandHandler';
+import { GetAccountQueryHandler } from 'src/contexts/Identity/Account/application/get/GetAccountQueryHandler';
 
 // Infrastructure imports
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { faker } from '@faker-js/faker';
 import { GetVeterinaryGQLQuery } from './GetVeterinaryGQLQuery';
-import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQueryHandler';
+import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQueryHandler';
 import { GetVeterinaryInput } from './GetVeterinaryInput';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';

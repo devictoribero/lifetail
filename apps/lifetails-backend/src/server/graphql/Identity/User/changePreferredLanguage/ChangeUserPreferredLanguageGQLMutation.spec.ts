@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChangeUserPreferredLanguageGQLMutation } from './ChangeUserPreferredLanguageGQLMutation';
-import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
+import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/change-preferred-language/ChangeUserPreferredLanguageCommandHandler';
 import {
   ChangeUserPreferredLanguageInput,
   LanguageCodeGraphqlEnum,

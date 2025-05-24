@@ -1,6 +1,6 @@
 import { Context, Query, Resolver } from '@nestjs/graphql';
-import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/getUser/GetUserQueryHandler';
-import { GetUserQuery } from 'src/contexts/Identity/User/application/getUser/GetUserQuery';
+import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/get/GetUserQueryHandler';
+import { GetUserQuery } from 'src/contexts/Identity/User/application/get/GetUserQuery';
 import { UseGuards } from '@nestjs/common';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { User } from './User';

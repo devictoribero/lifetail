@@ -1,6 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQueryHandler';
-import { GetVeterinaryQuery } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQuery';
+import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQueryHandler';
+import { GetVeterinaryQuery } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQuery';
 import { VeterinaryNotFoundException } from 'src/contexts/PetManagement/Veterinary/domain/exceptions/VeterinaryNotFoundException';
 import { GetVeterinaryInput } from './GetVeterinaryInput';
 import { Veterinary } from './Veterinary';

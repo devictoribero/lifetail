@@ -2,8 +2,8 @@ import { Resolver, Mutation, Args, Context } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { AddVeterinaryResponse } from './AddVeterinaryResponse';
 import { AddVeterinaryInput } from './AddVeterinaryInput';
-import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommandHandler';
-import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommand';
+import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommandHandler';
+import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommand';
 import { VeterinaryNameTooShortException } from 'src/contexts/PetManagement/Veterinary/domain/exceptions/VeterinaryNameTooShortException';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 

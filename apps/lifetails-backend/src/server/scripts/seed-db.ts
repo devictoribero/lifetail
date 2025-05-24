@@ -7,16 +7,16 @@ import { AddPetCommand } from 'src/contexts/PetManagement/Pet/application/add/Ad
 import { INestApplication, Logger } from '@nestjs/common';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
-import { GetUserQuery } from 'src/contexts/Identity/User/application/getUser/GetUserQuery';
-import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/getUser/GetUserQueryHandler';
+import { GetUserQuery } from 'src/contexts/Identity/User/application/get/GetUserQuery';
+import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/get/GetUserQueryHandler';
 import { AuthenticateAccountCommand } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
-import { CreateUserCommand } from 'src/contexts/Identity/User/application/createUser/CreateUserCommand';
-import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/createUser/CreateUserCommandHandler';
-import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/application/createAccount/CreateAccountCommandHandler';
-import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommandHandler';
-import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinary/application/AddVeterinary/AddVeterinaryCommand';
-import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQueryHandler';
-import { GetVeterinaryQuery } from 'src/contexts/PetManagement/Veterinary/application/GetVeterinary/GetVeterinaryQuery';
+import { CreateUserCommand } from 'src/contexts/Identity/User/application/create/CreateUserCommand';
+import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/create/CreateUserCommandHandler';
+import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/application/create/CreateAccountCommandHandler';
+import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommandHandler';
+import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommand';
+import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQueryHandler';
+import { GetVeterinaryQuery } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQuery';
 
 const logger = new Logger('seed-db');
 

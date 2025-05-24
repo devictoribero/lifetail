@@ -1,10 +1,10 @@
 import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
-import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/changePreferredLanguage/ChangeUserPreferredLanguageCommandHandler';
+import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/change-preferred-language/ChangeUserPreferredLanguageCommandHandler';
 import { UseGuards } from '@nestjs/common';
 import { AuthenticationRequired } from 'src/server/graphql/Shared/guards/AuthenticationRequired';
 import { ChangeUserPreferredLanguageResponse } from './ChangeUserPreferredLanguageResponse';
 import { ChangeUserPreferredLanguageInput } from './ChangeUserPreferredLanguageInput';
-import { ChangeUserPreferredLanguageCommand } from 'src/contexts/Identity/User/application/changePreferredLanguage/ChangeUserPreferredLanguageCommand';
+import { ChangeUserPreferredLanguageCommand } from 'src/contexts/Identity/User/application/change-preferred-language/ChangeUserPreferredLanguageCommand';
 
 @Resolver()
 @UseGuards(AuthenticationRequired)
