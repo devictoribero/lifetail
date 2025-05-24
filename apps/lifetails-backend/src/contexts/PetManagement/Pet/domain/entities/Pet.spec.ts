@@ -8,6 +8,7 @@ import { Species } from './PetSpecies';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { PetAddedDomainEvent } from '../PetAddedDomainEvent';
 import { PetObjectMother } from './PetObjectMother.spec';
+import { NumberValueObject } from 'src/contexts/Shared/domain/NumberValueObject';
 
 describe('Pet', () => {
   beforeEach(() => {
@@ -16,6 +17,7 @@ describe('Pet', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.setSystemTime(undefined);
   });
 
   describe('Creation', () => {
@@ -212,6 +214,54 @@ describe('Pet', () => {
 
       expect(pet.getDeletedAt()).not.toBeNull();
       expect(pet.getUpdatedAt()).not.toBeNull();
+    });
+
+    describe('Age calculation', () => {
+      it('should return age as a NumberValueObject', () => {
+        const pet = PetObjectMother.create();
+        const age = pet.getAge();
+
+        expect(age).toBeInstanceOf(NumberValueObject);
+      });
+
+      it('should calculate age correctly when birthday has not occurred this year', () => {
+        // Set fixed date to March 15, 2024
+        jest.setSystemTime(new Date('2024-03-15'));
+
+        // Create pet born on March 20, 2020
+        const birthDate = new DateValueObject(new Date('2020-03-20'));
+        const pet = PetObjectMother.createWith({ birthDate });
+
+        const age = pet.getAge();
+
+        expect(age.getValue()).toBe(3);
+      });
+
+      it('should calculate age correctly on birthday', () => {
+        // Set fixed date to March 20, 2024
+        jest.setSystemTime(new Date('2024-03-20'));
+
+        // Create pet born on March 20, 2020
+        const birthDate = new DateValueObject(new Date('2020-03-20'));
+        const pet = PetObjectMother.createWith({ birthDate });
+
+        const age = pet.getAge();
+
+        expect(age.getValue()).toBe(4);
+      });
+
+      it('should calculate age correctly after birthday has occurred this year', () => {
+        // Set fixed date to March 25, 2024
+        jest.setSystemTime(new Date('2024-03-25'));
+
+        // Create pet born on March 20, 2020
+        const birthDate = new DateValueObject(new Date('2020-03-20'));
+        const pet = PetObjectMother.createWith({ birthDate });
+
+        const age = pet.getAge();
+
+        expect(age.getValue()).toBe(4);
+      });
     });
   });
 });

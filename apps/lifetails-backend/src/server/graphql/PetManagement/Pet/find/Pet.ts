@@ -33,6 +33,9 @@ export class Pet {
   @Field()
   ownerId: string;
 
+  @Field()
+  age: number;
+
   @Field({ nullable: true })
   microchipNumber: string | null;
 }

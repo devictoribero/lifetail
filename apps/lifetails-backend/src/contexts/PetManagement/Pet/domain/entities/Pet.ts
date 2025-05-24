@@ -1,6 +1,7 @@
 import { BooleanValueObject } from 'src/contexts/Shared/domain/BooleanValueObject';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { NumberValueObject } from 'src/contexts/Shared/domain/NumberValueObject';
 import { Gender } from 'src/contexts/Shared/domain/Gender';
 import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 import { Species } from 'src/contexts/PetManagement/Pet/domain/entities/PetSpecies';
@@ -212,6 +213,53 @@ export class Pet extends AggregateRoot {
     return this.color;
   }
 
+  /**
+   * Calculates the pet's age based on their birth date.
+   * The age is calculated by comparing the current date with the birth date,
+   * taking into account whether the birthday has occurred in the current year.
+   *
+   * For a pet born on March 20, 2020:
+   * - If today is 2024-03-15, age is 3 (birthday hasn't occurred yet this year)
+   * - If today is 2024-03-20, age is 4 (birthday is today)
+   * - If today is 2024-03-25, age is 4 (birthday has occurred this year)
+   *
+   * @returns {NumberValueObject} The pet's age in years
+   */
+  private calculateAge(): NumberValueObject {
+    const today = new Date();
+    const birthDate = this.birthDate.toDate();
+
+    // Calculate the difference in years
+    const yearDiff = today.getFullYear() - birthDate.getFullYear();
+
+    // Check if birthday has occurred this year
+    const hasBirthdayOccurredThisYear = this.hasBirthdayOccurredThisYear(today, birthDate);
+
+    // If birthday hasn't occurred this year, subtract one year
+    const age = hasBirthdayOccurredThisYear ? yearDiff : yearDiff - 1;
+
+    return new NumberValueObject(age);
+  }
+
+  /**
+   * Determines if the birthday has already occurred in the current year.
+   * A birthday is considered to have occurred if:
+   * 1. The current month is after the birth month, OR
+   * 2. The current month is the same as the birth month AND the current day is on or after the birth day
+   */
+  private hasBirthdayOccurredThisYear(today: Date, birthDate: Date): boolean {
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const isSameMonth = monthDiff === 0;
+    const isAfterMonth = monthDiff > 0;
+    const isSameDayOrAfter = isSameMonth && today.getDate() >= birthDate.getDate();
+
+    return isAfterMonth || isSameDayOrAfter;
+  }
+
+  public getAge(): NumberValueObject {
+    return this.calculateAge();
+  }
+
   public toPrimitives(): any {
     return {
       id: this.id.toString(),
@@ -222,6 +270,7 @@ export class Pet extends AggregateRoot {
       birthDate: this.birthDate?.toISOString(),
       arrivalDate: this.arrivalDate?.toISOString(),
       microchipNumber: this.microchipNumber?.toString() ?? null,
+      age: this.getAge().toNumber(),
       color: this.color.toString(),
       ownerId: this.ownerId?.toString() ?? null,
       createdAt: this.createdAt.toISOString(),

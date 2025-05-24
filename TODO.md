@@ -2,9 +2,6 @@
 
 ## High Priority
 
-- Create repository mocks for unit tests
-- Review all tests:
-  - On query/command handlers use inmemory repos
 
 ## Medium Priority
 
