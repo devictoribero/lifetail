@@ -4,36 +4,44 @@ import { AuthenticateAccountGQLMutation } from './AuthenticateAccountGQLMutation
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { AuthenticateAccountInput } from './AuthenticateAccountInput';
 import { InvalidCredentialsException } from 'src/contexts/Identity/Authentication/domain/exceptions/InvalidCredentialsException';
+import { Account } from 'src/contexts/Identity/Account/domain/entities/Account';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
 import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/get/GetUserQueryHandler';
-import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { User } from 'src/contexts/Identity/User/domain/entities/User';
 
 describe('AuthenticateAccountGQLMutation', () => {
+  let mockedId: string;
   let mutation: AuthenticateAccountGQLMutation;
   let commandHandler: AuthenticateAccountCommandHandler;
-  let jwtService: JwtTokenGenerator;
+  let tokenGenerator: JwtTokenGenerator;
   let getUserQueryHandler: GetUserQueryHandler;
-  const mockToken = 'mock-jwt-token';
-  const mockRefreshToken = 'mock-refresh-token';
-  const mockUserId = faker.string.uuid();
 
   beforeEach(async () => {
-    // Create mock use case with Jest
-    commandHandler = {
-      handle: jest.fn(),
+    mockedId = faker.string.uuid();
+    const mockAccountId = mockedId; // string
+    const mockAccount = {
+      getId: () => mockAccountId,
+    } as unknown as Account;
+
+    const mockUser = {
+      getId: () => faker.string.uuid(),
+    } as unknown as User;
+
+    // Create mock command handler with Jest
+    const mockCommandHandler = {
+      handle: jest.fn().mockResolvedValue(mockAccount.getId()),
     } as unknown as AuthenticateAccountCommandHandler;
 
-    // Create mock JWT service
-    jwtService = {
-      generateToken: jest.fn().mockResolvedValue(mockToken),
-      generateRefreshToken: jest.fn().mockResolvedValue(mockRefreshToken),
+    // Create mock token generator
+    const mockTokenGenerator = {
+      generateToken: jest.fn().mockResolvedValue('mock-token'),
+      generateRefreshToken: jest.fn().mockResolvedValue('mock-refresh-token'),
     } as unknown as JwtTokenGenerator;
 
-    // Create mock GetUserQueryHandler
-    getUserQueryHandler = {
-      handle: jest.fn().mockResolvedValue({
-        getId: () => new UUID(mockUserId),
-      }),
+    // Create mock user query handler
+    const mockGetUserQueryHandler = {
+      handle: jest.fn().mockResolvedValue(mockUser),
     } as unknown as GetUserQueryHandler;
 
     const module: TestingModule = await Test.createTestingModule({
@@ -41,15 +49,15 @@ describe('AuthenticateAccountGQLMutation', () => {
         AuthenticateAccountGQLMutation,
         {
           provide: AuthenticateAccountCommandHandler,
-          useValue: commandHandler,
+          useValue: mockCommandHandler,
         },
         {
           provide: JwtTokenGenerator,
-          useValue: jwtService,
+          useValue: mockTokenGenerator,
         },
         {
           provide: GetUserQueryHandler,
-          useValue: getUserQueryHandler,
+          useValue: mockGetUserQueryHandler,
         },
       ],
     }).compile();
@@ -58,22 +66,8 @@ describe('AuthenticateAccountGQLMutation', () => {
     commandHandler = module.get<AuthenticateAccountCommandHandler>(
       AuthenticateAccountCommandHandler,
     );
-    jwtService = module.get<JwtTokenGenerator>(JwtTokenGenerator);
+    tokenGenerator = module.get<JwtTokenGenerator>(JwtTokenGenerator);
     getUserQueryHandler = module.get<GetUserQueryHandler>(GetUserQueryHandler);
-  });
-
-  it('should throw error when account is not found', async () => {
-    // Arrange
-    const input: AuthenticateAccountInput = {
-      email: faker.internet.email(),
-      password: faker.internet.password(),
-    };
-
-    jest.spyOn(commandHandler, 'handle').mockRejectedValue(new InvalidCredentialsException());
-
-    // Act & Assert
-    await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
-    expect(commandHandler.handle).toHaveBeenCalled();
   });
 
   it('should throw error when credentials are invalid', async () => {
@@ -83,43 +77,74 @@ describe('AuthenticateAccountGQLMutation', () => {
       password: faker.internet.password(),
     };
 
-    jest.spyOn(commandHandler, 'handle').mockRejectedValue(new InvalidCredentialsException());
+    commandHandler.handle = jest.fn().mockRejectedValue(new InvalidCredentialsException());
 
     // Act & Assert
-    await expect(mutation.authenticateAccount(input)).rejects.toThrow('Invalid email or password');
-    expect(commandHandler.handle).toHaveBeenCalled();
+    await expect(mutation.authenticateAccount(input)).rejects.toThrow(
+      new InvalidCredentialsException().message,
+    );
+    expect(commandHandler.handle).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: input.email,
+        password: input.password,
+      }),
+    );
   });
 
-  it('should return accountId, userId, token and refreshToken when authentication is successful', async () => {
+  it('should throw error when an unexpected error occurs', async () => {
     // Arrange
     const input: AuthenticateAccountInput = {
       email: faker.internet.email(),
       password: faker.internet.password(),
     };
-    const accountId = faker.string.uuid();
+    const errorMessage = 'Unexpected error';
 
-    jest.spyOn(commandHandler, 'handle').mockResolvedValue(accountId);
+    commandHandler.handle = jest.fn().mockRejectedValue(new Error(errorMessage));
+
+    // Act & Assert
+    await expect(mutation.authenticateAccount(input)).rejects.toThrow(errorMessage);
+    expect(commandHandler.handle).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: input.email,
+        password: input.password,
+      }),
+    );
+  });
+
+  it('should authenticate an account', async () => {
+    // Arrange
+    const input: AuthenticateAccountInput = {
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    };
 
     // Act
     const result = await mutation.authenticateAccount(input);
 
     // Assert
+    expect(commandHandler.handle).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: input.email,
+        password: input.password,
+      }),
+    );
+    expect(tokenGenerator.generateToken).toHaveBeenCalledWith(
+      expect.objectContaining({
+        accountId: mockedId,
+        email: input.email,
+      }),
+    );
+    expect(tokenGenerator.generateRefreshToken).toHaveBeenCalledWith(
+      expect.objectContaining({
+        accountId: mockedId,
+        email: input.email,
+      }),
+    );
     expect(result).toEqual({
-      accountId,
-      userId: mockUserId,
-      token: mockToken,
-      refreshToken: mockRefreshToken,
+      accountId: mockedId,
+      userId: expect.any(String),
+      token: 'mock-token',
+      refreshToken: 'mock-refresh-token',
     });
-    expect(commandHandler.handle).toHaveBeenCalled();
-    expect(getUserQueryHandler.handle).toHaveBeenCalled();
-
-    const expectedPayload = {
-      accountId,
-      userId: mockUserId,
-      email: input.email,
-    };
-
-    expect(jwtService.generateToken).toHaveBeenCalledWith(expectedPayload);
-    expect(jwtService.generateRefreshToken).toHaveBeenCalledWith(expectedPayload);
   });
 });

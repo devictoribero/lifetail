@@ -4,7 +4,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 // Domain imports
 import { PasswordHasher } from 'src/contexts/Identity/Authentication/domain/services/PasswordHasher';
-import { GetUserService } from 'src/contexts/Identity/User/domain/services/GetUserService';
 import {
   UserRepository,
   USER_REPOSITORY,
@@ -18,7 +17,6 @@ import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/get/
 import { CreateUserCommandHandler } from 'src/contexts/Identity/User/application/create/CreateUserCommandHandler';
 import { ChangeUserPreferredLanguageCommandHandler } from 'src/contexts/Identity/User/application/change-preferred-language/ChangeUserPreferredLanguageCommandHandler';
 import { DeleteAccountCommandHandler } from 'src/contexts/Identity/Account/application/delete/DeleteAccountCommandHandler';
-import { GetAccountQueryHandler } from 'src/contexts/Identity/Account/application/get/GetAccountQueryHandler';
 
 // Infrastructure imports
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
@@ -80,20 +78,12 @@ import { DeleteMyAccountGQLMutation } from '../graphql/Identity/Account/deleteMy
       provide: USER_REPOSITORY,
       useClass: PostgresqlUserRepository,
     },
-    {
-      provide: GetUserService,
-      useFactory: (repository: UserRepository) => {
-        return new GetUserService(repository);
-      },
-      inject: [USER_REPOSITORY],
-    },
     GetUserQueryHandler,
     CreateUserCommandHandler,
     ChangeUserPreferredLanguageCommandHandler,
     ChangeUserPreferredLanguageGQLMutation,
     // Account providers
     DeleteAccountCommandHandler,
-    GetAccountQueryHandler,
     DeleteMyAccountGQLMutation,
   ],
   exports: [

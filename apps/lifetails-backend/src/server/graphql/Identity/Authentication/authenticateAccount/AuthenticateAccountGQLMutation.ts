@@ -5,9 +5,9 @@ import { InvalidCredentialsException } from 'src/contexts/Identity/Authenticatio
 import { AuthenticateAccountCommand } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommand';
 import { AuthenticateAccountCommandHandler } from 'src/contexts/Identity/Authentication/application/authenticateAccount/AuthenticateAccountCommandHandler';
 import { JwtTokenGenerator } from 'src/contexts/Identity/Authentication/infrastructure/services/JwtTokenGenerator';
-import { GetUserQuery } from 'src/contexts/Identity/User/application/get/GetUserQuery';
 import { GetUserQueryHandler } from 'src/contexts/Identity/User/application/get/GetUserQueryHandler';
 import { Public } from 'src/server/graphql/Shared/decorators/Public';
+import { GetUserQuery } from 'src/contexts/Identity/User/application/get/GetUserQuery';
 
 @Resolver()
 export class AuthenticateAccountGQLMutation {

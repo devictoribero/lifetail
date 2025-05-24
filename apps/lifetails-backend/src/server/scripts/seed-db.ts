@@ -16,7 +16,6 @@ import { CreateAccountCommandHandler } from 'src/contexts/Identity/Account/appli
 import { AddVeterinaryCommandHandler } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommandHandler';
 import { AddVeterinaryCommand } from 'src/contexts/PetManagement/Veterinary/application/add/AddVeterinaryCommand';
 import { GetVeterinaryQueryHandler } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQueryHandler';
-import { GetVeterinaryQuery } from 'src/contexts/PetManagement/Veterinary/application/get/GetVeterinaryQuery';
 
 const logger = new Logger('seed-db');
 
