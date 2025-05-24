@@ -153,8 +153,9 @@ export class LifeMoment extends AggregateRoot {
   }
 
   public markAsDeleted(): void {
-    this.deletedAt = new DateValueObject(new Date());
-    this.updatedAt = new DateValueObject(new Date());
+    const now = new DateValueObject(new Date());
+    this.updatedAt = now;
+    this.deletedAt = now;
   }
 
   public updateDescription(description: StringValueObject): void {

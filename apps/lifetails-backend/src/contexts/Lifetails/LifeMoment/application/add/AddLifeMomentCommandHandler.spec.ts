@@ -4,6 +4,9 @@ import { AddLifeMomentCommand } from './AddLifeMomentCommand';
 import { LifeMomentInMemoryRepository } from '../../infrastructure/LifeMomentInMemoryRepository';
 import { AddLifeMomentCommandHandler } from './AddLifeMomentCommandHandler';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
+import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
+import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 describe('AddLifeMomentCommandHandler', () => {
   let repository: LifeMomentInMemoryRepository;
@@ -16,26 +19,33 @@ describe('AddLifeMomentCommandHandler', () => {
 
   it('should add a life moment', async () => {
     // Arrange
+    const lifeMoment = LifeMomentObjectMother.create();
     const saveSpy = jest.spyOn(repository, 'save');
-    const id = randomUUID();
-    const type = 'VeterinaryVisit';
-    const petId = randomUUID();
-    const createdBy = randomUUID();
-    const occurredOn = faker.date.recent();
-    const description = 'Annual checkup, all looking good';
+    const command = new AddLifeMomentCommand(
+      lifeMoment.getId().toString(),
+      lifeMoment.getType().toString(),
+      lifeMoment.getPetId().toString(),
+      lifeMoment.getCreatedBy().toString(),
+      lifeMoment.getOccurredOn().toDate(),
+      lifeMoment.getDescription().toString(),
+    );
 
     // Act
-    const command = new AddLifeMomentCommand(id, type, petId, createdBy, occurredOn, description);
     await commandHandler.handle(command);
 
     // Assert
-    expect(saveSpy).toHaveBeenCalledTimes(1);
-    const savedMoment = saveSpy.mock.calls[0][0] as unknown as LifeMoment;
-    expect(savedMoment.getId().toString()).toBe(id);
-    expect(savedMoment.getType().toString()).toBe(type);
-    expect(savedMoment.getTheme().toString()).toBe('Wellness');
-    expect(savedMoment.getPetId().toString()).toBe(petId);
-    expect(savedMoment.getCreatedBy().toString()).toBe(createdBy);
-    expect(savedMoment.getOccurredOn().toISOString()).toBe(occurredOn.toISOString());
+    expect(saveSpy).toHaveBeenCalledWith({
+      id: expect.any(UUID),
+      type: lifeMoment.getType(),
+      petId: lifeMoment.getPetId(),
+      createdBy: lifeMoment.getCreatedBy(),
+      occurredOn: lifeMoment.getOccurredOn(),
+      description: lifeMoment.getDescription(),
+      theme: lifeMoment.getTheme(),
+      createdAt: expect.any(DateValueObject),
+      updatedAt: null,
+      deletedAt: null,
+      domainEvents: [],
+    });
   });
 });

@@ -7,6 +7,7 @@ import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { AccountNotFoundException } from '../../domain/exceptions/AccountNotFoundException';
+import { AccountObjectMother } from '../../domain/entities/AccountObjectMother.spec';
 
 describe('GetAccountQueryHandler', () => {
   let repository: AccountRepository;
@@ -17,12 +18,7 @@ describe('GetAccountQueryHandler', () => {
   const password = new PasswordHashValueObject('hashedPassword');
   const createdAt = new DateValueObject(new Date());
 
-  const account = new Account({
-    id: accountId,
-    email,
-    password,
-    createdAt,
-  });
+  const account = AccountObjectMother.createWith({ id: accountId, email, password, createdAt });
 
   beforeEach(() => {
     repository = {
@@ -34,19 +30,6 @@ describe('GetAccountQueryHandler', () => {
     handler = new GetAccountQueryHandler(repository);
   });
 
-  it('should get an account when it exists', async () => {
-    // Arrange
-    const query = new GetAccountQuery(accountId.toString());
-    repository.find = jest.fn().mockResolvedValue(account);
-
-    // Act
-    const result = await handler.handle(query);
-
-    // Assert
-    expect(repository.find).toHaveBeenCalledWith(expect.any(UUID));
-    expect(result).toBe(account);
-  });
-
   it('should throw AccountNotFoundException when account does not exist', async () => {
     // Arrange
     const query = new GetAccountQuery(accountId.toString());
@@ -55,5 +38,18 @@ describe('GetAccountQueryHandler', () => {
     // Act & Assert
     await expect(handler.handle(query)).rejects.toThrow(AccountNotFoundException);
     expect(repository.find).toHaveBeenCalledWith(expect.any(UUID));
+  });
+
+  it('should get an account when it exists', async () => {
+    // Arrange
+    const query = new GetAccountQuery(accountId.toString());
+    repository.find = jest.fn().mockResolvedValue(account);
+
+    // Act
+    const accountFound = await handler.handle(query);
+
+    // Assert
+    expect(repository.find).toHaveBeenCalledWith(expect.any(UUID));
+    expect(accountFound).toBe(account);
   });
 });

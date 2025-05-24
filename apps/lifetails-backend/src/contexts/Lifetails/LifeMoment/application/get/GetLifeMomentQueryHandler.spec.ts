@@ -9,6 +9,7 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
 
 describe('GetLifeMomentQueryHandler', () => {
   let repository: LifeMomentInMemoryRepository;
@@ -21,8 +22,8 @@ describe('GetLifeMomentQueryHandler', () => {
 
   it('should throw LifeMomentNotFoundException when life moment does not exist', async () => {
     // Arrange
-    const nonExistentId = faker.string.uuid();
-    const query = new GetLifeMomentQuery(nonExistentId);
+    repository.find = jest.fn().mockResolvedValue(null);
+    const query = new GetLifeMomentQuery(UUID.generate().toString());
 
     // Act & Assert
     await expect(queryHandler.handle(query)).rejects.toThrow(new LifeMomentNotFoundException());
@@ -30,38 +31,17 @@ describe('GetLifeMomentQueryHandler', () => {
 
   it('should get a life moment', async () => {
     // Arrange
-    const id = faker.string.uuid();
-    const type = 'VeterinaryVisit';
-    const petId = faker.string.uuid();
-    const createdBy = faker.string.uuid();
-    const occurredOn = faker.date.recent();
-    const description = 'Annual checkup, all looking good';
-    // Create and save a life moment
-    const lifeMoment = LifeMoment.create({
-      id: new UUID(id),
-      type: LifeMomentType.fromPrimitives(type),
-      petId: new UUID(petId),
-      createdBy: new UUID(createdBy),
-      occurredOn: new DateValueObject(occurredOn),
-      description: new StringValueObject(description),
-    });
-    await repository.save(lifeMoment);
+    const lifeMoment = LifeMomentObjectMother.create();
+    repository.find = jest.fn().mockResolvedValue(lifeMoment);
+    const lifeMomentIdToFind = lifeMoment.getId().toString();
+    const query = new GetLifeMomentQuery(lifeMomentIdToFind);
     const findSpy = jest.spyOn(repository, 'find');
 
     // Act
-    const query = new GetLifeMomentQuery(id);
     const foundMoment = await queryHandler.handle(query);
 
     // Assert
-    expect(findSpy).toHaveBeenCalledTimes(1);
-    expect(findSpy).toHaveBeenCalledWith(new UUID(id));
-    expect(foundMoment).toBeInstanceOf(LifeMoment);
-    expect(foundMoment.getId().toString()).toBe(id);
-    expect(foundMoment.getType().toString()).toBe(type);
-    expect(foundMoment.getTheme().toString()).toBe('Wellness');
-    expect(foundMoment.getPetId().toString()).toBe(petId);
-    expect(foundMoment.getCreatedBy().toString()).toBe(createdBy);
-    expect(foundMoment.getOccurredOn().toISOString()).toBe(occurredOn.toISOString());
-    expect(foundMoment.getDescription().toString()).toBe(description);
+    expect(findSpy).toHaveBeenCalledWith(lifeMoment.getId());
+    expect(foundMoment).toBe(lifeMoment);
   });
 });

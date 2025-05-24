@@ -11,6 +11,7 @@ import { AccountRepository } from 'src/contexts/Identity/Account/domain/reposito
 import { PasswordHasher } from 'src/contexts/Identity/Authentication/domain/services/PasswordHasher';
 import { EmailAlreadyInUseException } from 'src/contexts/Identity/Account/domain/exceptions/EmailAlreadyInUseException';
 import { Account } from '../../domain/entities/Account';
+import { AccountObjectMother } from '../../domain/entities/AccountObjectMother.spec';
 
 describe('CreateAccountCommandHandler', () => {
   let commandHandler: CreateAccountCommandHandler;
@@ -40,15 +41,12 @@ describe('CreateAccountCommandHandler', () => {
 
   it('should throw EmailAlreadyInUseException when email is already in use', async () => {
     // Arrange
-    const email = faker.internet.email();
-    const password = faker.internet.password();
-    const command = new CreateAccountCommand(UUID.generate().toString(), email, password);
-    const existingAccount = new Account({
-      id: new UUID(faker.string.uuid()),
-      email: new EmailValueObject(email),
-      password: new PasswordHashValueObject(password),
-      createdAt: new DateValueObject(new Date()),
-    });
+    const existingAccount = AccountObjectMother.create();
+    const command = new CreateAccountCommand(
+      UUID.generate().toString(),
+      existingAccount.getEmail().toString(),
+      existingAccount.getPassword().toString(),
+    );
     repository.findByEmail.mockResolvedValue(existingAccount);
 
     // Act
@@ -60,9 +58,12 @@ describe('CreateAccountCommandHandler', () => {
 
   it('should create a new account', async () => {
     // Arrange
-    const email = faker.internet.email();
-    const password = faker.internet.password();
-    const command = new CreateAccountCommand(UUID.generate().toString(), email, password);
+    const account = AccountObjectMother.create();
+    const command = new CreateAccountCommand(
+      UUID.generate().toString(),
+      account.getEmail().toString(),
+      account.getPassword().toString(),
+    );
     const hashedPassword = new PasswordHashValueObject('hashed_password');
     repository.findByEmail.mockResolvedValue(null);
     hasher.hash.mockResolvedValue(hashedPassword);
@@ -73,9 +74,13 @@ describe('CreateAccountCommandHandler', () => {
     // Assert
     expect(repository.findByEmail).toHaveBeenCalledWith(new EmailValueObject(command.email));
     expect(hasher.hash).toHaveBeenCalledWith(new StringValueObject(command.password));
-    expect(repository.save).toHaveBeenCalledWith(expect.any(Account));
-    const savedAccount = repository.save.mock.calls[0][0];
-    expect(savedAccount.getEmail().toString()).toBe(command.email);
-    expect(savedAccount.getPassword().toString()).toBe(hashedPassword.toString());
+    expect(repository.save).toHaveBeenCalledWith({
+      id: expect.any(UUID),
+      email: new EmailValueObject(command.email),
+      password: hashedPassword,
+      createdAt: expect.any(DateValueObject),
+      deletedAt: null,
+      domainEvents: [],
+    });
   });
 });

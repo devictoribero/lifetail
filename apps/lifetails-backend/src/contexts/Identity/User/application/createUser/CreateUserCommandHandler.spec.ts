@@ -9,6 +9,7 @@ import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject'
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
 import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
+import { UserObjectMother } from '../../domain/entities/UserObjectMother.spec';
 
 describe('CreateUserCommandHandler', () => {
   let getUserService: jest.Mocked<GetUserService>;
@@ -31,21 +32,15 @@ describe('CreateUserCommandHandler', () => {
 
   it('should throw UserAlreadyExistsException when the user already exists', async () => {
     // Arrange
-    const accountId = faker.string.uuid();
-    const id = faker.string.uuid();
-    const nickname = faker.person.firstName();
-    getUserService.execute.mockResolvedValue(
-      new User({
-        id: new UUID(id),
-        accountId: new UUID(accountId),
-        nickname: new StringValueObject(nickname),
-        createdAt: new DateValueObject(new Date()),
-        preferredLanguage: LanguageCode.English,
-      }),
-    );
+    const existingUser = UserObjectMother.create();
+    getUserService.execute.mockResolvedValue(existingUser);
 
     // Act
-    const command = new CreateUserCommand(accountId, id, nickname);
+    const command = new CreateUserCommand(
+      existingUser.getAccountId().toString(),
+      existingUser.getId().toString(),
+      existingUser.getNickname().toString(),
+    );
     expect(async () => await commandHandler.handle(command)).rejects.toThrow(
       UserAlreadyExistsException,
     );
@@ -53,26 +48,26 @@ describe('CreateUserCommandHandler', () => {
 
   it('should create a user', async () => {
     // Arrange
-    const id = faker.string.uuid();
-    const accountId = faker.string.uuid();
-    const nickname = faker.person.firstName();
-    const command = new CreateUserCommand(accountId, id, nickname);
+    const user = UserObjectMother.create();
+    const command = new CreateUserCommand(
+      user.getAccountId().toString(),
+      user.getId().toString(),
+      user.getNickname().toString(),
+    );
 
     // Act
     await commandHandler.handle(command);
 
     // Assert
-    expect(repository.save).toHaveBeenCalledTimes(1);
-    const savedUser = (repository.save as jest.Mock).mock.calls[0][0] as User;
-    expect(savedUser).toBeInstanceOf(User);
-    expect(savedUser.toPrimitives()).toEqual({
-      id,
-      accountId,
-      nickname,
-      preferredLanguage: LanguageCode.English.toString(),
-      createdAt: expect.any(String),
+    expect(repository.save).toHaveBeenCalledWith({
+      id: expect.any(UUID),
+      accountId: user.getAccountId(),
+      nickname: user.getNickname(),
+      preferredLanguage: user.getPreferredLanguage(),
+      createdAt: expect.any(DateValueObject),
       updatedAt: null,
       deletedAt: null,
+      domainEvents: [],
     });
   });
 });

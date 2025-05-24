@@ -7,6 +7,7 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { LifeMomentType } from '../../domain/entities/LifeMomentType';
 import { LifeMomentTheme } from '../../domain/entities/LifeMomentTheme';
+import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
 
 describe('SearchLifeMomentsQueryHandler', () => {
   let handler: SearchLifeMomentsQueryHandler;
@@ -21,32 +22,9 @@ describe('SearchLifeMomentsQueryHandler', () => {
       save: jest.fn(),
     };
 
-    petId = UUID.generate();
-    const createdBy = UUID.generate();
-    const lifeMomentId1 = UUID.generate();
-    const lifeMomentId2 = UUID.generate();
-    const lifeMoment1 = new LifeMoment({
-      id: lifeMomentId1,
-      type: LifeMomentType.fromPrimitives('Arrival'),
-      theme: LifeMomentTheme.fromPrimitives('Celebration'),
-      petId,
-      createdBy,
-      occurredOn: new DateValueObject(new Date('2023-01-01')),
-      description: new StringValueObject('First vaccination'),
-      createdAt: new DateValueObject(new Date('2023-01-01')),
-    });
-
-    const lifeMoment2 = new LifeMoment({
-      id: lifeMomentId2,
-      type: LifeMomentType.fromPrimitives('Walk'),
-      theme: LifeMomentTheme.fromPrimitives('Activity'),
-      petId,
-      createdBy,
-      occurredOn: new DateValueObject(new Date('2023-02-01')),
-      description: new StringValueObject('Regular check-up'),
-      createdAt: new DateValueObject(new Date('2023-01-01')),
-      updatedAt: new DateValueObject(new Date('2023-01-01')),
-    });
+    const lifeMoment1 = LifeMomentObjectMother.create();
+    const lifeMoment2 = LifeMomentObjectMother.create();
+    petId = lifeMoment1.getPetId();
 
     FIXTURE_LIFE_MOMENTS = [lifeMoment1, lifeMoment2];
 
@@ -58,6 +36,7 @@ describe('SearchLifeMomentsQueryHandler', () => {
     repository.search.mockResolvedValue([]);
 
     // Act
+
     const query = new SearchLifeMomentsQuery(petId.toString());
     const result = await handler.handle(query);
 

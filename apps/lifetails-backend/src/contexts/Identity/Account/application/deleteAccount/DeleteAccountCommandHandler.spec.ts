@@ -8,6 +8,7 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { AccountRepository } from 'src/contexts/Identity/Account/domain/repositories/AccountRepository';
 import { AccountNotFoundException } from 'src/contexts/Identity/Account/domain/exceptions/AccountNotFoundException';
 import { Account } from '../../domain/entities/Account';
+import { AccountObjectMother } from '../../domain/entities/AccountObjectMother.spec';
 
 describe('DeleteAccountCommandHandler', () => {
   let commandHandler: DeleteAccountCommandHandler;
@@ -50,18 +51,10 @@ describe('DeleteAccountCommandHandler', () => {
     // Arrange
     const accountId = UUID.generate();
     const command = new DeleteAccountCommand(accountId.toString());
-
-    const account = new Account({
-      id: accountId,
-      email: new EmailValueObject('test@example.com'),
-      password: new PasswordHashValueObject('hashed_password'),
-      createdAt: new DateValueObject(new Date()),
-    });
-
+    const account = AccountObjectMother.create();
+    mockRepository.find.mockResolvedValue(account);
     jest.spyOn(account, 'markAsDeleted');
     jest.spyOn(account, 'pullDomainEvents').mockReturnValue([]);
-
-    mockRepository.find.mockResolvedValue(account);
 
     // Act
     await commandHandler.handle(command);
