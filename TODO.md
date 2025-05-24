@@ -6,6 +6,7 @@
   - Change pet image
   - Remove pet image
   - Review the different endpoints
+- Add an image to the Pet
 
 ## Medium Priority
 
@@ -27,7 +28,6 @@
 - Add more info to the pet information
   - pattern ?????
   - distinctions (campo abierto para escribir)
-- Add images capability
 - Add weight records for of the pet
 
 ## Low priority
