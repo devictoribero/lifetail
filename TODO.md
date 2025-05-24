@@ -2,6 +2,10 @@
 
 ## High Priority
 
+- Create postman graphql endpoints
+  - Change pet image
+  - Remove pet image
+  - Review the different endpoints
 
 ## Medium Priority
 
