@@ -6,6 +6,7 @@ import { Gender } from 'src/contexts/Shared/domain/Gender';
 import { AggregateRoot } from 'src/contexts/Shared/domain/AggregateRoot';
 import { Species } from 'src/contexts/PetManagement/Pet/domain/entities/PetSpecies';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
+import { ImageValueObject } from 'src/contexts/Shared/domain/ImageValueObject/ImageValueObject';
 import { PetAddedDomainEvent } from '../PetAddedDomainEvent';
 
 export class Pet extends AggregateRoot {
@@ -20,6 +21,7 @@ export class Pet extends AggregateRoot {
   private arrivalDate: DateValueObject;
   private microchipNumber: StringValueObject | null;
   private color: StringValueObject;
+  private image: ImageValueObject | null;
 
   private ownerId: UUID | null;
 
@@ -40,6 +42,7 @@ export class Pet extends AggregateRoot {
     ownerId = null,
     microchipNumber = null,
     color,
+    image = null,
     updatedAt = null,
     deletedAt = null,
   }: {
@@ -54,6 +57,7 @@ export class Pet extends AggregateRoot {
     ownerId?: UUID | null;
     microchipNumber?: StringValueObject | null;
     color: StringValueObject;
+    image?: ImageValueObject | null;
     updatedAt?: DateValueObject | null;
     deletedAt?: DateValueObject | null;
   }) {
@@ -69,6 +73,7 @@ export class Pet extends AggregateRoot {
     this.ownerId = ownerId;
     this.microchipNumber = microchipNumber;
     this.color = color;
+    this.image = image;
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;
   }
@@ -127,6 +132,7 @@ export class Pet extends AggregateRoot {
     ownerId,
     microchipNumber = null,
     color,
+    image = null,
     updatedAt = null,
     deletedAt = null,
   }: {
@@ -141,6 +147,7 @@ export class Pet extends AggregateRoot {
     ownerId: string;
     microchipNumber?: string | null;
     color: string;
+    image?: { key: string; uploadedAt: Date } | null;
     updatedAt?: Date | null;
     deletedAt?: Date | null;
   }) {
@@ -156,6 +163,7 @@ export class Pet extends AggregateRoot {
       ownerId: new UUID(ownerId),
       microchipNumber: microchipNumber ? new StringValueObject(microchipNumber) : null,
       color: new StringValueObject(color),
+      image: image ? ImageValueObject.fromPrimitives(image.key, image.uploadedAt) : null,
       updatedAt: updatedAt ? new DateValueObject(updatedAt) : null,
       deletedAt: deletedAt ? new DateValueObject(deletedAt) : null,
     });
@@ -211,6 +219,10 @@ export class Pet extends AggregateRoot {
 
   public getColor(): StringValueObject {
     return this.color;
+  }
+
+  public getImage(): ImageValueObject | null {
+    return this.image;
   }
 
   /**
@@ -272,6 +284,7 @@ export class Pet extends AggregateRoot {
       microchipNumber: this.microchipNumber?.toString() ?? null,
       age: this.getAge().toNumber(),
       color: this.color.toString(),
+      image: this.image?.toPrimitives() ?? null,
       ownerId: this.ownerId?.toString() ?? null,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt?.toISOString() ?? null,
@@ -320,6 +333,11 @@ export class Pet extends AggregateRoot {
 
   public changeColorTo(color: StringValueObject): void {
     this.color = color;
+    this.markAsUpdated();
+  }
+
+  public changeImageTo(image: ImageValueObject): void {
+    this.image = image;
     this.markAsUpdated();
   }
 

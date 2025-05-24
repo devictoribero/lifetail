@@ -9,6 +9,7 @@ import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { PetAddedDomainEvent } from '../PetAddedDomainEvent';
 import { PetObjectMother } from './PetObjectMother.spec';
 import { NumberValueObject } from 'src/contexts/Shared/domain/NumberValueObject';
+import { ImageValueObject } from 'src/contexts/Shared/domain/ImageValueObject/ImageValueObject';
 
 describe('Pet', () => {
   beforeEach(() => {
@@ -42,14 +43,14 @@ describe('Pet', () => {
 
       expect(pet).toBeDefined();
       expect(pet.getId()).not.toBeNull();
-      expect(pet.getSpecies().equals(Species.DOG)).toBe(true);
-      expect(pet.getName().equals(name)).toBe(true);
-      expect(pet.getGender().equals(Gender.MALE)).toBe(true);
+      expect(pet.getSpecies().equals(Species.DOG)).toBeTruthy();
+      expect(pet.getName().equals(name)).toBeTruthy();
+      expect(pet.getGender().equals(Gender.MALE)).toBeTruthy();
       expect(pet.isSterilized().getValue()).toBe(sterilized.getValue());
-      expect(pet.getBirthDate().equals(birthDate)).toBe(true);
-      expect(pet.getArrivalDate().equals(arrivalDate)).toBe(true);
+      expect(pet.getBirthDate().equals(birthDate)).toBeTruthy();
+      expect(pet.getArrivalDate().equals(arrivalDate)).toBeTruthy();
       expect(pet.getOwnerId()).not.toBeNull();
-      expect(pet.getColor().equals(color)).toBe(true);
+      expect(pet.getColor().equals(color)).toBeTruthy();
       expect(pet.getCreatedAt()).not.toBeNull();
       expect(pet.getUpdatedAt()).toBeNull();
       expect(pet.getDeletedAt()).toBeNull();
@@ -57,6 +58,12 @@ describe('Pet', () => {
       const events = pet.pullDomainEvents();
       expect(events).toHaveLength(1);
       expect(events[0]).toBeInstanceOf(PetAddedDomainEvent);
+    });
+
+    it('should initially have no image', () => {
+      const pet = PetObjectMother.create();
+
+      expect(pet.getImage()).toBeNull();
     });
   });
 
@@ -78,6 +85,7 @@ describe('Pet', () => {
         arrivalDate: pet.getArrivalDate().toISOString(),
         microchipNumber: null,
         color: pet.getColor().toString(),
+        image: null,
         ownerId: pet.getOwnerId()?.toString() ?? null,
         createdAt: expect.any(String),
         updatedAt: null,
@@ -117,16 +125,32 @@ describe('Pet', () => {
 
       expect(pet).toBeInstanceOf(Pet);
       expect(pet.getId().toString()).toBe(id.toString());
-      expect(pet.getSpecies().equals(Species.DOG)).toBe(true);
+      expect(pet.getSpecies().equals(Species.DOG)).toBeTruthy();
       expect(pet.getName().toString()).toBe(name);
-      expect(pet.getGender().equals(Gender.MALE)).toBe(true);
+      expect(pet.getGender().equals(Gender.MALE)).toBeTruthy();
       expect(pet.isSterilized().getValue()).toBe(sterilized);
-      expect(pet.getBirthDate().equals(new DateValueObject(birthDate))).toBe(true);
-      expect(pet.getArrivalDate().equals(new DateValueObject(arrivalDate))).toBe(true);
+      expect(pet.getBirthDate().equals(new DateValueObject(birthDate))).toBeTruthy();
+      expect(pet.getArrivalDate().equals(new DateValueObject(arrivalDate))).toBeTruthy();
       expect(pet.getOwnerId()?.toString()).toBe(ownerId);
-      expect(pet.getCreatedAt().equals(new DateValueObject(createdAt))).toBe(true);
-      expect(pet.getUpdatedAt()?.equals(new DateValueObject(updatedAt))).toBe(true);
-      expect(pet.getDeletedAt()?.equals(new DateValueObject(deletedAt))).toBe(true);
+      expect(pet.getCreatedAt().equals(new DateValueObject(createdAt))).toBeTruthy();
+      expect(pet.getUpdatedAt()?.equals(new DateValueObject(updatedAt))).toBeTruthy();
+      expect(pet.getDeletedAt()?.equals(new DateValueObject(deletedAt))).toBeTruthy();
+    });
+
+    it('should serialize to primitives a Pet instance with image', () => {
+      const pet = PetObjectMother.create();
+      const testImage = new ImageValueObject(
+        'images/pets/test_pet.jpg',
+        new Date('2023-12-01T10:30:00Z'),
+      );
+
+      pet.changeImageTo(testImage);
+      const primitives = pet.toPrimitives();
+
+      expect(primitives.image).toEqual({
+        key: 'images/pets/test_pet.jpg',
+        uploadedAt: new Date('2023-12-01T10:30:00Z'),
+      });
     });
   });
 
@@ -137,7 +161,7 @@ describe('Pet', () => {
 
       pet.renameTo(newName);
 
-      expect(pet.getName().equals(newName)).toBe(true);
+      expect(pet.getName().equals(newName)).toBeTruthy();
       expect(pet.getUpdatedAt()).not.toBeNull();
     });
 
@@ -155,7 +179,7 @@ describe('Pet', () => {
 
       pet.sterilize();
 
-      expect(pet.isSterilized().getValue()).toBe(true);
+      expect(pet.isSterilized().getValue()).toBeTruthy();
       expect(pet.getUpdatedAt()).not.toBeNull();
     });
 
@@ -176,7 +200,7 @@ describe('Pet', () => {
 
       pet.changeBirthdateTo(newBirthDate);
 
-      expect(pet.getBirthDate().equals(newBirthDate)).toBe(true);
+      expect(pet.getBirthDate().equals(newBirthDate)).toBeTruthy();
       expect(pet.getUpdatedAt()).not.toBeNull();
     });
 
@@ -186,7 +210,7 @@ describe('Pet', () => {
 
       pet.changeArrivalDateTo(newArrivalDate);
 
-      expect(pet.getArrivalDate().equals(newArrivalDate)).toBe(true);
+      expect(pet.getArrivalDate().equals(newArrivalDate)).toBeTruthy();
       expect(pet.getUpdatedAt()).not.toBeNull();
     });
 
@@ -196,7 +220,7 @@ describe('Pet', () => {
 
       pet.changeMicrochipNumberTo(newMicrochipNumber);
 
-      expect(pet.getMicrochipNumber()?.equals(newMicrochipNumber)).toBe(true);
+      expect(pet.getMicrochipNumber()?.equals(newMicrochipNumber)).toBeTruthy();
       expect(pet.getUpdatedAt()).not.toBeNull();
     });
 
@@ -206,7 +230,20 @@ describe('Pet', () => {
 
       pet.changeColorTo(newColor);
 
-      expect(pet.getColor().equals(newColor)).toBe(true);
+      expect(pet.getColor().equals(newColor)).toBeTruthy();
+      expect(pet.getUpdatedAt()).not.toBeNull();
+    });
+
+    it('can change image', () => {
+      const pet = PetObjectMother.create();
+      const newImage = new ImageValueObject(
+        'images/pets/profile_12345.jpg',
+        new Date('2023-12-01T10:30:00Z'),
+      );
+
+      pet.changeImageTo(newImage);
+
+      expect(pet.getImage()?.equals(newImage)).toBeTruthy();
       expect(pet.getUpdatedAt()).not.toBeNull();
     });
 
