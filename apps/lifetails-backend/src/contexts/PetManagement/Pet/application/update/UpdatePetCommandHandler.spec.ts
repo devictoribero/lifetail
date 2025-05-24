@@ -10,34 +10,22 @@ import { faker } from '@faker-js/faker';
 import { Species } from '../../domain/entities/PetSpecies';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
+import { PetRepository } from '../../domain/repositories/PetRepository';
+import { PetObjectMother } from '../../domain/entities/PetObjectMother.spec';
 
 describe('UpdatePetCommandHandler', () => {
-  let repository: PetInMemoryRepository;
+  let repository: jest.Mocked<PetRepository>;
   let commandHandler: UpdatePetCommandHandler;
   let petId: string;
   let originalPet: Pet;
 
   beforeEach(async () => {
-    repository = new PetInMemoryRepository();
+    repository = {
+      save: jest.fn(),
+      find: jest.fn(),
+      findByOwner: jest.fn(),
+    } as jest.Mocked<PetRepository>;
     commandHandler = new UpdatePetCommandHandler(repository);
-
-    // Create a pet for testing
-    petId = faker.string.uuid();
-    originalPet = new Pet({
-      id: new UUID(petId),
-      species: Species.CAT,
-      name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.fromPrimitives('MALE'),
-      sterilized: new BooleanValueObject(faker.datatype.boolean()),
-      birthDate: new DateValueObject(faker.date.past()),
-      arrivalDate: new DateValueObject(faker.date.past()),
-      createdAt: new DateValueObject(faker.date.past()),
-      ownerId: new UUID(faker.string.uuid()),
-      microchipNumber: new StringValueObject(faker.string.numeric(9)),
-      color: new StringValueObject('White'),
-    });
-
-    await repository.save(originalPet);
   });
 
   it('should throw a PetNotFoundException error when pet does not exist', async () => {
@@ -47,6 +35,8 @@ describe('UpdatePetCommandHandler', () => {
   });
 
   it('should update all pet fields when all are provided', async () => {
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
     const newName = faker.animal.cat();
     const newGender = 'FEMALE';
     const newChipId = faker.string.numeric(9);
@@ -55,7 +45,7 @@ describe('UpdatePetCommandHandler', () => {
     const newArrivalDate = faker.date.past();
     const newColor = faker.color.human();
     const command = new UpdatePetCommand(
-      petId,
+      pet.getId().toString(),
       newName,
       newGender,
       newSterilized,
@@ -64,46 +54,47 @@ describe('UpdatePetCommandHandler', () => {
       newChipId,
       newColor,
     );
+    const saveSpy = jest.spyOn(repository, 'save');
+    const findSpy = jest.spyOn(repository, 'find');
 
     await commandHandler.handle(command);
 
-    const updatedPet = await repository.find(new UUID(petId));
-
-    const updatedPetPrimitives = updatedPet.toPrimitives();
-    expect(updatedPet).toBeInstanceOf(Pet);
-    expect(updatedPetPrimitives.id).toBe(petId);
-    expect(updatedPetPrimitives.name).toBe(newName);
-    expect(updatedPetPrimitives.gender).toBe(newGender);
-    expect(updatedPetPrimitives.microchipNumber).toBe(newChipId);
-    expect(updatedPetPrimitives.sterilized).toBe(newSterilized);
-    expect(updatedPetPrimitives.birthDate).toBe(new DateValueObject(newBirthdate).toISOString());
-    expect(updatedPetPrimitives.arrivalDate).toBe(
-      new DateValueObject(newArrivalDate).toISOString(),
-    );
-    expect(updatedPetPrimitives.color).toBe(newColor);
+    expect(findSpy).toHaveBeenCalledWith(pet.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...pet,
+      name: new StringValueObject(newName),
+      gender: Gender.fromPrimitives(newGender),
+      microchipNumber: new StringValueObject(newChipId),
+      sterilized: new BooleanValueObject(newSterilized),
+      birthDate: new DateValueObject(newBirthdate),
+      arrivalDate: new DateValueObject(newArrivalDate),
+      color: new StringValueObject(newColor),
+    });
   });
 
   it('should update only name when only name is provided', async () => {
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
     const newName = faker.animal.cat();
-    const command = new UpdatePetCommand(petId, newName);
+    const command = new UpdatePetCommand(pet.getId().toString(), newName);
+    const saveSpy = jest.spyOn(repository, 'save');
+    const findSpy = jest.spyOn(repository, 'find');
 
     await commandHandler.handle(command);
 
-    const updatedPet = await repository.find(new UUID(petId));
-    expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getName().toString()).toBe(newName);
-    expect(updatedPet?.getGender().toString()).toBe(originalPet.getGender().toString()); // Unchanged
-    expect(updatedPet?.getMicrochipNumber().toString()).toBe(
-      originalPet.getMicrochipNumber().toString(),
-    ); // Unchanged
-    expect(updatedPet?.isSterilized().getValue()).toBe(originalPet.isSterilized().getValue()); // Unchanged
-    expect(updatedPet?.getBirthDate().toISOString()).toBe(originalPet.getBirthDate().toISOString()); // Unchanged
+    expect(findSpy).toHaveBeenCalledWith(pet.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...pet,
+      name: new StringValueObject(newName),
+    });
   });
 
   it('should update only gender when only that is provided', async () => {
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
     const newGender = 'FEMALE';
     const command = new UpdatePetCommand(
-      petId,
+      pet.getId().toString(),
       undefined,
       newGender,
       undefined,
@@ -112,52 +103,50 @@ describe('UpdatePetCommandHandler', () => {
       undefined,
       undefined,
     );
+    const findSpy = jest.spyOn(repository, 'find');
+    const saveSpy = jest.spyOn(repository, 'save');
 
     await commandHandler.handle(command);
 
-    const updatedPet = await repository.find(new UUID(petId));
-    expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getGender().toString()).toBe(newGender);
+    expect(findSpy).toHaveBeenCalledWith(pet.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...pet,
+      gender: Gender.fromPrimitives(newGender),
+    });
   });
 
   it('should update only sterilized status when only that is provided', async () => {
-    // Recreate pet with known sterilized status
-    const knownSterilizedStatus = true;
-    originalPet = new Pet({
-      id: new UUID(petId),
-      species: Species.CAT,
-      name: new StringValueObject(faker.animal.cat()),
-      gender: Gender.fromPrimitives('MALE'),
-      sterilized: new BooleanValueObject(knownSterilizedStatus),
-      birthDate: new DateValueObject(faker.date.past()),
-      createdAt: new DateValueObject(faker.date.past()),
-      ownerId: new UUID(faker.string.uuid()),
-      microchipNumber: new StringValueObject(faker.string.numeric(9)),
-      color: new StringValueObject('White'),
-    });
-    await repository.save(originalPet);
-
-    // Set to opposite of current value
-    const newSterilized = !knownSterilizedStatus;
-    const command = new UpdatePetCommand(petId, undefined, undefined, newSterilized, undefined);
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
+    const sterilized = true;
+    const command = new UpdatePetCommand(
+      pet.getId().toString(),
+      undefined,
+      undefined,
+      sterilized,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+    );
+    const findSpy = jest.spyOn(repository, 'find');
+    const saveSpy = jest.spyOn(repository, 'save');
 
     await commandHandler.handle(command);
 
-    const updatedPet = await repository.find(new UUID(petId));
-    expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getName().toString()).toBe(originalPet.getName().toString()); // Unchanged
-    expect(updatedPet?.getGender().toString()).toBe(originalPet.getGender().toString()); // Unchanged
-    expect(updatedPet?.getMicrochipNumber().toString()).toBe(
-      originalPet.getMicrochipNumber().toString(),
-    ); // Unchanged
-    expect(updatedPet?.isSterilized().getValue()).toBe(newSterilized); // Changed to the opposite
-    expect(updatedPet?.getBirthDate().toISOString()).toBe(originalPet.getBirthDate().toISOString()); // Unchanged
+    expect(findSpy).toHaveBeenCalledWith(pet.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...pet,
+      sterilized: new BooleanValueObject(sterilized),
+    });
   });
 
   it('should update the birth date when provided', async () => {
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
     const newBirthdate = faker.date.past();
     const command = new UpdatePetCommand(
-      petId,
+      pet.getId().toString(),
       undefined,
       undefined,
       undefined,
@@ -166,20 +155,24 @@ describe('UpdatePetCommandHandler', () => {
       undefined,
       undefined,
     );
+    const findSpy = jest.spyOn(repository, 'find');
+    const saveSpy = jest.spyOn(repository, 'save');
 
     await commandHandler.handle(command);
 
-    const updatedPet = await repository.find(new UUID(petId));
-    expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getBirthDate().toISOString()).toBe(
-      new DateValueObject(newBirthdate).toISOString(),
-    );
+    expect(findSpy).toHaveBeenCalledWith(pet.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...pet,
+      birthDate: new DateValueObject(newBirthdate),
+    });
   });
 
   it('should update the arrival date when provided', async () => {
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
     const newArrivalDate = faker.date.past();
     const command = new UpdatePetCommand(
-      petId,
+      pet.getId().toString(),
       undefined,
       undefined,
       undefined,
@@ -188,13 +181,15 @@ describe('UpdatePetCommandHandler', () => {
       undefined,
       undefined,
     );
+    const findSpy = jest.spyOn(repository, 'find');
+    const saveSpy = jest.spyOn(repository, 'save');
 
     await commandHandler.handle(command);
 
-    const updatedPet = await repository.find(new UUID(petId));
-    expect(updatedPet).not.toBeNull();
-    expect(updatedPet?.getArrivalDate().toISOString()).toBe(
-      new DateValueObject(newArrivalDate).toISOString(),
-    );
+    expect(findSpy).toHaveBeenCalledWith(pet.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...pet,
+      arrivalDate: new DateValueObject(newArrivalDate),
+    });
   });
 });

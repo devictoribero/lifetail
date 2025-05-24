@@ -1,23 +1,21 @@
-import { LifeMomentInMemoryRepository } from '../../infrastructure/LifeMomentInMemoryRepository';
 import { GetLifeMomentQueryHandler } from './GetLifeMomentQueryHandler';
 import { GetLifeMomentQuery } from './GetLifeMomentQuery';
-import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
-import { LifeMomentType } from '../../domain/entities/LifeMomentType';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { faker } from '@faker-js/faker';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
 
 describe('GetLifeMomentQueryHandler', () => {
-  let repository: LifeMomentInMemoryRepository;
+  let repository: jest.Mocked<LifeMomentRepository>;
   let queryHandler: GetLifeMomentQueryHandler;
 
   beforeEach(() => {
-    repository = new LifeMomentInMemoryRepository();
-    queryHandler = new GetLifeMomentQueryHandler(repository as unknown as LifeMomentRepository);
+    repository = {
+      save: jest.fn(),
+      find: jest.fn(),
+      search: jest.fn(),
+    } as jest.Mocked<LifeMomentRepository>;
+    queryHandler = new GetLifeMomentQueryHandler(repository);
   });
 
   it('should throw LifeMomentNotFoundException when life moment does not exist', async () => {

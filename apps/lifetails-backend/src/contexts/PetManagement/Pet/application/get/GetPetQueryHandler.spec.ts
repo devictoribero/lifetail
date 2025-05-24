@@ -10,22 +10,28 @@ import { faker } from '@faker-js/faker';
 import { Species } from '../../domain/entities/PetSpecies';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { PetInMemoryRepository } from '../../infrastructure/PetInMemoryRepository';
+import { PetRepository } from '../../domain/repositories/PetRepository';
+import { PetObjectMother } from '../../domain/entities/PetObjectMother.spec';
 
 describe('GetPetQueryHandler', () => {
-  let repository: PetInMemoryRepository;
+  let repository: jest.Mocked<PetRepository>;
   let queryHandler: GetPetQueryHandler;
   let ownerId: string;
 
   beforeEach(() => {
-    repository = new PetInMemoryRepository();
+    repository = {
+      save: jest.fn(),
+      find: jest.fn(),
+      findByOwner: jest.fn(),
+    } as jest.Mocked<PetRepository>;
     queryHandler = new GetPetQueryHandler(repository);
     ownerId = faker.string.uuid();
   });
 
   it('should throw PetNotFoundException when pet does not exist', async () => {
     // Arrange
-    const nonExistentId = faker.string.uuid();
-    const query = new GetPetQuery(nonExistentId);
+    repository.find.mockResolvedValue(null);
+    const query = new GetPetQuery(UUID.generate().toString());
 
     // Act & Assert
     await expect(queryHandler.handle(query)).rejects.toThrow(new PetNotFoundException());
@@ -33,45 +39,27 @@ describe('GetPetQueryHandler', () => {
 
   it('should get a pet', async () => {
     // Arrange
-    const id = faker.string.uuid();
-    const name = faker.animal.cat();
-    const gender = 'FEMALE';
-    const chipId = faker.string.numeric(9);
-    const sterilized = true;
-    const birthDate = faker.date.past();
-    const createdAt = faker.date.past();
-
-    // Create and save a pet
-    const pet = new Pet({
-      id: new UUID(id),
-      species: Species.CAT,
-      name: new StringValueObject(name),
-      gender: Gender.fromPrimitives(gender),
-      sterilized: new BooleanValueObject(sterilized),
-      birthDate: new DateValueObject(birthDate),
-      createdAt: new DateValueObject(createdAt),
-      ownerId: new UUID(ownerId),
-      microchipNumber: new StringValueObject(chipId),
-      color: new StringValueObject('White'),
-    });
-
-    await repository.save(pet);
-
-    const findSpy = jest.spyOn(repository, 'find');
-    const query = new GetPetQuery(id);
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
+    const query = new GetPetQuery(pet.getId().toString());
 
     // Act
     const foundPet = await queryHandler.handle(query);
 
     // Assert
-    expect(findSpy).toHaveBeenCalledTimes(1);
-    expect(findSpy).toHaveBeenCalledWith(new UUID(id));
+    expect(repository.find).toHaveBeenCalledWith(new UUID(pet.getId().toString()));
     expect(foundPet).toBeInstanceOf(Pet);
-    expect(foundPet.getId().toString()).toBe(id);
-    expect(foundPet.getName().toString()).toBe(name);
-    expect(foundPet.getGender().toString()).toBe(gender);
-    expect(foundPet.getMicrochipNumber().toString()).toBe(chipId);
-    expect(foundPet.isSterilized().getValue()).toBe(sterilized);
-    expect(foundPet.getBirthDate().toISOString()).toBe(birthDate.toISOString());
+    expect(foundPet.getId().equals(pet.getId())).toBeTruthy();
+    expect(foundPet.getName().equals(pet.getName())).toBeTruthy();
+    expect(foundPet.getGender().equals(pet.getGender())).toBeTruthy();
+    expect(foundPet.isSterilized().equals(pet.isSterilized())).toBeTruthy();
+    expect(foundPet.getBirthDate().equals(pet.getBirthDate())).toBeTruthy();
+    expect(foundPet.getArrivalDate().equals(pet.getArrivalDate())).toBeTruthy();
+    expect(foundPet.getOwnerId().equals(pet.getOwnerId())).toBeTruthy();
+    expect(foundPet.getColor().equals(pet.getColor())).toBeTruthy();
+    expect(foundPet.getSpecies().equals(pet.getSpecies())).toBeTruthy();
+    expect(foundPet.getCreatedAt().equals(pet.getCreatedAt())).toBeTruthy();
+    expect(foundPet.getUpdatedAt()).toBeNull();
+    expect(foundPet.getDeletedAt()).toBeNull();
   });
 });

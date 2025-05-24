@@ -1,4 +1,3 @@
-import { LifeMomentInMemoryRepository } from '../../infrastructure/LifeMomentInMemoryRepository';
 import { UpdateLifeMomentCommandHandler } from './UpdateLifeMomentCommandHandler';
 import { UpdateLifeMomentCommand } from './UpdateLifeMomentCommand';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
@@ -9,15 +8,20 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { faker } from '@faker-js/faker';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
+import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 
 describe('UpdateLifeMomentCommandHandler', () => {
-  let repository: LifeMomentInMemoryRepository;
+  let repository: jest.Mocked<LifeMomentRepository>;
   let commandHandler: UpdateLifeMomentCommandHandler;
   let id: UUID;
   let lifeMoment: LifeMoment;
 
   beforeEach(async () => {
-    repository = new LifeMomentInMemoryRepository();
+    repository = {
+      save: jest.fn(),
+      find: jest.fn(),
+      search: jest.fn(),
+    } as jest.Mocked<LifeMomentRepository>;
     commandHandler = new UpdateLifeMomentCommandHandler(repository);
 
     // Create a test life moment

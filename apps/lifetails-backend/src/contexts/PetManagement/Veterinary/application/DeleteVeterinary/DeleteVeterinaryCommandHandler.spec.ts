@@ -7,47 +7,49 @@ import { VeterinaryNotFoundException } from '../../domain/exceptions/VeterinaryN
 import { Veterinary } from '../../domain/entities/Veterinary';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { VeterinaryInMemoryRepository } from '../../infrastructure/VeterinaryInMemoryRepository';
+import { VeterinaryObjectMother } from '../../domain/entities/VeterinaryObjectMother.spec';
+import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 
 describe('DeleteVeterinaryCommandHandler', () => {
   let handler: DeleteVeterinaryCommandHandler;
-  let repository: VeterinaryRepository;
+  let repository: jest.Mocked<VeterinaryRepository>;
 
   beforeEach(() => {
-    repository = new VeterinaryInMemoryRepository();
+    repository = {
+      save: jest.fn(),
+      find: jest.fn(),
+    } as unknown as jest.Mocked<VeterinaryRepository>;
     handler = new DeleteVeterinaryCommandHandler(repository);
   });
 
   it('should throw VeterinaryNotFoundException when veterinary does not exist', async () => {
-    // Given
-    const id = faker.string.uuid();
+    // Arrange
+    const veterinary = VeterinaryObjectMother.create();
+    const id = veterinary.getId().toString();
     const command = new DeleteVeterinaryCommand(id);
+    repository.find.mockResolvedValue(null);
 
-    // When/Then
+    // Act/Assert
     await expect(handler.handle(command)).rejects.toThrow(VeterinaryNotFoundException);
   });
 
-  it('should set fields to null when provided with empty values', async () => {
-    // TODO: Implement this test
-  });
-
-  // Happy paths
   it('should delete a veterinary when it exists', async () => {
-    // Given
-    const id = faker.string.uuid();
-    const veterinary = Veterinary.create({
-      id: new UUID(id),
-      name: new StringValueObject('Test Veterinary'),
-    });
-    await repository.save(veterinary);
+    // Arrange
+    const veterinary = VeterinaryObjectMother.create();
+    const id = veterinary.getId().toString();
+    repository.find.mockResolvedValue(veterinary);
     const command = new DeleteVeterinaryCommand(id);
+    const saveSpy = jest.spyOn(repository, 'save');
+    const findSpy = jest.spyOn(repository, 'find');
 
-    // When
+    // Act
     await handler.handle(command);
 
     // Then
-    const deletedVeterinary = await repository.find(new UUID(id));
-    expect(deletedVeterinary).not.toBeNull();
-    expect(deletedVeterinary?.getId().toString()).toBe(id);
-    expect(deletedVeterinary?.getDeletedAt()).not.toBeNull();
+    expect(findSpy).toHaveBeenCalledWith(veterinary.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...veterinary,
+      deletedAt: expect.any(DateValueObject),
+    });
   });
 });

@@ -1,13 +1,9 @@
 import { GetUserQueryHandler } from './GetUserQueryHandler';
 import { GetUserService } from '../../domain/services/GetUserService';
 import { GetUserQuery } from './GetUserQuery';
-import { User } from '../../domain/entities/User';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UserNotFoundException } from '../../domain/exceptions/UserNotFoundException';
 import { randomUUID } from 'node:crypto';
-import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 import { UserObjectMother } from '../../domain/entities/UserObjectMother.spec';
 
 describe('GetUserQueryHandler', () => {

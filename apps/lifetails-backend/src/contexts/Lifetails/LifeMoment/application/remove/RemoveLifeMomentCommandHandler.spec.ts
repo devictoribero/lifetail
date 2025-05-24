@@ -1,23 +1,27 @@
-import { LifeMomentInMemoryRepository } from '../../infrastructure/LifeMomentInMemoryRepository';
 import { RemoveLifeMomentCommandHandler } from './RemoveLifeMomentCommandHandler';
 import { RemoveLifeMomentCommand } from './RemoveLifeMomentCommand';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { LifeMomentNotFoundException } from '../../domain/exceptions/LifeMomentNotFoundException';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
+import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 
 describe('RemoveLifeMomentCommandHandler', () => {
-  let repository: LifeMomentInMemoryRepository;
+  let repository: jest.Mocked<LifeMomentRepository>;
   let commandHandler: RemoveLifeMomentCommandHandler;
 
   beforeEach(() => {
-    repository = new LifeMomentInMemoryRepository();
+    repository = {
+      save: jest.fn(),
+      find: jest.fn(),
+      search: jest.fn(),
+    } as jest.Mocked<LifeMomentRepository>;
     commandHandler = new RemoveLifeMomentCommandHandler(repository);
   });
 
   it('should throw a LifeMomentNotFoundException when the life moment does not exist', async () => {
     // Arrange
-    repository.find = jest.fn().mockResolvedValue(null);
+    repository.find.mockResolvedValue(null);
     const command = new RemoveLifeMomentCommand(UUID.generate().toString());
 
     await expect(commandHandler.handle(command)).rejects.toThrow(LifeMomentNotFoundException);

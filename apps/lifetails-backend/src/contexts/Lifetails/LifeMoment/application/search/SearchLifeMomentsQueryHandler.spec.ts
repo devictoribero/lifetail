@@ -3,10 +3,6 @@ import { SearchLifeMomentsQuery } from './SearchLifeMomentsQuery';
 import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { LifeMoment } from '../../domain/entities/LifeMoment';
-import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
-import { LifeMomentType } from '../../domain/entities/LifeMomentType';
-import { LifeMomentTheme } from '../../domain/entities/LifeMomentTheme';
 import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
 
 describe('SearchLifeMomentsQueryHandler', () => {
@@ -20,7 +16,7 @@ describe('SearchLifeMomentsQueryHandler', () => {
       search: jest.fn(),
       find: jest.fn(),
       save: jest.fn(),
-    };
+    } as jest.Mocked<LifeMomentRepository>;
 
     const lifeMoment1 = LifeMomentObjectMother.create();
     const lifeMoment2 = LifeMomentObjectMother.create();

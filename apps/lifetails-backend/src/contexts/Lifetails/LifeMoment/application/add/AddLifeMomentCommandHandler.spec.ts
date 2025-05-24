@@ -1,19 +1,20 @@
-import { randomUUID } from 'node:crypto';
-import { faker } from '@faker-js/faker';
 import { AddLifeMomentCommand } from './AddLifeMomentCommand';
-import { LifeMomentInMemoryRepository } from '../../infrastructure/LifeMomentInMemoryRepository';
 import { AddLifeMomentCommandHandler } from './AddLifeMomentCommandHandler';
-import { LifeMoment } from '../../domain/entities/LifeMoment';
 import { LifeMomentObjectMother } from '../../domain/entities/LifeMomentObjectMother.spec';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
+import { LifeMomentRepository } from '../../domain/repositories/LifeMomentRepository';
 
 describe('AddLifeMomentCommandHandler', () => {
-  let repository: LifeMomentInMemoryRepository;
+  let repository: jest.Mocked<LifeMomentRepository>;
   let commandHandler: AddLifeMomentCommandHandler;
 
   beforeEach(() => {
-    repository = new LifeMomentInMemoryRepository();
+    repository = {
+      save: jest.fn(),
+      find: jest.fn(),
+      search: jest.fn(),
+    } as jest.Mocked<LifeMomentRepository>;
     commandHandler = new AddLifeMomentCommandHandler(repository);
   });
 

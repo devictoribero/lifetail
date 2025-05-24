@@ -2,7 +2,6 @@ import { GetAccountQueryHandler } from './GetAccountQueryHandler';
 import { GetAccountQuery } from './GetAccountQuery';
 import { AccountRepository } from '../../domain/repositories/AccountRepository';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import { Account } from '../../domain/entities/Account';
 import { EmailValueObject } from 'src/contexts/Shared/domain/EmailValueObject';
 import { PasswordHashValueObject } from 'src/contexts/Shared/domain/PasswordHashValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
@@ -10,7 +9,7 @@ import { AccountNotFoundException } from '../../domain/exceptions/AccountNotFoun
 import { AccountObjectMother } from '../../domain/entities/AccountObjectMother.spec';
 
 describe('GetAccountQueryHandler', () => {
-  let repository: AccountRepository;
+  let repository: jest.Mocked<AccountRepository>;
   let handler: GetAccountQueryHandler;
 
   const accountId = UUID.generate();
@@ -25,7 +24,7 @@ describe('GetAccountQueryHandler', () => {
       find: jest.fn(),
       findByEmail: jest.fn(),
       save: jest.fn(),
-    };
+    } as jest.Mocked<AccountRepository>;
 
     handler = new GetAccountQueryHandler(repository);
   });

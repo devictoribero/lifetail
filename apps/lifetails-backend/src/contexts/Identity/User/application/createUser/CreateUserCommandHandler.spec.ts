@@ -1,19 +1,15 @@
 import { CreateUserCommandHandler } from './CreateUserCommandHandler';
 import { UserRepository } from '../../domain/repositories/UserRepository';
-import { User } from '../../domain/entities/User';
-import { faker } from '@faker-js/faker';
 import { CreateUserCommand } from './CreateUserCommand';
 import { GetUserService } from '../../domain/services/GetUserService';
 import { UUID } from 'src/contexts/Shared/domain/UUID';
-import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { UserAlreadyExistsException } from '../../domain/exceptions/UserAlreadyExistsException';
-import { LanguageCode } from 'src/contexts/Shared/domain/LanguageCode';
 import { UserObjectMother } from '../../domain/entities/UserObjectMother.spec';
 
 describe('CreateUserCommandHandler', () => {
   let getUserService: jest.Mocked<GetUserService>;
-  let repository: UserRepository;
+  let repository: jest.Mocked<UserRepository>;
   let commandHandler: CreateUserCommandHandler;
 
   beforeEach(() => {
@@ -25,7 +21,7 @@ describe('CreateUserCommandHandler', () => {
       save: jest.fn(),
       getByAccountId: jest.fn(),
       getById: jest.fn(),
-    };
+    } as jest.Mocked<UserRepository>;
 
     commandHandler = new CreateUserCommandHandler(getUserService, repository);
   });
