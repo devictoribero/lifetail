@@ -2,7 +2,7 @@ import { StringValueObject } from './StringValueObject';
 import { UnsupportedEmptyStringException } from './exceptions/UnsupportedEmptyStringException';
 
 describe('StringValueObject', () => {
-  describe('Validation', () => {
+  describe('Creation', () => {
     it('should throw UnsupportedEmptyStringException if the string is empty', () => {
       expect(() => new StringValueObject('')).toThrow(UnsupportedEmptyStringException);
     });
@@ -10,9 +10,7 @@ describe('StringValueObject', () => {
     it('should throw UnsupportedEmptyStringException if the string only contains whitespace', () => {
       expect(() => new StringValueObject('   ')).toThrow(UnsupportedEmptyStringException);
     });
-  });
 
-  describe('Creation', () => {
     it('should create a value object from a non-empty string', () => {
       const stringValueObject = new StringValueObject('test');
       expect(stringValueObject).toBeDefined();
@@ -20,7 +18,7 @@ describe('StringValueObject', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can convert the value to a string', () => {
       const stringValueObject = new StringValueObject('test');
       expect(stringValueObject.toString()).toBe('test');

@@ -1,4 +1,3 @@
-import { UUID } from 'src/contexts/Shared/domain/UUID';
 import { StringValueObject } from 'src/contexts/Shared/domain/StringValueObject';
 import { faker } from '@faker-js/faker';
 import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';

@@ -4,7 +4,7 @@ import { ValueObject } from 'src/contexts/Shared/domain/ValueObject';
 import { UnsupportedEmptyStringException } from 'src/contexts/Shared/domain/exceptions/UnsupportedEmptyStringException';
 
 describe('LifeMomentType', () => {
-  describe('Validation', () => {
+  describe('Creation', () => {
     it('should throw an error if the life moment type is invalid', () => {
       expect(() => LifeMomentType.create('invalid-type')).toThrow(
         UnsupportedLifeMomentTypeException,
@@ -18,9 +18,7 @@ describe('LifeMomentType', () => {
     it('should throw an error if the life moment type is whitespace', () => {
       expect(() => LifeMomentType.create('   ')).toThrow(UnsupportedEmptyStringException);
     });
-  });
 
-  describe('Creation', () => {
     it('should create a value object from a valid life moment type', () => {
       const lifeMomentType = LifeMomentType.create('Achievement');
 
@@ -36,7 +34,7 @@ describe('LifeMomentType', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a string', () => {
       const lifeMomentType = LifeMomentType.create('Achievement');
 

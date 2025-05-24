@@ -8,7 +8,7 @@ import { DateValueObject } from 'src/contexts/Shared/domain/DateValueObject';
 import { VeterinaryObjectMother } from './VeterinaryObjectMother.spec';
 
 describe('Veterinary', () => {
-  describe('Validation', () => {
+  describe('Creation', () => {
     it('should throw VeterinaryNameTooShortException when name has less than 3 characters', () => {
       const id = UUID.generate();
       const tooShortName = new StringValueObject('AB');
@@ -17,9 +17,7 @@ describe('Veterinary', () => {
         VeterinaryObjectMother.createWith({ id, name: tooShortName });
       }).toThrow(VeterinaryNameTooShortException);
     });
-  });
 
-  describe('Creation', () => {
     it('can create a Veterinary instance using the create named constructor', () => {
       const id = UUID.generate();
       const name = new StringValueObject('Animal Hospital');

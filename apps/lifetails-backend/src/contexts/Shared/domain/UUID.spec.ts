@@ -34,7 +34,7 @@ describe('UUID', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a string', () => {
       const uuid = '123e4567-e89b-12d3-a456-426614174000';
       const uuidValueObject = new UUID(uuid);

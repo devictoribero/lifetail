@@ -20,13 +20,13 @@ This rule ensures tests follow consistent guidelines, improving code quality and
 Validate logic in isolation, with no side effects or framework dependencies. These tests should cover:
 
 - Aggregate roots, entities, value objects and exceptions in the domain
-- Command and query handlers, with repositories mocked.
+- Command and query handlers, with repositories mocked using jest.Mocked.
 
 #### Constraints
 
 - Test files should follow `*.spec.ts` naming convention
-- Must not rely on NestJS, decorators, or framework-level helpers
-- All dependencies (e.g., repositories) must be instantiated manually
+- Must not rely on NestJS, decorators, or framework-level helpers (only jest.Mocked is allowed)
+- Leverage ObjectMother to create instances of aggregated
 - Use the `faker` library to generate realistic and varied test values
 - One `describe` block per unit (e.g., per handler or aggregate)
 - Mocks must simulate meaningful domain behaviors (not just dummy data)
@@ -34,6 +34,11 @@ Validate logic in isolation, with no side effects or framework dependencies. The
 - Prefer using domain methods (e.g., entity methods) over directly manipulating primitives
   - Treat entities and value objects as first-class citizens
   - Avoid setting internal state directly — test through commands or method calls that reflect domain behavior
+- Aggregate roots and value objects should have the following describes:
+  - Creation
+  - Serialization
+  - Comparison
+  - Interaction
 
 #### Structure
 
@@ -43,15 +48,16 @@ Validate logic in isolation, with no side effects or framework dependencies. The
   2. Edge cases (e.g., boundary values)
   3. Happy paths
 
-#### Example
+#### Examples
 
+An example unit test for the User aggregate root:
 ```ts
 describe('User', () => {
   it('can be renamed', () => {
-    const id = UUID.generate();
-    const accountId = UUID.generate();
+    const user = UserObjectMother.create();
+    const accountId = user.getAccountId();
     const nickname = new StringValueObject(faker.person.firstName());
-    const user = User.create({ id, accountId, nickname });
+    repository.find.mockResolvedValue(user);
 
     const newNickname = new StringValueObject(faker.person.firstName());
     user.rename(newNickname);
@@ -62,6 +68,29 @@ describe('User', () => {
     expect(user.getNickname().equals(newNickname)).toBe(true);
   });
 });
+```
+
+An example unit test for the update per command use case
+```ts
+describe('UpdatePetCommandHandler', () => {
+  it('should update only name when only name is provided', async () => {
+    const pet = PetObjectMother.create();
+    repository.find.mockResolvedValue(pet);
+    const newName = faker.animal.cat();
+    const command = new UpdatePetCommand(pet.getId().toString(), newName);
+    const saveSpy = jest.spyOn(repository, 'save');
+    const findSpy = jest.spyOn(repository, 'find');
+
+    await commandHandler.handle(command);
+
+    expect(findSpy).toHaveBeenCalledWith(pet.getId());
+    expect(saveSpy).toHaveBeenCalledWith({
+      ...pet,
+      name: new StringValueObject(newName),
+    });
+  });
+
+})
 ```
 
 ## Consistency Rules

@@ -8,7 +8,7 @@ const SUPPORTED_GENDERS = [
 ];
 
 describe('Gender', () => {
-  describe('Validation', () => {
+  describe('Creation', () => {
     it('should throw an error if the gender is invalid', () => {
       expect(() => Gender.create('invalid-gender')).toThrow(UnsupportedGenderException);
     });
@@ -20,9 +20,7 @@ describe('Gender', () => {
     it('should throw an error if the gender is whitespace', () => {
       expect(() => Gender.create('   ')).toThrow(UnsupportedGenderException);
     });
-  });
 
-  describe('Creation', () => {
     it('should create a value object from a valid gender', () => {
       const gender = Gender.create('MALE');
 
@@ -38,7 +36,7 @@ describe('Gender', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a string', () => {
       const gender = Gender.create('MALE');
 

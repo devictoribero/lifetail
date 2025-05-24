@@ -31,7 +31,7 @@ describe('LanguageCode', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a string', () => {
       const languageCode = 'EN';
       const languageCodeValueObject = LanguageCode.create(languageCode);

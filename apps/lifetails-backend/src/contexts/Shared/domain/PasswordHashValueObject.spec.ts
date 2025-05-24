@@ -26,7 +26,7 @@ describe('PasswordHashValueObject', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a string', () => {
       const password = 'valid-password';
       const passwordValueObject = new PasswordHashValueObject(password);

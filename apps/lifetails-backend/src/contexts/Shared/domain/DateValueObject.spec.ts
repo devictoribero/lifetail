@@ -2,13 +2,11 @@ import { DateValueObject } from './DateValueObject';
 import { ValueObject } from './ValueObject';
 
 describe('DateValueObject', () => {
-  describe('Validation', () => {
+  describe('Creation', () => {
     it('should throw an error if the date is invalid', () => {
       expect(() => new DateValueObject(new Date('invalid-date'))).toThrow();
     });
-  });
 
-  describe('Creation', () => {
     it('should create a value object from a valid date', () => {
       const date = new Date('2021-01-01');
       const dateValueObject = new DateValueObject(date);
@@ -18,7 +16,7 @@ describe('DateValueObject', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a Date object', () => {
       const date = new Date('2021-01-01');
       const dateValueObject = new DateValueObject(date);

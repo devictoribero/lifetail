@@ -44,7 +44,7 @@ describe('EmailValueObject', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a string', () => {
       const email = 'test@example.com';
       const emailValueObject = new EmailValueObject(email);

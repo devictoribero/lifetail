@@ -11,7 +11,7 @@ describe('BooleanValueObject', () => {
     });
   });
 
-  describe('Transformation', () => {
+  describe('Serialization', () => {
     it('can transform the value to a boolean', () => {
       const booleanValueObject = new BooleanValueObject(true);
 
